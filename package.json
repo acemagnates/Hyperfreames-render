@@ -11,6 +11,7 @@
     "render:ace-435-local": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/render-ace-435-local-all.mjs",
     "render:local": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 render .",
     "sync:public-render": "node scripts/sync-public-render-repo.mjs",
+    "assemble:ace435": "bash scripts/assemble-ace435-downloaded.sh",
     "publish": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 publish"
   },
   "dependencies": {}

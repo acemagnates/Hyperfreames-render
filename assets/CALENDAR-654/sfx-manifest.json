@@ -1,0 +1,11 @@
+{
+  "project_id": "CALENDAR-654",
+  "sfx": [
+    { "sound": "SUB_BASS_IMPACT", "timestamp": 7.9, "word": "15TH", "volume": 0.88 },
+    { "sound": "WHOOSH", "timestamp": 11.22, "word": "DELETED", "volume": 0.72 },
+    { "sound": "RECORD_SCRATCH", "timestamp": 20.55, "word": "2012", "volume": 0.85 },
+    { "sound": "GLASS_SHATTER", "timestamp": 39.3, "word": "COLLAPSED", "volume": 0.82 },
+    { "sound": "SILENCE_DROP", "timestamp": 54.51, "word": "BUT", "volume": 0 },
+    { "sound": "BASS_DROP", "timestamp": 57.14, "word": "WOBBLES", "volume": 0.9 }
+  ]
+}

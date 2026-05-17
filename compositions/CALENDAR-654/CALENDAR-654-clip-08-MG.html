@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>CALENDAR-654 clip 08 — Payoff</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;600&family=Oswald:wght@500;700&family=Playfair+Display:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
+    <script src="compositions/CALENDAR-654/calendar654-shared.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body,
+      #root {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0a0a0a;
+      }
+      #root {
+        position: relative;
+      }
+      #root-inner {
+        position: absolute;
+        inset: 0;
+      }
+      #depth-stage {
+        position: absolute;
+        inset: 0;
+        perspective: 900px;
+        transform-style: preserve-3d;
+      }
+      .z-bg {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(-240px) scale(1.2);
+        filter: blur(2px);
+        background: radial-gradient(ellipse 65% 55% at 50% 48%, rgba(229, 176, 92, 0.22), transparent 60%),
+          #0a0a0a;
+      }
+      .z-mg {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 900px;
+        height: 1400px;
+        margin-left: -450px;
+        margin-top: -700px;
+        transform: translateZ(0);
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(9, 1fr);
+        gap: 0;
+        transform-style: preserve-3d;
+      }
+      .cell {
+        border: 1px solid #e5b05c;
+        box-shadow: 0 0 4px rgba(229, 176, 92, 0.3);
+        background: rgba(10, 10, 10, 0.2);
+        transform-origin: 50% 50%;
+      }
+      .z-fg-1 {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(80px);
+        pointer-events: none;
+      }
+      .anno {
+        position: absolute;
+        font-family: "Courier Prime", monospace;
+        font-size: 15px;
+        color: rgba(229, 176, 92, 0.55);
+        letter-spacing: 0.08em;
+      }
+      .a1 {
+        left: 8%;
+        top: 28%;
+      }
+      .a2 {
+        right: 10%;
+        top: 34%;
+      }
+      .a3 {
+        left: 12%;
+        bottom: 30%;
+      }
+      .z-fg-2 {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(140px);
+        pointer-events: none;
+        filter: blur(1.5px);
+      }
+      .hero-stack {
+        position: absolute;
+        left: 50%;
+        top: 16%;
+        transform: translateX(-50%) translateZ(120px);
+        width: 980px;
+        text-align: center;
+        z-index: 20;
+      }
+      #hw-emp {
+        font-family: "Playfair Display", serif;
+        font-size: 108px;
+        color: #e5b05c;
+        opacity: 0;
+        text-shadow: 0 0 24px rgba(229, 176, 92, 0.35);
+      }
+      #hw-perf {
+        font-family: "Playfair Display", serif;
+        font-size: 120px;
+        color: #f4f1ea;
+        margin-top: 12px;
+        opacity: 0;
+      }
+      #hw-rock span {
+        display: inline-block;
+        font-family: "Courier Prime", monospace;
+        font-size: 72px;
+        color: #f4f1ea;
+        opacity: 0;
+      }
+      #hw-wob {
+        font-family: Oswald, sans-serif;
+        font-size: 145px;
+        color: #e5b05c;
+        margin-top: 16px;
+        opacity: 0;
+        text-shadow: 0 0 28px rgba(229, 176, 92, 0.45);
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        pointer-events: none;
+        background: radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(0, 0, 0, 0.72) 100%);
+      }
+      #grain {
+        position: absolute;
+        inset: 0;
+        z-index: 40;
+        opacity: 0.2;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+      }
+      #fade-black {
+        position: absolute;
+        inset: 0;
+        background: #000;
+        opacity: 0;
+        z-index: 45;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="CALENDAR-654-clip-08-MG"
+      data-start="0"
+      data-duration="13.89"
+      data-width="1080"
+      data-height="1920"
+      data-fps="60"
+    >
+      <div id="root-inner">
+        <div id="depth-stage" class="clip" data-start="0" data-duration="13.89" data-track-index="0">
+          <div id="glow-proxy" class="z-bg clip" data-start="0" data-duration="13.89" data-track-index="1"></div>
+          <div id="grid" class="z-mg clip" data-start="0" data-duration="13.89" data-track-index="2"></div>
+          <div class="z-fg-1 clip" data-start="0" data-duration="13.89" data-track-index="3">
+            <div class="anno a1">OPTIMIZED</div>
+            <div class="anno a2">EFFICIENT</div>
+            <div class="anno a3">PERFECT</div>
+          </div>
+          <div id="debris" class="z-fg-2 clip" data-start="0" data-duration="13.89" data-track-index="4"></div>
+          <div class="hero-stack clip" data-start="0" data-duration="13.89" data-track-index="5">
+            <div id="hw-emp" class="clip" data-start="2.01" data-duration="1.16" data-track-index="6">EMPIRE</div>
+            <div id="hw-perf" class="clip" data-start="4.89" data-duration="1.31" data-track-index="7">PERFECTION</div>
+            <div id="hw-rock" class="clip" data-start="8.49" data-duration="0.45" data-track-index="8"></div>
+            <div id="hw-wob" class="clip" data-start="9.58" data-duration="1.81" data-track-index="9">WOBBLES</div>
+          </div>
+        </div>
+        <div id="vignette" class="clip" data-start="0" data-duration="13.89" data-track-index="10"></div>
+        <canvas id="grain" class="clip" data-start="0" data-duration="13.89" data-track-index="11" width="540" height="960"></canvas>
+        <div id="fade-black" class="clip" data-start="0" data-duration="13.89" data-track-index="12"></div>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const CID = "CALENDAR-654-clip-08-MG";
+      const D = 13.89;
+      const H = window.Calendar654;
+      H.registerEases(gsap);
+      const tl = gsap.timeline({ paused: true });
+      const grid = document.getElementById("grid");
+      for (let i = 0; i < 54; i++) {
+        const c = document.createElement("div");
+        c.className = "cell";
+        grid.appendChild(c);
+      }
+      const rock = document.getElementById("hw-rock");
+      "ROCK".split("").forEach(function (ch) {
+        const s = document.createElement("span");
+        s.textContent = ch;
+        rock.appendChild(s);
+      });
+      const rockSpans = rock.querySelectorAll("span");
+
+      const glowState = { o: 0.22, s: 65 };
+      function applyGlow() {
+        document.getElementById("glow-proxy").style.background =
+          "radial-gradient(ellipse " +
+          glowState.s +
+          "% " +
+          (glowState.s * 0.85) +
+          "% at 50% 48%, rgba(229,176,92," +
+          glowState.o +
+          "), transparent 60%), #0a0a0a";
+      }
+      applyGlow();
+      tl.to(
+        glowState,
+        {
+          o: 0.18,
+          s: 72,
+          duration: D,
+          ease: "sine.inOut",
+          onUpdate: applyGlow,
+        },
+        0
+      );
+
+      gsap.set("#hw-emp", { scale: 1, opacity: 0 });
+      gsap.set("#hw-perf", { y: 30, opacity: 0 });
+      gsap.set("#hw-wob", { y: 50, scale: 1.4, opacity: 0 });
+      rockSpans.forEach(function (s) {
+        gsap.set(s, { opacity: 0, y: 6 });
+      });
+
+      tl.to("#depth-stage", { perspective: 1400, duration: 1.0, ease: "power2.out" }, 2.01);
+      tl.to("#hw-emp", { opacity: 1, duration: 0.4, ease: "power2.out" }, 2.01);
+      tl.to("#hw-emp", { scale: 1.04, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.35);
+
+      tl.to("#hw-perf", { y: 0, opacity: 1, duration: 0.5, ease: "expo.out" }, 4.89);
+      tl.to(".anno", { opacity: 0.9, duration: 0.2, ease: "power2.out" }, 4.89);
+      tl.to(".anno", { opacity: 0, duration: 0.45, ease: "power2.in" }, 5.2);
+
+      tl.to("#depth-stage", { perspective: 700, duration: 3.88, ease: "power1.inOut" }, 7.01);
+      const cells = document.querySelectorAll(".cell");
+      cells.forEach(function (cell, idx) {
+        const skewX = (idx % 4) * 0.4;
+        const skewY = (idx % 3) * 0.35;
+        tl.to(cell, { skewX: skewX, skewY: skewY, duration: 6.88, ease: "sine.inOut" }, 7.01);
+      });
+
+      rockSpans.forEach(function (sp, idx) {
+        tl.to(sp, { opacity: 1, y: 0, duration: 0.12, ease: "sine.inOut" }, 8.49 + idx * 0.06);
+      });
+
+      tl.fromTo(
+        "#hw-wob",
+        { y: 50, scale: 1.4, opacity: 0 },
+        { y: 0, scale: 1, opacity: 1, duration: 0.25, ease: "springHeavy" },
+        9.58
+      );
+      H.screenShake(tl, "#root-inner", 9.58, 1.0);
+      H.particleBurst(tl, document.getElementById("debris"), 540, 960, 9.58, 10, "#E5B05C", 0xc08fe001);
+      H.glowBleed(tl, "#glow-proxy", { x: 50, y: 48 }, 9.58, "229,176,92", 1.5);
+      H.rackFocus(tl, "#hw-wob, #grid", [".z-fg-1", ".z-bg"], 9.6, 0.15);
+      tl.to(
+        cells,
+        {
+          skewX: "+=2.2",
+          skewY: "+=1.8",
+          duration: 0.3,
+          ease: "power2.out",
+        },
+        9.596
+      );
+      tl.to(
+        cells,
+        {
+          skewX: "-=1.1",
+          skewY: "-=0.9",
+          duration: 0.5,
+          ease: "sine.inOut",
+        },
+        9.896
+      );
+
+      const rng = H.mulberry32(0xc6540808);
+      const debris = document.getElementById("debris");
+      for (let i = 0; i < 8; i++) {
+        const p = document.createElement("div");
+        p.style.cssText =
+          "position:absolute;left:" +
+          (40 + rng() * 1000) +
+          "px;top:" +
+          (900 + rng() * 200) +
+          "px;width:3px;height:3px;background:#e5b05c;border-radius:50%;opacity:0.5;";
+        debris.appendChild(p);
+        tl.fromTo(
+          p,
+          { y: 0 },
+          { y: "-=" + (30 + rng() * 40), duration: 3.0, ease: "sine.inOut" },
+          9.58 + rng() * 0.2
+        );
+      }
+
+      tl.to("#depth-stage", { scale: 1.015, x: -8, duration: 3.0, ease: "sine.inOut" }, 10.89);
+      tl.to(
+        glowState,
+        { o: 0.09, duration: 3.0, ease: "power1.inOut", onUpdate: applyGlow },
+        10.89
+      );
+      tl.to(
+        ".z-bg",
+        {
+          filter: "blur(2.6px)",
+          duration: 1.2,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: 1,
+        },
+        10.89
+      );
+
+      tl.to("#fade-black", { opacity: 1, duration: 0.4, ease: "power2.in" }, 13.5);
+
+      const grain = document.getElementById("grain");
+      const ctx = grain.getContext("2d");
+      const img = ctx.createImageData(540, 960);
+      const data = img.data;
+      const gRng = H.mulberry32(0x65480009);
+      for (let i = 0; i < data.length; i += 4) {
+        const n = (gRng() * 58) | 0;
+        data[i] = data[i + 1] = data[i + 2] = n;
+        data[i + 3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+
+      window.__timelines[CID] = tl;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "project_id": "ACE-435",
+  "source": "assets/ACE-435/README.md wall table + TIMING.md",
+  "sfx": [
+    { "stem_file": "sfx/cinematic_drone.wav", "wall_seconds": 0.0, "role": "bed", "volume": 0.14 },
+    { "stem_file": "sfx/sub_bass_impact.wav", "wall_seconds": 10.21, "role": "WEAPONIZE", "volume": 2.2 },
+    { "stem_file": "sfx/whoosh.wav", "wall_seconds": 22.7, "role": "LOGIC / blueprint", "volume": 1.6 },
+    { "stem_file": "sfx/glass_shatter.wav", "wall_seconds": 30.92, "role": "COPYRIGHTED", "volume": 1.9 },
+    { "wall_seconds": 43.0, "role": "SILENCE_DROP", "note": "VO duck ~43–44.2s in assemble-ace435-downloaded.sh (volume enable)" },
+    { "stem_file": "sfx/slam.wav", "wall_seconds": 53.48, "role": "CRIME", "volume": 2.4 }
+  ]
+}

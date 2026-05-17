@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>CALENDAR-654 clip 04 — Leap second</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;600&family=Oswald:wght@500;700&family=Playfair+Display:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
+    <script src="compositions/CALENDAR-654/calendar654-shared.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body,
+      #root {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0b192c;
+      }
+      #root {
+        position: relative;
+      }
+      #root-inner {
+        position: absolute;
+        inset: 0;
+      }
+      #depth-stage {
+        position: absolute;
+        inset: 0;
+        perspective: 1050px;
+        transform-style: preserve-3d;
+      }
+      #orbit {
+        position: absolute;
+        inset: -3%;
+        transform-style: preserve-3d;
+        transform: rotateY(-10deg);
+      }
+      .z-bg {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(-340px) scale(1.5);
+        filter: blur(2px);
+        background:
+          radial-gradient(ellipse 60% 50% at 50% 45%, rgba(120, 180, 255, 0.12), transparent 55%),
+          repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 48px),
+          repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 48px),
+          linear-gradient(180deg, #0b192c 0%, #050a12 100%);
+        opacity: 0.92;
+      }
+      .z-mg {
+        position: absolute;
+        inset: 8% 6%;
+        transform: translateZ(0);
+        transform-style: preserve-3d;
+      }
+      .rack-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+        margin-top: 420px;
+      }
+      .rack {
+        height: 160px;
+        border: 1px solid rgba(0, 212, 255, 0.35);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+        background: linear-gradient(180deg, #122a3f 0%, #0a1520 100%);
+        padding: 10px;
+        transform: skewX(-6deg);
+      }
+      .rack-bar {
+        height: 6px;
+        margin-top: 8px;
+        background: linear-gradient(90deg, #00d4ff, #006688);
+        transform-origin: 0 50%;
+      }
+      .rack-label {
+        font-family: "Courier Prime", monospace;
+        font-size: 11px;
+        color: rgba(0, 212, 255, 0.65);
+      }
+      #clock-svg {
+        position: absolute;
+        left: 50%;
+        top: 120px;
+        width: 520px;
+        height: 520px;
+        margin-left: -260px;
+        filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.55));
+      }
+      .z-fg-1 {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(100px);
+        pointer-events: none;
+        mix-blend-mode: overlay;
+      }
+      #vol-ray {
+        position: absolute;
+        left: -30%;
+        top: 0;
+        width: 45%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(200, 230, 255, 0.18), transparent);
+        opacity: 0.65;
+      }
+      .bracket {
+        position: absolute;
+        width: 44px;
+        height: 44px;
+        border: 2px solid rgba(0, 212, 255, 0.5);
+      }
+      .br-tl {
+        left: 36px;
+        top: 150px;
+        border-right: none;
+        border-bottom: none;
+      }
+      .br-tr {
+        right: 36px;
+        top: 150px;
+        border-left: none;
+        border-bottom: none;
+      }
+      .br-bl {
+        left: 36px;
+        bottom: 150px;
+        border-right: none;
+        border-top: none;
+      }
+      .br-br {
+        right: 36px;
+        bottom: 150px;
+        border-left: none;
+        border-top: none;
+      }
+      .z-fg-2 {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(140px);
+        pointer-events: none;
+        filter: blur(1.5px);
+      }
+      .data-line {
+        position: absolute;
+        width: 1px;
+        background: rgba(0, 212, 255, 0.2);
+        top: -20%;
+        height: 140%;
+      }
+      .hero-stack {
+        position: absolute;
+        left: 50%;
+        top: 62%;
+        transform: translateX(-50%) translateZ(120px);
+        width: 980px;
+        text-align: center;
+        z-index: 20;
+      }
+      .hero-word {
+        display: inline-block;
+        opacity: 0;
+        font-family: "Courier Prime", monospace;
+        font-size: 72px;
+        color: #00d4ff;
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.45);
+      }
+      #hw-leap {
+        margin-right: 12px;
+      }
+      #hw-wobble {
+        display: block;
+        margin-top: 28px;
+        font-family: Oswald, sans-serif;
+        font-size: 100px;
+        color: #e5b05c;
+        text-shadow: 0 0 24px rgba(229, 176, 92, 0.4);
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        pointer-events: none;
+        background: radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(0, 0, 0, 0.72) 100%);
+      }
+      #grain {
+        position: absolute;
+        inset: 0;
+        z-index: 40;
+        opacity: 0.2;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="CALENDAR-654-clip-04-MG"
+      data-start="0"
+      data-duration="6.91"
+      data-width="1080"
+      data-height="1920"
+      data-fps="60"
+    >
+      <div id="root-inner">
+        <div id="depth-stage" class="clip" data-start="0" data-duration="6.91" data-track-index="0">
+          <div id="orbit" class="clip" data-start="0" data-duration="6.91" data-track-index="1">
+            <div class="z-bg clip" data-start="0" data-duration="6.91" data-track-index="2"></div>
+            <div class="z-mg clip" data-start="0" data-duration="6.91" data-track-index="3">
+              <svg id="clock-svg" viewBox="0 0 200 200">
+                <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(0,212,255,0.35)" stroke-width="2" />
+                <text x="100" y="38" text-anchor="middle" fill="rgba(0,212,255,0.5)" font-family="Courier Prime" font-size="10">XII</text>
+                <text x="162" y="108" text-anchor="middle" fill="rgba(0,212,255,0.5)" font-family="Courier Prime" font-size="10">III</text>
+                <text x="100" y="178" text-anchor="middle" fill="rgba(0,212,255,0.5)" font-family="Courier Prime" font-size="10">VI</text>
+                <text x="38" y="108" text-anchor="middle" fill="rgba(0,212,255,0.5)" font-family="Courier Prime" font-size="10">IX</text>
+                <text x="100" y="104" text-anchor="middle" fill="#e5b05c" font-family="Courier Prime" font-size="9">.000</text>
+                <g id="hand-g" transform="rotate(0 100 100)">
+                <line
+                  id="sec-hand"
+                  x1="100"
+                  y1="100"
+                  x2="100"
+                  y2="36"
+                  stroke="#f4f1ea"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                </g>
+              </svg>
+              <div class="rack-grid">
+                <div class="rack">
+                  <div class="rack-label">NODE-A</div>
+                  <div class="rack-bar" style="transform: scaleX(0.72)"></div>
+                </div>
+                <div class="rack">
+                  <div class="rack-label">NODE-B</div>
+                  <div class="rack-bar" style="transform: scaleX(0.55)"></div>
+                </div>
+                <div class="rack">
+                  <div class="rack-label">NODE-C</div>
+                  <div class="rack-bar" style="transform: scaleX(0.88)"></div>
+                </div>
+                <div class="rack">
+                  <div class="rack-label">NODE-D</div>
+                  <div class="rack-bar" style="transform: scaleX(0.41)"></div>
+                </div>
+              </div>
+            </div>
+            <div class="z-fg-1 clip" data-start="0" data-duration="6.91" data-track-index="4">
+              <div id="vol-ray"></div>
+              <div class="bracket br-tl"></div>
+              <div class="bracket br-tr"></div>
+              <div class="bracket br-bl"></div>
+              <div class="bracket br-br"></div>
+            </div>
+            <div id="lines-host" class="z-fg-2 clip" data-start="0" data-duration="6.91" data-track-index="5"></div>
+            <div class="hero-stack clip" data-start="0" data-duration="6.91" data-track-index="6">
+              <span id="hw-leap" class="hero-word clip" data-start="2.5" data-duration="0.54" data-track-index="7">LEAP</span>
+              <span id="hw-second" class="hero-word clip" data-start="3" data-duration="0.49" data-track-index="8">SECOND</span>
+              <span id="hw-wobble" class="hero-word clip" data-start="6.15" data-duration="0.76" data-track-index="9">WOBBLE</span>
+            </div>
+          </div>
+        </div>
+        <div id="vignette" class="clip" data-start="0" data-duration="6.91" data-track-index="10"></div>
+        <canvas id="grain" class="clip" data-start="0" data-duration="6.91" data-track-index="11" width="540" height="960"></canvas>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const CID = "CALENDAR-654-clip-04-MG";
+      const D = 6.91;
+      const H = window.Calendar654;
+      H.registerEases(gsap);
+      const tl = gsap.timeline({ paused: true });
+      const rng = H.mulberry32(0xc6540404);
+      const host = document.getElementById("lines-host");
+      for (let i = 0; i < 16; i++) {
+        const el = document.createElement("div");
+        el.className = "data-line";
+        el.style.left = (5 + rng() * 90) + "%";
+        el.style.height = 120 + rng() * 40 + "%";
+        host.appendChild(el);
+        tl.to(el, { y: "+=520", duration: D, ease: "none" }, 0);
+      }
+      const grain = document.getElementById("grain");
+      const ctx = grain.getContext("2d");
+      const img = ctx.createImageData(540, 960);
+      const data = img.data;
+      const gRng = H.mulberry32(0x65440005);
+      for (let i = 0; i < data.length; i += 4) {
+        const n = (gRng() * 55) | 0;
+        data[i] = data[i + 1] = data[i + 2] = n;
+        data[i + 3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+
+      gsap.set("#hw-leap", { x: -80, opacity: 0 });
+      gsap.set("#hw-second", { x: 80, opacity: 0 });
+      gsap.set("#hw-wobble", { y: 50, opacity: 0 });
+      gsap.set("#hand-g", { svgOrigin: "100 100" });
+
+      tl.to("#vol-ray", { x: "140%", duration: 5.5, ease: "sine.inOut" }, 0.2);
+
+      tl.to("#orbit", { rotateY: 0, duration: 1.1, ease: "power3.out" }, 0);
+      tl.to("#hand-g", { rotation: 330, duration: 5.85, ease: "none", svgOrigin: "100 100" }, 0);
+      tl.to(
+        "#hand-g",
+        { rotation: "+=2.4", duration: 0.1, ease: "power4.out", yoyo: true, repeat: 3, svgOrigin: "100 100" },
+        6.12
+      );
+
+      tl.to("#hw-leap", { x: 0, opacity: 1, duration: 0.4, ease: "expo.out" }, 2.5);
+      tl.to("#depth-stage", { rotateY: 1.5, duration: 0.3, ease: "power2.out" }, 2.5);
+      tl.to("#hw-second", { x: 0, opacity: 1, duration: 0.22, ease: "springSnappy" }, 3.0);
+      tl.to("#depth-stage", { rotateY: 0, duration: 0.35, ease: "power2.out" }, 3.0);
+
+      tl.to("#hw-wobble", { y: 0, opacity: 1, duration: 0.35, ease: "springHeavy" }, 6.15);
+      H.glowBleed(tl, ".z-bg", { x: 50, y: 70 }, 6.15, "229,176,92", 0.6);
+
+      tl.to("#orbit", { x: 80, filter: "blur(14px)", duration: 0.3, ease: "power2.in" }, 6.56);
+      tl.to("#depth-stage", { perspective: 800, duration: 0.3, ease: "power2.in" }, 6.56);
+
+      window.__timelines[CID] = tl;
+    </script>
+  </body>
+</html>
