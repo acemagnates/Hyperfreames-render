@@ -1,0 +1,17 @@
+{
+  "name": "hyperfreames",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 preview",
+    "check": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/hf-check.mjs",
+    "render:preflight": "node scripts/render-preflight.mjs",
+    "render": "node scripts/render-preflight.mjs && node scripts/trigger-github-render.mjs",
+    "render:dispatch": "node scripts/render-preflight.mjs && RENDER_NO_WAIT=1 node scripts/trigger-github-render.mjs",
+    "render:ace-435-local": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/render-ace-435-local-all.mjs",
+    "render:local": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 render .",
+    "sync:public-render": "node scripts/sync-public-render-repo.mjs",
+    "publish": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 publish"
+  },
+  "dependencies": {}
+}

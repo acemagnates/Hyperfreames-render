@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>ACE-435 clip 07 — Resolution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;600&family=Oswald:wght@500;700;800&family=Playfair+Display:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
+    <script src="compositions/ACE-435/ace435-shared.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0b192c;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0b192c;
+      }
+      #root-inner {
+        position: absolute;
+        inset: 0;
+      }
+      #depth-stage {
+        position: absolute;
+        inset: 0;
+        perspective: 600px;
+        perspective-origin: 48% 42%;
+        transform-style: preserve-3d;
+      }
+      #vault-tilt {
+        position: absolute;
+        inset: -2%;
+        transform-style: preserve-3d;
+      }
+      .z-bg {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(-280px) scale(1.52);
+        background:
+          radial-gradient(ellipse 75% 55% at 78% 18%, rgba(208, 232, 240, 0.18), transparent 55%),
+          repeating-linear-gradient(90deg, rgba(226, 241, 231, 0.05) 0 1px, transparent 1px 40px),
+          #0b192c;
+      }
+      .iso-lines {
+        position: absolute;
+        inset: 8%;
+        border: 1px solid rgba(226, 241, 231, 0.12);
+        opacity: 0.35;
+      }
+      .z-mg {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 380px;
+        height: 820px;
+        margin-left: -190px;
+        margin-top: -410px;
+        transform: translateZ(0);
+        filter: drop-shadow(0 16px 48px rgba(0, 0, 0, 0.75));
+      }
+      .key-body {
+        position: absolute;
+        left: 50%;
+        top: 12%;
+        width: 280px;
+        height: 280px;
+        margin-left: -140px;
+        border-radius: 50%;
+        border: 10px solid #3a2a1f;
+        background: radial-gradient(circle at 35% 30%, #6a4f3a, #2a1e16 70%);
+        box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.45);
+      }
+      .key-shaft {
+        position: absolute;
+        left: 50%;
+        top: 38%;
+        width: 56px;
+        height: 420px;
+        margin-left: -28px;
+        background: linear-gradient(90deg, #2a1e16, #4a3628 45%, #2a1e16);
+        border-radius: 6px;
+      }
+      .key-teeth {
+        position: absolute;
+        left: 50%;
+        bottom: 8%;
+        transform: translateX(-50%);
+        font-family: "Courier Prime", monospace;
+        font-size: 11px;
+        color: #e2f1e7;
+        letter-spacing: 0.06em;
+        text-align: center;
+        width: 200px;
+        line-height: 1.5;
+        opacity: 0.9;
+      }
+      .z-fg-1 {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(100px) scale(0.9);
+        pointer-events: none;
+      }
+      .slice {
+        position: absolute;
+        width: 120%;
+        height: 2px;
+        left: -10%;
+        background: rgba(226, 241, 231, 0.2);
+        transform: rotate(-12deg);
+      }
+      .bracket {
+        position: absolute;
+        width: 44px;
+        height: 44px;
+        border: 2px solid #d4af37;
+      }
+      .br-tl {
+        left: 46px;
+        top: 150px;
+        border-right: none;
+        border-bottom: none;
+      }
+      .br-tr {
+        right: 46px;
+        top: 150px;
+        border-left: none;
+        border-bottom: none;
+      }
+      .br-bl {
+        left: 46px;
+        bottom: 150px;
+        border-right: none;
+        border-top: none;
+      }
+      .br-br {
+        right: 46px;
+        bottom: 150px;
+        border-left: none;
+        border-top: none;
+      }
+      #scanline {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        top: 14%;
+        background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.35), transparent);
+        opacity: 0.55;
+      }
+      .anno {
+        position: absolute;
+        right: 5%;
+        font-family: Inter, sans-serif;
+        font-size: 13px;
+        color: rgba(226, 241, 231, 0.75);
+        padding: 8px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 6px;
+        background: rgba(8, 18, 32, 0.4);
+      }
+      #a1 {
+        top: 22%;
+      }
+      #a2 {
+        top: 30%;
+      }
+      #a3 {
+        top: 38%;
+      }
+      #hero-enc {
+        position: absolute;
+        left: 50%;
+        top: 10%;
+        transform: translateX(-50%) translateZ(55px);
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 96px;
+        color: #d4af37;
+        text-shadow:
+          0 4px 14px rgba(0, 0, 0, 0.5),
+          0 0 28px rgba(212, 175, 55, 0.35);
+        opacity: 0;
+      }
+      #hero-key {
+        position: absolute;
+        left: 50%;
+        bottom: 6%;
+        transform: translateX(-50%) translateZ(70px);
+        font-family: Oswald, sans-serif;
+        font-weight: 800;
+        font-size: 128px;
+        color: #e5b05c;
+        text-shadow: 0 6px 24px rgba(0, 0, 0, 0.55);
+        opacity: 0;
+      }
+      #vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 30;
+        pointer-events: none;
+        background: radial-gradient(ellipse 76% 78% at 50% 48%, transparent 34%, rgba(0, 0, 0, 0.75) 100%);
+      }
+      #grain {
+        position: absolute;
+        inset: 0;
+        z-index: 50;
+        opacity: 0.2;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="ACE-435-clip-07-resolution"
+      data-start="0"
+      data-duration="6.56"
+      data-width="1080"
+      data-height="1920"
+      data-fps="60"
+    >
+      <div id="root-inner">
+        <div id="depth-stage" class="clip" data-start="0" data-duration="6.56" data-track-index="0">
+          <div id="vault-tilt">
+            <div class="z-bg clip" data-start="0" data-duration="6.56" data-track-index="1">
+              <div class="iso-lines clip" data-start="0" data-duration="6.56" data-track-index="2"></div>
+            </div>
+            <div class="z-mg clip" data-start="0" data-duration="6.56" data-track-index="3">
+              <div class="key-body"></div>
+              <div class="key-shaft"></div>
+              <div class="key-teeth clip" data-start="0" data-duration="6.56" data-track-index="4">
+                /kʰa/ · MORPH · CASE · ROOT
+              </div>
+            </div>
+            <div id="hero-enc" class="clip" data-start="5.01" data-duration="1.55" data-track-index="5">
+              ENCRYPTION
+            </div>
+            <div id="hero-key" class="clip" data-start="5.98" data-duration="0.58" data-track-index="6">KEY</div>
+            <div class="z-fg-1 clip" data-start="0" data-duration="6.56" data-track-index="7">
+              <div class="slice" style="top: 32%"></div>
+              <div class="slice" style="top: 52%"></div>
+              <div class="slice" style="top: 72%"></div>
+              <div class="bracket br-tl"></div>
+              <div class="bracket br-tr"></div>
+              <div class="bracket br-bl"></div>
+              <div class="bracket br-br"></div>
+              <div id="scanline"></div>
+            </div>
+            <div class="anno clip" id="a1" data-start="0" data-duration="6.56" data-track-index="8">
+              PRIVATE ENCRYPTION KEY
+            </div>
+            <div class="anno clip" id="a2" data-start="0" data-duration="6.56" data-track-index="9">
+              ACCESS: RESTRICTED
+            </div>
+            <div class="anno clip" id="a3" data-start="0" data-duration="6.56" data-track-index="10">
+              ORIGIN: LINGUISTIC ARCHIVE 2019
+            </div>
+          </div>
+        </div>
+        <div id="vignette" class="clip" data-start="0" data-duration="6.56" data-track-index="11"></div>
+        <canvas
+          id="grain"
+          class="clip"
+          data-start="0"
+          data-duration="6.56"
+          data-track-index="12"
+          width="540"
+          height="960"
+        ></canvas>
+      </div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const CID = "ACE-435-clip-07-resolution";
+      const D = 6.56;
+      const H = window.Ace435;
+      H.registerEases(gsap);
+      const tl = gsap.timeline({ paused: true });
+
+      const grain = document.getElementById("grain");
+      const ctx = grain.getContext("2d");
+      const img = ctx.createImageData(540, 960);
+      const gRng = H.mulberry32(0x9ace0007);
+      for (let i = 0; i < img.data.length; i += 4) {
+        const n = (gRng() * 68) | 0;
+        img.data[i] = img.data[i + 1] = img.data[i + 2] = n;
+        img.data[i + 3] = 255;
+      }
+      ctx.putImageData(img, 0, 0);
+
+      gsap.set("#hero-enc", { x: 75, opacity: 0 });
+      gsap.set("#hero-key", { scale: 1.4, y: 50, opacity: 0 });
+
+      tl.to("#depth-stage", { perspective: 1350, duration: 1.0, ease: "power2.out" }, 0);
+      tl.to(
+        "#vault-tilt .z-bg",
+        { scale: 1.04, x: 10, y: -6, duration: D - 1.38, ease: "sine.inOut" },
+        1.38
+      );
+      tl.to("#vault-tilt", { rotateY: -1.5, rotateX: 0.5, duration: D, ease: "sine.inOut" }, 0);
+      H.lifePulse(tl, ".z-mg", D, { scaleAmp: 0.012, yAmp: 4, rotAmp: 0.3, scalePeriod: 3.4, yPeriod: 2.4, rotPeriod: 4.0 });
+
+      tl.to("#hero-enc", { x: 0, opacity: 1, duration: 0.42, ease: "expo.out" }, 5.01);
+      tl.to("#vault-tilt", { rotateY: "+=1.5", duration: 0.35, ease: "power2.out" }, 5.01);
+      H.bracketPulse(tl, ".bracket", 5.01);
+      H.glowBleed(tl, document.querySelector(".z-bg"), { x: 50, y: 35 }, 5.01, "212,175,55", 0.45);
+
+      tl.to("#hero-key", { scale: 1, y: 0, opacity: 1, duration: 0.38, ease: "springSnappy" }, 5.98);
+      tl.to("#depth-stage", { perspective: 1180, duration: 0.3, ease: "power2.out" }, 5.98);
+      H.impactResponse(tl, ".z-mg", 5.98, 1.0);
+      tl.to(".z-bg", { filter: "brightness(1.08)", duration: 0.12, ease: "power2.out" }, 5.98);
+      tl.to(".z-bg", { filter: "none", duration: 0.4, ease: "power2.in" }, 6.1);
+
+      tl.to(".anno", { opacity: 0, y: -20, duration: 0.3, ease: "power3.in" }, 6.26);
+      tl.to(".z-fg-1", { opacity: 0, scale: 1.15, duration: 0.28, ease: "power3.in" }, 6.28);
+      tl.to("#hero-enc, #hero-key", { opacity: 0, duration: 0.25, ease: "power3.in" }, 6.31);
+
+      window.__timelines[CID] = tl;
+    </script>
+  </body>
+</html>
