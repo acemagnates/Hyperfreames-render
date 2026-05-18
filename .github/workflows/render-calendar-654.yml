@@ -54,9 +54,11 @@ jobs:
         with:
           path: ~/.npm
           key: ${{ runner.os }}-npm-hf-${{ env.HF_VERSION }}-${{ hashFiles('.github/workflows/render-calendar-654.yml') }}
-      - uses: FedericoCarboni/setup-ffmpeg@v3
-        with:
-          ffmpeg-version: release
+      - name: Install FFmpeg (apt; avoids flaky third-party release downloads)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends ffmpeg
+          ffmpeg -version | head -n 1
 
       - name: Install HyperFrames CLI
         run: npm install -g hyperframes@${{ env.HF_VERSION }}
