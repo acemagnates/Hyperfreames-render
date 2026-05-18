@@ -34,7 +34,7 @@ jobs:
       RENDER_FPS: ${{ inputs.render_fps }}
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 8
       matrix:
         clip:
           - compositions/CALENDAR-654/CALENDAR-654-clip-01-MG.html
