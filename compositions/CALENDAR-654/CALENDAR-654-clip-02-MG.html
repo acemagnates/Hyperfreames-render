@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="icon" href="data:," />
     <title>CALENDAR-654 clip 02 — Papal cut</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -56,7 +57,6 @@
         position: absolute;
         inset: 0;
         transform: translateZ(-280px) scale(1.45);
-        filter: blur(2px);
         background:
           radial-gradient(ellipse 70% 55% at 50% 35%, rgba(80, 20, 30, 0.35), transparent 55%),
           linear-gradient(180deg, #241a18 0%, #1c1915 100%);
@@ -151,7 +151,6 @@
         inset: 0;
         transform: translateZ(180px);
         pointer-events: none;
-        filter: blur(1.5px);
       }
       .wax {
         position: absolute;
@@ -309,13 +308,13 @@
       }
       ctx.putImageData(img, 0, 0);
 
-      gsap.set("#stage-slide", { x: 120, filter: "blur(14px)" });
+      gsap.set("#stage-slide", { x: 120, opacity: 0.62 });
       gsap.set("#hw-del", { x: -70, opacity: 0 });
       gsap.set("#hw-ten", { scale: 1.4, opacity: 0 });
       gsap.set("#type-math span", { opacity: 0, x: -6 });
       gsap.set("#type-err span", { opacity: 0, x: -6 });
 
-      tl.to("#stage-slide", { x: 0, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 0);
+      tl.to("#stage-slide", { x: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0);
       tl.to(".z-mg", { x: "-=28", y: "-=6", scale: 1.03, duration: D, ease: "sine.inOut" }, 0);
       tl.to("#scanline", { top: "102%", duration: 3.2, ease: "none" }, 0.1);
       tl.to("#scanline", { top: "-2%", duration: 0.01, ease: "none" }, 3.31);
@@ -340,7 +339,7 @@
       });
       tl.to("#depth-stage", { perspective: 1300, duration: 0.7, ease: "power1.inOut" }, 5.64);
 
-      tl.to("#stage-slide", { x: -140, filter: "blur(16px)", duration: 0.35, ease: "power2.in" }, 5.9);
+      tl.to("#stage-slide", { x: -140, opacity: 0.42, scale: 0.97, transformOrigin: "50% 50%", duration: 0.35, ease: "power2.in" }, 5.9);
 
       window.__timelines[CID] = tl;
     </script>

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="icon" href="data:," />
     <title>CALENDAR-654 clip 08 — Payoff</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -46,7 +47,6 @@
         position: absolute;
         inset: 0;
         transform: translateZ(-240px) scale(1.2);
-        filter: blur(2px);
         background: radial-gradient(ellipse 65% 55% at 50% 48%, rgba(229, 176, 92, 0.22), transparent 60%),
           #0a0a0a;
       }
@@ -101,7 +101,6 @@
         inset: 0;
         transform: translateZ(140px);
         pointer-events: none;
-        filter: blur(1.5px);
       }
       .hero-stack {
         position: absolute;
@@ -329,7 +328,7 @@
       tl.to(
         ".z-bg",
         {
-          filter: "blur(2.6px)",
+          opacity: 0.9,
           duration: 1.2,
           ease: "sine.inOut",
           yoyo: true,

@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="icon" href="data:," />
     <title>CALENDAR-654 clip 04 — Leap second</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -52,7 +53,6 @@
         position: absolute;
         inset: 0;
         transform: translateZ(-340px) scale(1.5);
-        filter: blur(2px);
         background:
           radial-gradient(ellipse 60% 50% at 50% 45%, rgba(120, 180, 255, 0.12), transparent 55%),
           repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 48px),
@@ -151,7 +151,6 @@
         inset: 0;
         transform: translateZ(140px);
         pointer-events: none;
-        filter: blur(1.5px);
       }
       .data-line {
         position: absolute;
@@ -330,7 +329,7 @@
       tl.to("#hw-wobble", { y: 0, opacity: 1, duration: 0.35, ease: "springHeavy" }, 6.15);
       H.glowBleed(tl, ".z-bg", { x: 50, y: 70 }, 6.15, "229,176,92", 0.6);
 
-      tl.to("#orbit", { x: 80, filter: "blur(14px)", duration: 0.3, ease: "power2.in" }, 6.56);
+      tl.to("#orbit", { x: 80, opacity: 0.48, scale: 0.96, transformOrigin: "50% 50%", duration: 0.3, ease: "power2.in" }, 6.56);
       tl.to("#depth-stage", { perspective: 800, duration: 0.3, ease: "power2.in" }, 6.56);
 
       window.__timelines[CID] = tl;

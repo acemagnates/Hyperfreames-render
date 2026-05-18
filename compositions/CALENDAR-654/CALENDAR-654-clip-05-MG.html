@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="icon" href="data:," />
     <title>CALENDAR-654 clip 05 — Machines</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -46,7 +47,6 @@
         position: absolute;
         inset: 0;
         transform: translateZ(-200px);
-        filter: blur(2px);
         background: radial-gradient(ellipse 80% 60% at 92% 8%, rgba(139, 0, 0, 0.45), transparent 55%),
           linear-gradient(165deg, #121212 0%, #0a0a0a 100%);
       }
@@ -139,7 +139,6 @@
         inset: 0;
         transform: translateZ(160px);
         pointer-events: none;
-        filter: blur(1.5px);
       }
       #vignette {
         position: absolute;
@@ -252,8 +251,8 @@
       tl.to("#did", { y: 0, opacity: 1, duration: 0.35, ease: "expo.out" }, 2.98);
       H.bracketPulse(tl, ".bracket", 2.98);
 
-      tl.to(".z-fg-1", { scale: 1.4, filter: "blur(20px)", duration: 0.3, ease: "power3.in" }, 3.19);
-      tl.to(".z-mg", { scale: 1.35, filter: "blur(20px)", duration: 0.3, ease: "power3.in" }, 3.19);
+      tl.to(".z-fg-1", { scale: 1.4, opacity: 0.35, duration: 0.3, ease: "power3.in" }, 3.19);
+      tl.to(".z-mg", { scale: 1.35, opacity: 0.4, duration: 0.3, ease: "power3.in" }, 3.19);
       tl.to("#pulse-proxy", { scale: 1.25, duration: 0.3, ease: "power3.in" }, 3.19);
 
       window.__timelines[CID] = tl;

@@ -1,4 +1,6 @@
-name: Render CALENDAR-654 clips
+# Fallback / stability path: Dockerized Chromium + low matrix parallelism (less CPU contention).
+# Dispatch from GitHub Actions when the default matrix is flaky on hosted runners.
+name: Render CALENDAR-654 clips (fast / stable)
 
 on:
   workflow_dispatch:
@@ -9,13 +11,13 @@ on:
         options: [draft, standard]
         default: draft
       render_fps:
-        description: "hyperframes --fps (30 = half the frames, much faster in CI)"
+        description: "hyperframes --fps"
         type: choice
         options: ["30", "60"]
         default: "30"
 
 concurrency:
-  group: render-calendar-654
+  group: render-calendar-654-fast
   cancel-in-progress: false
 
 env:
@@ -28,13 +30,13 @@ env:
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 55
     env:
       RENDER_QUALITY: ${{ inputs.render_quality }}
       RENDER_FPS: ${{ inputs.render_fps }}
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 2
       matrix:
         clip:
           - compositions/CALENDAR-654/CALENDAR-654-clip-01-MG.html
@@ -53,7 +55,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-npm-hf-${{ env.HF_VERSION }}-${{ hashFiles('.github/workflows/render-calendar-654.yml') }}
+          key: ${{ runner.os }}-npm-hf-${{ env.HF_VERSION }}-${{ hashFiles('.github/workflows/render-calendar-654-fast.yml') }}
       - name: Install FFmpeg (apt; avoids flaky third-party release downloads)
         run: |
           sudo apt-get update -y
@@ -63,7 +65,7 @@ jobs:
       - name: Install HyperFrames CLI
         run: npm install -g hyperframes@${{ env.HF_VERSION }}
 
-      - name: Render clip
+      - name: Render clip (Docker)
         id: render
         env:
           PROJECT_ID: ${{ env.PROJECT_ID }}

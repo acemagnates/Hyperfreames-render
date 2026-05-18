@@ -247,21 +247,31 @@
     );
   }
 
-  /** Spec snapZoom: crush depth + blur non-hero layers, then recover blur. */
+  /** Spec snapZoom: crush depth + dim non-hero layers (no CSS filter — headless capture perf). */
   function snapZoomImpact(tl, heroEl, blurSelectors, time, opts) {
     const o = opts || {};
-    const blurPx = o.blurPx != null ? o.blurPx : 6;
     const peakDur = o.peakDur != null ? o.peakDur : 0.2;
     const recoverDur = o.recoverDur != null ? o.recoverDur : 0.65;
+    const restoreOp = o.restoreOpacity != null ? o.restoreOpacity : 1;
     const sel = blurSelectors || [];
     sel.forEach(function (s) {
-      tl.to(s, { filter: "blur(" + blurPx + "px)", duration: 0.08, ease: "power2.out" }, time);
+      tl.to(
+        s,
+        { opacity: 0.48, scale: 0.992, transformOrigin: "50% 50%", duration: 0.08, ease: "power2.out" },
+        time
+      );
     });
     snapZoomWithRecover(tl, heroEl, time, o);
     sel.forEach(function (s) {
       tl.to(
         s,
-        { filter: o.restoreFilter != null ? o.restoreFilter : "blur(0px)", duration: recoverDur, ease: "power2.out" },
+        {
+          opacity: restoreOp,
+          scale: 1,
+          transformOrigin: "50% 50%",
+          duration: recoverDur,
+          ease: "power2.out",
+        },
         time + peakDur
       );
     });
@@ -273,13 +283,22 @@
     tl.to(el, { scale: "+=" + 0.04 * s, duration: 0.22, ease: "elastic.out(1, 0.45)" }, time + 0.06);
   }
 
+  /** Rack focus without CSS filter (GPU/screenshot capture). */
   function rackFocus(tl, sharpSelector, blurSelectors, time, dur) {
     const d = dur == null ? 0.1 : dur;
     const blurs = blurSelectors || [];
     blurs.forEach(function (s) {
-      tl.to(s, { filter: "blur(10px)", duration: d, ease: "power2.out" }, time);
+      tl.to(
+        s,
+        { opacity: 0.5, scale: 0.99, transformOrigin: "50% 50%", duration: d, ease: "power2.out" },
+        time
+      );
     });
-    tl.to(sharpSelector, { filter: "blur(0px)", duration: d, ease: "power2.out" }, time);
+    tl.to(
+      sharpSelector,
+      { opacity: 1, scale: 1, transformOrigin: "50% 50%", duration: d, ease: "power2.out" },
+      time
+    );
   }
 
   function rackFocusRelease(tl, blurSelectors, defaultFilters, time, dur) {
@@ -287,8 +306,8 @@
     const blurs = blurSelectors || [];
     const defs = defaultFilters || [];
     blurs.forEach(function (s, i) {
-      const defF = defs[i] != null ? defs[i] : "blur(2px)";
-      tl.to(s, { filter: defF, duration: d, ease: "power2.out" }, time);
+      const targetOp = defs[i] != null && typeof defs[i] === "number" ? defs[i] : 1;
+      tl.to(s, { opacity: targetOp, scale: 1, transformOrigin: "50% 50%", duration: d, ease: "power2.out" }, time);
     });
   }
 

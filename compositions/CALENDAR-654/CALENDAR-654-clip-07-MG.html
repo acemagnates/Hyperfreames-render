@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
+    <link rel="icon" href="data:," />
     <title>CALENDAR-654 clip 07 — Panic</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -55,7 +56,6 @@
       }
       .layer-bg {
         transform: translateZ(-200px) scale(1.2);
-        filter: blur(2px);
         color: rgba(0, 255, 120, 0.08);
       }
       .layer-mg {
@@ -227,7 +227,7 @@
       tl.to("#c-fg", { opacity: 0.15, duration: 0.55, ease: "power2.in" }, 6.45);
 
       tl.to("#depth-stage", { perspective: 1400, duration: 0.35, ease: "power4.out" }, 7.25);
-      tl.to(".code-layer", { filter: "blur(16px)", opacity: 0.35, duration: 0.35, ease: "power3.in" }, 7.25);
+      tl.to(".code-layer", { opacity: 0.2, scale: 0.985, transformOrigin: "50% 50%", duration: 0.35, ease: "power3.in" }, 7.25);
       tl.to("#frozen-box", { opacity: 0, duration: 0.3, ease: "power2.in" }, 7.28);
       tl.to(".hero-stack", { opacity: 0, y: -40, duration: 0.32, ease: "power3.in" }, 7.28);
 
