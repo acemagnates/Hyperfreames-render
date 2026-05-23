@@ -1,0 +1,57 @@
+name: Render CINEMATIC-3D composition
+
+on:
+  workflow_dispatch:
+    inputs:
+      render_quality:
+        description: "hyperframes --quality (draft = fastest CI; standard for parity with local)"
+        type: choice
+        options: [draft, standard]
+        default: standard
+      render_fps:
+        description: "hyperframes --fps"
+        type: choice
+        options: ["30", "60"]
+        default: "60"
+
+concurrency:
+  group: render-cinematic-3d
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "22"
+  HF_VERSION: "0.5.5"
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-hf-${{ env.HF_VERSION }}-${{ hashFiles('.github/workflows/render-cinematic-3d.yml') }}
+      - name: Install FFmpeg (apt; avoids flaky third-party release downloads)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends ffmpeg
+          ffmpeg -version | head -n 1
+
+      - name: Install HyperFrames CLI
+        run: npm install -g hyperframes@${{ env.HF_VERSION }}
+
+      - name: Render cinematic 3d composition
+        run: |
+          mkdir -p renders/out
+          hyperframes render . --fps ${{ inputs.render_fps }} --quality ${{ inputs.render_quality }} --output renders/out/CINEMATIC-3D.mp4
+
+      - name: Upload render artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: CINEMATIC-3D-video
+          path: renders/out/CINEMATIC-3D.mp4
+          retention-days: 14

@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>CALENDAR-654 — Master Assembly</title>
+    <title>CINEMATIC-3D — Cinematic 3D Scenery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;600&family=Oswald:wght@500;700&family=Playfair+Display:ital@0;1&display=swap"
       rel="stylesheet"
     />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       *,
@@ -24,14 +25,151 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #1c1915;
+        background: #050508;
+        font-family: 'Inter', sans-serif;
       }
       #composition-root {
         position: relative;
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #1c1915;
+        background: #050508;
+      }
+      
+      /* WebGL Canvas Layer */
+      #three-layer {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+        display: block;
+        z-index: 1;
+      }
+
+      /* CSS Cinematic Overlays */
+      .overlay-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 80px 60px;
+        box-sizing: border-box;
+      }
+
+      /* Tech HUD border elements */
+      .hud-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .hud-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      
+      .hud-block {
+        font-family: 'Courier Prime', monospace;
+        color: rgba(229, 193, 88, 0.85); /* Premium Gold */
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        line-height: 1.5;
+        text-shadow: 0 0 10px rgba(229, 193, 88, 0.4);
+      }
+      .hud-title {
+        font-family: 'Oswald', sans-serif;
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+      }
+      .hud-accent {
+        color: #00ffcc; /* Neon Cyan */
+        text-shadow: 0 0 10px rgba(0, 255, 204, 0.6);
+      }
+
+      /* Corner Brackets */
+      .corner-brackets {
+        position: absolute;
+        inset: 40px;
+        border: 1px solid rgba(229, 193, 88, 0.15);
+        pointer-events: none;
+      }
+      .corner-brackets::before,
+      .corner-brackets::after {
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-color: rgba(229, 193, 88, 0.8);
+        border-style: solid;
+      }
+      /* TL */
+      .corner-brackets::before {
+        top: -1px;
+        left: -1px;
+        border-width: 2px 0 0 2px;
+      }
+      /* BR */
+      .corner-brackets::after {
+        bottom: -1px;
+        right: -1px;
+        border-width: 0 2px 2px 0;
+      }
+
+      /* Custom corner bracket secondary pair */
+      .corner-brackets-alt {
+        position: absolute;
+        inset: 40px;
+        pointer-events: none;
+      }
+      .corner-brackets-alt::before,
+      .corner-brackets-alt::after {
+        content: '';
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-color: rgba(229, 193, 88, 0.8);
+        border-style: solid;
+      }
+      /* TR */
+      .corner-brackets-alt::before {
+        top: -1px;
+        right: -1px;
+        border-width: 2px 2px 0 0;
+      }
+      /* BL */
+      .corner-brackets-alt::after {
+        bottom: -1px;
+        left: -1px;
+        border-width: 0 0 2px 2px;
+      }
+
+      /* Soft cinematic vignette */
+      .vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        background: radial-gradient(circle, rgba(0,0,0,0) 40%, rgba(5,5,8,0.7) 80%, rgba(0,0,0,0.95) 100%);
+      }
+
+      /* Horizontal scanning line */
+      .scanline {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, rgba(0,255,204,0) 0%, rgba(0,255,204,0.4) 50%, rgba(0,255,204,0) 100%);
+        z-index: 4;
+        pointer-events: none;
+        box-shadow: 0 0 8px rgba(0, 255, 204, 0.8);
       }
     </style>
   </head>
@@ -39,146 +177,458 @@
     <div
       id="composition-root"
       data-layout-allow-overflow
-      data-composition-id="CALENDAR-654"
+      data-composition-id="CINEMATIC-3D"
       data-start="0"
-      data-duration="61.39"
+      data-duration="15"
       data-width="1080"
       data-height="1920"
       data-fps="60"
     >
-      <audio
-        id="narration"
+      <!-- Background / WebGL Render Canvas -->
+      <canvas
+        id="three-layer"
         class="clip"
+        width="1080"
+        height="1920"
         data-start="0"
-        data-duration="61.39"
+        data-duration="15"
         data-track-index="0"
-        src="assets/CALENDAR-654/narration.mp3"
-      ></audio>
+      ></canvas>
 
+      <!-- Tech HUD Layer -->
       <div
-        class="clip"
-        data-composition-id="CALENDAR-654-clip-01-MG"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-clip-01-MG.html"
+        id="overlay-hud-container"
+        class="clip overlay-layer"
         data-start="0"
-        data-duration="9.04"
+        data-duration="15"
         data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
+      >
+        <div class="corner-brackets"></div>
+        <div class="corner-brackets-alt"></div>
+
+        <!-- HUD Header -->
+        <div class="hud-header">
+          <div class="hud-block" id="hud-tl">
+            <div class="hud-title">System Status</div>
+            <div>SECTOR: <span class="hud-accent">3D_NEXUS_A</span></div>
+            <div>GRID_SYNC: <span class="hud-accent">ACTIVE</span></div>
+          </div>
+          <div class="hud-block" id="hud-tr" style="text-align: right;">
+            <div class="hud-title">Render Target</div>
+            <div>FPS: <span class="hud-accent">60.00</span></div>
+            <div>RES: <span class="hud-accent">1080x1920</span></div>
+          </div>
+        </div>
+
+        <!-- HUD Footer -->
+        <div class="hud-footer">
+          <div class="hud-block" id="hud-bl">
+            <div class="hud-title">Visual Engine</div>
+            <div>ENGINE: <span class="hud-accent">HYPERFRAMES</span></div>
+            <div>SHADERS: <span class="hud-accent">OBSIDIAN / GOLD</span></div>
+          </div>
+          <div class="hud-block" id="hud-br" style="text-align: right;">
+            <div class="hud-title" style="color: #00ffcc;">Chronometer</div>
+            <div id="overlay-timer" class="hud-accent" style="font-weight: bold; font-size: 18px; font-family: 'Courier Prime', monospace;">00:00:000</div>
+            <div>CYCLE: <span class="hud-accent">01 / 15s</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cinematic Vignette & Ambient Filters -->
+      <div class="vignette"></div>
+      
+      <!-- Tech scanline animated by GSAP -->
       <div
-        class="clip"
-        data-composition-id="CALENDAR-654-gap-031a"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-gap-031a.html"
-        data-start="9.04"
-        data-duration="0.31"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-clip-02-MG"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-clip-02-MG.html"
-        data-start="9.35"
-        data-duration="6.25"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-clip-03-MG"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-clip-03-MG.html"
-        data-start="15.6"
-        data-duration="6.64"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-gap-031b"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-gap-031b.html"
-        data-start="22.24"
-        data-duration="0.31"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-clip-04-MG"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-clip-04-MG.html"
-        data-start="22.55"
-        data-duration="6.91"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-gap-035"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-gap-035.html"
-        data-start="29.46"
-        data-duration="0.351"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-clip-05-MG"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-clip-05-MG.html"
-        data-start="29.811"
-        data-duration="3.489"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-gap-004"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-gap-004.html"
-        data-start="33.3"
-        data-duration="0.04"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-clip-06-MG"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-clip-06-MG.html"
-        data-start="33.34"
-        data-duration="6.559"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-clip-07-MG"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-clip-07-MG.html"
-        data-start="39.901"
-        data-duration="7.599"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
-      ></div>
-      <div
-        class="clip"
-        data-composition-id="CALENDAR-654-clip-08-MG"
-        data-composition-src="compositions/CALENDAR-654/CALENDAR-654-clip-08-MG.html"
-        data-start="47.5"
-        data-duration="13.89"
-        data-track-index="1"
-        style="position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden"
-        data-layout-allow-overflow
+        id="scanline-bar"
+        class="clip scanline"
+        data-start="0"
+        data-duration="15"
+        data-track-index="2"
       ></div>
     </div>
+
+    <!-- GSAP Composition Timeline Setup -->
     <script>
       window.__timelines = window.__timelines || {};
-      window.__timelines["CALENDAR-654"] = gsap.timeline({ paused: true });
+      const CID = "CINEMATIC-3D";
+      const D = 15.0;
+      const tl = gsap.timeline({ paused: true });
+
+      // Core continuous scrolling scanline and text glitch effects using GSAP
+      tl.fromTo("#scanline-bar", 
+        { top: "0%" }, 
+        { top: "100%", ease: "none", duration: 3.75, repeat: 3 },
+        0
+      );
+
+      // HUD element subtle entrances
+      tl.from("#hud-tl", { opacity: 0, x: -30, duration: 1.2, ease: "power3.out" }, 0.2);
+      tl.from("#hud-tr", { opacity: 0, x: 30, duration: 1.2, ease: "power3.out" }, 0.25);
+      tl.from("#hud-bl", { opacity: 0, x: -30, duration: 1.2, ease: "power3.out" }, 0.4);
+      tl.from("#hud-br", { opacity: 0, x: 30, duration: 1.2, ease: "power3.out" }, 0.45);
+      tl.from(".corner-brackets", { opacity: 0, scale: 0.95, duration: 1.5, ease: "expo.out" }, 0.1);
+      tl.from(".corner-brackets-alt", { opacity: 0, scale: 0.95, duration: 1.5, ease: "expo.out" }, 0.15);
+
+      // Continuous subtle HUD scaling drift (Micro-Motion)
+      tl.to("#hud-tl", { scale: 1.03, duration: 7.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+      tl.to("#hud-tr", { scale: 1.03, duration: 7.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0);
+
+      window.__timelines[CID] = tl;
+    </script>
+
+    <!-- Three.js 3D Scenery WebGL Engine -->
+    <script>
+      const canvas = document.getElementById("three-layer");
+      
+      function isWebGLAvailable() {
+        try {
+          const testCanvas = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext && (testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl')));
+        } catch (e) {
+          return false;
+        }
+      }
+
+      const webglAvailable = isWebGLAvailable();
+      let renderer;
+      if (webglAvailable) {
+        renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+        renderer.setSize(1080, 1920, false);
+        renderer.setPixelRatio(1);
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      } else {
+        console.warn("WebGL not supported/available in this environment. Using mock renderer.");
+        renderer = {
+          setSize: () => {},
+          setPixelRatio: () => {},
+          render: () => {},
+          shadowMap: { enabled: false }
+        };
+      }
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x050508);
+      // Soft cinematic fog to fade elements into depth
+      scene.fog = new THREE.FogExp2(0x050508, 0.05);
+
+      const camera = new THREE.PerspectiveCamera(38, 1080 / 1920, 0.1, 100);
+      camera.position.set(0, 0, 22); // Initial distance for Act 1 swoop
+
+      // High-end dynamic lighting rig
+      const ambientLight = new THREE.AmbientLight(0x050810, 0.8);
+      scene.add(ambientLight);
+
+      // Main golden key light (casts soft shadows)
+      const keyLight = new THREE.DirectionalLight(0xffb834, 4.5);
+      keyLight.position.set(5, 8, 10);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.width = 1024;
+      keyLight.shadow.mapSize.height = 1024;
+      keyLight.shadow.bias = -0.001;
+      scene.add(keyLight);
+
+      // Cool cyan rim light sweeping from the back
+      const rimLight = new THREE.DirectionalLight(0x00f0ff, 3.0);
+      rimLight.position.set(-6, -4, -5);
+      scene.add(rimLight);
+
+      // Interactive pulsing spotlight pointing at center monolith
+      const spotLight = new THREE.SpotLight(0xffffff, 8.0, 30, Math.PI / 6, 0.5, 1);
+      spotLight.position.set(0, 12, 5);
+      scene.add(spotLight);
+
+      // MATERIAL DEFINITIONS
+      // 1. Premium Reflective Gold Chrome Material
+      const goldMaterial = new THREE.MeshStandardMaterial({
+        color: 0xe5c158,
+        metalness: 0.95,
+        roughness: 0.15,
+        emissive: 0x3d2808,
+        emissiveIntensity: 0.2,
+      });
+
+      // 2. Obsidian Deep Cyber-Metal Material
+      const obsidianMaterial = new THREE.MeshStandardMaterial({
+        color: 0x111116,
+        metalness: 0.85,
+        roughness: 0.22,
+      });
+
+      // 3. Neon Cyber Glow Material for Outer Wireframe
+      const neonCyanMaterial = new THREE.MeshBasicMaterial({
+        color: 0x00ffcc,
+        wireframe: true,
+      });
+
+      // CORE MONOLITH GEOMETRY
+      // Inner glowing core
+      const coreGeom = new THREE.IcosahedronGeometry(1.0, 3);
+      const coreMesh = new THREE.Mesh(coreGeom, goldMaterial);
+      coreMesh.castShadow = true;
+      coreMesh.receiveShadow = true;
+      scene.add(coreMesh);
+
+      // Outer Cage (Obsidian shell structures)
+      const cageGeom = new THREE.IcosahedronGeometry(1.6, 1);
+      const cageMesh = new THREE.Mesh(cageGeom, obsidianMaterial);
+      cageMesh.castShadow = true;
+      scene.add(cageMesh);
+
+      // Neon Accent Nodes
+      const wireGeom = new THREE.IcosahedronGeometry(1.61, 1);
+      const wireMesh = new THREE.Mesh(wireGeom, neonCyanMaterial);
+      scene.add(wireMesh);
+
+      // DUAL CONCENTRIC PARTICLE ORBIT RINGS
+      // Ring 1 (Gold Swarm)
+      const particleCount1 = 200;
+      const ring1Group = new THREE.Group();
+      const dotGeom = new THREE.BoxGeometry(0.04, 0.04, 0.04);
+      for (let i = 0; i < particleCount1; i++) {
+        const dot = new THREE.Mesh(dotGeom, goldMaterial);
+        // Seed-based circular coordinates
+        const angle = (i / particleCount1) * Math.PI * 2;
+        const radius = 2.4 + Math.sin(i * 12.3) * 0.15;
+        dot.position.set(Math.cos(angle) * radius, Math.sin(i * 9.8) * 0.2, Math.sin(angle) * radius);
+        ring1Group.add(dot);
+      }
+      scene.add(ring1Group);
+
+      // Ring 2 (Cyan Swarm - Larger, Opposite Angle)
+      const particleCount2 = 180;
+      const ring2Group = new THREE.Group();
+      const cyanMat = new THREE.MeshBasicMaterial({ color: 0x00ffcc });
+      for (let i = 0; i < particleCount2; i++) {
+        const dot = new THREE.Mesh(dotGeom, cyanMat);
+        const angle = (i / particleCount2) * Math.PI * 2;
+        const radius = 3.2 + Math.cos(i * 7.4) * 0.2;
+        dot.position.set(Math.cos(angle) * radius, Math.sin(i * 15.6) * 0.3, Math.sin(angle) * radius);
+        ring2Group.add(dot);
+      }
+      ring2Group.rotation.x = Math.PI / 4;
+      scene.add(ring2Group);
+
+      // GYROSCOPIC ACCENT RINGS
+      const torusMat = new THREE.MeshStandardMaterial({ color: 0xe5c158, metalness: 0.9, roughness: 0.2 });
+      const gyroRing1 = new THREE.Mesh(new THREE.TorusGeometry(2.35, 0.025, 8, 100), torusMat);
+      const gyroRing2 = new THREE.Mesh(new THREE.TorusGeometry(2.85, 0.02, 8, 100), cyanMat);
+      scene.add(gyroRing1);
+      scene.add(gyroRing2);
+
+      // BACKGROUND DEEP SPACE STARS
+      const starsCount = 450;
+      const starsPositions = new Float32Array(starsCount * 3);
+      for (let i = 0; i < starsCount; i++) {
+        // Spiral galaxy distribution formulas for high cinematic aesthetics
+        const angle = (i * 137.5) * Math.PI / 180;
+        const radius = 4 + (i * 0.09);
+        const y = Math.sin(i * 7.6) * 16;
+        starsPositions[i * 3] = Math.cos(angle) * radius;
+        starsPositions[i * 3 + 1] = y;
+        starsPositions[i * 3 + 2] = Math.sin(angle) * radius;
+      }
+      const starsGeom = new THREE.BufferGeometry();
+      starsGeom.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
+      const starsMat = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.045,
+        transparent: true,
+        opacity: 0.75,
+        fog: true
+      });
+      const starPoints = new THREE.Points(starsGeom, starsMat);
+      scene.add(starPoints);
+
+      // PERSPECTIVE GRID FLOOR (Gives reference coordinates and major depth)
+      const gridHelper = new THREE.GridHelper(30, 30, 0xe5c158, 0x11111c);
+      gridHelper.position.y = -4.5;
+      gridHelper.material.opacity = 0.25;
+      gridHelper.material.transparent = true;
+      scene.add(gridHelper);
+
+      // 3D TYPOGRAPHY VIA CANVAS-TEXTURES
+      function createTextPlane(text, width, height, colorHex, size) {
+        const textCanvas = document.createElement("canvas");
+        textCanvas.width = width;
+        textCanvas.height = height;
+        const ctx = textCanvas.getContext("2d");
+        ctx.clearRect(0, 0, width, height);
+
+        // Render typography using premium font stack loaded from Google Fonts
+        ctx.font = `bold ${size}px Oswald, Arial, sans-serif`;
+        ctx.fillStyle = colorHex;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        // Intense neon glow effect
+        ctx.shadowColor = "#ffb834";
+        ctx.shadowBlur = 12;
+        ctx.fillText(text, width / 2, height / 2);
+        ctx.shadowBlur = 0; // reset
+
+        const texture = new THREE.CanvasTexture(textCanvas);
+        texture.colorSpace = THREE.SRGBColorSpace;
+
+        const mat = new THREE.MeshBasicMaterial({
+          map: texture,
+          transparent: true,
+          side: THREE.DoubleSide,
+          depthWrite: false
+        });
+
+        const geom = new THREE.PlaneGeometry(width / 130, height / 130);
+        const mesh = new THREE.Mesh(geom, mat);
+        mesh.castShadow = false;
+        mesh.receiveShadow = false;
+        return mesh;
+      }
+
+      // Three canvas typography components floating in different depths
+      const textPlane1 = createTextPlane("THE KINETIC MONOLITH", 1024, 256, "#ffffff", 64);
+      textPlane1.position.set(0, 2.7, 0.5);
+      scene.add(textPlane1);
+
+      const textPlane2 = createTextPlane("CYBERNETIC CHRONOMETER", 1024, 256, "#00ffcc", 48);
+      textPlane2.position.set(0, -2.8, 0.5);
+      scene.add(textPlane2);
+
+      // Mathematical easing functions for custom cinematic camera sweeps
+      function easeInOutCubic(x) {
+        return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+      }
+      function easeOutCubic(x) {
+        return 1 - Math.pow(1 - x, 3);
+      }
+
+      // RENDER ENGINE SEEK FUNCTION
+      function renderAt(time) {
+        const t = Math.max(0, Math.min(D, time));
+
+        // 1. ACT 1 - ENTRANCE SWOOP (0.0s to 3.0s)
+        if (t < 3.0) {
+          const u = easeOutCubic(t / 3.0);
+          // Camera spirals down from deep space
+          camera.position.z = 22 - (u * 12.5); // Zooms from z=22 to z=9.5
+          camera.position.y = 5.0 - (u * 4.8); // Descends from y=5 to y=0.2
+          camera.position.x = Math.sin(t * 1.5) * (1 - u) * 4;
+          
+          // Core scaling impact
+          const s = u;
+          coreMesh.scale.set(s, s, s);
+          cageMesh.scale.set(s, s, s);
+          wireMesh.scale.set(s, s, s);
+          
+          // Typography entrance (fade/scale in)
+          textPlane1.scale.set(u, u, u);
+          textPlane2.scale.set(u, u, u);
+          
+          // Lights flare up
+          keyLight.intensity = u * 4.5;
+          rimLight.intensity = u * 3.0;
+        } 
+        // 2. ACT 2 - HOLD & CONTINUOUS EVOLUTION (3.0s to 12.0s)
+        else if (t >= 3.0 && t < 12.0) {
+          // Slow cinematic drift orbit
+          const orbitTime = t - 3.0;
+          camera.position.z = 9.5 + Math.sin(orbitTime * 0.2) * 0.6;
+          camera.position.y = 0.2 + Math.cos(orbitTime * 0.15) * 0.25;
+          camera.position.x = Math.sin(orbitTime * 0.25) * 0.8;
+          
+          coreMesh.scale.set(1, 1, 1);
+          cageMesh.scale.set(1, 1, 1);
+          wireMesh.scale.set(1, 1, 1);
+          
+          textPlane1.scale.set(1, 1, 1);
+          textPlane2.scale.set(1, 1, 1);
+          
+          keyLight.intensity = 4.5 + Math.sin(orbitTime * 2.0) * 0.5; // subtle glow pulse
+          rimLight.intensity = 3.0;
+        }
+        // 3. ACT 3 - CINEMATIC EXIT SWOOP (12.0s to 15.0s)
+        else {
+          const u = (t - 12.0) / 3.0; // exit progress 0.0 -> 1.0
+          const easeU = easeInOutCubic(u);
+          
+          // Camera speeds up, diving straight through the center core!
+          camera.position.z = 9.5 - (easeU * 13.0); // Dives from z=9.5 to z=-3.5 (passes core!)
+          camera.position.y = 0.2 * (1 - easeU);
+          camera.position.x = 0.8 * (1 - easeU);
+          
+          // Elements scatter outwards as camera speeds past
+          const scatter = 1.0 + easeU * 2.0;
+          coreMesh.scale.set(scatter, scatter, scatter);
+          cageMesh.scale.set(scatter, scatter, scatter);
+          wireMesh.scale.set(scatter, scatter, scatter);
+          
+          // Typography exits rapidly
+          textPlane1.scale.set(1 - easeU, 1 - easeU, 1 - easeU);
+          textPlane2.scale.set(1 - easeU, 1 - easeU, 1 - easeU);
+          textPlane1.position.z = 0.5 + easeU * 4.0;
+          textPlane2.position.z = 0.5 + easeU * 4.0;
+
+          // Lights fade out to black
+          keyLight.intensity = 4.5 * (1 - easeU);
+          rimLight.intensity = 3.0 * (1 - easeU);
+          spotLight.intensity = 8.0 * (1 - easeU);
+        }
+
+        // ROTATION AND PHYSICS EVOLUTION (ALWAYS moving, never static)
+        // Core spins
+        coreMesh.rotation.y = t * 0.45;
+        coreMesh.rotation.x = Math.sin(t * 0.3) * 0.25;
+
+        // Outer cage counter-spins for geometric complexity
+        cageMesh.rotation.y = -t * 0.3;
+        cageMesh.rotation.z = Math.cos(t * 0.2) * 0.3;
+        wireMesh.rotation.y = -t * 0.3;
+        wireMesh.rotation.z = Math.cos(t * 0.2) * 0.3;
+
+        // Particle rings rotation
+        ring1Group.rotation.y = t * 0.6;
+        ring2Group.rotation.y = -t * 0.4;
+        
+        // Gyroscope rings spin on individual axes
+        gyroRing1.rotation.x = t * 0.8;
+        gyroRing1.rotation.y = Math.sin(t * 0.4) * 0.5;
+        
+        gyroRing2.rotation.y = -t * 0.9;
+        gyroRing2.rotation.z = Math.cos(t * 0.3) * 0.5;
+
+        // Interactive spotlights sweep
+        spotLight.position.x = Math.sin(t * 1.5) * 4;
+        spotLight.position.z = 5 + Math.cos(t * 1.5) * 2;
+
+        // Shimmering gold emissive texture glow
+        goldMaterial.emissiveIntensity = 0.15 + Math.sin(t * 4.0) * 0.1;
+
+        // Draw offscreen text floating in-place with micro-motion
+        textPlane1.rotation.y = Math.sin(t * 0.5) * 0.08;
+        textPlane2.rotation.y = Math.cos(t * 0.5) * 0.08;
+
+        // Update tech chronometer HUD timer text in perfect sync with WebGL
+        const mins = Math.floor(t / 60);
+        const secs = Math.floor(t % 60);
+        const ms = Math.floor((t % 1) * 1000);
+        const pad = (num, size) => ('00' + num).slice(-size);
+        document.getElementById("overlay-timer").textContent = `${pad(mins, 2)}:${pad(secs, 2)}:${pad(ms, 3)}`;
+
+        // Render the scene!
+        renderer.render(scene, camera);
+      }
+
+      // Seek event wire-up for HyperFrames Capture System
+      function onSeek(ev) {
+        const seekTime = ev && ev.detail ? ev.detail.time : window.__hfThreeTime || 0;
+        renderAt(seekTime);
+      }
+
+      window.addEventListener("hf-seek", onSeek);
+      
+      // Initial render for immediate preview
+      renderAt(window.__hfThreeTime || 0);
     </script>
   </body>
 </html>
