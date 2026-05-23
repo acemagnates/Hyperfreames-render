@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Video436 Clip 04 — Cyber Ocean</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #020706;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      #canvas3d {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 1;
+      }
+      #hud-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        font-family: sans-serif;
+        color: #00ffcc;
+      }
+      .hud-bracket {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 2px solid rgba(0, 255, 204, 0.45);
+      }
+      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
+      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
+      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
+      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
+      
+      .hud-label {
+        position: absolute;
+        font-size: 14px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      .lbl-top { top: 80px; left: 140px; }
+      .lbl-bottom { bottom: 80px; right: 140px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="Video436-clip-04"
+         data-start="0"
+         data-duration="3.0"
+         data-width="1080"
+         data-height="1920"
+         data-fps="60">
+      
+      <canvas id="canvas3d"></canvas>
+      
+      <div id="hud-container">
+        <div class="hud-bracket tl"></div>
+        <div class="hud-bracket tr"></div>
+        <div class="hud-bracket bl"></div>
+        <div class="hud-bracket br"></div>
+        
+        <div class="hud-label lbl-top">NEXUS PHASE // 04</div>
+        <div class="hud-label lbl-bottom">SEC_04 // CYBER OCEAN</div>
+      </div>
+    </div>
+
+    <script>
+      const duration = 3.0;
+      const canvas = document.getElementById("canvas3d");
+      
+      // Scene Setup
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x020706, 0.02);
+      
+      // Camera Setup
+      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      
+      // Renderer Setup
+      let renderer;
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      } else {
+        renderer = { render: () => {}, setSize: () => {}, setPixelRatio: () => {} };
+      }
+      
+      function isWebGLAvailable() {
+        try {
+          const c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch(e) {
+          return false;
+        }
+      }
+      
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0x001a14, 2.0);
+      scene.add(ambientLight);
+      
+      const horizonLight = new THREE.PointLight(0x00ffcc, 12, 100);
+      horizonLight.position.set(0, 15, -60);
+      scene.add(horizonLight);
+      
+      const pointLight = new THREE.PointLight(0x00ff88, 5, 30);
+      pointLight.position.set(0, 8, 10);
+      scene.add(pointLight);
+      
+      // Parametric Waving 3D Grid Floor
+      // We will create a PlaneGeometry and deform its vertices dynamically in the seek loop!
+      const gridWidth = 100;
+      const gridHeight = 100;
+      const gridSegmentsX = 30;
+      const gridSegmentsY = 30;
+      
+      const waveGeo = new THREE.PlaneGeometry(gridWidth, gridHeight, gridSegmentsX, gridSegmentsY);
+      waveGeo.rotateX(-Math.PI / 2); // orient flat
+      
+      const waveMat = new THREE.MeshBasicMaterial({
+        color: 0x00ffcc,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.65
+      });
+      const waveMesh = new THREE.Mesh(waveGeo, waveMat);
+      scene.add(waveMesh);
+      
+      // Store original vertex coordinates
+      const positions = waveGeo.attributes.position.array;
+      const originalY = new Float32Array(positions.length);
+      for (let i = 0; i < positions.length; i++) {
+        originalY[i] = positions[i];
+      }
+      
+      // Big Digital Sun in the background
+      const sunGeo = new THREE.CircleGeometry(12, 32);
+      const sunMat = new THREE.MeshBasicMaterial({
+        color: 0x00ff88,
+        side: THREE.DoubleSide
+      });
+      const sunMesh = new THREE.Mesh(sunGeo, sunMat);
+      sunMesh.position.set(0, 8, -75);
+      scene.add(sunMesh);
+      
+      // Floating 3D Text Plane
+      const textCanvas = document.createElement("canvas");
+      textCanvas.width = 512;
+      textCanvas.height = 128;
+      const textCtx = textCanvas.getContext("2d");
+      textCtx.font = "bold 56px 'Oswald', sans-serif";
+      textCtx.fillStyle = "#ffffff";
+      textCtx.textAlign = "center";
+      textCtx.textBaseline = "middle";
+      textCtx.shadowColor = "#00ffcc";
+      textCtx.shadowBlur = 15;
+      textCtx.fillText("CYBER OCEAN", 256, 64);
+      
+      const textTexture = new THREE.CanvasTexture(textCanvas);
+      const textMat = new THREE.MeshBasicMaterial({
+        map: textTexture,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+      const textGeo = new THREE.PlaneGeometry(6, 1.5);
+      const textMesh = new THREE.Mesh(textGeo, textMat);
+      textMesh.position.set(0, 10, -25);
+      scene.add(textMesh);
+      
+      // Seek logic
+      function seek(progress) {
+        let p = progress;
+        
+        // Deform Plane vertices dynamically to create ocean waves
+        const posAttr = waveGeo.attributes.position;
+        const array = posAttr.array;
+        
+        for (let i = 0; i < array.length; i += 3) {
+          const vx = array[i];
+          const vz = array[i + 2];
+          
+          // Generate wave amplitude procedurally
+          const wave1 = Math.sin(vx * 0.15 + p * Math.PI * 4) * Math.cos(vz * 0.15 + p * Math.PI * 2) * 1.5;
+          const wave2 = Math.cos(vx * 0.08 - p * Math.PI * 3) * Math.sin(vz * 0.08 + p * Math.PI * 4) * 2.5;
+          
+          array[i + 1] = wave1 + wave2; // Update Y height
+        }
+        posAttr.needsUpdate = true;
+        
+        // Camera skimming along waves, flying straight forward and panning down
+        let camX, camY, camZ;
+        if (p < 0.8) {
+          // Camera glides low right over the grid waves
+          camX = Math.sin(p * Math.PI * 2) * 4;
+          camY = 3.5 + Math.sin(p * Math.PI * 4) * 1.0;
+          camZ = THREE.MathUtils.lerp(35, -25, p / 0.8);
+        } else {
+          // Accelerates up and into the sun!
+          const exitP = (p - 0.8) / 0.2;
+          camX = Math.sin(0.8 * Math.PI * 2) * 4 + exitP * 2;
+          camY = THREE.MathUtils.lerp(3.5, 15, exitP);
+          camZ = THREE.MathUtils.lerp(-25, -65, exitP);
+        }
+        
+        camera.position.set(camX, camY, camZ);
+        
+        // Look at horizon sun
+        camera.lookAt(0, 6, -70);
+        
+        // Text floating and scale
+        textMesh.position.z = -25 - p * 15;
+        
+        if (p < 0.3) {
+          textMat.opacity = p / 0.3;
+        } else if (p > 0.8) {
+          textMat.opacity = 1 - (p - 0.8) / 0.2;
+        } else {
+          textMat.opacity = 1.0;
+        }
+        
+        renderer.render(scene, camera);
+      }
+      
+      window.addEventListener("hf-seek", (event) => {
+        const time = event.detail.time;
+        seek(time / duration);
+      });
+      
+      seek(0);
+    </script>
+  </body>
+</html>

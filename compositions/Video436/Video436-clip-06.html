@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Video436 Clip 06 — Golden Cathedral</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0f0b05;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      #canvas3d {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 1;
+      }
+      #hud-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        font-family: sans-serif;
+        color: #ffd700;
+      }
+      .hud-bracket {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 2px solid rgba(255, 215, 0, 0.45);
+      }
+      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
+      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
+      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
+      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
+      
+      .hud-label {
+        position: absolute;
+        font-size: 14px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      .lbl-top { top: 80px; left: 140px; }
+      .lbl-bottom { bottom: 80px; right: 140px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="Video436-clip-06"
+         data-start="0"
+         data-duration="3.0"
+         data-width="1080"
+         data-height="1920"
+         data-fps="60">
+      
+      <canvas id="canvas3d"></canvas>
+      
+      <div id="hud-container">
+        <div class="hud-bracket tl"></div>
+        <div class="hud-bracket tr"></div>
+        <div class="hud-bracket bl"></div>
+        <div class="hud-bracket br"></div>
+        
+        <div class="hud-label lbl-top">NEXUS PHASE // 06</div>
+        <div class="hud-label lbl-bottom">SEC_06 // GOLDEN CATHEDRAL</div>
+      </div>
+    </div>
+
+    <script>
+      const duration = 3.0;
+      const canvas = document.getElementById("canvas3d");
+      
+      // Scene Setup
+      const scene = new THREE.Scene();
+      
+      // Camera Setup
+      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      
+      // Renderer Setup
+      let renderer;
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      } else {
+        renderer = { render: () => {}, setSize: () => {}, setPixelRatio: () => {} };
+      }
+      
+      function isWebGLAvailable() {
+        try {
+          const c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch(e) {
+          return false;
+        }
+      }
+      
+      // Museum lighting
+      const ambientLight = new THREE.AmbientLight(0x1e150a, 2.0);
+      scene.add(ambientLight);
+      
+      const mainLight = new THREE.DirectionalLight(0xffeedd, 3.0);
+      mainLight.position.set(10, 15, 10);
+      mainLight.castShadow = true;
+      scene.add(mainLight);
+      
+      const spotLight = new THREE.SpotLight(0xffd700, 15, 45, Math.PI / 4, 0.5, 1);
+      spotLight.position.set(-8, 16, 8);
+      spotLight.castShadow = true;
+      scene.add(spotLight);
+      
+      // Reflective Monolith Gold Pillars (three pillars)
+      const pillarsGroup = new THREE.Group();
+      scene.add(pillarsGroup);
+      
+      const pillarGeo = new THREE.BoxGeometry(2.0, 10.0, 2.0);
+      const goldMat = new THREE.MeshPhysicalMaterial({
+        color: 0xd4af37,
+        roughness: 0.1,
+        metalness: 0.95,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.05
+      });
+      
+      const pillar1 = new THREE.Mesh(pillarGeo, goldMat);
+      pillar1.position.set(-4, 5, 0);
+      pillar1.castShadow = true;
+      pillar1.receiveShadow = true;
+      pillarsGroup.add(pillar1);
+      
+      const pillar2 = new THREE.Mesh(pillarGeo, goldMat);
+      pillar2.position.set(0, 5, -3);
+      pillar2.castShadow = true;
+      pillar2.receiveShadow = true;
+      pillarsGroup.add(pillar2);
+      
+      const pillar3 = new THREE.Mesh(pillarGeo, goldMat);
+      pillar3.position.set(4, 5, 0);
+      pillar3.castShadow = true;
+      pillar3.receiveShadow = true;
+      pillarsGroup.add(pillar3);
+      
+      // Floating glowing platform ring behind pillars
+      const platformGeo = new THREE.TorusGeometry(8.0, 0.4, 16, 100);
+      const platformMat = new THREE.MeshPhysicalMaterial({
+        color: 0xffd700,
+        emissive: 0xffaa00,
+        emissiveIntensity: 0.5,
+        roughness: 0.1
+      });
+      const platformMesh = new THREE.Mesh(platformGeo, platformMat);
+      platformMesh.rotation.x = Math.PI / 2;
+      platformMesh.position.set(0, 4, -2);
+      scene.add(platformMesh);
+      
+      // Floating 3D Text Plane
+      const textCanvas = document.createElement("canvas");
+      textCanvas.width = 512;
+      textCanvas.height = 128;
+      const textCtx = textCanvas.getContext("2d");
+      textCtx.font = "bold 56px 'Oswald', sans-serif";
+      textCtx.fillStyle = "#ffffff";
+      textCtx.textAlign = "center";
+      textCtx.textBaseline = "middle";
+      textCtx.shadowColor = "#ffd700";
+      textCtx.shadowBlur = 15;
+      textCtx.fillText("GOLDEN CATHEDRAL", 256, 64);
+      
+      const textTexture = new THREE.CanvasTexture(textCanvas);
+      const textMat = new THREE.MeshBasicMaterial({
+        map: textTexture,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+      const textGeo = new THREE.PlaneGeometry(6, 1.5);
+      const textMesh = new THREE.Mesh(textGeo, textMat);
+      textMesh.position.set(0, 4, 6);
+      scene.add(textMesh);
+      
+      // Pristine Platinum Grid Floor
+      const gridHelper = new THREE.GridHelper(60, 30, 0xffffff, 0x221808);
+      gridHelper.position.y = 0.05;
+      scene.add(gridHelper);
+      
+      // Seek logic
+      function seek(progress) {
+        let p = progress;
+        
+        // Spotlight sweeping
+        spotLight.position.x = -8 + Math.sin(p * Math.PI * 2) * 12;
+        spotLight.position.z = 8 + Math.cos(p * Math.PI * 2) * 6;
+        
+        // Rotating pillars slightly
+        pillar1.rotation.y = p * 0.5;
+        pillar2.rotation.y = -p * 0.4;
+        pillar3.rotation.y = p * 0.3;
+        
+        // Floating platform osc
+        platformMesh.position.y = 3.5 + Math.sin(p * Math.PI * 4) * 0.5;
+        platformMesh.rotation.z = p * 0.5;
+        
+        // Camera cinematic low-to-high upward spiral
+        let camX, camY, camZ;
+        if (p < 0.8) {
+          // Spirals upward starting extremely low (Z=18, Y=1.5) to Z=14, Y=11
+          const spiralAngle = p * Math.PI * 0.8 - 0.4;
+          const radius = THREE.MathUtils.lerp(18, 12, p / 0.8);
+          camX = radius * Math.sin(spiralAngle);
+          camY = THREE.MathUtils.lerp(1.5, 11, p / 0.8);
+          camZ = radius * Math.cos(spiralAngle);
+        } else {
+          // Rapid reverse exit through space
+          const exitP = (p - 0.8) / 0.2;
+          const spiralAngle = 0.8 * Math.PI * 0.8 - 0.4 + exitP * 0.2;
+          const radius = THREE.MathUtils.lerp(12, 32, exitP);
+          camX = radius * Math.sin(spiralAngle);
+          camY = THREE.MathUtils.lerp(11, 28, exitP);
+          camZ = radius * Math.cos(spiralAngle);
+        }
+        
+        camera.position.set(camX, camY, camZ);
+        camera.lookAt(0, 5.0, -1);
+        
+        // Text floating
+        textMesh.position.y = 4.0 + Math.sin(p * Math.PI * 4) * 0.3;
+        
+        if (p < 0.3) {
+          textMat.opacity = p / 0.3;
+        } else if (p > 0.8) {
+          textMat.opacity = 1 - (p - 0.8) / 0.2;
+        } else {
+          textMat.opacity = 1.0;
+        }
+        
+        renderer.render(scene, camera);
+      }
+      
+      window.addEventListener("hf-seek", (event) => {
+        const time = event.detail.time;
+        seek(time / duration);
+      });
+      
+      seek(0);
+    </script>
+  </body>
+</html>

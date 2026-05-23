@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Video436 Clip 01 — Crystal Nexus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #060c0a;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      #canvas3d {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 1;
+      }
+      #hud-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        font-family: sans-serif;
+        color: #00ffa3;
+      }
+      .hud-bracket {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 2px solid rgba(0, 255, 163, 0.45);
+      }
+      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
+      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
+      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
+      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
+      
+      .hud-label {
+        position: absolute;
+        font-size: 14px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      .lbl-top { top: 80px; left: 140px; }
+      .lbl-bottom { bottom: 80px; right: 140px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="Video436-clip-01"
+         data-start="0"
+         data-duration="3.0"
+         data-width="1080"
+         data-height="1920"
+         data-fps="60">
+      
+      <canvas id="canvas3d"></canvas>
+      
+      <div id="hud-container">
+        <div class="hud-bracket tl"></div>
+        <div class="hud-bracket tr"></div>
+        <div class="hud-bracket bl"></div>
+        <div class="hud-bracket br"></div>
+        
+        <div class="hud-label lbl-top">NEXUS PHASE // 01</div>
+        <div class="hud-label lbl-bottom">SEC_01 // CRYSTAL PRISM</div>
+      </div>
+    </div>
+
+    <script>
+      const duration = 3.0;
+      const canvas = document.getElementById("canvas3d");
+      
+      // Scene Setup
+      const scene = new THREE.Scene();
+      
+      // Camera Setup
+      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      
+      // Renderer Setup
+      let renderer;
+      function isWebGLAvailable() {
+        try {
+          const c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch(e) {
+          return false;
+        }
+      }
+      
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      } else {
+        renderer = {
+          render: () => {},
+          setSize: () => {},
+          setPixelRatio: () => {}
+        };
+      }
+      
+      // Bright colorful mint-gold ambient
+      const ambientLight = new THREE.AmbientLight(0x002c1d, 1.5);
+      scene.add(ambientLight);
+      
+      const dirLight = new THREE.DirectionalLight(0x00ffaa, 3.0);
+      dirLight.position.set(5, 10, 7);
+      dirLight.castShadow = true;
+      dirLight.shadow.mapSize.width = 1024;
+      dirLight.shadow.mapSize.height = 1024;
+      scene.add(dirLight);
+      
+      const spotLight = new THREE.SpotLight(0xffb700, 12, 35, Math.PI / 4, 0.5, 1);
+      spotLight.position.set(-8, 12, 10);
+      spotLight.castShadow = true;
+      scene.add(spotLight);
+      
+      // Central Octahedron Crystal cage
+      const cageGroup = new THREE.Group();
+      scene.add(cageGroup);
+      
+      const crystalGeo = new THREE.OctahedronGeometry(3.5, 0);
+      const crystalMat = new THREE.MeshPhysicalMaterial({
+        color: 0x00ffaa,
+        roughness: 0.1,
+        metalness: 0.1,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.1,
+        transmission: 0.3,
+        thickness: 1.2,
+        wireframe: false,
+        flatShading: true
+      });
+      const crystalMesh = new THREE.Mesh(crystalGeo, crystalMat);
+      crystalMesh.castShadow = true;
+      crystalMesh.receiveShadow = true;
+      cageGroup.add(crystalMesh);
+      
+      // Outer golden cage frames
+      const wireframeGeo = new THREE.OctahedronGeometry(3.6, 0);
+      const wireframeMat = new THREE.MeshBasicMaterial({
+        color: 0xffd700,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.8
+      });
+      const wireframeMesh = new THREE.Mesh(wireframeGeo, wireframeMat);
+      cageGroup.add(wireframeMesh);
+      
+      // Orbiting particles (max 20)
+      const particlesCount = 20;
+      const particlesGroup = new THREE.Group();
+      scene.add(particlesGroup);
+      
+      const particleGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+      const particleMat = new THREE.MeshStandardMaterial({
+        color: 0xffd700,
+        roughness: 0.2,
+        metalness: 0.9,
+        emissive: 0xffaa00,
+        emissiveIntensity: 0.5
+      });
+      
+      const particlesData = [];
+      for (let i = 0; i < particlesCount; i++) {
+        const mesh = new THREE.Mesh(particleGeo, particleMat);
+        mesh.castShadow = true;
+        
+        const radius = 4.5 + (i * 0.15);
+        const theta = (i / particlesCount) * Math.PI * 2;
+        const phi = (i % 3) * 0.4 - 0.4;
+        
+        mesh.position.x = radius * Math.cos(theta) * Math.sin(phi);
+        mesh.position.y = radius * Math.sin(theta) * Math.sin(phi);
+        mesh.position.z = radius * Math.cos(phi);
+        
+        particlesGroup.add(mesh);
+        particlesData.push({
+          mesh: mesh,
+          radius: radius,
+          speed: 1.5 + (i % 3) * 0.5,
+          angleOffset: theta,
+          phi: phi
+        });
+      }
+      
+      // 3D Canvas Text Plane
+      const textCanvas = document.createElement("canvas");
+      textCanvas.width = 512;
+      textCanvas.height = 128;
+      const textCtx = textCanvas.getContext("2d");
+      textCtx.fillStyle = "rgba(0,0,0,0)";
+      textCtx.fillRect(0,0,512,128);
+      textCtx.font = "bold 56px 'Oswald', sans-serif";
+      textCtx.fillStyle = "#ffffff";
+      textCtx.textAlign = "center";
+      textCtx.textBaseline = "middle";
+      textCtx.shadowColor = "#00ffaa";
+      textCtx.shadowBlur = 15;
+      textCtx.fillText("CRYSTAL NEXUS", 256, 64);
+      
+      const textTexture = new THREE.CanvasTexture(textCanvas);
+      const textMat = new THREE.MeshBasicMaterial({
+        map: textTexture,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+      const textGeo = new THREE.PlaneGeometry(6, 1.5);
+      const textMesh = new THREE.Mesh(textGeo, textMat);
+      textMesh.position.set(0, 0, 5);
+      scene.add(textMesh);
+      
+      // Background Plane (clean grid)
+      const gridHelper = new THREE.GridHelper(60, 30, 0x00ffaa, 0x002c1d);
+      gridHelper.position.y = -10;
+      scene.add(gridHelper);
+      
+      // Seek logic
+      function seek(progress) {
+        // Act 1: Entrance (0 -> 0.3)
+        // Act 2: Hold & Drift (0.3 -> 0.8)
+        // Act 3: Exit (0.8 -> 1.0)
+        
+        let p = progress;
+        
+        // Central Core Animation
+        const scale = p < 0.3 
+          ? THREE.MathUtils.lerp(0.01, 1.2, p / 0.3) 
+          : p > 0.8
+            ? THREE.MathUtils.lerp(1.2, 0.01, (p - 0.8) / 0.2)
+            : 1.2;
+        cageGroup.scale.set(scale, scale, scale);
+        
+        // Continuous Rotate
+        cageGroup.rotation.y = p * Math.PI * 4;
+        cageGroup.rotation.x = p * Math.PI * 1.5;
+        
+        // SpotLight Sweeping
+        spotLight.position.x = -8 + Math.sin(p * Math.PI * 3) * 12;
+        spotLight.position.z = 10 + Math.cos(p * Math.PI * 2) * 5;
+        
+        // Particles orbit
+        particlesData.forEach((pt) => {
+          const angle = pt.angleOffset + p * pt.speed * Math.PI * 2;
+          pt.mesh.position.x = pt.radius * Math.cos(angle) * Math.sin(pt.phi);
+          pt.mesh.position.y = pt.radius * Math.sin(angle) * Math.sin(pt.phi);
+          pt.mesh.position.z = pt.radius * Math.cos(pt.phi);
+          pt.mesh.rotation.x = angle;
+          pt.mesh.rotation.y = angle * 0.5;
+        });
+        
+        // Camera flying path: Swoops in spiraling, then goes right through text Mesh!
+        let camRadius = 24 - p * 14; // zooms from 24 to 10
+        if (p > 0.8) {
+          camRadius = 10 - ((p - 0.8) / 0.2) * 18; // flies straight through center!
+        }
+        
+        const camAngle = p * Math.PI * 1.5; // spiral rotation
+        camera.position.x = camRadius * Math.sin(camAngle);
+        camera.position.z = camRadius * Math.cos(camAngle);
+        camera.position.y = 8 - p * 6; // descends from 8 to 2
+        
+        camera.lookAt(0, 0, 0);
+        
+        // Text Mesh fading and floating
+        textMesh.position.y = Math.sin(p * Math.PI * 4) * 0.2;
+        textMesh.rotation.y = Math.sin(p * Math.PI * 1.5) * 0.2;
+        
+        if (p < 0.3) {
+          textMat.opacity = p / 0.3;
+          textMesh.scale.set(p/0.3, p/0.3, p/0.3);
+        } else if (p > 0.8) {
+          textMat.opacity = 1 - (p - 0.8) / 0.2;
+        } else {
+          textMat.opacity = 1.0;
+        }
+        
+        // Render
+        renderer.render(scene, camera);
+      }
+      
+      window.addEventListener("hf-seek", (event) => {
+        const time = event.detail.time;
+        seek(time / duration);
+      });
+      
+      // Default render at frame 0
+      seek(0);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Video436 Clip 05 — Fractal Tunnel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #020704;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      #canvas3d {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 1;
+      }
+      #hud-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        font-family: sans-serif;
+        color: #00ff88;
+      }
+      .hud-bracket {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 2px solid rgba(0, 255, 136, 0.45);
+      }
+      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
+      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
+      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
+      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
+      
+      .hud-label {
+        position: absolute;
+        font-size: 14px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      .lbl-top { top: 80px; left: 140px; }
+      .lbl-bottom { bottom: 80px; right: 140px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="Video436-clip-05"
+         data-start="0"
+         data-duration="3.0"
+         data-width="1080"
+         data-height="1920"
+         data-fps="60">
+      
+      <canvas id="canvas3d"></canvas>
+      
+      <div id="hud-container">
+        <div class="hud-bracket tl"></div>
+        <div class="hud-bracket tr"></div>
+        <div class="hud-bracket bl"></div>
+        <div class="hud-bracket br"></div>
+        
+        <div class="hud-label lbl-top">NEXUS PHASE // 05</div>
+        <div class="hud-label lbl-bottom">SEC_05 // FRACTAL TUNNEL</div>
+      </div>
+    </div>
+
+    <script>
+      const duration = 3.0;
+      const canvas = document.getElementById("canvas3d");
+      
+      // Scene Setup
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x020704, 0.04);
+      
+      // Camera Setup
+      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      
+      // Renderer Setup
+      let renderer;
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      } else {
+        renderer = { render: () => {}, setSize: () => {}, setPixelRatio: () => {} };
+      }
+      
+      function isWebGLAvailable() {
+        try {
+          const c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch(e) {
+          return false;
+        }
+      }
+      
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0x021c0e, 1.5);
+      scene.add(ambientLight);
+      
+      const tunnelLight = new THREE.PointLight(0xffa800, 15, 60);
+      tunnelLight.position.set(0, 0, -35);
+      scene.add(tunnelLight);
+      
+      // Interlocking Hexagonal Tunnel rings
+      const tunnelGroup = new THREE.Group();
+      scene.add(tunnelGroup);
+      
+      const ringsCount = 12;
+      const ringsData = [];
+      
+      for (let i = 0; i < ringsCount; i++) {
+        const ringZ = -i * 5; // spacing along Z axis
+        const singleRingGroup = new THREE.Group();
+        singleRingGroup.position.z = ringZ;
+        
+        // Construct hexagon using 6 plane panels
+        const panelGeo = new THREE.PlaneGeometry(3.5, 4.0);
+        const panelMat = new THREE.MeshPhysicalMaterial({
+          color: 0x00ff88,
+          roughness: 0.15,
+          metalness: 0.8,
+          clearcoat: 1.0,
+          side: THREE.DoubleSide
+        });
+        
+        for (let j = 0; j < 6; j++) {
+          const panel = new THREE.Mesh(panelGeo, panelMat);
+          const angle = (j / 6) * Math.PI * 2;
+          const radius = 5.0;
+          
+          panel.position.set(radius * Math.cos(angle), radius * Math.sin(angle), 0);
+          panel.rotation.z = angle + Math.PI / 2;
+          panel.rotation.y = Math.PI / 2; // point facing inwards
+          
+          singleRingGroup.add(panel);
+        }
+        
+        // Add neon glowing border
+        const hexEdgeGeo = new THREE.RingGeometry(5.2, 5.4, 6);
+        const hexEdgeMat = new THREE.MeshBasicMaterial({
+          color: i % 2 === 0 ? 0x00ff88 : 0xff9900,
+          side: THREE.DoubleSide
+        });
+        const hexEdge = new THREE.Mesh(hexEdgeGeo, hexEdgeMat);
+        singleRingGroup.add(hexEdge);
+        
+        tunnelGroup.add(singleRingGroup);
+        ringsData.push({
+          group: singleRingGroup,
+          z: ringZ,
+          speed: 1.5 + (i * 0.1)
+        });
+      }
+      
+      // Floating 3D Text Plane
+      const textCanvas = document.createElement("canvas");
+      textCanvas.width = 512;
+      textCanvas.height = 128;
+      const textCtx = textCanvas.getContext("2d");
+      textCtx.font = "bold 56px 'Oswald', sans-serif";
+      textCtx.fillStyle = "#ffffff";
+      textCtx.textAlign = "center";
+      textCtx.textBaseline = "middle";
+      textCtx.shadowColor = "#00ff88";
+      textCtx.shadowBlur = 15;
+      textCtx.fillText("FRACTAL TUNNEL", 256, 64);
+      
+      const textTexture = new THREE.CanvasTexture(textCanvas);
+      const textMat = new THREE.MeshBasicMaterial({
+        map: textTexture,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+      const textGeo = new THREE.PlaneGeometry(6, 1.5);
+      const textMesh = new THREE.Mesh(textGeo, textMat);
+      textMesh.position.set(0, 0, -20);
+      scene.add(textMesh);
+      
+      // Seek logic
+      function seek(progress) {
+        let p = progress;
+        
+        // Rotate tunnel rings on alternate directions
+        ringsData.forEach((ring, idx) => {
+          const dir = idx % 2 === 0 ? 1 : -1;
+          ring.group.rotation.z = p * ring.speed * Math.PI * dir * 1.5;
+        });
+        
+        // Camera flying straight down the middle of the hex tunnel, spiraling
+        let camZ;
+        if (p < 0.8) {
+          camZ = THREE.MathUtils.lerp(12, -45, p / 0.8);
+        } else {
+          // Rapid acceleration exit out of the tunnel!
+          const exitP = (p - 0.8) / 0.2;
+          camZ = THREE.MathUtils.lerp(-45, -78, exitP);
+        }
+        
+        const camAngle = p * Math.PI * 2;
+        camera.position.x = Math.sin(camAngle) * 0.3;
+        camera.position.y = Math.cos(camAngle) * 0.3;
+        camera.position.z = camZ;
+        
+        // Look slightly ahead
+        camera.lookAt(0, 0, camZ - 10);
+        
+        // Text floating
+        textMesh.position.z = -20 - p * 15;
+        
+        if (p < 0.3) {
+          textMat.opacity = p / 0.3;
+        } else if (p > 0.8) {
+          textMat.opacity = 1 - (p - 0.8) / 0.2;
+        } else {
+          textMat.opacity = 1.0;
+        }
+        
+        renderer.render(scene, camera);
+      }
+      
+      window.addEventListener("hf-seek", (event) => {
+        const time = event.detail.time;
+        seek(time / duration);
+      });
+      
+      seek(0);
+    </script>
+  </body>
+</html>

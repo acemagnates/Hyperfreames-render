@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Video436 Clip 02 — Cyber Skyline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #02040b;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      #canvas3d {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 1;
+      }
+      #hud-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        font-family: sans-serif;
+        color: #00e5ff;
+      }
+      .hud-bracket {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 2px solid rgba(0, 229, 255, 0.45);
+      }
+      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
+      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
+      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
+      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
+      
+      .hud-label {
+        position: absolute;
+        font-size: 14px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      .lbl-top { top: 80px; left: 140px; }
+      .lbl-bottom { bottom: 80px; right: 140px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="Video436-clip-02"
+         data-start="0"
+         data-duration="3.0"
+         data-width="1080"
+         data-height="1920"
+         data-fps="60">
+      
+      <canvas id="canvas3d"></canvas>
+      
+      <div id="hud-container">
+        <div class="hud-bracket tl"></div>
+        <div class="hud-bracket tr"></div>
+        <div class="hud-bracket bl"></div>
+        <div class="hud-bracket br"></div>
+        
+        <div class="hud-label lbl-top">NEXUS PHASE // 02</div>
+        <div class="hud-label lbl-bottom">SEC_02 // CYBER METROPOLIS</div>
+      </div>
+    </div>
+
+    <script>
+      const duration = 3.0;
+      const canvas = document.getElementById("canvas3d");
+      
+      // Scene Setup
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x02040b, 0.035);
+      
+      // Camera Setup
+      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      
+      // Renderer Setup
+      let renderer;
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+      } else {
+        renderer = { render: () => {}, setSize: () => {}, setPixelRatio: () => {} };
+      }
+      
+      function isWebGLAvailable() {
+        try {
+          const c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch(e) {
+          return false;
+        }
+      }
+      
+      // Dynamic lighting
+      const ambientLight = new THREE.AmbientLight(0x0a1435, 2.0);
+      scene.add(ambientLight);
+      
+      const blueLight = new THREE.PointLight(0x00e5ff, 15, 50);
+      blueLight.position.set(0, 5, 0);
+      scene.add(blueLight);
+      
+      const neonLight = new THREE.PointLight(0x00ff88, 12, 40);
+      neonLight.position.set(10, 8, -10);
+      scene.add(neonLight);
+      
+      // Procedural City Monolith Skyscrapers (15 buildings)
+      const buildingsGroup = new THREE.Group();
+      scene.add(buildingsGroup);
+      
+      const buildingGeo = new THREE.BoxGeometry(3, 1, 3); // building heights are scaled individually
+      
+      const buildingMat = new THREE.MeshPhysicalMaterial({
+        color: 0x050c20,
+        roughness: 0.1,
+        metalness: 0.9,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.1
+      });
+      
+      const buildingsData = [];
+      const citySize = 5; // 5x5 grid
+      let bIndex = 0;
+      
+      for (let x = -2; x <= 2; x++) {
+        for (let z = -2; z <= 2; z++) {
+          if (x === 0 && z === 0) continue; // Leave central courtyard empty for path
+          
+          const building = new THREE.Mesh(buildingGeo, buildingMat);
+          building.castShadow = true;
+          building.receiveShadow = true;
+          
+          // Deterministic height variation
+          const hHash = (x * 17 + z * 31) % 15;
+          const height = 8 + Math.abs(hHash) * 1.5;
+          building.scale.set(1, height, 1);
+          
+          // Position on a grid
+          const posX = x * 8 + (hHash % 3) * 0.5;
+          const posZ = z * 8 + (hHash % 2) * 0.5;
+          building.position.set(posX, height / 2, posZ);
+          
+          buildingsGroup.add(building);
+          
+          // Outer glowing wireframe
+          const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(3.05, height + 0.05, 3.05));
+          const edgeMat = new THREE.LineBasicMaterial({
+            color: bIndex % 2 === 0 ? 0x00e5ff : 0x00ff88,
+            linewidth: 2
+          });
+          const edgeLines = new THREE.LineSegments(edgeGeo, edgeMat);
+          edgeLines.position.set(posX, height / 2, posZ);
+          buildingsGroup.add(edgeLines);
+          
+          buildingsData.push({
+            mesh: building,
+            edge: edgeLines,
+            baseHeight: height
+          });
+          bIndex++;
+        }
+      }
+      
+      // Volumetric Vertical Light Beams (Meshes)
+      const beamsCount = 5;
+      const beamsGroup = new THREE.Group();
+      scene.add(beamsGroup);
+      
+      const beamGeo = new THREE.CylinderGeometry(0.1, 0.4, 60, 8);
+      const beamMat = new THREE.MeshBasicMaterial({
+        color: 0x00e5ff,
+        transparent: true,
+        opacity: 0.35,
+        side: THREE.DoubleSide
+      });
+      
+      for (let i = 0; i < beamsCount; i++) {
+        const beam = new THREE.Mesh(beamGeo, beamMat);
+        const bX = ((i * 33) % 20) - 10;
+        const bZ = ((i * 73) % 20) - 10;
+        beam.position.set(bX, 30, bZ);
+        beamsGroup.add(beam);
+      }
+      
+      // Floating 3D Text Plane
+      const textCanvas = document.createElement("canvas");
+      textCanvas.width = 512;
+      textCanvas.height = 128;
+      const textCtx = textCanvas.getContext("2d");
+      textCtx.font = "bold 56px 'Oswald', sans-serif";
+      textCtx.fillStyle = "#ffffff";
+      textCtx.textAlign = "center";
+      textCtx.textBaseline = "middle";
+      textCtx.shadowColor = "#00e5ff";
+      textCtx.shadowBlur = 15;
+      textCtx.fillText("CYBER METROPOLIS", 256, 64);
+      
+      const textTexture = new THREE.CanvasTexture(textCanvas);
+      const textMat = new THREE.MeshBasicMaterial({
+        map: textTexture,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+      const textGeo = new THREE.PlaneGeometry(6, 1.5);
+      const textMesh = new THREE.Mesh(textGeo, textMat);
+      textMesh.position.set(0, 10, -5);
+      scene.add(textMesh);
+      
+      // Perspective Grid Ground
+      const gridHelper = new THREE.GridHelper(80, 40, 0x00e5ff, 0x04081c);
+      gridHelper.position.y = 0.05;
+      scene.add(gridHelper);
+      
+      // Seek logic
+      function seek(progress) {
+        let p = progress;
+        
+        // City breathing scale
+        buildingsData.forEach((b, idx) => {
+          const osc = 1.0 + Math.sin(p * Math.PI * 2 + idx) * 0.05;
+          b.mesh.scale.y = b.baseHeight * osc;
+          b.mesh.position.y = (b.baseHeight * osc) / 2;
+          b.edge.scale.y = osc;
+          b.edge.position.y = (b.baseHeight * osc) / 2;
+        });
+        
+        // Volumetric beams rotation and glowing pulsing
+        beamsGroup.children.forEach((beam, idx) => {
+          beam.rotation.y = p * 0.5 * (idx % 2 === 0 ? 1 : -1);
+          beam.material.opacity = 0.2 + Math.sin(p * Math.PI * 4 + idx) * 0.15;
+        });
+        
+        // Drone weave fly-through path
+        // Camera starts high and zooms/weaves down streets!
+        let camX, camY, camZ;
+        if (p < 0.8) {
+          // Slide down center street
+          camX = Math.sin(p * Math.PI) * 2;
+          camY = THREE.MathUtils.lerp(18, 4, p / 0.8);
+          camZ = THREE.MathUtils.lerp(16, -14, p / 0.8);
+        } else {
+          // Rapid upward sweep looking down!
+          const exitP = (p - 0.8) / 0.2;
+          camX = Math.sin(0.8 * Math.PI) * 2 + exitP * 1.5;
+          camY = THREE.MathUtils.lerp(4, 25, exitP);
+          camZ = THREE.MathUtils.lerp(-14, -28, exitP);
+        }
+        
+        camera.position.set(camX, camY, camZ);
+        
+        // Look ahead
+        const lookZ = THREE.MathUtils.lerp(0, -35, p);
+        camera.lookAt(0, 4, lookZ);
+        
+        // Text floating and scale
+        textMesh.position.y = 8 + Math.sin(p * Math.PI * 2) * 0.5;
+        textMesh.position.z = -5 - p * 8;
+        
+        if (p < 0.3) {
+          textMat.opacity = p / 0.3;
+        } else if (p > 0.8) {
+          textMat.opacity = 1 - (p - 0.8) / 0.2;
+        } else {
+          textMat.opacity = 1.0;
+        }
+        
+        renderer.render(scene, camera);
+      }
+      
+      window.addEventListener("hf-seek", (event) => {
+        const time = event.detail.time;
+        seek(time / duration);
+      });
+      
+      seek(0);
+    </script>
+  </body>
+</html>

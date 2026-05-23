@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Video436 Clip 03 — Quantum Nucleus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #0d0602;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      #canvas3d {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: 1920px;
+        z-index: 1;
+      }
+      #hud-container {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        pointer-events: none;
+        font-family: sans-serif;
+        color: #ff9f1c;
+      }
+      .hud-bracket {
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 2px solid rgba(255, 159, 28, 0.45);
+      }
+      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
+      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
+      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
+      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
+      
+      .hud-label {
+        position: absolute;
+        font-size: 14px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      .lbl-top { top: 80px; left: 140px; }
+      .lbl-bottom { bottom: 80px; right: 140px; }
+    </style>
+  </head>
+  <body>
+    <div id="root"
+         data-composition-id="Video436-clip-03"
+         data-start="0"
+         data-duration="3.0"
+         data-width="1080"
+         data-height="1920"
+         data-fps="60">
+      
+      <canvas id="canvas3d"></canvas>
+      
+      <div id="hud-container">
+        <div class="hud-bracket tl"></div>
+        <div class="hud-bracket tr"></div>
+        <div class="hud-bracket bl"></div>
+        <div class="hud-bracket br"></div>
+        
+        <div class="hud-label lbl-top">NEXUS PHASE // 03</div>
+        <div class="hud-label lbl-bottom">SEC_03 // QUANTUM CORE</div>
+      </div>
+    </div>
+
+    <script>
+      const duration = 3.0;
+      const canvas = document.getElementById("canvas3d");
+      
+      // Scene Setup
+      const scene = new THREE.Scene();
+      
+      // Camera Setup
+      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      
+      // Renderer Setup
+      let renderer;
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+      } else {
+        renderer = { render: () => {}, setSize: () => {}, setPixelRatio: () => {} };
+      }
+      
+      function isWebGLAvailable() {
+        try {
+          const c = document.createElement('canvas');
+          return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+        } catch(e) {
+          return false;
+        }
+      }
+      
+      // Lightings
+      const ambientLight = new THREE.AmbientLight(0x2d1202, 1.5);
+      scene.add(ambientLight);
+      
+      const pointLight = new THREE.PointLight(0xffeedd, 15, 30);
+      scene.add(pointLight);
+      
+      const spotLight = new THREE.SpotLight(0xff9f1c, 10, 40, Math.PI/4, 0.5, 1);
+      spotLight.position.set(0, 12, 15);
+      scene.add(spotLight);
+      
+      // Nested Quantum Torus Rings
+      const ringsGroup = new THREE.Group();
+      scene.add(ringsGroup);
+      
+      const ringGeo = new THREE.TorusGeometry(3.0, 0.25, 16, 100);
+      
+      const ringMat1 = new THREE.MeshPhysicalMaterial({
+        color: 0xff9f1c,
+        roughness: 0.1,
+        metalness: 0.9,
+        clearcoat: 1.0,
+        emissive: 0xff3c00,
+        emissiveIntensity: 0.2
+      });
+      
+      const ringMat2 = new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        roughness: 0.05,
+        metalness: 0.9,
+        clearcoat: 1.0,
+        emissive: 0xffaa66,
+        emissiveIntensity: 0.3
+      });
+      
+      const ring1 = new THREE.Mesh(ringGeo, ringMat1);
+      const ring2 = new THREE.Mesh(ringGeo, ringMat2);
+      const ring3 = new THREE.Mesh(ringGeo, ringMat1);
+      
+      ringsGroup.add(ring1);
+      ringsGroup.add(ring2);
+      ringsGroup.add(ring3);
+      
+      // Giant central mini-star core
+      const coreGeo = new THREE.IcosahedronGeometry(1.2, 2);
+      const coreMat = new THREE.MeshBasicMaterial({
+        color: 0xffffff,
+        wireframe: true
+      });
+      const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+      scene.add(coreMesh);
+      
+      const coreInnerGeo = new THREE.SphereGeometry(1.0, 16, 16);
+      const coreInnerMat = new THREE.MeshBasicMaterial({ color: 0xffd0aa });
+      const coreInner = new THREE.Mesh(coreInnerGeo, coreInnerMat);
+      scene.add(coreInner);
+      
+      // Concentric Orbiting Particle Rings
+      const particlesCount = 20;
+      const particlesGroup = new THREE.Group();
+      scene.add(particlesGroup);
+      
+      const particleGeo = new THREE.OctahedronGeometry(0.18, 0);
+      const particleMat = new THREE.MeshStandardMaterial({
+        color: 0xff9f1c,
+        emissive: 0xffaa00,
+        emissiveIntensity: 0.6
+      });
+      
+      const particlesData = [];
+      for (let i = 0; i < particlesCount; i++) {
+        const mesh = new THREE.Mesh(particleGeo, particleMat);
+        particlesGroup.add(mesh);
+        
+        const radius = 4.0;
+        const theta = (i / particlesCount) * Math.PI * 2;
+        const yOffset = (i % 2 === 0 ? 1 : -1) * 0.8;
+        
+        mesh.position.set(radius * Math.cos(theta), yOffset, radius * Math.sin(theta));
+        
+        particlesData.push({
+          mesh: mesh,
+          radius: radius,
+          yOffset: yOffset,
+          angleOffset: theta,
+          speed: 2.0
+        });
+      }
+      
+      // Floating 3D Text Plane
+      const textCanvas = document.createElement("canvas");
+      textCanvas.width = 512;
+      textCanvas.height = 128;
+      const textCtx = textCanvas.getContext("2d");
+      textCtx.font = "bold 56px 'Oswald', sans-serif";
+      textCtx.fillStyle = "#ffffff";
+      textCtx.textAlign = "center";
+      textCtx.textBaseline = "middle";
+      textCtx.shadowColor = "#ff9f1c";
+      textCtx.shadowBlur = 15;
+      textCtx.fillText("QUANTUM CORE", 256, 64);
+      
+      const textTexture = new THREE.CanvasTexture(textCanvas);
+      const textMat = new THREE.MeshBasicMaterial({
+        map: textTexture,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+      const textGeo = new THREE.PlaneGeometry(6, 1.5);
+      const textMesh = new THREE.Mesh(textGeo, textMat);
+      textMesh.position.set(0, 0, 6);
+      scene.add(textMesh);
+      
+      // Seek logic
+      function seek(progress) {
+        let p = progress;
+        
+        // Nest torus rotations (three axes)
+        ring1.rotation.x = p * Math.PI * 4;
+        ring1.rotation.y = p * Math.PI * 2;
+        
+        ring2.rotation.y = p * Math.PI * 3;
+        ring2.rotation.z = p * Math.PI * 2;
+        
+        ring3.rotation.z = p * Math.PI * 4;
+        ring3.rotation.x = p * Math.PI * 1.5;
+        
+        // Breathing star core
+        const coreScale = 1.0 + Math.sin(p * Math.PI * 8) * 0.1;
+        coreMesh.scale.set(coreScale, coreScale, coreScale);
+        coreMesh.rotation.y = p * Math.PI * 3;
+        coreInner.scale.set(coreScale * 0.9, coreScale * 0.9, coreScale * 0.9);
+        
+        // Point light pulsing
+        pointLight.intensity = 15 + Math.sin(p * Math.PI * 10) * 5;
+        
+        // Particles orbit
+        particlesData.forEach((pt) => {
+          const angle = pt.angleOffset + p * pt.speed * Math.PI * 2;
+          pt.mesh.position.x = pt.radius * Math.cos(angle);
+          pt.mesh.position.y = pt.yOffset + Math.sin(angle * 3) * 0.3;
+          pt.mesh.position.z = pt.radius * Math.sin(angle);
+          pt.mesh.rotation.y = angle;
+        });
+        
+        // Camera flying: starts inside core, zooms out, then orbits
+        let camRadius;
+        if (p < 0.3) {
+          // Starts inside core (radius 0.2) and zooms out rapidly
+          camRadius = THREE.MathUtils.lerp(0.3, 14, p / 0.3);
+        } else if (p > 0.8) {
+          // Rapid zoom out to outer void
+          camRadius = THREE.MathUtils.lerp(14, 32, (p - 0.8) / 0.2);
+        } else {
+          // Subtle hold drift
+          camRadius = 14 + Math.sin((p - 0.3) * Math.PI) * 1.2;
+        }
+        
+        const camAngle = p * Math.PI * 1.8;
+        camera.position.x = camRadius * Math.sin(camAngle);
+        camera.position.z = camRadius * Math.cos(camAngle);
+        camera.position.y = 5 * Math.sin(p * Math.PI * 2);
+        
+        camera.lookAt(0, 0, 0);
+        
+        // Text floating
+        textMesh.position.y = Math.sin(p * Math.PI * 4) * 0.3;
+        
+        if (p < 0.3) {
+          textMat.opacity = p / 0.3;
+        } else if (p > 0.8) {
+          textMat.opacity = 1 - (p - 0.8) / 0.2;
+        } else {
+          textMat.opacity = 1.0;
+        }
+        
+        renderer.render(scene, camera);
+      }
+      
+      window.addEventListener("hf-seek", (event) => {
+        const time = event.detail.time;
+        seek(time / duration);
+      });
+      
+      seek(0);
+    </script>
+  </body>
+</html>
