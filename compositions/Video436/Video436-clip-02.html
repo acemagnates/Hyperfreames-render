@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Video436 Clip 02 — Cyber Skyline</title>
+    <title>Video436 Clip 02 — Neural Synapse Highway</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Oswald:wght@700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <style>
       *, *::before, *::after {
@@ -18,7 +18,7 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #02040b;
+        background: #020306;
       }
       #root {
         position: relative;
@@ -39,35 +39,70 @@
         inset: 0;
         z-index: 10;
         pointer-events: none;
-        font-family: sans-serif;
-        color: #00e5ff;
+        font-family: 'Courier Prime', monospace;
+        color: #00ff88;
+        padding: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
-      .hud-bracket {
-        position: absolute;
-        width: 60px;
-        height: 60px;
-        border: 2px solid rgba(0, 229, 255, 0.45);
+      .hud-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid rgba(0, 255, 136, 0.25);
+        padding-bottom: 20px;
       }
-      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
-      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
-      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
-      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
-      
-      .hud-label {
-        position: absolute;
-        font-size: 14px;
+      .hud-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 32px;
         letter-spacing: 0.15em;
-        text-transform: uppercase;
-        opacity: 0.8;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
       }
-      .lbl-top { top: 80px; left: 140px; }
-      .lbl-bottom { bottom: 80px; right: 140px; }
+      .hud-stats {
+        text-align: right;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .hud-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-top: 1px solid rgba(0, 255, 136, 0.25);
+        padding-top: 20px;
+      }
+      .hud-status-block {
+        display: flex;
+        gap: 15px;
+        font-size: 14px;
+      }
+      .status-active {
+        color: #00d4ff;
+        font-weight: bold;
+      }
+      .hud-brackets {
+        position: absolute;
+        inset: 60px;
+        border: 1px solid rgba(0, 255, 136, 0.1);
+        pointer-events: none;
+      }
+      .bracket {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border: 2px solid #00ff88;
+      }
+      .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+      .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+      .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+      .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
     </style>
   </head>
   <body>
     <div id="root"
          data-composition-id="Video436-clip-02"
-         data-start="0"
+         data-start="3.0"
          data-duration="3.0"
          data-width="1080"
          data-height="1920"
@@ -75,14 +110,33 @@
       
       <canvas id="canvas3d"></canvas>
       
+      <div class="hud-brackets">
+        <div class="bracket tl"></div>
+        <div class="bracket tr"></div>
+        <div class="bracket bl"></div>
+        <div class="bracket br"></div>
+      </div>
+
       <div id="hud-container">
-        <div class="hud-bracket tl"></div>
-        <div class="hud-bracket tr"></div>
-        <div class="hud-bracket bl"></div>
-        <div class="hud-bracket br"></div>
+        <div class="hud-header">
+          <div>
+            <div class="hud-title">CHRONOS CORE : PHASE 02</div>
+            <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">SYS.LOC: /SECTOR_02/SYNAPSE_HIGHWAY</div>
+          </div>
+          <div class="hud-stats">
+            <div>BANDWIDTH: <span class="status-active">984 Gbps</span></div>
+            <div>STREAMS: <span style="color: #ffd700;">32 parallel</span></div>
+          </div>
+        </div>
         
-        <div class="hud-label lbl-top">NEXUS PHASE // 02</div>
-        <div class="hud-label lbl-bottom">SEC_02 // CYBER METROPOLIS</div>
+        <div class="hud-footer">
+          <div class="hud-status-block">
+            <div>ROUTING: <span class="status-active">OPTIMIZED</span></div>
+            <div>|</div>
+            <div>PACKET_DROP: <span>0.000%</span></div>
+          </div>
+          <div style="font-size: 14px;">TRANS_INIT // FLOWING</div>
+        </div>
       </div>
     </div>
 
@@ -92,22 +146,13 @@
       
       // Scene Setup
       const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x02040b, 0.035);
+      scene.fog = new THREE.FogExp2(0x020306, 0.025);
       
       // Camera Setup
-      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      const camera = new THREE.PerspectiveCamera(65, 1080 / 1920, 0.1, 500);
       
       // Renderer Setup
       let renderer;
-      if (isWebGLAvailable()) {
-        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-        renderer.setSize(1080, 1920);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        renderer.shadowMap.enabled = true;
-      } else {
-        renderer = { render: () => {}, setSize: () => {}, setPixelRatio: () => {} };
-      }
-      
       function isWebGLAvailable() {
         try {
           const c = document.createElement('canvas');
@@ -117,186 +162,160 @@
         }
       }
       
-      // Dynamic lighting
-      const ambientLight = new THREE.AmbientLight(0x0a1435, 2.0);
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(1);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.3;
+      } else {
+        renderer = { render: () => {}, setSize: () => {} };
+      }
+      
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0x0a1c14, 2.0);
       scene.add(ambientLight);
       
-      const blueLight = new THREE.PointLight(0x00e5ff, 15, 50);
-      blueLight.position.set(0, 5, 0);
-      scene.add(blueLight);
+      const frontLight = new THREE.PointLight(0x00ff88, 10, 50);
+      scene.add(frontLight);
       
-      const neonLight = new THREE.PointLight(0x00ff88, 12, 40);
-      neonLight.position.set(10, 8, -10);
-      scene.add(neonLight);
+      // Synapse Highway Group
+      const highwayGroup = new THREE.Group();
+      scene.add(highwayGroup);
       
-      // Procedural City Monolith Skyscrapers (15 buildings)
-      const buildingsGroup = new THREE.Group();
-      scene.add(buildingsGroup);
+      // 1. Structural Concentric Fiber Brackets (The Tunnel Rings)
+      const tunnelRings = [];
+      const ringsCount = 20;
+      const ringSpacing = 8.0;
       
-      const buildingGeo = new THREE.BoxGeometry(3, 1, 3); // building heights are scaled individually
+      for (let i = 0; i < ringsCount; i++) {
+        const ringGeo = new THREE.RingGeometry(5.0, 5.08, 32);
+        const ringMat = new THREE.MeshBasicMaterial({
+          color: 0x00ff88,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.3
+        });
+        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+        // Distribute along Z-axis
+        ringMesh.position.z = -i * ringSpacing;
+        highwayGroup.add(ringMesh);
+        tunnelRings.push(ringMesh);
+      }
       
-      const buildingMat = new THREE.MeshPhysicalMaterial({
-        color: 0x050c20,
-        roughness: 0.1,
+      // 2. Glowing Neon Data Tubes (Cylinder lines)
+      const tubeCount = 8;
+      const tubes = [];
+      const tubeGeo = new THREE.CylinderGeometry(0.04, 0.04, ringsCount * ringSpacing, 8);
+      const tubeMat = new THREE.MeshStandardMaterial({
+        color: 0x00d4ff,
+        emissive: 0x00d4ff,
+        emissiveIntensity: 1.5,
         metalness: 0.9,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.1
+        roughness: 0.1
       });
       
-      const buildingsData = [];
-      const citySize = 5; // 5x5 grid
-      let bIndex = 0;
-      
-      for (let x = -2; x <= 2; x++) {
-        for (let z = -2; z <= 2; z++) {
-          if (x === 0 && z === 0) continue; // Leave central courtyard empty for path
-          
-          const building = new THREE.Mesh(buildingGeo, buildingMat);
-          building.castShadow = true;
-          building.receiveShadow = true;
-          
-          // Deterministic height variation
-          const hHash = (x * 17 + z * 31) % 15;
-          const height = 8 + Math.abs(hHash) * 1.5;
-          building.scale.set(1, height, 1);
-          
-          // Position on a grid
-          const posX = x * 8 + (hHash % 3) * 0.5;
-          const posZ = z * 8 + (hHash % 2) * 0.5;
-          building.position.set(posX, height / 2, posZ);
-          
-          buildingsGroup.add(building);
-          
-          // Outer glowing wireframe
-          const edgeGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(3.05, height + 0.05, 3.05));
-          const edgeMat = new THREE.LineBasicMaterial({
-            color: bIndex % 2 === 0 ? 0x00e5ff : 0x00ff88,
-            linewidth: 2
-          });
-          const edgeLines = new THREE.LineSegments(edgeGeo, edgeMat);
-          edgeLines.position.set(posX, height / 2, posZ);
-          buildingsGroup.add(edgeLines);
-          
-          buildingsData.push({
-            mesh: building,
-            edge: edgeLines,
-            baseHeight: height
-          });
-          bIndex++;
-        }
+      for (let i = 0; i < tubeCount; i++) {
+        const angle = (i / tubeCount) * Math.PI * 2;
+        const tube = new THREE.Mesh(tubeGeo, tubeMat);
+        
+        // Position on the perimeter of the cylinder
+        tube.position.x = 5.0 * Math.cos(angle);
+        tube.position.y = 5.0 * Math.sin(angle);
+        tube.position.z = -(ringsCount * ringSpacing) / 2;
+        tube.rotation.x = Math.PI / 2;
+        
+        highwayGroup.add(tube);
+        tubes.push(tube);
       }
       
-      // Volumetric Vertical Light Beams (Meshes)
-      const beamsCount = 5;
-      const beamsGroup = new THREE.Group();
-      scene.add(beamsGroup);
-      
-      const beamGeo = new THREE.CylinderGeometry(0.1, 0.4, 60, 8);
-      const beamMat = new THREE.MeshBasicMaterial({
-        color: 0x00e5ff,
-        transparent: true,
-        opacity: 0.35,
-        side: THREE.DoubleSide
+      // 3. Glowing Data Packet Nodes (Spheres flying down the tubes)
+      const nodesCount = 40;
+      const nodes = [];
+      const nodeGeo = new THREE.SphereGeometry(0.18, 16, 16);
+      const nodeMat = new THREE.MeshStandardMaterial({
+        color: 0xffd700,
+        emissive: 0xffd700,
+        emissiveIntensity: 1.2,
+        metalness: 0.9,
+        roughness: 0.05
       });
       
-      for (let i = 0; i < beamsCount; i++) {
-        const beam = new THREE.Mesh(beamGeo, beamMat);
-        const bX = ((i * 33) % 20) - 10;
-        const bZ = ((i * 73) % 20) - 10;
-        beam.position.set(bX, 30, bZ);
-        beamsGroup.add(beam);
+      for (let i = 0; i < nodesCount; i++) {
+        const mesh = new THREE.Mesh(nodeGeo, nodeMat);
+        highwayGroup.add(mesh);
+        
+        // Distribute on random tubes and starting positions along Z
+        const tubeIndex = i % tubeCount;
+        const tubeAngle = (tubeIndex / tubeCount) * Math.PI * 2;
+        const radius = 5.0;
+        
+        const startZ = -Math.random() * (ringsCount * ringSpacing);
+        const speed = 15.0 + Math.random() * 15.0;
+        
+        nodes.push({
+          mesh,
+          x: radius * Math.cos(tubeAngle),
+          y: radius * Math.sin(tubeAngle),
+          z: startZ,
+          speed,
+          maxZ: ringsCount * ringSpacing
+        });
       }
       
-      // Floating 3D Text Plane
-      const textCanvas = document.createElement("canvas");
-      textCanvas.width = 512;
-      textCanvas.height = 128;
-      const textCtx = textCanvas.getContext("2d");
-      textCtx.font = "bold 56px 'Oswald', sans-serif";
-      textCtx.fillStyle = "#ffffff";
-      textCtx.textAlign = "center";
-      textCtx.textBaseline = "middle";
-      textCtx.shadowColor = "#00e5ff";
-      textCtx.shadowBlur = 15;
-      textCtx.fillText("CYBER METROPOLIS", 256, 64);
-      
-      const textTexture = new THREE.CanvasTexture(textCanvas);
-      const textMat = new THREE.MeshBasicMaterial({
-        map: textTexture,
-        transparent: true,
-        side: THREE.DoubleSide
-      });
-      const textGeo = new THREE.PlaneGeometry(6, 1.5);
-      const textMesh = new THREE.Mesh(textGeo, textMat);
-      textMesh.position.set(0, 10, -5);
-      scene.add(textMesh);
-      
-      // Perspective Grid Ground
-      const gridHelper = new THREE.GridHelper(80, 40, 0x00e5ff, 0x04081c);
-      gridHelper.position.y = 0.05;
-      scene.add(gridHelper);
-      
-      // Seek logic
-      function seek(progress) {
-        let p = progress;
+      // Dynamic camera movement path
+      function seek(p) {
+        // Continuous rotation of the highway group
+        highwayGroup.rotation.z = p * Math.PI * 0.5;
         
-        // City breathing scale
-        buildingsData.forEach((b, idx) => {
-          const osc = 1.0 + Math.sin(p * Math.PI * 2 + idx) * 0.05;
-          b.mesh.scale.y = b.baseHeight * osc;
-          b.mesh.position.y = (b.baseHeight * osc) / 2;
-          b.edge.scale.y = osc;
-          b.edge.position.y = (b.baseHeight * osc) / 2;
+        // Loop the tunnel rings expanding size slightly to suggest air pressure / pulse
+        tunnelRings.forEach((ring, idx) => {
+          const distance = Math.abs(ring.position.z - camera.position.z);
+          const pulse = Math.max(1.0, 1.3 - (distance / 40.0));
+          ring.scale.set(pulse, pulse, 1);
         });
         
-        // Volumetric beams rotation and glowing pulsing
-        beamsGroup.children.forEach((beam, idx) => {
-          beam.rotation.y = p * 0.5 * (idx % 2 === 0 ? 1 : -1);
-          beam.material.opacity = 0.2 + Math.sin(p * Math.PI * 4 + idx) * 0.15;
+        // Update nodes flying down the tubes towards the camera (and looping back)
+        nodes.forEach((nd) => {
+          // Forward flight progress based on time
+          let currentZ = nd.z + p * nd.speed * 8.0;
+          currentZ = currentZ % nd.maxZ; // loop back
+          
+          nd.mesh.position.x = nd.x;
+          nd.mesh.position.y = nd.y;
+          nd.mesh.position.z = -currentZ;
+          
+          // scale pulse based on Z distance to screen
+          const meshScale = 1.0 + Math.sin(p * Math.PI * 4 + nd.z) * 0.3;
+          nd.mesh.scale.set(meshScale, meshScale, meshScale);
         });
         
-        // Drone weave fly-through path
-        // Camera starts high and zooms/weaves down streets!
-        let camX, camY, camZ;
-        if (p < 0.8) {
-          // Slide down center street
-          camX = Math.sin(p * Math.PI) * 2;
-          camY = THREE.MathUtils.lerp(18, 4, p / 0.8);
-          camZ = THREE.MathUtils.lerp(16, -14, p / 0.8);
-        } else {
-          // Rapid upward sweep looking down!
-          const exitP = (p - 0.8) / 0.2;
-          camX = Math.sin(0.8 * Math.PI) * 2 + exitP * 1.5;
-          camY = THREE.MathUtils.lerp(4, 25, exitP);
-          camZ = THREE.MathUtils.lerp(-14, -28, exitP);
-        }
+        // Camera flying down the center of the cylinder synapse tunnel!
+        const flyDistance = ringsCount * ringSpacing;
+        const camZ = -p * (flyDistance * 0.7); // Travel 70% of the tunnel
         
-        camera.position.set(camX, camY, camZ);
+        camera.position.x = Math.sin(p * Math.PI * 2) * 0.4;
+        camera.position.y = Math.cos(p * Math.PI * 3) * 0.4;
+        camera.position.z = camZ;
         
-        // Look ahead
-        const lookZ = THREE.MathUtils.lerp(0, -35, p);
-        camera.lookAt(0, 4, lookZ);
+        // Point light moves exactly in front of the camera
+        frontLight.position.x = camera.position.x;
+        frontLight.position.y = camera.position.y;
+        frontLight.position.z = camera.position.z - 5.0;
         
-        // Text floating and scale
-        textMesh.position.y = 8 + Math.sin(p * Math.PI * 2) * 0.5;
-        textMesh.position.z = -5 - p * 8;
-        
-        if (p < 0.3) {
-          textMat.opacity = p / 0.3;
-        } else if (p > 0.8) {
-          textMat.opacity = 1 - (p - 0.8) / 0.2;
-        } else {
-          textMat.opacity = 1.0;
-        }
+        // Slight tilt and sway to suggest organic movement through the cable
+        camera.rotation.z = p * Math.PI * 0.2;
+        camera.rotation.x = Math.sin(p * Math.PI) * 0.05;
+        camera.rotation.y = Math.cos(p * Math.PI) * 0.05;
         
         renderer.render(scene, camera);
       }
       
       window.addEventListener("hf-seek", (event) => {
-        const time = event.detail.time;
-        seek(time / duration);
+        seek(event.detail.time / duration);
       });
       
+      // First frame render
       seek(0);
     </script>
   </body>

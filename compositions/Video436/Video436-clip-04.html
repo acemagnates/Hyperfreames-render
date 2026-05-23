@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Video436 Clip 04 — Cyber Ocean</title>
+    <title>Video436 Clip 04 — Holographic Forcefield Web</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Oswald:wght@700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <style>
       *, *::before, *::after {
@@ -18,7 +18,7 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #020706;
+        background: #03060a;
       }
       #root {
         position: relative;
@@ -39,35 +39,70 @@
         inset: 0;
         z-index: 10;
         pointer-events: none;
-        font-family: sans-serif;
-        color: #00ffcc;
+        font-family: 'Courier Prime', monospace;
+        color: #00d4ff;
+        padding: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
-      .hud-bracket {
-        position: absolute;
-        width: 60px;
-        height: 60px;
-        border: 2px solid rgba(0, 255, 204, 0.45);
+      .hud-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.25);
+        padding-bottom: 20px;
       }
-      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
-      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
-      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
-      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
-      
-      .hud-label {
-        position: absolute;
-        font-size: 14px;
+      .hud-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 32px;
         letter-spacing: 0.15em;
-        text-transform: uppercase;
-        opacity: 0.8;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
       }
-      .lbl-top { top: 80px; left: 140px; }
-      .lbl-bottom { bottom: 80px; right: 140px; }
+      .hud-stats {
+        text-align: right;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .hud-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-top: 1px solid rgba(0, 212, 255, 0.25);
+        padding-top: 20px;
+      }
+      .hud-status-block {
+        display: flex;
+        gap: 15px;
+        font-size: 14px;
+      }
+      .status-active {
+        color: #00ff88;
+        font-weight: bold;
+      }
+      .hud-brackets {
+        position: absolute;
+        inset: 60px;
+        border: 1px solid rgba(0, 212, 255, 0.1);
+        pointer-events: none;
+      }
+      .bracket {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border: 2px solid #00d4ff;
+      }
+      .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+      .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+      .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+      .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
     </style>
   </head>
   <body>
     <div id="root"
          data-composition-id="Video436-clip-04"
-         data-start="0"
+         data-start="9.0"
          data-duration="3.0"
          data-width="1080"
          data-height="1920"
@@ -75,14 +110,33 @@
       
       <canvas id="canvas3d"></canvas>
       
+      <div class="hud-brackets">
+        <div class="bracket tl"></div>
+        <div class="bracket tr"></div>
+        <div class="bracket bl"></div>
+        <div class="bracket br"></div>
+      </div>
+
       <div id="hud-container">
-        <div class="hud-bracket tl"></div>
-        <div class="hud-bracket tr"></div>
-        <div class="hud-bracket bl"></div>
-        <div class="hud-bracket br"></div>
+        <div class="hud-header">
+          <div>
+            <div class="hud-title">CHRONOS CORE : PHASE 04</div>
+            <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">SYS.LOC: /SECTOR_04/LATTICE_WEB</div>
+          </div>
+          <div class="hud-stats">
+            <div>RESOLVE: <span class="status-active">40960 nodes</span></div>
+            <div>FREQUENCY: <span>12.45 GHz</span></div>
+          </div>
+        </div>
         
-        <div class="hud-label lbl-top">NEXUS PHASE // 04</div>
-        <div class="hud-label lbl-bottom">SEC_04 // CYBER OCEAN</div>
+        <div class="hud-footer">
+          <div class="hud-status-block">
+            <div>LATTICE: <span class="status-active">CONNECTED</span></div>
+            <div>|</div>
+            <div>COORDS: <span>X:14, Y:72, Z:-9</span></div>
+          </div>
+          <div style="font-size: 14px;">GRID_PROJ // STABLE</div>
+        </div>
       </div>
     </div>
 
@@ -92,21 +146,13 @@
       
       // Scene Setup
       const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x020706, 0.02);
+      scene.fog = new THREE.FogExp2(0x03060a, 0.015);
       
       // Camera Setup
-      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      const camera = new THREE.PerspectiveCamera(55, 1080 / 1920, 0.1, 1000);
       
       // Renderer Setup
       let renderer;
-      if (isWebGLAvailable()) {
-        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-        renderer.setSize(1080, 1920);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      } else {
-        renderer = { render: () => {}, setSize: () => {}, setPixelRatio: () => {} };
-      }
-      
       function isWebGLAvailable() {
         try {
           const c = document.createElement('canvas');
@@ -116,137 +162,135 @@
         }
       }
       
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0x001a14, 2.0);
-      scene.add(ambientLight);
-      
-      const horizonLight = new THREE.PointLight(0x00ffcc, 12, 100);
-      horizonLight.position.set(0, 15, -60);
-      scene.add(horizonLight);
-      
-      const pointLight = new THREE.PointLight(0x00ff88, 5, 30);
-      pointLight.position.set(0, 8, 10);
-      scene.add(pointLight);
-      
-      // Parametric Waving 3D Grid Floor
-      // We will create a PlaneGeometry and deform its vertices dynamically in the seek loop!
-      const gridWidth = 100;
-      const gridHeight = 100;
-      const gridSegmentsX = 30;
-      const gridSegmentsY = 30;
-      
-      const waveGeo = new THREE.PlaneGeometry(gridWidth, gridHeight, gridSegmentsX, gridSegmentsY);
-      waveGeo.rotateX(-Math.PI / 2); // orient flat
-      
-      const waveMat = new THREE.MeshBasicMaterial({
-        color: 0x00ffcc,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.65
-      });
-      const waveMesh = new THREE.Mesh(waveGeo, waveMat);
-      scene.add(waveMesh);
-      
-      // Store original vertex coordinates
-      const positions = waveGeo.attributes.position.array;
-      const originalY = new Float32Array(positions.length);
-      for (let i = 0; i < positions.length; i++) {
-        originalY[i] = positions[i];
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(1);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.2;
+      } else {
+        renderer = { render: () => {}, setSize: () => {} };
       }
       
-      // Big Digital Sun in the background
-      const sunGeo = new THREE.CircleGeometry(12, 32);
-      const sunMat = new THREE.MeshBasicMaterial({
-        color: 0x00ff88,
-        side: THREE.DoubleSide
-      });
-      const sunMesh = new THREE.Mesh(sunGeo, sunMat);
-      sunMesh.position.set(0, 8, -75);
-      scene.add(sunMesh);
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0x0a1420, 2.0);
+      scene.add(ambientLight);
       
-      // Floating 3D Text Plane
-      const textCanvas = document.createElement("canvas");
-      textCanvas.width = 512;
-      textCanvas.height = 128;
-      const textCtx = textCanvas.getContext("2d");
-      textCtx.font = "bold 56px 'Oswald', sans-serif";
-      textCtx.fillStyle = "#ffffff";
-      textCtx.textAlign = "center";
-      textCtx.textBaseline = "middle";
-      textCtx.shadowColor = "#00ffcc";
-      textCtx.shadowBlur = 15;
-      textCtx.fillText("CYBER OCEAN", 256, 64);
+      const cyanLight = new THREE.DirectionalLight(0x00d4ff, 5.0);
+      cyanLight.position.set(10, 20, 15);
+      scene.add(cyanLight);
       
-      const textTexture = new THREE.CanvasTexture(textCanvas);
-      const textMat = new THREE.MeshBasicMaterial({
-        map: textTexture,
+      const starGlow = new THREE.PointLight(0x00ff88, 12, 30);
+      starGlow.position.set(0, 0, 0);
+      scene.add(starGlow);
+      
+      // Master Web Group
+      const webGroup = new THREE.Group();
+      scene.add(webGroup);
+      
+      // 1. High-Fidelity Holographic hemisphere dome (Wireframe Sphere)
+      const domeGeo = new THREE.SphereGeometry(5.0, 18, 18);
+      const domeMat = new THREE.MeshBasicMaterial({
+        color: 0x00d4ff,
+        wireframe: true,
         transparent: true,
-        side: THREE.DoubleSide
+        opacity: 0.35
       });
-      const textGeo = new THREE.PlaneGeometry(6, 1.5);
-      const textMesh = new THREE.Mesh(textGeo, textMat);
-      textMesh.position.set(0, 10, -25);
-      scene.add(textMesh);
+      const domeMesh = new THREE.Mesh(domeGeo, domeMat);
+      webGroup.add(domeMesh);
       
-      // Seek logic
-      function seek(progress) {
-        let p = progress;
+      // 2. Secondary Inner Golden wireframe shell (concentric mesh)
+      const innerDomeGeo = new THREE.SphereGeometry(3.5, 12, 12);
+      const innerDomeMat = new THREE.MeshBasicMaterial({
+        color: 0xffd700,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.25
+      });
+      const innerDomeMesh = new THREE.Mesh(innerDomeGeo, innerDomeMat);
+      webGroup.add(innerDomeMesh);
+      
+      // 3. Spawning active data stars (nodes on the vertices of the dome)
+      const nodesGroup = new THREE.Group();
+      webGroup.add(nodesGroup);
+      
+      const nodeGeo = new THREE.SphereGeometry(0.12, 8, 8);
+      const nodeMat = new THREE.MeshStandardMaterial({
+        color: 0x00ff88,
+        emissive: 0x00ff88,
+        emissiveIntensity: 0.8,
+        metalness: 0.9,
+        roughness: 0.1
+      });
+      
+      const vertices = domeGeo.attributes.position;
+      const nodeData = [];
+      
+      // Spawn a node at every alternate vertex to avoid cluttering
+      for (let i = 0; i < vertices.count; i += 3) {
+        const mesh = new THREE.Mesh(nodeGeo, nodeMat);
+        mesh.position.set(
+          vertices.getX(i),
+          vertices.getY(i),
+          vertices.getZ(i)
+        );
+        nodesGroup.add(mesh);
+        nodeData.push({
+          mesh: mesh,
+          baseX: vertices.getX(i),
+          baseY: vertices.getY(i),
+          baseZ: vertices.getZ(i),
+          phase: Math.random() * Math.PI
+        });
+      }
+      
+      // 4. Ground Cyber-Grid Floor
+      const gridHelper = new THREE.GridHelper(80, 40, 0x00d4ff, 0x06111d);
+      gridHelper.position.y = -10;
+      scene.add(gridHelper);
+      
+      // Dynamic camera movement path
+      function seek(p) {
+        // Continuous slow rot of the entire web group
+        webGroup.rotation.y = p * Math.PI * 1.5;
+        webGroup.rotation.z = Math.sin(p * Math.PI) * 0.3;
         
-        // Deform Plane vertices dynamically to create ocean waves
-        const posAttr = waveGeo.attributes.position;
-        const array = posAttr.array;
-        
-        for (let i = 0; i < array.length; i += 3) {
-          const vx = array[i];
-          const vz = array[i + 2];
+        // Ripple & wave warp on the node meshes
+        nodeData.forEach((node) => {
+          const offset = Math.sin(p * Math.PI * 4 + node.phase) * 0.25;
+          node.mesh.position.x = node.baseX * (1.0 + offset);
+          node.mesh.position.y = node.baseY * (1.0 + offset);
+          node.mesh.position.z = node.baseZ * (1.0 + offset);
           
-          // Generate wave amplitude procedurally
-          const wave1 = Math.sin(vx * 0.15 + p * Math.PI * 4) * Math.cos(vz * 0.15 + p * Math.PI * 2) * 1.5;
-          const wave2 = Math.cos(vx * 0.08 - p * Math.PI * 3) * Math.sin(vz * 0.08 + p * Math.PI * 4) * 2.5;
-          
-          array[i + 1] = wave1 + wave2; // Update Y height
-        }
-        posAttr.needsUpdate = true;
+          // Glow pulse
+          node.mesh.scale.setScalar(1.0 + offset * 0.5);
+        });
         
-        // Camera skimming along waves, flying straight forward and panning down
-        let camX, camY, camZ;
-        if (p < 0.8) {
-          // Camera glides low right over the grid waves
-          camX = Math.sin(p * Math.PI * 2) * 4;
-          camY = 3.5 + Math.sin(p * Math.PI * 4) * 1.0;
-          camZ = THREE.MathUtils.lerp(35, -25, p / 0.8);
-        } else {
-          // Accelerates up and into the sun!
-          const exitP = (p - 0.8) / 0.2;
-          camX = Math.sin(0.8 * Math.PI * 2) * 4 + exitP * 2;
-          camY = THREE.MathUtils.lerp(3.5, 15, exitP);
-          camZ = THREE.MathUtils.lerp(-25, -65, exitP);
+        // Slightly warp the scale of the outer dome grid
+        const domePulse = 1.0 + Math.sin(p * Math.PI * 4) * 0.04;
+        domeMesh.scale.set(domePulse, domePulse, domePulse);
+        
+        // Camera flying path: swoop in and fly directly past/through the web!
+        let camRadius = 22.0 - p * 12.0; // zoom from 22 to 10
+        if (p > 0.8) {
+          camRadius = 10.0 - ((p - 0.8) / 0.2) * 16.0; // fly straight through the center dome!
         }
         
-        camera.position.set(camX, camY, camZ);
+        const camAngle = p * Math.PI * 1.6;
+        camera.position.x = camRadius * Math.sin(camAngle);
+        camera.position.z = camRadius * Math.cos(camAngle);
+        camera.position.y = 8.0 - p * 6.5;
         
-        // Look at horizon sun
-        camera.lookAt(0, 6, -70);
-        
-        // Text floating and scale
-        textMesh.position.z = -25 - p * 15;
-        
-        if (p < 0.3) {
-          textMat.opacity = p / 0.3;
-        } else if (p > 0.8) {
-          textMat.opacity = 1 - (p - 0.8) / 0.2;
-        } else {
-          textMat.opacity = 1.0;
-        }
+        camera.lookAt(0, 0, 0);
         
         renderer.render(scene, camera);
       }
       
       window.addEventListener("hf-seek", (event) => {
-        const time = event.detail.time;
-        seek(time / duration);
+        seek(event.detail.time / duration);
       });
       
+      // First frame render
       seek(0);
     </script>
   </body>

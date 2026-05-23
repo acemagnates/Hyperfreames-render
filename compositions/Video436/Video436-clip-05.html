@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Video436 Clip 05 — Fractal Tunnel</title>
+    <title>Video436 Clip 05 — Hyperdimensional Database Vault</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Oswald:wght@700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <style>
       *, *::before, *::after {
@@ -18,7 +18,7 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #020704;
+        background: #020406;
       }
       #root {
         position: relative;
@@ -39,35 +39,70 @@
         inset: 0;
         z-index: 10;
         pointer-events: none;
-        font-family: sans-serif;
-        color: #00ff88;
+        font-family: 'Courier Prime', monospace;
+        color: #00d4ff;
+        padding: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
-      .hud-bracket {
-        position: absolute;
-        width: 60px;
-        height: 60px;
-        border: 2px solid rgba(0, 255, 136, 0.45);
+      .hud-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.25);
+        padding-bottom: 20px;
       }
-      .tl { top: 60px; left: 60px; border-right: none; border-bottom: none; }
-      .tr { top: 60px; right: 60px; border-left: none; border-bottom: none; }
-      .bl { bottom: 60px; left: 60px; border-right: none; border-top: none; }
-      .br { bottom: 60px; right: 60px; border-left: none; border-top: none; }
-      
-      .hud-label {
-        position: absolute;
-        font-size: 14px;
+      .hud-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 32px;
         letter-spacing: 0.15em;
-        text-transform: uppercase;
-        opacity: 0.8;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
       }
-      .lbl-top { top: 80px; left: 140px; }
-      .lbl-bottom { bottom: 80px; right: 140px; }
+      .hud-stats {
+        text-align: right;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      .hud-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-top: 1px solid rgba(0, 212, 255, 0.25);
+        padding-top: 20px;
+      }
+      .hud-status-block {
+        display: flex;
+        gap: 15px;
+        font-size: 14px;
+      }
+      .status-active {
+        color: #00ff88;
+        font-weight: bold;
+      }
+      .hud-brackets {
+        position: absolute;
+        inset: 60px;
+        border: 1px solid rgba(0, 212, 255, 0.1);
+        pointer-events: none;
+      }
+      .bracket {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border: 2px solid #00d4ff;
+      }
+      .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+      .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+      .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+      .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
     </style>
   </head>
   <body>
     <div id="root"
          data-composition-id="Video436-clip-05"
-         data-start="0"
+         data-start="12.0"
          data-duration="3.0"
          data-width="1080"
          data-height="1920"
@@ -75,14 +110,33 @@
       
       <canvas id="canvas3d"></canvas>
       
+      <div class="hud-brackets">
+        <div class="bracket tl"></div>
+        <div class="bracket tr"></div>
+        <div class="bracket bl"></div>
+        <div class="bracket br"></div>
+      </div>
+
       <div id="hud-container">
-        <div class="hud-bracket tl"></div>
-        <div class="hud-bracket tr"></div>
-        <div class="hud-bracket bl"></div>
-        <div class="hud-bracket br"></div>
+        <div class="hud-header">
+          <div>
+            <div class="hud-title">CHRONOS CORE : PHASE 05</div>
+            <div style="font-size: 12px; opacity: 0.7; margin-top: 5px;">SYS.LOC: /SECTOR_05/DATABASE_VAULT</div>
+          </div>
+          <div class="hud-stats">
+            <div>VAULT_CAP: <span class="status-active">1.2 YB</span></div>
+            <div>IO_SPEED: <span style="color: #ffd700;">84.2 TB/s</span></div>
+          </div>
+        </div>
         
-        <div class="hud-label lbl-top">NEXUS PHASE // 05</div>
-        <div class="hud-label lbl-bottom">SEC_05 // FRACTAL TUNNEL</div>
+        <div class="hud-footer">
+          <div class="hud-status-block">
+            <div>VAULT: <span class="status-active">STABLE</span></div>
+            <div>|</div>
+            <div>SECTORS: <span>16 parallel</span></div>
+          </div>
+          <div style="font-size: 14px;">DATA_VAULT // ENGAGED</div>
+        </div>
       </div>
     </div>
 
@@ -92,21 +146,13 @@
       
       // Scene Setup
       const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x020704, 0.04);
+      scene.fog = new THREE.FogExp2(0x020406, 0.025);
       
       // Camera Setup
-      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 1000);
+      const camera = new THREE.PerspectiveCamera(60, 1080 / 1920, 0.1, 500);
       
       // Renderer Setup
       let renderer;
-      if (isWebGLAvailable()) {
-        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-        renderer.setSize(1080, 1920);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      } else {
-        renderer = { render: () => {}, setSize: () => {}, setPixelRatio: () => {} };
-      }
-      
       function isWebGLAvailable() {
         try {
           const c = document.createElement('canvas');
@@ -116,136 +162,157 @@
         }
       }
       
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0x021c0e, 1.5);
+      if (isWebGLAvailable()) {
+        renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+        renderer.setSize(1080, 1920);
+        renderer.setPixelRatio(1);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.25;
+      } else {
+        renderer = { render: () => {}, setSize: () => {} };
+      }
+      
+      // Lights
+      const ambientLight = new THREE.AmbientLight(0x051324, 2.0);
       scene.add(ambientLight);
       
-      const tunnelLight = new THREE.PointLight(0xffa800, 15, 60);
-      tunnelLight.position.set(0, 0, -35);
-      scene.add(tunnelLight);
+      const frontLight = new THREE.PointLight(0x00d4ff, 12, 45);
+      scene.add(frontLight);
       
-      // Interlocking Hexagonal Tunnel rings
+      // Vault Tunnel Group
       const tunnelGroup = new THREE.Group();
       scene.add(tunnelGroup);
       
-      const ringsCount = 12;
-      const ringsData = [];
+      // 1. Hexagonal ring structures along the Z-axis
+      const ringCount = 15;
+      const ringSpacing = 10.0;
+      const hexagonalRings = [];
       
-      for (let i = 0; i < ringsCount; i++) {
-        const ringZ = -i * 5; // spacing along Z axis
-        const singleRingGroup = new THREE.Group();
-        singleRingGroup.position.z = ringZ;
-        
-        // Construct hexagon using 6 plane panels
-        const panelGeo = new THREE.PlaneGeometry(3.5, 4.0);
-        const panelMat = new THREE.MeshPhysicalMaterial({
-          color: 0x00ff88,
-          roughness: 0.15,
-          metalness: 0.8,
-          clearcoat: 1.0,
-          side: THREE.DoubleSide
+      for (let i = 0; i < ringCount; i++) {
+        // Hexagonal Ring using RingGeometry with 6 segments
+        const hexGeo = new THREE.RingGeometry(5.2, 5.28, 6);
+        const hexMat = new THREE.MeshBasicMaterial({
+          color: 0x00d4ff,
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.35
         });
+        const hexMesh = new THREE.Mesh(hexGeo, hexMat);
+        hexMesh.position.z = -i * ringSpacing;
+        hexMesh.rotation.z = Math.PI / 6; // Orient cleanly
+        tunnelGroup.add(hexMesh);
+        hexagonalRings.push(hexMesh);
+      }
+      
+      // 2. Long perspective rails connecting vertices of hexagons
+      const railCount = 6;
+      const railGeo = new THREE.CylinderGeometry(0.04, 0.04, ringCount * ringSpacing, 8);
+      const railMat = new THREE.MeshStandardMaterial({
+        color: 0x00ff88,
+        emissive: 0x00ff88,
+        emissiveIntensity: 0.6,
+        metalness: 0.9,
+        roughness: 0.1
+      });
+      
+      for (let i = 0; i < railCount; i++) {
+        const angle = (i / railCount) * Math.PI * 2 + Math.PI / 6;
+        const rail = new THREE.Mesh(railGeo, railMat);
+        rail.position.x = 5.2 * Math.cos(angle);
+        rail.position.y = 5.2 * Math.sin(angle);
+        rail.position.z = -(ringCount * ringSpacing) / 2;
+        rail.rotation.x = Math.PI / 2;
+        tunnelGroup.add(rail);
+      }
+      
+      // 3. Database Hexagonal Sector Blocks on the tunnel walls (3D boxes)
+      const cellCount = 36;
+      const cells = [];
+      // Flattened hexagon box
+      const cellGeo = new THREE.BoxGeometry(1.5, 0.2, 2.5);
+      const cellMat = new THREE.MeshStandardMaterial({
+        color: 0x00ff88,
+        metalness: 0.9,
+        roughness: 0.1,
+        emissive: 0x00ff88,
+        emissiveIntensity: 0.2
+      });
+      
+      const goldCellMat = new THREE.MeshStandardMaterial({
+        color: 0xffd700,
+        metalness: 0.9,
+        roughness: 0.1,
+        emissive: 0xffa500,
+        emissiveIntensity: 0.3
+      });
+      
+      for (let i = 0; i < cellCount; i++) {
+        const wallIndex = i % 6;
+        const angle = (wallIndex / 6) * Math.PI * 2 + Math.PI / 6;
+        const isGold = i % 4 === 0;
         
-        for (let j = 0; j < 6; j++) {
-          const panel = new THREE.Mesh(panelGeo, panelMat);
-          const angle = (j / 6) * Math.PI * 2;
-          const radius = 5.0;
-          
-          panel.position.set(radius * Math.cos(angle), radius * Math.sin(angle), 0);
-          panel.rotation.z = angle + Math.PI / 2;
-          panel.rotation.y = Math.PI / 2; // point facing inwards
-          
-          singleRingGroup.add(panel);
-        }
+        const mesh = new THREE.Mesh(cellGeo, isGold ? goldCellMat : cellMat);
         
-        // Add neon glowing border
-        const hexEdgeGeo = new THREE.RingGeometry(5.2, 5.4, 6);
-        const hexEdgeMat = new THREE.MeshBasicMaterial({
-          color: i % 2 === 0 ? 0x00ff88 : 0xff9900,
-          side: THREE.DoubleSide
-        });
-        const hexEdge = new THREE.Mesh(hexEdgeGeo, hexEdgeMat);
-        singleRingGroup.add(hexEdge);
+        // Position exactly flat against one of the 6 flat hexagonal wall faces
+        const radius = 5.1;
+        mesh.position.x = radius * Math.cos(angle);
+        mesh.position.y = radius * Math.sin(angle);
+        mesh.position.z = -Math.random() * (ringCount * ringSpacing);
+        mesh.rotation.z = angle + Math.PI / 2;
         
-        tunnelGroup.add(singleRingGroup);
-        ringsData.push({
-          group: singleRingGroup,
-          z: ringZ,
-          speed: 1.5 + (i * 0.1)
+        tunnelGroup.add(mesh);
+        cells.push({
+          mesh,
+          speed: 12.0 + Math.random() * 10.0,
+          z: mesh.position.z,
+          maxZ: ringCount * ringSpacing
         });
       }
       
-      // Floating 3D Text Plane
-      const textCanvas = document.createElement("canvas");
-      textCanvas.width = 512;
-      textCanvas.height = 128;
-      const textCtx = textCanvas.getContext("2d");
-      textCtx.font = "bold 56px 'Oswald', sans-serif";
-      textCtx.fillStyle = "#ffffff";
-      textCtx.textAlign = "center";
-      textCtx.textBaseline = "middle";
-      textCtx.shadowColor = "#00ff88";
-      textCtx.shadowBlur = 15;
-      textCtx.fillText("FRACTAL TUNNEL", 256, 64);
-      
-      const textTexture = new THREE.CanvasTexture(textCanvas);
-      const textMat = new THREE.MeshBasicMaterial({
-        map: textTexture,
-        transparent: true,
-        side: THREE.DoubleSide
-      });
-      const textGeo = new THREE.PlaneGeometry(6, 1.5);
-      const textMesh = new THREE.Mesh(textGeo, textMat);
-      textMesh.position.set(0, 0, -20);
-      scene.add(textMesh);
-      
-      // Seek logic
-      function seek(progress) {
-        let p = progress;
+      // Dynamic camera movement path
+      function seek(p) {
+        // Continuous slow rotation of the database tunnel
+        tunnelGroup.rotation.z = p * Math.PI * 0.4;
         
-        // Rotate tunnel rings on alternate directions
-        ringsData.forEach((ring, idx) => {
-          const dir = idx % 2 === 0 ? 1 : -1;
-          ring.group.rotation.z = p * ring.speed * Math.PI * dir * 1.5;
+        // Update database cells passing the camera
+        cells.forEach((cell) => {
+          // Travel progress along Z-axis
+          let currentZ = cell.z + p * cell.speed;
+          currentZ = currentZ % cell.maxZ;
+          
+          cell.mesh.position.z = -currentZ;
+          
+          // Glow intensely when close to camera
+          const distance = Math.abs(cell.mesh.position.z - camera.position.z);
+          const glow = Math.max(0.1, 1.2 - (distance / 30.0));
+          cell.mesh.material.emissiveIntensity = glow;
         });
         
-        // Camera flying straight down the middle of the hex tunnel, spiraling
-        let camZ;
-        if (p < 0.8) {
-          camZ = THREE.MathUtils.lerp(12, -45, p / 0.8);
-        } else {
-          // Rapid acceleration exit out of the tunnel!
-          const exitP = (p - 0.8) / 0.2;
-          camZ = THREE.MathUtils.lerp(-45, -78, exitP);
-        }
+        // Camera zooming forward through database hexagonal grid tunnel!
+        const flyDistance = ringCount * ringSpacing;
+        const camZ = -p * (flyDistance * 0.7); // Zoom through 70% of the tunnel
         
-        const camAngle = p * Math.PI * 2;
-        camera.position.x = Math.sin(camAngle) * 0.3;
-        camera.position.y = Math.cos(camAngle) * 0.3;
+        camera.position.x = Math.cos(p * Math.PI * 2) * 0.3;
+        camera.position.y = Math.sin(p * Math.PI * 3) * 0.3;
         camera.position.z = camZ;
         
-        // Look slightly ahead
-        camera.lookAt(0, 0, camZ - 10);
+        // Front tracking light stays in front of camera
+        frontLight.position.x = camera.position.x;
+        frontLight.position.y = camera.position.y;
+        frontLight.position.z = camera.position.z - 6.0;
         
-        // Text floating
-        textMesh.position.z = -20 - p * 15;
-        
-        if (p < 0.3) {
-          textMat.opacity = p / 0.3;
-        } else if (p > 0.8) {
-          textMat.opacity = 1 - (p - 0.8) / 0.2;
-        } else {
-          textMat.opacity = 1.0;
-        }
+        camera.rotation.z = p * Math.PI * 0.15;
+        camera.rotation.x = Math.sin(p * Math.PI) * 0.04;
+        camera.rotation.y = Math.cos(p * Math.PI) * 0.04;
         
         renderer.render(scene, camera);
       }
       
       window.addEventListener("hf-seek", (event) => {
-        const time = event.detail.time;
-        seek(time / duration);
+        seek(event.detail.time / duration);
       });
       
+      // First frame render
       seek(0);
     </script>
   </body>
