@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>Vault3D30 Clip 02 — Armillary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="compositions/Vault3D30/vault3d30-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#14100e}
+    #root{position:relative;width:1080px;height:1920px}
+    #canvas3d{position:absolute;inset:0;z-index:1}
+    #grain{position:absolute;inset:0;z-index:5;opacity:.2;mix-blend-mode:overlay;pointer-events:none}
+    #hud{position:absolute;inset:0;z-index:10;pointer-events:none;padding:90px 70px;font-family:'Courier Prime',monospace;color:#BB9457}
+    .title{font-family:'Oswald',sans-serif;font-size:32px;color:#F4F1EA;letter-spacing:.12em}
+    #vignette{position:absolute;inset:0;z-index:4;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.5) 100%)}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="Vault3D30-clip-02" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <canvas id="canvas3d" class="clip" data-start="0" data-duration="5" data-track-index="0"></canvas>
+    <div id="vignette" class="clip" data-start="0" data-duration="5" data-track-index="1"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="2" width="540" height="960"></canvas>
+    <div id="hud" class="clip" data-start="0" data-duration="5" data-track-index="3"><div class="title" id="cap">BRONZE ARMILLARY</div></div>
+  </div>
+  <script>
+    window.__timelines=window.__timelines||{};
+    const CID="Vault3D30-clip-02",D=5,V=window.Vault3D;
+    const tl=gsap.timeline({paused:true});
+    gsap.set("#cap",{opacity:0});tl.to("#cap",{opacity:1,duration:.8},.4);
+    V.initGrainCanvas(document.getElementById("grain"),302);
+    const renderer=V.createRenderer(document.getElementById("canvas3d"));
+    const {scene,camera}=V.createSceneCamera();
+    V.addCinematicLights(scene);V.addVaultFloor(scene);
+    const arm=new THREE.Group();scene.add(arm);
+    const ringMat=new THREE.MeshStandardMaterial({color:0xc9a84c,metalness:.85,roughness:.3,wireframe:false});
+    [[0,0,0],[Math.PI/2,0,0],[Math.PI/3,Math.PI/4,0]].forEach((r,i)=>{
+      const t=new THREE.Mesh(new THREE.TorusGeometry(3.2+i*.35,.06,12,80),ringMat);
+      t.rotation.set(r[0],r[1],r[2]);arm.add(t);
+    });
+    const core=new THREE.Mesh(new THREE.SphereGeometry(.55,24,24),V.goldMaterial(.5));
+    arm.add(core);
+    const rng=V.mulberry32(3022);
+    for(let i=0;i<12;i++){
+      const m=new THREE.Mesh(new THREE.SphereGeometry(.12,8,8),new THREE.MeshStandardMaterial({color:0x8c5a2b,metalness:.7,roughness:.35}));
+      const a=(i/12)*Math.PI*2;m.userData.base=a;m.userData.r=3.8+rng()*.4;arm.add(m);
+    }
+    function seek(p){
+      arm.rotation.y=p*Math.PI*2;
+      arm.rotation.x=Math.sin(p*Math.PI)*.18;
+      arm.children.forEach(c=>{
+        if(c.userData.base!=null){
+          const a=c.userData.base+p*1.6;
+          c.position.set(Math.cos(a)*c.userData.r,Math.sin(a*2)*.3,Math.sin(a)*c.userData.r);
+        }
+      });
+      V.orbitCamera(camera,p,{radius0:16,radius1:10,y0:5,y1:2.8,turns:1.1});
+      if(renderer)renderer.render(scene,camera);
+    }
+    window.addEventListener("hf-seek",e=>{tl.seek(e.detail.time);seek(e.detail.time/D);});
+    seek(0);tl.seek(0);window.__timelines[CID]=tl;
+  </script>
+</body>
+</html>

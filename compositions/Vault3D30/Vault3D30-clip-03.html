@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>Vault3D30 Clip 03 — Meridian Globe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="compositions/Vault3D30/vault3d30-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#14100e}
+    #root{position:relative;width:1080px;height:1920px}
+    #canvas3d{position:absolute;inset:0;z-index:1}
+    #grain{position:absolute;inset:0;z-index:5;opacity:.2;mix-blend-mode:overlay;pointer-events:none}
+    #vignette{position:absolute;inset:0;z-index:4;background:radial-gradient(ellipse at center,transparent 32%,rgba(0,0,0,.52) 100%)}
+    #cap{position:absolute;left:70px;top:100px;z-index:10;font-family:'Oswald',sans-serif;font-size:30px;color:#F4F1EA;letter-spacing:.1em}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="Vault3D30-clip-03" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <canvas id="canvas3d" class="clip" data-start="0" data-duration="5" data-track-index="0"></canvas>
+    <div id="vignette" class="clip" data-start="0" data-duration="5" data-track-index="1"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="2" width="540" height="960"></canvas>
+    <div id="cap" class="clip" data-start="0" data-duration="5" data-track-index="3">MERIDIAN GLOBE</div>
+  </div>
+  <script>
+    window.__timelines=window.__timelines||{};
+    const CID="Vault3D30-clip-03",D=5,V=window.Vault3D;
+    const tl=gsap.timeline({paused:true});
+    gsap.set("#cap",{opacity:0});tl.to("#cap",{opacity:1,duration:.7},.5);
+    V.initGrainCanvas(document.getElementById("grain"),303);
+    const renderer=V.createRenderer(document.getElementById("canvas3d"));
+    const {scene,camera}=V.createSceneCamera();
+    V.addCinematicLights(scene);V.addVaultFloor(scene);
+    const globe=new THREE.Group();scene.add(globe);
+    const sphere=new THREE.Mesh(new THREE.SphereGeometry(3.2,32,32),new THREE.MeshStandardMaterial({color:0x2a2218,roughness:.9,metalness:.1,wireframe:true}));
+    globe.add(sphere);
+    const meridian=new THREE.Mesh(new THREE.TorusGeometry(3.25,.04,8,64),new THREE.MeshStandardMaterial({color:0xe56b6f,emissive:0x662222,emissiveIntensity:.6,metalness:.6}));
+    meridian.rotation.y=Math.PI/2;globe.add(meridian);
+    for(let lat=-2;lat<=2;lat++){
+      const t=new THREE.Mesh(new THREE.TorusGeometry(3.2*Math.cos(lat*.35),.025,6,64),new THREE.MeshBasicMaterial({color:0xBB9457,transparent:true,opacity:.35}));
+      t.rotation.x=lat*.35;globe.add(t);
+    }
+    function seek(p){
+      globe.rotation.y=p*Math.PI*1.5;
+      meridian.material.emissiveIntensity=.4+.5*Math.sin(p*Math.PI*4);
+      V.orbitCamera(camera,p,{radius0:18,radius1:11,y0:4,y1:2.2,turns:.9});
+      if(renderer)renderer.render(scene,camera);
+    }
+    window.addEventListener("hf-seek",e=>{tl.seek(e.detail.time);seek(e.detail.time/D);});
+    seek(0);tl.seek(0);window.__timelines[CID]=tl;
+  </script>
+</body>
+</html>
