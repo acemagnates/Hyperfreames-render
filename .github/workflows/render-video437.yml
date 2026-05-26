@@ -34,12 +34,15 @@ jobs:
       RENDER_FPS: ${{ inputs.render_fps }}
     strategy:
       fail-fast: false
-      max-parallel: 3
+      max-parallel: 6
       matrix:
         clip:
           - compositions/Video437/Video437-clip-01.html
           - compositions/Video437/Video437-clip-02.html
           - compositions/Video437/Video437-clip-03.html
+          - compositions/Video437/Video437-clip-04.html
+          - compositions/Video437/Video437-clip-05.html
+          - compositions/Video437/Video437-clip-06.html
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
