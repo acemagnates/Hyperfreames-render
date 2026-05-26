@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>Video434 Clip 04 — The Turn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;600&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
+    <script src="compositions/_shared/ace-recipes.js"></script>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #060504;
+        color: #ffffff;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+      }
+      #root-inner {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 50%;
+      }
+      #depth-stage {
+        position: absolute;
+        inset: 0;
+        perspective: 1200px;
+        perspective-origin: 50% 50%;
+        transform-style: preserve-3d;
+      }
+      #stage-tilt {
+        position: absolute;
+        inset: -5%;
+        transform-style: preserve-3d;
+        transform-origin: 50% 50%;
+      }
+      .z-bg {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(-350px) scale(1.6);
+        transform-style: preserve-3d;
+        background:
+          radial-gradient(ellipse 65% 55% at 65% 45%, rgba(201, 168, 76, 0.08), transparent 70%),
+          linear-gradient(180deg, #100b08 0%, #060504 100%);
+      }
+      .mud-cracks {
+        position: absolute;
+        inset: 0;
+        opacity: 0.16;
+        stroke: #c9a84c;
+        stroke-width: 2;
+        fill: none;
+        transform: translateZ(-100px);
+      }
+      .god-ray {
+        position: absolute;
+        top: -300px;
+        right: -100px;
+        width: 420px;
+        height: 2400px;
+        background: linear-gradient(-105deg, transparent, rgba(255, 215, 0, 0.06) 25%, rgba(255, 215, 0, 0.02) 55%, transparent);
+        transform: skewX(-12deg);
+        pointer-events: none;
+        z-index: 2;
+      }
+      .z-mg {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(0);
+        transform-style: preserve-3d;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 160px 80px;
+        pointer-events: none;
+      }
+      .hud-header {
+        border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+        padding-bottom: 20px;
+        font-family: 'Courier Prime', monospace;
+        color: #c9a84c;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .hud-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 38px;
+        letter-spacing: 0.1em;
+        color: #ffffff;
+        text-shadow: 0 0 15px rgba(201, 168, 76, 0.35);
+      }
+      .hud-subtitle {
+        font-size: 14px;
+        letter-spacing: 0.25em;
+        margin-top: 6px;
+        opacity: 0.85;
+      }
+      .hud-footer {
+        border-top: 1px solid rgba(201, 168, 76, 0.25);
+        padding-top: 20px;
+        font-family: 'Courier Prime', monospace;
+        color: #c9a84c;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+      .blueprint-box {
+        position: absolute;
+        top: 220px;
+        left: 80px;
+        transform: rotateY(18deg) rotateX(12deg) translateZ(30px);
+        padding: 15px;
+        background: rgba(6, 5, 4, 0.85);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+        border: 1px solid rgba(201, 168, 76, 0.2);
+        z-index: 10;
+      }
+      .z-fg {
+        position: absolute;
+        inset: 0;
+        transform: translateZ(150px) scale(0.85);
+        pointer-events: none;
+      }
+      .hud-brackets {
+        position: absolute;
+        inset: 60px;
+        opacity: 0.85;
+      }
+      .bracket {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #c9a84c;
+      }
+      .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+      .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+      .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+      .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+      .hero-stack {
+        position: absolute;
+        left: 50%;
+        top: 20%;
+        transform: translateX(-50%) translateZ(60px);
+        width: 960px;
+        text-align: center;
+        pointer-events: none;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-word {
+        opacity: 0;
+      }
+      
+      #chrom-wrap {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 40;
+        opacity: 0;
+      }
+      #chrom-r, #chrom-b {
+        position: absolute;
+        inset: 0;
+        mix-blend-mode: screen;
+        pointer-events: none;
+      }
+      #chrom-r { background: rgba(255, 0, 0, 0.15); }
+      #chrom-b { background: rgba(0, 100, 255, 0.15); }
+      
+      #vignette {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 35;
+        background: radial-gradient(ellipse 72% 78% at 50% 50%, transparent 40%, rgba(0,0,0,0.7) 100%);
+      }
+      #grain {
+        position: absolute;
+        inset: 0;
+        z-index: 50;
+        opacity: 0.18;
+        mix-blend-mode: overlay;
+        pointer-events: none;
+      }
+      .microbe-rod {
+        position: absolute;
+        border-radius: 10px;
+        background: #c9a84c;
+        box-shadow: 0 0 15px #ffd700, 0 0 30px #c9a84c;
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="Video434-clip-04"
+      data-start="0"
+      data-duration="12.00"
+      data-width="1080"
+      data-height="1920"
+      data-fps="30"
+    >
+      <div id="root-inner">
+        <div id="depth-stage" class="clip" data-start="0" data-duration="12.00" data-track-index="0">
+          <div id="stage-tilt">
+            <!-- L0 Background Parallax -->
+            <div class="z-bg clip" data-start="0" data-duration="12.00" data-track-index="1">
+              <!-- SVG mud cracks -->
+              <svg class="mud-cracks" width="1080" height="1920">
+                <path d="M 540 0 Q 520 400 300 800 T 540 1600" />
+                <path d="M 300 800 Q 100 1000 0 1100" />
+                <path d="M 400 1200 Q 700 1400 1080 1500" />
+                <path d="M 540 400 Q 800 600 1080 500" />
+              </svg>
+            </div>
+            
+            <div class="god-ray clip" data-start="0" data-duration="12.00" data-track-index="2"></div>
+            
+            <!-- L2 Mid Ground Content -->
+            <div class="z-mg clip" data-start="0" data-duration="12.00" data-track-index="3">
+              <div class="blueprint-box">
+                <div style="font-family: 'Courier Prime', monospace; font-size: 14px; color: #c9a84c; opacity: 0.85; letter-spacing: 0.1em; margin-bottom: 8px;">SOIL CROSS-SECTION</div>
+                <svg width="240" height="320" style="border: 1px solid rgba(201, 168, 76, 0.25); background: rgba(0,0,0,0.65);">
+                  <line x1="10" y1="40" x2="230" y2="40" stroke="rgba(201, 168, 76, 0.4)" stroke-dasharray="4" />
+                  <text x="20" y="30" fill="#c9a84c" font-size="11" font-family="Courier Prime">L1: ORGANIC MUD</text>
+                  <line x1="10" y1="120" x2="230" y2="120" stroke="rgba(201, 168, 76, 0.4)" stroke-dasharray="4" />
+                  <text x="20" y="110" fill="#c9a84c" font-size="11" font-family="Courier Prime">L2: ACTIVE COMPOST</text>
+                  <line x1="10" y1="220" x2="230" y2="220" stroke="rgba(201, 168, 76, 0.4)" stroke-dasharray="4" />
+                  <text x="20" y="210" fill="#c9a84c" font-size="11" font-family="Courier Prime">L3: SUB-BASAL CLAY</text>
+                  <rect x="20" y="260" width="200" height="20" fill="none" stroke="#c9a84c" stroke-width="1" />
+                  <rect x="20" y="260" width="180" height="20" fill="rgba(201, 168, 76, 0.25)" />
+                  <text x="25" y="274" fill="#ffffff" font-size="10" font-family="Courier Prime">MICROBE DENSITY: 98.4%</text>
+                </svg>
+              </div>
+
+              <!-- Swarming Microbe Host -->
+              <div id="microbe-swarm" style="position: absolute; inset: 0; transform-style: preserve-3d;"></div>
+
+              <div class="hud-header">
+                <div>
+                  <h1 class="hud-title">MICROBIAL DENSITY EXPORT</h1>
+                  <div class="hud-subtitle">ANALYSIS // COMPOST_VOLUME_1991</div>
+                </div>
+                <div style="text-align: right; font-size: 15px; line-height: 1.6;">
+                  <div>ECOSYSTEM // <span style="font-weight: 700;">ACTIVE_DIRT</span></div>
+                  <div>RESPIRATION // <span style="color: #ffd700;">HYPERACTIVE</span></div>
+                </div>
+              </div>
+              
+              <div class="hud-footer">
+                <div>SYS_MICROBE_COUNT // 10^14 / g</div>
+                <div style="font-weight: 700; letter-spacing: 0.15em;">PHASE_04 // THE_TURN</div>
+              </div>
+            </div>
+            
+            <!-- L3 Foreground Brackets & Elements -->
+            <div class="z-fg clip" data-start="0" data-duration="12.00" data-track-index="4">
+              <div class="hud-brackets">
+                <div class="bracket tl"></div>
+                <div class="bracket tr"></div>
+                <div class="bracket bl"></div>
+                <div class="bracket br"></div>
+              </div>
+            </div>
+
+            <div class="hero-stack clip" data-start="0" data-duration="12.00" data-track-index="5">
+              <!-- Act 1 Narrative Text -->
+              <div id="para-1" style="display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 40px; transform-style: preserve-3d;">
+                <span id="p1-line1" style="opacity: 0; font-family: 'Playfair Display', serif; font-size: 50px; font-style: italic; color: #e2f1e7; text-shadow: 0 4px 15px rgba(0,0,0,0.9); transform: translateZ(20px);">Obsessed with engineering nature,</span>
+                <span id="p1-line2" style="opacity: 0; font-family: 'Playfair Display', serif; font-size: 50px; font-style: italic; color: #e2f1e7; text-shadow: 0 4px 15px rgba(0,0,0,0.9); transform: translateZ(20px);">they forgot the mud.</span>
+              </div>
+              
+              <!-- Act 2 Pacing Text -->
+              <div id="para-2" style="display: flex; flex-direction: column; align-items: center; gap: 20px; transform-style: preserve-3d;">
+                <span id="hw-beneath" class="hero-word" style="font-family: 'Courier Prime', monospace; font-size: 40px; letter-spacing: 0.15em; color: #c9a84c; text-shadow: 0 2px 10px rgba(0,0,0,0.9); transform: translateZ(20px);">BENEATH THEIR FEET,</span>
+                <span id="hw-trillions" class="hero-word" style="font-family: 'Oswald', sans-serif; font-size: 130px; font-weight: 900; letter-spacing: 0.05em; color: #ffffff; text-shadow: 0 0 35px rgba(255, 215, 0, 0.6), 0 5px 25px rgba(0,0,0,0.95); margin-top: -10px;">TRILLIONS</span>
+                <span id="hw-microbes" class="hero-word" style="font-family: 'Courier Prime', monospace; font-size: 34px; letter-spacing: 0.12em; color: #c9a84c; background: rgba(0,0,0,0.85); border: 1.5px solid #c9a84c; padding: 10px 24px; transform: translateZ(30px);">SOIL MICROBES</span>
+                <span id="hw-frenzy" class="hero-word" style="font-family: 'Playfair Display', serif; font-size: 42px; color: #ffffff; text-shadow: 0 3px 12px rgba(0,0,0,0.9); margin-top: 15px; font-style: italic; transform: translateZ(20px);">went on an oxygen-devouring frenzy.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Post-Processing -->
+        <div id="chrom-wrap" class="clip" data-start="0" data-duration="12.00" data-track-index="9">
+          <div id="chrom-r"></div>
+          <div id="chrom-b"></div>
+        </div>
+        <div id="vignette" class="clip" data-start="0" data-duration="12.00" data-track-index="10"></div>
+        <canvas id="grain" class="clip" data-start="0" data-duration="12.00" data-track-index="11" width="540" height="960"></canvas>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const CID = "Video434-clip-04";
+      const D = 12.00;
+      const H = window.Ace435;
+      H.registerEases(gsap);
+      const tl = gsap.timeline({ paused: true });
+      const rng = H.mulberry32(0x43400004);
+
+      // Initialize Grain Canvas
+      const grain = document.getElementById("grain");
+      if (grain) {
+        const ctx = grain.getContext("2d");
+        if (ctx) {
+          const img = ctx.createImageData(540, 960);
+          const data = img.data;
+          const gRng = H.mulberry32(0x9ace4344);
+          for (let i = 0; i < data.length; i += 4) {
+            const n = (gRng() * 64) | 0;
+            data[i] = data[i+1] = data[i+2] = n;
+            data[i+3] = 255;
+          }
+          ctx.putImageData(img, 0, 0);
+        }
+      }
+
+      // Generate procedural water/spore/microbe divs
+      const swarm = document.getElementById("microbe-swarm");
+      if (swarm) {
+        const mRng = H.mulberry32(0x43400004);
+        for (let i = 0; i < 20; i++) {
+          const rod = document.createElement("div");
+          rod.className = "microbe-rod";
+          const x = 120 + mRng() * 800;
+          const y = 300 + mRng() * 1200;
+          const w = 12 + mRng() * 12;
+          const h = 32 + mRng() * 32;
+          const rot = mRng() * 360;
+          rod.style.cssText = `left:${x}px;top:${y}px;width:${w}px;height:${h}px;transform:rotate(${rot}deg);`;
+          swarm.appendChild(rod);
+
+          // Initial delay and entry fade-in
+          tl.to(rod, { opacity: 0.85, duration: 0.6, ease: "power2.out" }, 0.2 + (i * 0.05));
+
+          // Continuous organic drift
+          const targetX = (mRng() - 0.5) * 160;
+          const targetY = (mRng() - 0.5) * 160;
+          const targetRot = (mRng() > 0.5 ? 1 : -1) * (90 + mRng() * 180);
+          
+          tl.to(rod, {
+            x: targetX,
+            y: targetY,
+            rotation: "+=" + targetRot,
+            duration: D,
+            ease: "none"
+          }, 0);
+        }
+      }
+
+      // Initial layout settings
+      gsap.set("#p1-line1", { y: 25, opacity: 0 });
+      gsap.set("#p1-line2", { y: 25, opacity: 0 });
+      gsap.set(".hud-brackets", { inset: "80px", opacity: 0 });
+      gsap.set(".bracket", { scale: 0.6, opacity: 0 });
+
+      // Camera drift & steady rotation
+      tl.to("#stage-tilt", { scale: 1.05, duration: D, ease: "none" }, 0);
+      tl.to("#stage-tilt .z-bg", { scale: 1.08, x: -15, y: 15, rotateY: -3, duration: D, ease: "sine.inOut" }, 0);
+      tl.to(".god-ray", { x: -30, duration: D, ease: "sine.inOut" }, 0);
+
+      // Brackets reveal
+      tl.to(".hud-brackets", { inset: "60px", opacity: 0.85, duration: 1.0, ease: "power3.out" }, 0.1);
+      tl.to(".bracket", { scale: 1, opacity: 1, duration: 0.8, ease: "springSnappy", stagger: 0.05 }, 0.15);
+
+      // Reveal Obsessed with engineering nature (0.27s)
+      tl.to("#p1-line1", { y: 0, opacity: 1, duration: 0.6, ease: "springLight" }, 0.27);
+      
+      // they forgot the mud (2.76s)
+      tl.to("#p1-line2", { y: 0, opacity: 1, duration: 0.6, ease: "springLight" }, 2.76);
+
+      // Fade out paragraph 1 (4.50s) to prepare for trillions entry
+      tl.to("#para-1", { opacity: 0, y: -20, duration: 0.45, ease: "power2.in" }, 4.3);
+
+      // Beneath their feet (4.79s)
+      tl.to("#hw-beneath", { opacity: 1, duration: 0.4, ease: "power2.out" }, 4.79);
+
+      // TRILLIONS snap-zoom entry (6.03s)
+      tl.to("#hw-trillions", { opacity: 1, duration: 0.1 }, 6.03);
+      H.snapZoomWithRecover(tl, "#hw-trillions", 6.03, { peakScale: 1.45, peakZ: 75, peakDur: 0.16, recoverDur: 0.45 });
+      H.screenShake(tl, "#root-inner", 6.03, 1.45);
+      H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 6.03, 1.3);
+      
+      // Trigger golden particle burst at screen center
+      const parentContainer = document.getElementById("stage-tilt");
+      H.particleBurst(tl, parentContainer, 540, 960, 6.03, 18, "#ffd700", 4344);
+      H.bracketPulse(tl, ".bracket", 6.03);
+
+      // Microbes label (6.97s)
+      tl.to("#hw-microbes", { opacity: 1, scale: 1, duration: 0.45, ease: "springSnappy" }, 6.97);
+
+      // Frenzy went on (9.00s)
+      tl.to("#hw-frenzy", { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 9.00);
+
+      // Outro transition matching next clip (last 12 frames)
+      const transitionStart = D - 0.4; // 11.60s
+      tl.to("#stage-tilt", { scale: 1.15, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
+      tl.to(".hud-brackets", { scale: 1.2, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
+      tl.to(".hero-stack", { y: -50, opacity: 0, duration: 0.35, ease: "power3.in" }, transitionStart);
+
+      // Seek connection
+      window.addEventListener("hf-seek", (event) => {
+        tl.seek(event.detail.time);
+      });
+
+      tl.seek(0);
+      window.__timelines[CID] = tl;
+    </script>
+  </body>
+</html>
