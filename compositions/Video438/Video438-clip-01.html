@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
     <link rel="icon" href="data:," />
-    <title>Video438 Clip 01 — The Awakening</title>
+    <title>Video438 Clip 01 — The Manhattan Icon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet" />
@@ -21,7 +21,7 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #020306;
+        background: #020813;
         color: #ffffff;
       }
       #root {
@@ -37,7 +37,7 @@
       #depth-stage {
         position: absolute;
         inset: 0;
-        perspective: 1000px;
+        perspective: 1200px;
         perspective-origin: 50% 50%;
         transform-style: preserve-3d;
       }
@@ -45,9 +45,10 @@
         position: absolute;
         inset: 0;
         transform: translateZ(-350px) scale(1.6);
-        background: radial-gradient(circle at 50% 50%, rgba(0, 255, 136, 0.15), #020306 70%);
+        background: radial-gradient(circle at 50% 50%, rgba(0, 245, 212, 0.16), #020813 75%);
+        transform-style: preserve-3d;
       }
-      #plexus-canvas {
+      #grid-canvas {
         position: absolute;
         inset: 0;
         width: 1080px;
@@ -63,38 +64,42 @@
         justify-content: space-between;
         padding: 160px 80px;
       }
-      .center-orbit-wrap {
+      
+      /* Citicorp Drawing Container */
+      .tower-draw-wrap {
         position: absolute;
         left: 50%;
-        top: 45%;
-        transform: translate(-50%, -50%) translateZ(40px);
+        top: 48%;
+        transform: translate(-50%, -50%) translateZ(60px);
         width: 600px;
-        height: 600px;
+        height: 1000px;
         display: flex;
         align-items: center;
         justify-content: center;
         pointer-events: none;
       }
-      .orbit-svg {
+      #tower-canvas {
         width: 100%;
         height: 100%;
       }
+
       .z-fg {
         position: absolute;
         inset: 0;
-        transform: translateZ(150px) scale(0.85);
+        transform: translateZ(180px) scale(0.85);
         pointer-events: none;
       }
       .hud-brackets {
         position: absolute;
         inset: 60px;
-        border: 1px solid rgba(0, 255, 136, 0.08);
+        border: 1px solid rgba(0, 245, 212, 0.08);
       }
       .bracket {
         position: absolute;
         width: 45px;
         height: 45px;
-        border: 2px solid #00ffaa;
+        border: 2px solid #00f5d4;
+        box-shadow: 0 0 10px rgba(0, 245, 212, 0.4);
       }
       .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
       .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
@@ -103,20 +108,20 @@
       
       /* HUD Interface components */
       .hud-header {
-        border-bottom: 1px solid rgba(0, 255, 170, 0.25);
+        border-bottom: 1px solid rgba(0, 245, 212, 0.25);
         padding-bottom: 20px;
         font-family: 'Courier Prime', monospace;
-        color: #00ffaa;
+        color: #00f5d4;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
       }
       .hud-title {
         font-family: 'Oswald', sans-serif;
-        font-size: 42px;
+        font-size: 44px;
         letter-spacing: 0.1em;
         color: #ffffff;
-        text-shadow: 0 0 15px rgba(0, 255, 170, 0.5);
+        text-shadow: 0 0 15px rgba(0, 245, 212, 0.4);
       }
       .hud-subtitle {
         font-size: 14px;
@@ -125,14 +130,41 @@
         opacity: 0.85;
       }
       .hud-footer {
-        border-top: 1px solid rgba(0, 255, 170, 0.25);
+        border-top: 1px solid rgba(0, 245, 212, 0.25);
         padding-top: 20px;
         font-family: 'Courier Prime', monospace;
-        color: #00ffaa;
+        color: #00f5d4;
         display: flex;
         justify-content: space-between;
         font-size: 14px;
       }
+
+      /* Volumetric light ray sweeps */
+      .light-ray-container {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+        mix-blend-mode: overlay;
+        z-index: 2;
+      }
+      .light-ray {
+        position: absolute;
+        width: 300%;
+        height: 500px;
+        left: -100%;
+        top: 20%;
+        background: linear-gradient(90deg,
+          transparent 30%,
+          rgba(0, 245, 212, 0.02) 45%,
+          rgba(0, 245, 212, 0.06) 50%,
+          rgba(0, 245, 212, 0.02) 55%,
+          transparent 70%
+        );
+        transform-origin: center center;
+        opacity: 0.6;
+      }
+
       #chrom-wrap {
         position: absolute;
         inset: 0;
@@ -145,14 +177,14 @@
         inset: 0;
         mix-blend-mode: screen;
       }
-      #chrom-r { background: rgba(255, 0, 0, 0.15); }
+      #chrom-r { background: rgba(255, 0, 80, 0.15); }
       #chrom-b { background: rgba(0, 100, 255, 0.15); }
       
       #grain {
         position: absolute;
         inset: 0;
         z-index: 100;
-        opacity: 0.15;
+        opacity: 0.18;
         mix-blend-mode: overlay;
         pointer-events: none;
       }
@@ -169,9 +201,12 @@
       <div id="root-inner">
         <div id="depth-stage" class="clip" data-start="0" data-duration="5.0" data-track-index="0">
           
-          <!-- L0: Background Parallax Layer -->
+          <!-- L0: Background Drafting Paper Parallax -->
           <div class="z-bg clip" data-start="0" data-duration="5.0" data-track-index="1">
-            <canvas id="plexus-canvas" width="1080" height="1920"></canvas>
+            <canvas id="grid-canvas" width="1080" height="1920"></canvas>
+            <div class="light-ray-container">
+              <div class="light-ray" id="ray1"></div>
+            </div>
           </div>
           
           <!-- L1: Middle Ground Content Layer -->
@@ -179,49 +214,28 @@
             
             <div class="hud-header">
               <div>
-                <h1 class="hud-title" id="type-title">THE AWAKENING</h1>
-                <div class="hud-subtitle">SYS_CORE // SILICON_GENESIS</div>
+                <h1 class="hud-title" id="type-title">THE MANHATTAN ICON</h1>
+                <div class="hud-subtitle">SYS_MODEL // CITICORP_CENTER</div>
               </div>
               <div style="text-align: right; font-size: 15px; line-height: 1.6;">
-                <div>NEURAL // <span style="font-weight: 700;">DORMANT</span></div>
-                <div>POTENTIAL // <span>100%</span></div>
+                <div>STATUS // <span style="font-weight: 700;">CONSTRUCTED</span></div>
+                <div>ESTABLISHED // <span>1977</span></div>
               </div>
             </div>
             
-            <!-- Central Procedural Orbit Rings -->
-            <div class="center-orbit-wrap clip" data-start="0" data-duration="5.0" data-track-index="3">
-              <svg class="orbit-svg" viewBox="0 0 400 400">
-                <!-- Inner glow ring -->
-                <circle cx="200" cy="200" r="115" fill="none" stroke="url(#mintGlow)" stroke-width="1.5" opacity="0.3" />
-                <!-- Core element -->
-                <circle cx="200" cy="200" r="35" fill="url(#coreGlow)" />
-                <!-- Rotating dashed orbits -->
-                <circle id="orbit-dot-1" cx="200" cy="200" r="90" fill="none" stroke="#00ffaa" stroke-dasharray="10, 20, 5, 20" stroke-width="2.5" stroke-linecap="round" />
-                <circle id="orbit-dot-2" cx="200" cy="200" r="135" fill="none" stroke="#00d4ff" stroke-dasharray="30, 40, 15, 40" stroke-width="1.5" stroke-linecap="round" />
-                <circle id="orbit-dot-3" cx="200" cy="200" r="165" fill="none" stroke="#00ffaa" stroke-dasharray="8, 8" stroke-width="1.2" opacity="0.75" />
-                
-                <defs>
-                  <radialGradient id="mintGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#00ffaa" stop-opacity="1" />
-                    <stop offset="100%" stop-color="#020306" stop-opacity="0" />
-                  </radialGradient>
-                  <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#ffffff" />
-                    <stop offset="40%" stop-color="#00ffaa" stop-opacity="0.85" />
-                    <stop offset="100%" stop-color="#020306" stop-opacity="0" />
-                  </radialGradient>
-                </defs>
-              </svg>
+            <!-- Central Tower Blueprint Visual -->
+            <div class="tower-draw-wrap clip" data-start="0" data-duration="5.0" data-track-index="3">
+              <canvas id="tower-canvas" width="600" height="1000"></canvas>
             </div>
             
             <div class="hud-footer">
-              <div>INITIALIZATION // STARTED</div>
-              <div style="font-weight: 700; letter-spacing: 0.15em;">EPOCH_01 // AWAKENING</div>
+              <div>DIAGNOSTIC // MODEL_INITIALIZED</div>
+              <div style="font-weight: 700; letter-spacing: 0.15em;">CHAPTER_01 // THE ARCHITECT'S VISION</div>
             </div>
             
           </div>
           
-          <!-- L2: Foreground Overlay Layer -->
+          <!-- L2: Foreground Overlay Bracket Frame -->
           <div class="z-fg clip" data-start="0" data-duration="5.0" data-track-index="4">
             <div class="hud-brackets">
               <div class="bracket tl"></div>
@@ -251,37 +265,40 @@
       H.registerEases(gsap);
       const tl = gsap.timeline({ paused: true });
       
-      // Initialize Grain Canvas safely
+      // Initialize Grain
       const grain = document.getElementById("grain");
       if (grain) {
-        H.initFilmGrain(grain, 0.15, 43801);
+        H.initFilmGrain(grain, 0.18, 43801);
       }
       
-      // Plexus rendering loop bound to GSAP safely
-      const plexusCanvas = document.getElementById("plexus-canvas");
+      const gridCanvas = document.getElementById("grid-canvas");
+      const towerCanvas = document.getElementById("tower-canvas");
       
-      // Seed values for initial positions
+      // Set initial states
       gsap.set(".hud-brackets", { inset: "80px", opacity: 0 });
       gsap.set(".bracket", { scale: 0.65, opacity: 0 });
       gsap.set("#type-title", { opacity: 0 });
       gsap.set(".hud-subtitle", { opacity: 0, x: -30 });
-      gsap.set("#orbit-dot-1, #orbit-dot-2, #orbit-dot-3", { transformOrigin: "200px 200px" });
       
-      // GSAP Animations
-      // 1. Zoom and orbital reveal
-      tl.fromTo("#depth-stage", { scale: 0.94 }, { scale: 1.0, duration: D, ease: "sine.out" }, 0);
+      // Animations
+      // 1. Ken Burns slow drift camera zoom
+      tl.fromTo("#depth-stage", { scale: 0.95 }, { scale: 1.05, duration: D, ease: "sine.out" }, 0);
+      tl.to(".z-bg", { rotateY: 3, rotateX: -1, duration: D, ease: "sine.inOut" }, 0);
+      tl.to(".z-mg", { rotateY: -2, rotateX: 2, duration: D, ease: "sine.inOut" }, 0);
       
       // 2. Corner brackets drawing in
       tl.to(".hud-brackets", { inset: "60px", opacity: 1, duration: 1.2, ease: "power3.out" }, 0.1);
       tl.to(".bracket", { scale: 1, opacity: 1, duration: 0.8, ease: "springSnappy", stagger: 0.08 }, 0.1);
       
-      // 3. Central core rotations
-      tl.fromTo("#orbit-dot-1", { rotation: 0 }, { rotation: 140, duration: D, ease: "none" }, 0);
-      tl.fromTo("#orbit-dot-2", { rotation: 0 }, { rotation: -100, duration: D, ease: "none" }, 0);
-      tl.fromTo("#orbit-dot-3", { rotation: 0 }, { rotation: 70, duration: D, ease: "none" }, 0);
+      // 3. Volumetric light ray sweeps
+      tl.fromTo("#ray1", { rotation: -35 }, { rotation: -20, duration: D, ease: "sine.inOut" }, 0);
       
-      // 4. Typewriter reveal for title
-      const titleStr = "THE AWAKENING";
+      // 4. Blueprint draw progress
+      const drawState = { progress: 0 };
+      tl.to(drawState, { progress: 1.0, duration: 2.2, ease: "power2.out" }, 0.3);
+      
+      // 5. Typewriter reveal for title
+      const titleStr = "THE MANHATTAN ICON";
       const titleEl = document.getElementById("type-title");
       if (titleEl) {
         tl.call(() => { titleEl.style.opacity = 1; }, null, 0.4);
@@ -293,34 +310,37 @@
       }
       tl.to(".hud-subtitle", { opacity: 0.85, x: 0, duration: 0.8, ease: "power2.out" }, 1.4);
       
-      // 5. Heavy impact at start (0.05s)
+      // 6. Heavy impact establish slam
       H.screenShake(tl, "#root-inner", 0.05, 1.4);
       H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 0.05, 1.6);
       
       // Particle burst inside plexus on impact
-      const plexusContainer = document.querySelector(".z-bg");
-      if (plexusContainer) {
-        H.particleBurst(tl, plexusContainer, 540, 960, 0.05, 22, "#00ffaa", 4381);
+      const bgContainer = document.querySelector(".z-bg");
+      if (bgContainer) {
+        H.particleBurst(tl, bgContainer, 540, 960, 0.05, 24, "#00f5d4", 4381);
       }
       
-      // Continuous drift
-      H.lifePulse(tl, ".center-orbit-wrap", D, { scaleAmp: 0.012, yAmp: 8, rotAmp: 0.5 });
+      // Continuous drifting movement
+      H.lifePulse(tl, ".tower-draw-wrap", D, { scaleAmp: 0.015, yAmp: 10, rotAmp: 0.4 });
       
       // Seek logic
       window.addEventListener("hf-seek", (event) => {
         const time = event.detail.time;
         tl.seek(time);
         
-        // Draw Plexus Network on Canvas relative to time
-        if (plexusCanvas) {
-          H.drawPlexus(plexusCanvas, time, "#00ffaa", "#00d4ff", 438101);
+        // Draw backgrounds & tower
+        if (gridCanvas) {
+          H.drawDraftGrid(gridCanvas, time, "rgba(0, 245, 212, 0.035)", 438101);
+        }
+        if (towerCanvas) {
+          H.drawCiticorpTower(towerCanvas, drawState.progress, 0, -1);
         }
       });
       
       // Initial render
-      if (plexusCanvas) {
-        H.drawPlexus(plexusCanvas, 0, "#00ffaa", "#00d4ff", 438101);
-      }
+      if (gridCanvas) H.drawDraftGrid(gridCanvas, 0, "rgba(0, 245, 212, 0.035)", 438101);
+      if (towerCanvas) H.drawCiticorpTower(towerCanvas, 0, 0, -1);
+      
       tl.seek(0);
       window.__timelines[CID] = tl;
     </script>

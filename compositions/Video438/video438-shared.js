@@ -1,9 +1,10 @@
 /**
- * THE SYNAPTIC ODYSSEY (Video438) Shared Visual Engine (Headless-Safe & High-End)
- * Mathematical Canvas & SVG motion engines for 30s premium cinematic showreel.
+ * THE CITICORP CENTER'S SECRET FLAW (Video438) Shared Visual Engine
+ * Highly optimized, crash-safe procedural drawing tools for engineering blueprints,
+ * stress vectors, and volumetric cinematic cameras.
  */
 (function (global) {
-  // Deterministic PRNG
+  // Seeded PRNG
   function mulberry32(a) {
     return function () {
       let t = (a += 0x6d2b79f5);
@@ -19,7 +20,7 @@
     try {
       gsap.registerPlugin(window.CustomEase);
     } catch (e) {
-      // safe fallback if plugin load is asynchronous
+      // safe fallback
     }
     if (window.CustomEase && typeof CustomEase.create === "function") {
       CustomEase.create(
@@ -38,8 +39,10 @@
   }
 
   // Procedural Static Film Grain (adds analog premium grit)
-  function initFilmGrain(canvas, opacity = 0.12, seed = 438) {
+  function initFilmGrain(canvas, opacity = 0.18, seed = 438) {
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     const w = canvas.width;
     const h = canvas.height;
     const img = ctx.createImageData(w, h);
@@ -47,7 +50,7 @@
     const rng = mulberry32(seed);
 
     for (let i = 0; i < data.length; i += 4) {
-      const g = (rng() * 45) | 0;
+      const g = (rng() * 35) | 0;
       data[i] = g;
       data[i + 1] = g;
       data[i + 2] = g;
@@ -56,114 +59,344 @@
     ctx.putImageData(img, 0, 0);
   }
 
-  // Procedural Cyber Plexus Network (L0 - Background)
-  function drawPlexus(canvas, time, accentColor = "#00ffaa", glowColor = "#00d4ff", seed = 1001) {
+  // Draw Drafting Grid Background (L0 - Background)
+  function drawDraftGrid(canvas, time, gridColor = "rgba(0, 245, 212, 0.03)", seed = 101) {
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
+    if (!ctx) return;
     const w = canvas.width;
     const h = canvas.height;
     ctx.clearRect(0, 0, w, h);
 
-    const rng = mulberry32(seed);
-    const nodeCount = 35;
-    const nodes = [];
+    // Drifting coordinates for continuous micro-motion
+    const shiftX = Math.sin(time * 0.15) * 12;
+    const shiftY = Math.cos(time * 0.12) * 12;
 
-    // Generate deterministic nodes drifting over time
-    for (let i = 0; i < nodeCount; i++) {
-      const bx = rng() * w;
-      const by = rng() * h;
-      const speedX = (rng() - 0.5) * 50;
-      const speedY = (rng() - 0.5) * 50;
-
-      const x = (bx + speedX * time + w) % w;
-      const y = (by + speedY * time + h) % h;
-      nodes.push({ x, y, size: 2 + rng() * 3 });
-    }
-
-    // Draw connecting lines
-    ctx.lineWidth = 0.6;
-    for (let i = 0; i < nodeCount; i++) {
-      for (let j = i + 1; j < nodeCount; j++) {
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < 220) {
-          const alpha = (1.0 - dist / 220) * 0.28;
-          ctx.strokeStyle = `rgba(0, 212, 255, ${alpha})`;
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    // Draw glowing nodes
-    for (let i = 0; i < nodeCount; i++) {
-      ctx.beginPath();
-      ctx.arc(nodes[i].x, nodes[i].y, nodes[i].size, 0, Math.PI * 2);
-      ctx.fillStyle = accentColor;
-      ctx.shadowBlur = 12;
-      ctx.shadowColor = accentColor;
-      ctx.fill();
-      ctx.shadowBlur = 0; // reset
-    }
-  }
-
-  // Waving Mathematical Cyber Terrain (2D Wireframe Landscape)
-  function drawWavingGrid(canvas, time, accentColor = "#00d4ff", seed = 2002) {
-    const ctx = canvas.getContext("2d");
-    const w = canvas.width;
-    const h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-
-    const cols = 22;
-    const rows = 26;
-    const points = [];
-
-    // Calculate grid vertices in perspective space
-    for (let r = 0; r <= rows; r++) {
-      const rowPoints = [];
-      const v = r / rows; // Depth factor (0 = horizon, 1 = bottom screen)
-      const py = h * 0.45 + (v * h * 0.55); // exponential vertical spacing
-
-      for (let c = 0; c <= cols; c++) {
-        const u = c / cols;
-        const xOffset = (u - 0.5) * w * (1.2 + v * 2.8); // fan out downwards
-        const px = w * 0.5 + xOffset;
-
-        // Wave formula deforming terrain height based on time and coords
-        const wave = Math.sin(u * 8.0 - time * 2.5) * Math.cos(v * 6.0 + time * 1.8) * 45 * v;
-        rowPoints.push({ x: px, y: py - wave });
-      }
-      points.push(rowPoints);
-    }
-
-    // Draw horizontal grid lines
+    ctx.strokeStyle = gridColor;
     ctx.lineWidth = 1.0;
-    for (let r = 0; r <= rows; r++) {
-      ctx.strokeStyle = `rgba(0, 212, 255, ${0.08 + (r / rows) * 0.35})`;
+
+    const spacing = 80;
+
+    // Vertical lines
+    for (let x = shiftX % spacing; x < w; x += spacing) {
       ctx.beginPath();
-      ctx.moveTo(points[r][0].x, points[r][0].y);
-      for (let c = 1; c <= cols; c++) {
-        ctx.lineTo(points[r][c].x, points[r][c].y);
-      }
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
       ctx.stroke();
     }
 
-    // Draw vertical grid lines
-    for (let c = 0; c <= cols; c++) {
+    // Horizontal lines
+    for (let y = shiftY % spacing; y < h; y += spacing) {
       ctx.beginPath();
-      ctx.moveTo(points[0][c].x, points[0][c].y);
-      for (let r = 1; r <= rows; r++) {
-        ctx.strokeStyle = `rgba(0, 212, 255, ${0.08 + (r / rows) * 0.35})`;
-        ctx.lineTo(points[r][c].x, points[r][c].y);
-      }
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
       ctx.stroke();
+    }
+
+    // Optional compass circle elements in background corner
+    ctx.strokeStyle = "rgba(0, 245, 212, 0.05)";
+    ctx.beginPath();
+    ctx.arc(w - 100, 200, 150, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(w - 100, 200, 152, 0, Math.PI * 2);
+    ctx.setLineDash([4, 8]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Draw Citicorp Tower Silhouette with Highlighted Chevrons
+  function drawCiticorpTower(canvas, progress, highlightProgress = 0, alertJointIndex = -1) {
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    const bx = w / 2; // base x
+    const by = h * 0.85; // base y
+    const tw = 220; // building width
+    const th = 850; // building height
+
+    // Glow setup
+    ctx.shadowBlur = 0;
+
+    // Draw coordinate axis labels (looks highly authentic)
+    ctx.font = "14px 'Courier Prime', monospace";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+    ctx.fillText("SCALE: 1:1200", bx - 260, by + 40);
+    ctx.fillText("STRUCTURAL MODEL // CITICORP", bx - 260, by + 60);
+
+    // Stilt pillars
+    ctx.strokeStyle = "#90E0EF";
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    // Stilts are in the middle of each side, not corners!
+    ctx.moveTo(bx - tw/2 + 25, by);
+    ctx.lineTo(bx - tw/2 + 25, by - 90);
+    ctx.moveTo(bx + tw/2 - 25, by);
+    ctx.lineTo(bx + tw/2 - 25, by - 90);
+    // Center column
+    ctx.moveTo(bx, by);
+    ctx.lineTo(bx, by - 90);
+    ctx.stroke();
+
+    // Floor outline (building body)
+    ctx.strokeStyle = "rgba(0, 245, 212, 0.5)";
+    ctx.lineWidth = 2;
+    const buildingHeightAnimated = th * progress;
+    
+    ctx.beginPath();
+    ctx.moveTo(bx - tw/2, by - 90);
+    ctx.lineTo(bx - tw/2, by - 90 - buildingHeightAnimated);
+
+    // Sloped roof (45 degrees)
+    if (progress >= 1.0) {
+      ctx.lineTo(bx + tw/2, by - 90 - th + 90); // 45 degree slope
+    } else {
+      ctx.lineTo(bx - tw/2 + tw * progress, by - 90 - buildingHeightAnimated);
+    }
+    
+    ctx.lineTo(bx + tw/2, by - 90);
+    ctx.closePath();
+    ctx.stroke();
+
+    // Internal structural Chevrons (8 chevron segments)
+    const chevronCount = 8;
+    const segmentHeight = (th - 90) / chevronCount;
+
+    ctx.strokeStyle = "rgba(144, 224, 239, 0.3)";
+    ctx.lineWidth = 1.5;
+
+    for (let i = 0; i < chevronCount; i++) {
+      const cy = by - 90 - i * segmentHeight;
+      const nextY = cy - segmentHeight;
+
+      if (by - 90 - nextY > buildingHeightAnimated) continue;
+
+      ctx.beginPath();
+      // Chevron structure: V-shape or inverted V
+      ctx.moveTo(bx - tw/2, cy);
+      ctx.lineTo(bx, nextY);
+      ctx.lineTo(bx + tw/2, cy);
+      ctx.stroke();
+
+      // Highlight alert joint (where bolts were used instead of welds)
+      if (i === alertJointIndex && highlightProgress > 0) {
+        ctx.save();
+        ctx.strokeStyle = "#FF3366";
+        ctx.lineWidth = 4;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#FF3366";
+        
+        ctx.beginPath();
+        ctx.arc(bx, nextY, 20 + Math.sin(highlightProgress * 15) * 5, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        ctx.fillStyle = "#FF3366";
+        ctx.font = "16px 'Courier Prime', monospace";
+        ctx.fillText("BOLTED JOINT // FAILED DESIGN", bx + 35, nextY + 5);
+        ctx.restore();
+      }
     }
   }
 
-  // Camera Shake response (GSAP)
+  // Draw close-up Joint detail schematic
+  function drawJointDetail(canvas, progress, isBolted = true, stressIntensity = 0) {
+    if (!canvas) return;
+    const ctx = canvas.getContext;
+    const w = canvas.width;
+    const h = canvas.height;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    context.clearRect(0, 0, w, h);
+
+    const cx = w / 2;
+    const cy = h / 2;
+
+    // Heavy steel plate drawing
+    context.fillStyle = "#1E2A4A";
+    context.strokeStyle = "#90E0EF";
+    context.lineWidth = 3;
+
+    // Left plate
+    context.beginPath();
+    context.rect(cx - 160, cy - 200, 150, 400);
+    context.fill();
+    context.stroke();
+
+    // Right plate
+    context.beginPath();
+    context.rect(cx + 10, cy - 200, 150, 400);
+    context.fill();
+    context.stroke();
+
+    if (isBolted) {
+      // Draw standard bolts (circles with dashed inner ring)
+      context.fillStyle = "#0A122A";
+      context.strokeStyle = "#FFD166";
+      context.lineWidth = 2.5;
+
+      const boltY = [cy - 120, cy - 40, cy + 40, cy + 120];
+      boltY.forEach((by) => {
+        // Bolt 1
+        context.beginPath();
+        context.arc(cx - 85, by, 22, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+
+        // Bolt 2
+        context.beginPath();
+        context.arc(cx + 85, by, 22, 0, Math.PI * 2);
+        context.fill();
+        context.stroke();
+      });
+
+      // Stress cracks if high intensity
+      if (stressIntensity > 0) {
+        context.strokeStyle = "#FF3366";
+        context.lineWidth = 3 + Math.sin(stressIntensity * 12) * 1.5;
+        context.beginPath();
+        context.moveTo(cx - 5, cy - 200);
+        context.lineTo(cx - 5, cy + 200);
+        context.stroke();
+
+        // Flash warnings
+        context.fillStyle = "#FF3366";
+        context.font = "16px 'Courier Prime', monospace";
+        context.fillText("SHEAR STRESS LIMIT EXCEEDED", cx - 130, cy + 240);
+      }
+    } else {
+      // Draw heavy welds (continuous blue/yellow glow plate joint)
+      context.save();
+      context.fillStyle = "#00F5D4";
+      context.shadowBlur = 20;
+      context.shadowColor = "#00F5D4";
+
+      // Welded joint fill
+      context.beginPath();
+      context.rect(cx - 15, cy - 200, 30, 400);
+      context.fill();
+      context.restore();
+
+      // Spark/Weld points
+      const weldProgress = Math.min(1.0, progress * 1.5);
+      context.strokeStyle = "#FFFFFF";
+      context.lineWidth = 3;
+      context.beginPath();
+      context.moveTo(cx, cy + 200);
+      context.lineTo(cx, cy + 200 - 400 * weldProgress);
+      context.stroke();
+    }
+  }
+
+  // Draw high-fidelity aerodynamic Wind Vectors & aerodynamic pressure curves
+  function drawWindForces(canvas, time, pressureProgress = 0, isCollapsing = false) {
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+
+    const cx = w / 2;
+    const cy = h * 0.45;
+    const tw = 240;
+    const th = 700;
+
+    // Draw subtle aerodynamic grid
+    ctx.strokeStyle = "rgba(0, 245, 212, 0.05)";
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 20; i++) {
+      ctx.beginPath();
+      ctx.moveTo(0, i * 100);
+      ctx.lineTo(w, i * 100);
+      ctx.stroke();
+    }
+
+    // Draw simple building block vector
+    ctx.strokeStyle = "rgba(144, 224, 239, 0.5)";
+    ctx.lineWidth = 2;
+    ctx.fillStyle = "rgba(11, 19, 43, 0.8)";
+    ctx.beginPath();
+    ctx.rect(cx - tw/2, cy, tw, th);
+    ctx.fill();
+    ctx.stroke();
+
+    // Wind flow lines rushing from left to right deforming around building
+    ctx.lineWidth = 1.5;
+    const lineCount = 14;
+    for (let i = 0; i < lineCount; i++) {
+      const ly = cy - 100 + (i / lineCount) * (th + 200);
+      ctx.beginPath();
+      
+      // Calculate smooth wind stream curve
+      ctx.moveTo(0, ly);
+      
+      const segments = 40;
+      for (let s = 0; s <= segments; s++) {
+        const sx = (s / segments) * w;
+        
+        let sy = ly;
+        // Aero distortion around building
+        const dx = sx - (cx - tw/2);
+        const distY = Math.abs(ly - cy);
+        
+        if (sx < cx - tw/2) {
+          // Approaching building
+          const factor = Math.max(0, 1.0 - Math.abs(dx) / 300);
+          sy -= Math.sin(factor * Math.PI * 0.5) * 60 * (ly < cy + th/2 ? -1 : 1);
+        } else if (sx >= cx - tw/2 && sx <= cx + tw/2) {
+          // Blocked or over building
+          sy = ly - 90 * (ly < cy + th/2 ? -1 : 1);
+        } else {
+          // Passing building
+          const adx = sx - (cx + tw/2);
+          const factor = Math.max(0, 1.0 - adx / 300);
+          sy -= Math.sin(factor * Math.PI * 0.5) * 60 * (ly < cy + th/2 ? -1 : 1);
+        }
+
+        // Add wind ripple noise based on time
+        const wave = Math.sin(sx * 0.02 - time * 6) * 12 * pressureProgress;
+        ctx.lineTo(sx, sy + wave);
+      }
+
+      ctx.strokeStyle = `rgba(0, 245, 212, ${0.1 + (i / lineCount) * 0.3})`;
+      if (pressureProgress > 0.8) {
+        ctx.strokeStyle = `rgba(255, 51, 102, ${0.2 + (i / lineCount) * 0.4})`;
+      }
+      ctx.stroke();
+    }
+
+    // Force indicators
+    if (pressureProgress > 0) {
+      ctx.save();
+      ctx.strokeStyle = "#FF3366";
+      ctx.lineWidth = 4;
+      ctx.shadowBlur = 10;
+      ctx.shadowColor = "#FF3366";
+
+      // Draw big force arrows pushing against tower
+      const arrowY = cy + 180;
+      ctx.beginPath();
+      ctx.moveTo(cx - 300, arrowY);
+      ctx.lineTo(cx - 160, arrowY);
+      // arrowhead
+      ctx.lineTo(cx - 180, arrowY - 15);
+      ctx.moveTo(cx - 160, arrowY);
+      ctx.lineTo(cx - 180, arrowY + 15);
+      ctx.stroke();
+
+      ctx.fillStyle = "#FF3366";
+      ctx.font = "16px 'Courier Prime', monospace";
+      ctx.fillText(`WIND LOAD: ${Math.floor(pressureProgress * 135)} MPH`, cx - 310, arrowY - 25);
+      ctx.restore();
+    }
+  }
+
+  // Camera Shake
   function screenShake(tl, rootEl, time, intensity = 1.0) {
     const amp = 8 * intensity;
     tl.to(rootEl, { x: amp, y: -amp * 0.5, duration: 0.035, ease: "none" }, time);
@@ -174,7 +407,7 @@
     tl.to(rootEl, { x: 0, y: 0, duration: 0.07, ease: "power2.out" }, time + 0.16);
   }
 
-  // Chromatic Aberration overlay flash
+  // Chromatic Flash
   function chromaticFlash(tl, layer, rEl, bEl, time, intensity = 1.0) {
     const shift = 16 * intensity;
     tl.to(layer, { opacity: 1, duration: 0.03, ease: "none" }, time);
@@ -185,7 +418,7 @@
     tl.to(layer, { opacity: 0, duration: 0.04, ease: "none" }, time + 0.16);
   }
 
-  // Floating Particle Burst
+  // Particle Burst
   function particleBurst(tl, container, cx, cy, time, count, color, seed = 5001) {
     if (!container || !container.appendChild) return;
     const rng = mulberry32(seed);
@@ -223,11 +456,11 @@
     }
   }
 
-  // General organic life drifting movement
+  // Micro-motion pulsing loop
   function lifePulse(tl, el, D, opts = {}) {
-    const scaleAmp = opts.scaleAmp != null ? opts.scaleAmp : 0.01;
+    const scaleAmp = opts.scaleAmp != null ? opts.scaleAmp : 0.012;
     const scalePeriod = opts.scalePeriod != null ? opts.scalePeriod : 3.0;
-    const yAmp = opts.yAmp != null ? opts.yAmp : 5;
+    const yAmp = opts.yAmp != null ? opts.yAmp : 6;
     const yPeriod = opts.yPeriod != null ? opts.yPeriod : 2.5;
     const rotAmp = opts.rotAmp != null ? opts.rotAmp : 0.25;
     const rotPeriod = opts.rotPeriod != null ? opts.rotPeriod : 4.0;
@@ -255,8 +488,10 @@
     mulberry32,
     registerEases,
     initFilmGrain,
-    drawPlexus,
-    drawWavingGrid,
+    drawDraftGrid,
+    drawCiticorpTower,
+    drawJointDetail,
+    drawWindForces,
     screenShake,
     chromaticFlash,
     particleBurst,

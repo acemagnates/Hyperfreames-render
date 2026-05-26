@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
     <link rel="icon" href="data:," />
-    <title>Video438 Clip 03 — Cognitive Emission</title>
+    <title>Video438 Clip 03 — The Hurricane Wind Force</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet" />
@@ -21,7 +21,7 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #020306;
+        background: #020813;
         color: #ffffff;
       }
       #root {
@@ -37,17 +37,18 @@
       #depth-stage {
         position: absolute;
         inset: 0;
-        perspective: 1000px;
+        perspective: 1200px;
         perspective-origin: 50% 50%;
         transform-style: preserve-3d;
       }
       .z-bg {
         position: absolute;
         inset: 0;
-        transform: translateZ(-320px) scale(1.55);
-        background: radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.16), #020306 72%);
+        transform: translateZ(-350px) scale(1.6);
+        background: radial-gradient(circle at 50% 50%, rgba(255, 51, 102, 0.12), #020813 75%);
+        transform-style: preserve-3d;
       }
-      #plexus-canvas {
+      #grid-canvas {
         position: absolute;
         inset: 0;
         width: 1080px;
@@ -64,109 +65,62 @@
         padding: 160px 80px;
       }
       
-      /* Central core layout */
-      .center-core-wrap {
+      /* Wind Forces Wrap */
+      .wind-draw-wrap {
         position: absolute;
         left: 50%;
-        top: 45%;
-        transform: translate(-50%, -50%) translateZ(80px);
-        width: 600px;
-        height: 600px;
+        top: 48%;
+        transform: translate(-50%, -50%) translateZ(60px);
+        width: 680px;
+        height: 900px;
         display: flex;
         align-items: center;
         justify-content: center;
         pointer-events: none;
       }
-      .core-svg {
+      #wind-canvas {
         width: 100%;
         height: 100%;
       }
-      .subject-title-wrap {
-        position: absolute;
-        left: 50%;
-        top: 72%;
-        transform: translateX(-50%) translateZ(100px);
-        width: 900px;
-        text-align: center;
-        pointer-events: none;
-      }
-      .main-subject {
-        font-family: 'Oswald', sans-serif;
-        font-weight: 700;
-        font-size: 82px;
-        color: #ff6b35;
-        letter-spacing: 0.12em;
-        text-shadow: 
-          0 0 8px #ff6b35,
-          0 0 35px rgba(255, 107, 53, 0.6),
-          0 8px 30px rgba(0, 0, 0, 0.7);
-        opacity: 0;
-      }
-      .ghost-subject {
-        position: absolute;
-        left: 50%;
-        top: 72%;
-        transform: translateX(-50%) translateZ(60px);
-        width: 900px;
-        text-align: center;
-        font-family: 'Oswald', sans-serif;
-        font-weight: 700;
-        font-size: 82px;
-        color: #ff9f1c;
-        letter-spacing: 0.12em;
-        opacity: 0;
-        pointer-events: none;
-      }
-      
+
       .z-fg {
         position: absolute;
         inset: 0;
-        transform: translateZ(140px) scale(0.9);
+        transform: translateZ(180px) scale(0.85);
         pointer-events: none;
-      }
-      .shockwave-ring {
-        position: absolute;
-        left: 50%;
-        top: 45%;
-        transform: translate(-50%, -50%);
-        border: 2px solid #ff6b35;
-        border-radius: 50%;
-        width: 10px;
-        height: 10px;
-        opacity: 0;
-        box-shadow: 0 0 25px rgba(255, 107, 53, 0.6);
       }
       .lens-vignette {
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.75) 100%);
+        background: radial-gradient(ellipse at center, transparent 35%, rgba(2, 8, 19, 0.75) 100%);
       }
-      .ambient-flare {
+      .crt-scanlines {
         position: absolute;
-        width: 800px;
-        height: 300px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 107, 53, 0.12) 0%, transparent 70%);
-        top: 30%;
-        left: -100px;
-        transform: rotate(-15deg);
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.18) 0px,
+          rgba(0, 0, 0, 0.18) 1px,
+          transparent 1px,
+          transparent 4px
+        );
       }
       
       .hud-header {
-        border-bottom: 1px solid rgba(255, 107, 53, 0.25);
+        border-bottom: 1px solid rgba(255, 51, 102, 0.25);
         padding-bottom: 20px;
         font-family: 'Courier Prime', monospace;
-        color: #ff6b35;
+        color: #ff3366;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
       }
       .hud-title {
         font-family: 'Oswald', sans-serif;
-        font-size: 42px;
+        font-size: 44px;
         letter-spacing: 0.1em;
         color: #ffffff;
-        text-shadow: 0 0 15px rgba(255, 107, 53, 0.5);
+        text-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
       }
       .hud-subtitle {
         font-size: 14px;
@@ -175,14 +129,15 @@
         opacity: 0.85;
       }
       .hud-footer {
-        border-top: 1px solid rgba(255, 107, 53, 0.25);
+        border-top: 1px solid rgba(255, 51, 102, 0.25);
         padding-top: 20px;
         font-family: 'Courier Prime', monospace;
-        color: #ff6b35;
+        color: #ff3366;
         display: flex;
         justify-content: space-between;
         font-size: 14px;
       }
+
       #chrom-wrap {
         position: absolute;
         inset: 0;
@@ -195,14 +150,14 @@
         inset: 0;
         mix-blend-mode: screen;
       }
-      #chrom-r { background: rgba(255, 0, 0, 0.15); }
+      #chrom-r { background: rgba(255, 0, 80, 0.15); }
       #chrom-b { background: rgba(0, 100, 255, 0.15); }
       
       #grain {
         position: absolute;
         inset: 0;
         z-index: 100;
-        opacity: 0.15;
+        opacity: 0.18;
         mix-blend-mode: overlay;
         pointer-events: none;
       }
@@ -219,80 +174,41 @@
       <div id="root-inner">
         <div id="depth-stage" class="clip" data-start="0" data-duration="5.0" data-track-index="0">
           
-          <!-- L0: Background Parallax Layer -->
+          <!-- L0: Background Draft Paper -->
           <div class="z-bg clip" data-start="0" data-duration="5.0" data-track-index="1">
-            <canvas id="plexus-canvas" width="1080" height="1920"></canvas>
+            <canvas id="grid-canvas" width="1080" height="1920"></canvas>
           </div>
           
-          <!-- L1: Interactive HUD and central 3D-feeling knot -->
+          <!-- L1: Middle Ground Wind Forces Visual -->
           <div class="z-mg clip" data-start="0" data-duration="5.0" data-track-index="2">
             
             <div class="hud-header">
               <div>
-                <h1 class="hud-title">COGNITIVE EMISSION</h1>
-                <div class="hud-subtitle">SYS_EMITTER // PEAK_DISCHARGE</div>
+                <h1 class="hud-title" id="type-title">THE CALCULATION</h1>
+                <div class="hud-subtitle">SYS_AERO // WIND_TUNNEL_FORCE</div>
               </div>
               <div style="text-align: right; font-size: 15px; line-height: 1.6;">
-                <div>DISCHARGE // <span style="font-weight: 700; color: #ff6b35;">99.8%</span></div>
-                <div>STATUS // <span>CRITICAL</span></div>
+                <div>VELOCITY // <span id="wind-speed" style="font-weight: 700; color: #ff3366;">30 MPH</span></div>
+                <div>STRESS RATIO // <span id="stress-pct">18%</span></div>
               </div>
             </div>
             
-            <!-- Central Fresnel Torus Knot simulation using SVGs -->
-            <div class="center-core-wrap clip" data-start="0" data-duration="5.0" data-track-index="3">
-              <svg class="core-svg" viewBox="0 0 400 400" id="torus-knot">
-                <defs>
-                  <radialGradient id="orangeGlow" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stop-color="#ffffff" />
-                    <stop offset="40%" stop-color="#ff6b35" stop-opacity="0.8" />
-                    <stop offset="100%" stop-color="#020306" stop-opacity="0" />
-                  </radialGradient>
-                  <!-- Fresnel edge glow -->
-                  <linearGradient id="fresnelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#ff9f1c" />
-                    <stop offset="50%" stop-color="#ff6b35" />
-                    <stop offset="100%" stop-color="#ff2e00" />
-                  </linearGradient>
-                </defs>
-                <!-- Outer orbital rings -->
-                <circle cx="200" cy="200" r="140" fill="none" stroke="#ff6b35" stroke-dasharray="10, 30" stroke-width="1.5" opacity="0.4" id="outer-circle" />
-                <!-- Mathematical Torus Knot representation -->
-                <path d="M 200,90 
-                         A 110,110 0 0,0 90,200 
-                         A 110,110 0 0,0 200,310 
-                         A 110,110 0 0,0 310,200 
-                         A 110,110 0 0,0 200,90
-                         M 200,120
-                         A 80,80 0 0,1 280,200
-                         A 80,80 0 0,1 200,280
-                         A 80,80 0 0,1 120,200
-                         A 80,80 0 0,1 200,120 Z" 
-                      fill="none" stroke="url(#fresnelGrad)" stroke-width="6" stroke-linecap="round" opacity="0.85" id="torus-path" />
-                <!-- Pulsing Core -->
-                <circle cx="200" cy="200" r="45" fill="url(#orangeGlow)" id="inner-core" />
-              </svg>
+            <!-- Wind Tunnel drawing -->
+            <div class="wind-draw-wrap clip" data-start="0" data-duration="5.0" data-track-index="3">
+              <canvas id="wind-canvas" width="680" height="900"></canvas>
             </div>
-            
-            <!-- Subject Titles and Staggered ghost Afterimages -->
-            <div class="subject-title-wrap">
-              <h1 class="main-subject" id="subject-main">EMISSION CORE</h1>
-            </div>
-            
-            <div class="ghost-subject" id="ghost-1">EMISSION CORE</div>
-            <div class="ghost-subject" id="ghost-2">EMISSION CORE</div>
             
             <div class="hud-footer">
-              <div>DISCHARGE_SHIELD // PEAK</div>
-              <div style="font-weight: 700; letter-spacing: 0.15em;">EPOCH_03 // EMISSION</div>
+              <div>CALCULATION // BOLTED CHEVRON LIMIT = 70 MPH</div>
+              <div style="font-weight: 700; letter-spacing: 0.15em;">CHAPTER_03 // WIND SHEAR FAILURE</div>
             </div>
             
           </div>
           
-          <!-- L2: Foreground Shockwaves, Vignette, Flares -->
+          <!-- L2: Foreground Overlay bracket and crt overlays -->
           <div class="z-fg clip" data-start="0" data-duration="5.0" data-track-index="4">
             <div class="lens-vignette"></div>
-            <div class="ambient-flare" id="leak-streak"></div>
-            <div class="shockwave-ring" id="impact-wave"></div>
+            <div class="crt-scanlines"></div>
           </div>
           
         </div>
@@ -318,73 +234,86 @@
       // Initialize Grain Safely
       const grain = document.getElementById("grain");
       if (grain) {
-        H.initFilmGrain(grain, 0.15, 43803);
+        H.initFilmGrain(grain, 0.18, 43803);
       }
       
-      const plexusCanvas = document.getElementById("plexus-canvas");
+      const gridCanvas = document.getElementById("grid-canvas");
+      const windCanvas = document.getElementById("wind-canvas");
       
-      // Set Initial States
-      gsap.set("#subject-main", { y: 60, opacity: 0, scale: 0.8 });
-      gsap.set("#ghost-1, #ghost-2", { y: 60, opacity: 0, scale: 0.8 });
-      gsap.set("#outer-circle", { transformOrigin: "200px 200px" });
-      gsap.set("#torus-path", { transformOrigin: "200px 200px", rotate: 0, scale: 0.9 });
+      // Initial states
+      gsap.set(".wind-draw-wrap", { scale: 0.9, opacity: 0 });
+      gsap.set(".hud-header, .hud-footer", { opacity: 0 });
       
       // Animations
-      // 1. Ken Burns drift
-      tl.fromTo("#depth-stage", { scale: 0.95 }, { scale: 1.0, duration: D, ease: "sine.out" }, 0);
+      // 1. Ken Burns slow camera push-in
+      tl.fromTo("#depth-stage", { scale: 0.94 }, { scale: 1.03, duration: D, ease: "sine.out" }, 0);
       
-      // 2. Slow Torus Knot rotations and core pulse
-      tl.fromTo("#outer-circle", { rotation: 0 }, { rotation: 180, duration: D, ease: "none" }, 0);
-      tl.fromTo("#torus-path", { rotation: 0 }, { rotation: -120, duration: D, ease: "none" }, 0);
-      tl.fromTo("#inner-core", { scale: 0.9 }, { scale: 1.25, duration: 0.8, yoyo: true, repeat: 5, ease: "sine.inOut" }, 0);
+      // 2. Panel Entry
+      tl.to(".wind-draw-wrap", { scale: 1.0, opacity: 1, duration: 1.2, ease: "springLight" }, 0.2);
+      tl.to(".hud-header, .hud-footer", { opacity: 1, duration: 0.8 }, 0.4);
       
-      // 3. Peak Impact Event at 0.75s (Torus Core explosion)
-      // Slam Title
-      tl.to("#subject-main", { y: 0, opacity: 1, scale: 1.0, duration: 0.28, ease: "springHeavy" }, 0.75);
+      // 3. Ramping wind speed counters
+      const windObj = { speed: 30, stress: 18 };
+      tl.to(windObj, {
+        speed: 135,
+        stress: 198,
+        duration: D,
+        ease: "power2.inOut",
+        onUpdate: () => {
+          const elSpeed = document.getElementById("wind-speed");
+          const elStress = document.getElementById("stress-pct");
+          if (elSpeed) elSpeed.textContent = Math.floor(windObj.speed) + " MPH";
+          if (elStress) elStress.textContent = Math.floor(windObj.stress) + "%";
+        }
+      }, 0.2);
       
-      // Staggered Ghost Afterimages
-      tl.to("#ghost-1", { y: -15, opacity: 0.35, scale: 1.04, duration: 0.1, ease: "power2.out" }, 0.75);
-      tl.to("#ghost-1", { y: 0, opacity: 0, scale: 1.0, duration: 0.45, ease: "power2.in" }, 0.85);
-      
-      // Core pulse expansion
-      tl.to("#torus-path", { scale: 1.3, duration: 0.12, ease: "power3.out" }, 0.75);
-      tl.to("#torus-path", { scale: 1.0, duration: 0.55, ease: "elastic.out(1, 0.4)" }, 0.87);
-      
-      // Shockwave ring explosion outwards
-      tl.fromTo("#impact-wave", 
-        { width: 10, height: 10, opacity: 0.85 },
-        { width: 1100, height: 1100, opacity: 0, duration: 0.88, ease: "power3.out" },
-        0.75
-      );
-      
-      // Camera shake response
-      H.screenShake(tl, "#root-inner", 0.75, 2.2);
-      H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 0.75, 2.4);
-      
-      // Particle burst on explosion frame
-      const burstContainer = document.querySelector(".z-mg");
-      if (burstContainer) {
-        H.particleBurst(tl, burstContainer, 540, 864, 0.75, 25, "#ff6b35", 4383);
+      // 4. Typewriter reveal for title
+      const titleStr = "THE CALCULATION";
+      const titleEl = document.getElementById("type-title");
+      if (titleEl) {
+        tl.call(() => { titleEl.style.opacity = 1; }, null, 0.4);
+        for (let i = 0; i < titleStr.length; i++) {
+          tl.call(() => {
+            titleEl.textContent = titleStr.substring(0, i + 1);
+          }, null, 0.4 + (i / titleStr.length) * 1.2);
+        }
       }
       
-      // Drift organic motion
-      H.lifePulse(tl, ".center-core-wrap", D, { scaleAmp: 0.015, yAmp: 8, rotAmp: 0.4 });
+      // 5. Heavy impact start
+      H.screenShake(tl, "#root-inner", 0.05, 1.3);
+      H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 0.05, 1.4);
+      
+      // Increase camera shake as speed reaches peak (towards end of clip)
+      H.screenShake(tl, "#root-inner", 3.8, 1.8);
+      H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 3.8, 1.9);
+      
+      const bgContainer = document.querySelector(".z-bg");
+      if (bgContainer) {
+        H.particleBurst(tl, bgContainer, 540, 960, 0.05, 20, "#ff3366", 4383);
+        H.particleBurst(tl, bgContainer, 540, 960, 3.8, 30, "#ff3366", 43832);
+      }
+      
+      // Continuous drifting movement
+      H.lifePulse(tl, ".wind-draw-wrap", D, { scaleAmp: 0.01, yAmp: 8, rotAmp: 0.3 });
       
       // Seek Logic
       window.addEventListener("hf-seek", (event) => {
         const time = event.detail.time;
         tl.seek(time);
         
-        // Draw Plexus Network on Canvas relative to time (with orange tint matching peak explosion)
-        if (plexusCanvas) {
-          H.drawPlexus(plexusCanvas, time, "#ff6b35", "#ff9f1c", 438303);
+        // Draw grid and wind forces
+        if (gridCanvas) {
+          H.drawDraftGrid(gridCanvas, time, "rgba(255, 51, 102, 0.03)", 438302);
+        }
+        if (windCanvas) {
+          H.drawWindForces(windCanvas, time, windObj.speed / 135.0, false);
         }
       });
       
       // Initial render
-      if (plexusCanvas) {
-        H.drawPlexus(plexusCanvas, 0, "#ff6b35", "#ff9f1c", 438303);
-      }
+      if (gridCanvas) H.drawDraftGrid(gridCanvas, 0, "rgba(255, 51, 102, 0.03)", 438302);
+      if (windCanvas) H.drawWindForces(windCanvas, 0, 30.0 / 135.0, false);
+      
       tl.seek(0);
       window.__timelines[CID] = tl;
     </script>
