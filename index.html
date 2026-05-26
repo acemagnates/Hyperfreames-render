@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Fusion30 — Ink & Geometry</title>
+    <title>Meridian30 — The Forgotten Meridian</title>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
@@ -12,62 +12,119 @@
       #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #14100e; }
       #global-hud {
         position: absolute; inset: 0; z-index: 100; pointer-events: none;
-        padding: 84px 64px; display: flex; flex-direction: column; justify-content: space-between;
-        font-family: 'Courier Prime', monospace; color: #BB9457; font-size: 13px; letter-spacing: 0.16em;
+        display: flex; flex-direction: column; justify-content: space-between;
+        padding: 88px 64px; font-family: 'Courier Prime', monospace; color: #BB9457;
       }
-      .hud-clock { color: #F4F1EA; font-size: 17px; }
-      .letterbox { position: absolute; left: 0; width: 1080px; height: 34px; background: #0a0806; z-index: 110; }
+      .hud-row { display: flex; justify-content: space-between; font-size: 14px; letter-spacing: 0.18em; }
+      .hud-clock { color: #F4F1EA; font-size: 18px; }
+      .letterbox { position: absolute; left: 0; width: 1080px; height: 36px; background: #0a0806; z-index: 110; }
       .lb-top { top: 0; }
       .lb-bottom { bottom: 0; }
     </style>
   </head>
   <body>
-    <div id="composition-root"
-         data-composition-id="Fusion30"
-         data-start="0"
-         data-duration="30"
-         data-width="1080"
-         data-height="1920"
-         data-fps="30">
-
+    <div
+      id="composition-root"
+      data-composition-id="Meridian30"
+      data-start="0"
+      data-duration="30"
+      data-width="1080"
+      data-height="1920"
+      data-fps="30"
+    >
       <div class="letterbox lb-top"></div>
       <div class="letterbox lb-bottom"></div>
 
-      <iframe class="clip" data-composition-id="Fusion30-clip-01" data-composition-src="compositions/Fusion30/Fusion30-clip-01.html" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Fusion30-clip-02" data-composition-src="compositions/Fusion30/Fusion30-clip-02.html" data-start="5" data-duration="5" data-track-index="2" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Fusion30-clip-03" data-composition-src="compositions/Fusion30/Fusion30-clip-03.html" data-start="10" data-duration="5" data-track-index="3" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Fusion30-clip-04" data-composition-src="compositions/Fusion30/Fusion30-clip-04.html" data-start="15" data-duration="5" data-track-index="4" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Fusion30-clip-05" data-composition-src="compositions/Fusion30/Fusion30-clip-05.html" data-start="20" data-duration="5" data-track-index="5" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Fusion30-clip-06" data-composition-src="compositions/Fusion30/Fusion30-clip-06.html" data-start="25" data-duration="5" data-track-index="6" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe
+        class="clip"
+        data-composition-id="Meridian30-clip-01"
+        data-composition-src="compositions/Meridian30/Meridian30-clip-01.html"
+        data-start="0"
+        data-duration="5"
+        data-track-index="1"
+        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
+      ></iframe>
+      <iframe
+        class="clip"
+        data-composition-id="Meridian30-clip-02"
+        data-composition-src="compositions/Meridian30/Meridian30-clip-02.html"
+        data-start="5"
+        data-duration="5"
+        data-track-index="2"
+        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
+      ></iframe>
+      <iframe
+        class="clip"
+        data-composition-id="Meridian30-clip-03"
+        data-composition-src="compositions/Meridian30/Meridian30-clip-03.html"
+        data-start="10"
+        data-duration="5"
+        data-track-index="3"
+        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
+      ></iframe>
+      <iframe
+        class="clip"
+        data-composition-id="Meridian30-clip-04"
+        data-composition-src="compositions/Meridian30/Meridian30-clip-04.html"
+        data-start="15"
+        data-duration="5"
+        data-track-index="4"
+        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
+      ></iframe>
+      <iframe
+        class="clip"
+        data-composition-id="Meridian30-clip-05"
+        data-composition-src="compositions/Meridian30/Meridian30-clip-05.html"
+        data-start="20"
+        data-duration="5"
+        data-track-index="5"
+        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
+      ></iframe>
+      <iframe
+        class="clip"
+        data-composition-id="Meridian30-clip-06"
+        data-composition-src="compositions/Meridian30/Meridian30-clip-06.html"
+        data-start="25"
+        data-duration="5"
+        data-track-index="6"
+        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
+      ></iframe>
 
       <div id="global-hud">
-        <div style="display:flex;justify-content:space-between;">
-          <span>FUSION30 // 2D + 3D ARCHIVE</span>
+        <div class="hud-row">
+          <span>MERIDIAN30 // FORGOTTEN SURVEY</span>
           <span id="hud-time" class="hud-clock">00:00.0</span>
         </div>
-        <div style="display:flex;justify-content:space-between;">
-          <span id="hud-phase">I — BLUEPRINT × OBELISK</span>
-          <span>CANVAS + WEBGL</span>
+        <div class="hud-row">
+          <span id="hud-chapter">CHAPTER I — VAULT</span>
+          <span>30.00s CINEMATIC</span>
         </div>
       </div>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
-      window.__timelines["Fusion30"] = gsap.timeline({ paused: true });
-      const phases = [
-        [0, "I — BLUEPRINT × OBELISK"],
-        [5, "II — MAP × GLOBE"],
-        [10, "III — TELEGRAM × ARMILLARY"],
-        [15, "IV — COORDS × TABLETS"],
-        [20, "V — TELEGRAM × PRISM"],
-        [25, "VI — CHAMBER PAYOFF"],
+      window.__timelines["Meridian30"] = gsap.timeline({ paused: true });
+      const chapters = [
+        [0, "CHAPTER I — VAULT"],
+        [5, "CHAPTER II — MERIDIAN LINE"],
+        [10, "CHAPTER III — TRANSIT"],
+        [15, "CHAPTER IV — TELEGRAM"],
+        [20, "CHAPTER V — OFFSET"],
+        [25, "CHAPTER VI — PAYOFF"],
       ];
       window.addEventListener("hf-seek", (e) => {
         const t = e.detail.time;
-        document.getElementById("hud-time").textContent = `00:${String(Math.floor(t)).padStart(2, "0")}.${Math.floor((t % 1) * 10)}`;
-        let ph = phases[0][1];
-        for (let i = phases.length - 1; i >= 0; i--) if (t >= phases[i][0]) { ph = phases[i][1]; break; }
-        document.getElementById("hud-phase").textContent = ph;
+        const sec = Math.floor(t).toString().padStart(2, "0");
+        const dec = Math.floor((t % 1) * 10);
+        document.getElementById("hud-time").textContent = `00:${sec}.${dec}`;
+        let ch = chapters[0][1];
+        for (let i = chapters.length - 1; i >= 0; i--) {
+          if (t >= chapters[i][0]) {
+            ch = chapters[i][1];
+            break;
+          }
+        }
+        document.getElementById("hud-chapter").textContent = ch;
       });
     </script>
   </body>

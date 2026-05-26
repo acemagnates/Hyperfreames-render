@@ -1,4 +1,6 @@
 {
-  "id": "Fusion30",
-  "name": "Fusion30 — Ink & Geometry (2D+3D)"
+  "id": "Meridian30",
+  "name": "Meridian30 — The Forgotten Meridian",
+  "aesthetic": "ace-documentary",
+  "pipeline": "full"
 }
