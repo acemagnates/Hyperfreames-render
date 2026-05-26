@@ -103,16 +103,35 @@
     });
   }
 
+  /**
+   * Faux glass for HyperFrames / headless CI — NEVER use MeshPhysicalMaterial.transmission
+   * here (multi-pass refraction stalls GitHub Actions for minutes or until job timeout).
+   */
   function glassMaterial() {
-    return new THREE.MeshPhysicalMaterial({
+    return new THREE.MeshStandardMaterial({
       color: 0xf4f1ea,
-      metalness: 0,
-      roughness: 0.04,
-      transmission: 0.88,
-      thickness: 1.2,
+      metalness: 0.18,
+      roughness: 0.1,
       transparent: true,
-      opacity: 0.95,
+      opacity: 0.38,
+      side: THREE.DoubleSide,
+      depthWrite: false,
     });
+  }
+
+  function prismEdgeLines(mesh, color) {
+    if (!mesh || !mesh.geometry) return null;
+    const edges = new THREE.EdgesGeometry(mesh.geometry, 12);
+    const line = new THREE.LineSegments(
+      edges,
+      new THREE.LineBasicMaterial({
+        color: color != null ? color : 0xc9a84c,
+        transparent: true,
+        opacity: 0.85,
+      })
+    );
+    line.renderOrder = 1;
+    return line;
   }
 
   function orbitCamera(camera, p, opts) {
@@ -159,6 +178,7 @@
     addVaultFloor,
     goldMaterial,
     glassMaterial,
+    prismEdgeLines,
     orbitCamera,
     initGrainCanvas,
   };

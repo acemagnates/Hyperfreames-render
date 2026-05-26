@@ -40,6 +40,8 @@
     g.add(inner);
     const outer=new THREE.Mesh(new THREE.OctahedronGeometry(2.8,0),V.glassMaterial());
     g.add(outer);
+    const edges=V.prismEdgeLines(outer,0xBB9457);
+    if(edges)g.add(edges);
     function seek(p){
       g.rotation.y=p*Math.PI*2.2;
       g.rotation.x=Math.sin(p*Math.PI)*.35;
