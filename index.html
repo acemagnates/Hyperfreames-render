@@ -3,159 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Video438 — The Synaptic Odyssey</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <title>Meridian30 — The Forgotten Meridian</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
-      *, *::before, *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html, body {
-        width: 1080px;
-        height: 1920px;
-        overflow: hidden;
-        background: #020306;
-        font-family: sans-serif;
-      }
-      #composition-root {
-        position: relative;
-        width: 1080px;
-        height: 1920px;
-        overflow: hidden;
-        background: #020306;
-      }
-      
-      /* Global HUD Overlay Layer */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14100e; }
+      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #14100e; }
       #global-hud {
-        position: absolute;
-        inset: 0;
-        z-index: 100;
-        pointer-events: none;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 90px 70px;
+        position: absolute; inset: 0; z-index: 100; pointer-events: none;
+        display: flex; flex-direction: column; justify-content: space-between;
+        padding: 88px 64px; font-family: 'Courier Prime', monospace; color: #BB9457;
       }
-      
-      .hud-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: 'Courier Prime', monospace;
-        color: #ffffff;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
-      }
-      
-      .hud-title {
-        font-size: 20px;
-        letter-spacing: 0.2em;
-        font-weight: 700;
-      }
-      
-      .hud-clock {
-        font-size: 22px;
-        letter-spacing: 0.1em;
-        color: #ffffff;
-      }
-      
-      .hud-status {
-        font-size: 16px;
-        letter-spacing: 0.15em;
-        opacity: 0.85;
-      }
-      
-      /* Corner brackets for final high-end aesthetic overlay */
-      .corner-frame {
-        position: absolute;
-        width: 40px;
-        height: 40px;
-        border: 2px solid rgba(255, 255, 255, 0.2);
-      }
-      .c-tl { top: 40px; left: 40px; border-right: none; border-bottom: none; }
-      .c-tr { top: 40px; right: 40px; border-left: none; border-bottom: none; }
-      .c-bl { bottom: 40px; left: 40px; border-right: none; border-top: none; }
-      .c-br { bottom: 40px; right: 40px; border-left: none; border-top: none; }
-      
-      /* Letterbox cinema bars */
-      .letterbox {
-        position: absolute;
-        left: 0;
-        width: 1080px;
-        height: 40px;
-        background: #000000;
-        z-index: 110;
-      }
+      .hud-row { display: flex; justify-content: space-between; font-size: 14px; letter-spacing: 0.18em; }
+      .hud-clock { color: #F4F1EA; font-size: 18px; }
+      .letterbox { position: absolute; left: 0; width: 1080px; height: 36px; background: #0a0806; z-index: 110; }
       .lb-top { top: 0; }
       .lb-bottom { bottom: 0; }
     </style>
   </head>
   <body>
     <div id="composition-root"
-         data-composition-id="Video438"
+         data-composition-id="Meridian30"
          data-start="0"
-         data-duration="30.0"
+         data-duration="30"
          data-width="1080"
          data-height="1920"
-         data-fps="60">
-      
-      <!-- Letterboxes -->
+         data-fps="30">
+
       <div class="letterbox lb-top"></div>
       <div class="letterbox lb-bottom"></div>
-      
-      <!-- Sequential Clip Iframes -->
-      <iframe id="clip-01" class="clip" data-composition-id="Video438-clip-01" data-composition-src="compositions/Video438/Video438-clip-01.html" data-start="0" data-duration="5.0" data-track-index="1" style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1;"></iframe>
-      <iframe id="clip-02" class="clip" data-composition-id="Video438-clip-02" data-composition-src="compositions/Video438/Video438-clip-02.html" data-start="5.0" data-duration="5.0" data-track-index="2" style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1;"></iframe>
-      <iframe id="clip-03" class="clip" data-composition-id="Video438-clip-03" data-composition-src="compositions/Video438/Video438-clip-03.html" data-start="10.0" data-duration="5.0" data-track-index="3" style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1;"></iframe>
-      <iframe id="clip-04" class="clip" data-composition-id="Video438-clip-04" data-composition-src="compositions/Video438/Video438-clip-04.html" data-start="15.0" data-duration="5.0" data-track-index="4" style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1;"></iframe>
-      <iframe id="clip-05" class="clip" data-composition-id="Video438-clip-05" data-composition-src="compositions/Video438/Video438-clip-05.html" data-start="20.0" data-duration="5.0" data-track-index="5" style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1;"></iframe>
-      <iframe id="clip-06" class="clip" data-composition-id="Video438-clip-06" data-composition-src="compositions/Video438/Video438-clip-06.html" data-start="25.0" data-duration="5.0" data-track-index="6" style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1;"></iframe>
-      
-      <!-- Global HUD Overlay Layer -->
+
+      <iframe class="clip" id="clip-01" data-composition-id="Meridian30-clip-01" data-composition-src="compositions/Meridian30/Meridian30-clip-01.html" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" id="clip-02" data-composition-id="Meridian30-clip-02" data-composition-src="compositions/Meridian30/Meridian30-clip-02.html" data-start="5" data-duration="5" data-track-index="2" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" id="clip-03" data-composition-id="Meridian30-clip-03" data-composition-src="compositions/Meridian30/Meridian30-clip-03.html" data-start="10" data-duration="5" data-track-index="3" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" id="clip-04" data-composition-id="Meridian30-clip-04" data-composition-src="compositions/Meridian30/Meridian30-clip-04.html" data-start="15" data-duration="5" data-track-index="4" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" id="clip-05" data-composition-id="Meridian30-clip-05" data-composition-src="compositions/Meridian30/Meridian30-clip-05.html" data-start="20" data-duration="5" data-track-index="5" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" id="clip-06" data-composition-id="Meridian30-clip-06" data-composition-src="compositions/Meridian30/Meridian30-clip-06.html" data-start="25" data-duration="5" data-track-index="6" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+
       <div id="global-hud">
-        <div class="corner-frame c-tl"></div>
-        <div class="corner-frame c-tr"></div>
-        <div class="corner-frame c-bl"></div>
-        <div class="corner-frame c-br"></div>
-        
         <div class="hud-row">
-          <div class="hud-title">THE SYNAPTIC ODYSSEY SHOWCASE</div>
-          <div id="hud-time" class="hud-clock">00:00:000</div>
+          <span>MERIDIAN30 // FORGOTTEN SURVEY</span>
+          <span id="hud-time" class="hud-clock">00:00.0</span>
         </div>
-        
         <div class="hud-row">
-          <div id="hud-sector" class="hud-status">SECTOR // SILICON_GENESIS</div>
-          <div class="hud-status">SYS_ACTIVE // 60FPS</div>
+          <span id="hud-chapter">CHAPTER I — VAULT</span>
+          <span>30.00s CINEMATIC</span>
         </div>
       </div>
     </div>
-
     <script>
-      // Register timeline on window.__timelines to satisfy linter
       window.__timelines = window.__timelines || {};
-      window.__timelines["Video438"] = gsap.timeline({ paused: true });
-      
-      window.addEventListener("hf-seek", (event) => {
-        const time = event.detail.time;
-        const ms = Math.floor((time % 1) * 1000).toString().padStart(3, '0');
-        const sec = Math.floor(time).toString().padStart(2, '0');
-        
-        // Update chronometer clock
-        document.getElementById("hud-time").innerText = `00:${sec}:${ms}`;
-        
-        // Update sector label based on time bounds
-        let sector = "SILICON_GENESIS";
-        if (time >= 25.0) sector = "TRANSCENDENCE_STATE";
-        else if (time >= 20.0) sector = "FRACTAL_GATEWAY";
-        else if (time >= 15.0) sector = "SYNCHRONIZATION_PHASE";
-        else if (time >= 10.0) sector = "PEAK_DISCHARGE";
-        else if (time >= 5.0) sector = "PATHWAY_GROWTH";
-        
-        document.getElementById("hud-sector").innerText = `SECTOR // ${sector}`;
+      window.__timelines["Meridian30"] = gsap.timeline({ paused: true });
+      const chapters = [
+        [0, "CHAPTER I — VAULT"],
+        [5, "CHAPTER II — MERIDIAN LINE"],
+        [10, "CHAPTER III — TRANSIT"],
+        [15, "CHAPTER IV — TELEGRAM"],
+        [20, "CHAPTER V — OFFSET"],
+        [25, "CHAPTER VI — PAYOFF"],
+      ];
+      window.addEventListener("hf-seek", (e) => {
+        const t = e.detail.time;
+        const sec = Math.floor(t).toString().padStart(2, "0");
+        const dec = Math.floor((t % 1) * 10);
+        document.getElementById("hud-time").textContent = `00:${sec}.${dec}`;
+        let ch = chapters[0][1];
+        for (let i = chapters.length - 1; i >= 0; i--) {
+          if (t >= chapters[i][0]) { ch = chapters[i][1]; break; }
+        }
+        document.getElementById("hud-chapter").textContent = ch;
       });
     </script>
   </body>

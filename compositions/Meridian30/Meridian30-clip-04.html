@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>Meridian30 Clip 04 — Telegram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
+  <script src="compositions/Meridian30/meridian30-shared.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14100e; }
+    #root { position: relative; width: 1080px; height: 1920px; }
+    #depth-stage { position: absolute; inset: 0; perspective: 1000px; transform-style: preserve-3d; }
+    .z-bg { position: absolute; inset: 0; transform: translateZ(-320px) scale(1.55); background: linear-gradient(165deg, #1a1210 0%, #461220 45%, #14100e 100%); }
+    .z-mg { position: absolute; inset: 0; transform: translateZ(0); }
+    .z-fg { position: absolute; inset: 0; transform: translateZ(120px) scale(0.92); pointer-events: none; }
+    #wire-canvas { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+    .stamp { position: absolute; top: 200px; right: 90px; font-family: 'Courier Prime', monospace; font-size: 12px; color: #E56B6F; letter-spacing: 0.15em; border: 2px solid #E56B6F; padding: 8px 14px; transform: rotate(-12deg); opacity: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+    #grain { position: absolute; inset: 0; z-index: 100; opacity: 0.22; mix-blend-mode: overlay; }
+    #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.6) 100%); z-index: 90; }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="Meridian30-clip-04" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <div id="root-inner">
+      <div id="depth-stage" class="clip" data-start="0" data-duration="5" data-track-index="0">
+        <div class="z-bg clip" data-start="0" data-duration="5" data-track-index="1"></div>
+        <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="2">
+          <canvas id="wire-canvas" width="1080" height="1920"></canvas>
+          <div class="stamp clip" data-start="0" data-duration="5" data-track-index="3" id="stamp">REDACTED</div>
+        </div>
+        <div class="z-fg clip" data-start="0" data-duration="5" data-track-index="4"></div>
+      </div>
+      <div id="vignette" class="clip" data-start="0" data-duration="5" data-track-index="5"></div>
+      <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="6" width="540" height="960"></canvas>
+    </div>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    const CID = "Meridian30-clip-04";
+    const D = 5;
+    const M = window.MeridianEngine;
+    M.registerEases(gsap);
+    const tl = gsap.timeline({ paused: true });
+    M.initFilmGrain(document.getElementById("grain"), 0.22, 304);
+    const st = { p: 0 };
+    tl.fromTo("#depth-stage", { scale: 1.05, rotateY: 4 }, { scale: 0.98, rotateY: -2, duration: D, ease: "sine.inOut" }, 0);
+    tl.to(st, { p: 1, duration: 3.5, ease: "power1.inOut" }, 0.15);
+    tl.to("#stamp", { opacity: 0.92, duration: 0.4, ease: "power2.out" }, 2.4);
+    M.screenShake(tl, "#root-inner", 2.35, 0.5);
+    const wire = document.getElementById("wire-canvas");
+    window.addEventListener("hf-seek", (e) => {
+      const t = e.detail.time;
+      tl.seek(t);
+      if (wire) M.drawRedactedWire(wire, st.p);
+    });
+    if (wire) M.drawRedactedWire(wire, 0);
+    tl.seek(0);
+    window.__timelines[CID] = tl;
+  </script>
+</body>
+</html>

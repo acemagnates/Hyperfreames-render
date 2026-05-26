@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>Meridian30 Clip 03 — Transit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
+  <script src="compositions/Meridian30/meridian30-shared.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14100e; }
+    #root { position: relative; width: 1080px; height: 1920px; }
+    #root-inner { position: absolute; inset: 0; }
+    #depth-stage { position: absolute; inset: 0; perspective: 1200px; transform-style: preserve-3d; }
+    .z-bg { position: absolute; inset: 0; transform: translateZ(-400px) scale(1.7); background: radial-gradient(ellipse at 50% 80%, rgba(70,18,32,0.35), #14100e 60%); }
+    .z-mg { position: absolute; inset: 0; transform: translateZ(20px); }
+    .z-fg { position: absolute; inset: 0; transform: translateZ(180px) scale(0.86); }
+    #inst-canvas, #grid-canvas { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+    .label-top { position: absolute; top: 130px; left: 72px; right: 72px; font-family: 'Oswald', sans-serif; font-size: 28px; letter-spacing: 0.18em; color: #BB9457; }
+    #grain { position: absolute; inset: 0; z-index: 100; opacity: 0.2; mix-blend-mode: overlay; }
+    #chrom-wrap { position: absolute; inset: 0; z-index: 99; opacity: 0; }
+    #chrom-r, #chrom-b { position: absolute; inset: 0; mix-blend-mode: screen; }
+    #chrom-r { background: rgba(187,148,87,0.15); }
+    #chrom-b { background: rgba(15,76,92,0.15); }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="Meridian30-clip-03" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <div id="root-inner">
+      <div id="depth-stage" class="clip" data-start="0" data-duration="5" data-track-index="0">
+        <div class="z-bg clip" data-start="0" data-duration="5" data-track-index="1"><canvas id="grid-canvas" width="1080" height="1920"></canvas></div>
+        <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="2">
+          <div class="label-top clip" data-start="0" data-duration="5" data-track-index="3" id="lbl">GREENWICH TRANSIT CIRCLE</div>
+          <canvas id="inst-canvas" width="1080" height="1920"></canvas>
+        </div>
+        <div class="z-fg clip" data-start="0" data-duration="5" data-track-index="4"></div>
+      </div>
+      <div id="chrom-wrap" class="clip" data-start="0" data-duration="5" data-track-index="5"><div id="chrom-r"></div><div id="chrom-b"></div></div>
+      <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="6" width="540" height="960"></canvas>
+    </div>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    const CID = "Meridian30-clip-03";
+    const D = 5;
+    const M = window.MeridianEngine;
+    M.registerEases(gsap);
+    const tl = gsap.timeline({ paused: true });
+    M.initFilmGrain(document.getElementById("grain"), 0.2, 303);
+    const st = { p: 0 };
+    gsap.set("#lbl", { opacity: 0, x: -40 });
+    tl.fromTo("#depth-stage", { z: -80, scale: 0.92 }, { z: 40, scale: 1.04, duration: D, ease: "sine.inOut" }, 0);
+    tl.to(st, { p: 1, duration: 2.8, ease: "power2.out" }, 0.3);
+    tl.to("#lbl", { opacity: 1, x: 0, duration: 0.8, ease: "springSnappy" }, 0.5);
+    M.screenShake(tl, "#root-inner", 1.1, 0.7);
+    M.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 1.1, 0.8);
+    const grid = document.getElementById("grid-canvas");
+    const inst = document.getElementById("inst-canvas");
+    window.addEventListener("hf-seek", (e) => {
+      const t = e.detail.time;
+      tl.seek(t);
+      if (grid) M.drawArchiveGrid(grid, t, 3031);
+      if (inst) M.drawTransitCircle(inst, st.p, t);
+    });
+    if (grid) M.drawArchiveGrid(grid, 0, 3031);
+    if (inst) M.drawTransitCircle(inst, 0, 0);
+    tl.seek(0);
+    window.__timelines[CID] = tl;
+  </script>
+</body>
+</html>
