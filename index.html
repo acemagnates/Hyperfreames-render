@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Meridian30 — The Forgotten Meridian</title>
+    <title>TelexRoom30 — Night Relay Hall</title>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14100e; }
-      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #14100e; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #1a1510; }
+      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #1a1510; }
       #global-hud {
         position: absolute; inset: 0; z-index: 100; pointer-events: none;
         display: flex; flex-direction: column; justify-content: space-between;
-        padding: 88px 64px; font-family: 'Courier Prime', monospace; color: #BB9457;
+        padding: 88px 64px; font-family: 'Courier Prime', monospace; color: #D4A574;
       }
-      .hud-row { display: flex; justify-content: space-between; font-size: 14px; letter-spacing: 0.18em; }
-      .hud-clock { color: #F4F1EA; font-size: 18px; }
-      .letterbox { position: absolute; left: 0; width: 1080px; height: 36px; background: #0a0806; z-index: 110; }
+      .hud-row { display: flex; justify-content: space-between; font-size: 14px; letter-spacing: 0.16em; }
+      .hud-clock { color: #EDE6D9; font-size: 18px; }
+      .letterbox { position: absolute; left: 0; width: 1080px; height: 36px; background: #0f0c09; z-index: 110; }
       .lb-top { top: 0; }
       .lb-bottom { bottom: 0; }
     </style>
@@ -25,7 +25,7 @@
   <body>
     <div
       id="composition-root"
-      data-composition-id="Meridian30"
+      data-composition-id="TelexRoom30"
       data-start="0"
       data-duration="30"
       data-width="1080"
@@ -37,8 +37,8 @@
 
       <iframe
         class="clip"
-        data-composition-id="Meridian30-clip-01"
-        data-composition-src="compositions/Meridian30/Meridian30-clip-01.html"
+        data-composition-id="TelexRoom30-clip-01"
+        data-composition-src="compositions/TelexRoom30/TelexRoom30-clip-01.html"
         data-start="0"
         data-duration="5"
         data-track-index="1"
@@ -46,8 +46,8 @@
       ></iframe>
       <iframe
         class="clip"
-        data-composition-id="Meridian30-clip-02"
-        data-composition-src="compositions/Meridian30/Meridian30-clip-02.html"
+        data-composition-id="TelexRoom30-clip-02"
+        data-composition-src="compositions/TelexRoom30/TelexRoom30-clip-02.html"
         data-start="5"
         data-duration="5"
         data-track-index="2"
@@ -55,8 +55,8 @@
       ></iframe>
       <iframe
         class="clip"
-        data-composition-id="Meridian30-clip-03"
-        data-composition-src="compositions/Meridian30/Meridian30-clip-03.html"
+        data-composition-id="TelexRoom30-clip-03"
+        data-composition-src="compositions/TelexRoom30/TelexRoom30-clip-03.html"
         data-start="10"
         data-duration="5"
         data-track-index="3"
@@ -64,8 +64,8 @@
       ></iframe>
       <iframe
         class="clip"
-        data-composition-id="Meridian30-clip-04"
-        data-composition-src="compositions/Meridian30/Meridian30-clip-04.html"
+        data-composition-id="TelexRoom30-clip-04"
+        data-composition-src="compositions/TelexRoom30/TelexRoom30-clip-04.html"
         data-start="15"
         data-duration="5"
         data-track-index="4"
@@ -73,8 +73,8 @@
       ></iframe>
       <iframe
         class="clip"
-        data-composition-id="Meridian30-clip-05"
-        data-composition-src="compositions/Meridian30/Meridian30-clip-05.html"
+        data-composition-id="TelexRoom30-clip-05"
+        data-composition-src="compositions/TelexRoom30/TelexRoom30-clip-05.html"
         data-start="20"
         data-duration="5"
         data-track-index="5"
@@ -82,8 +82,8 @@
       ></iframe>
       <iframe
         class="clip"
-        data-composition-id="Meridian30-clip-06"
-        data-composition-src="compositions/Meridian30/Meridian30-clip-06.html"
+        data-composition-id="TelexRoom30-clip-06"
+        data-composition-src="compositions/TelexRoom30/TelexRoom30-clip-06.html"
         data-start="25"
         data-duration="5"
         data-track-index="6"
@@ -92,25 +92,25 @@
 
       <div id="global-hud">
         <div class="hud-row">
-          <span>MERIDIAN30 // FORGOTTEN SURVEY</span>
+          <span>TELEXROOM30 // NIGHT RELAY</span>
           <span id="hud-time" class="hud-clock">00:00.0</span>
         </div>
         <div class="hud-row">
-          <span id="hud-chapter">CHAPTER I — VAULT</span>
+          <span id="hud-chapter">I — COLD OPEN</span>
           <span>30.00s CINEMATIC</span>
         </div>
       </div>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
-      window.__timelines["Meridian30"] = gsap.timeline({ paused: true });
+      window.__timelines["TelexRoom30"] = gsap.timeline({ paused: true });
       const chapters = [
-        [0, "CHAPTER I — VAULT"],
-        [5, "CHAPTER II — MERIDIAN LINE"],
-        [10, "CHAPTER III — TRANSIT"],
-        [15, "CHAPTER IV — TELEGRAM"],
-        [20, "CHAPTER V — OFFSET"],
-        [25, "CHAPTER VI — PAYOFF"],
+        [0, "I — COLD OPEN"],
+        [5, "II — ROTOR"],
+        [10, "III — TAPE"],
+        [15, "IV — ROUTING"],
+        [20, "V — TRACE"],
+        [25, "VI — HOLD"],
       ];
       window.addEventListener("hf-seek", (e) => {
         const t = e.detail.time;
