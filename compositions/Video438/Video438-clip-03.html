@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
     <link rel="icon" href="data:," />
-    <title>Video437 Clip 03 — Cognitive Emission</title>
+    <title>Video438 Clip 03 — Cognitive Emission</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
-    <script src="compositions/Video437/video437-shared.js"></script>
+    <script src="compositions/Video438/video438-shared.js"></script>
     <style>
       *, *::before, *::after {
         box-sizing: border-box;
@@ -210,7 +210,7 @@
   </head>
   <body>
     <div id="root"
-         data-composition-id="Video437-clip-03"
+         data-composition-id="Video438-clip-03"
          data-start="10.0"
          data-duration="5.0"
          data-width="1080"
@@ -230,11 +230,11 @@
             <div class="hud-header">
               <div>
                 <h1 class="hud-title">COGNITIVE EMISSION</h1>
-                <div class="hud-subtitle">SECTOR // COGNITIVE_EMISSION</div>
+                <div class="hud-subtitle">SYS_EMITTER // PEAK_DISCHARGE</div>
               </div>
               <div style="text-align: right; font-size: 15px; line-height: 1.6;">
-                <div>EMISSION // <span style="font-weight: 700; color: #ff6b35;">99.8%</span></div>
-                <div>STATUS // <span>PEAK_BURST</span></div>
+                <div>DISCHARGE // <span style="font-weight: 700; color: #ff6b35;">99.8%</span></div>
+                <div>STATUS // <span>CRITICAL</span></div>
               </div>
             </div>
             
@@ -282,8 +282,8 @@
             <div class="ghost-subject" id="ghost-2">EMISSION CORE</div>
             
             <div class="hud-footer">
-              <div>THERMAL_SHIELD // MAXIMUM</div>
-              <div style="font-weight: 700; letter-spacing: 0.15em;">PHASE_03 // EMISSION</div>
+              <div>DISCHARGE_SHIELD // PEAK</div>
+              <div style="font-weight: 700; letter-spacing: 0.15em;">EPOCH_03 // EMISSION</div>
             </div>
             
           </div>
@@ -308,17 +308,17 @@
 
     <script>
       window.__timelines = window.__timelines || {};
-      const CID = "Video437-clip-03";
+      const CID = "Video438-clip-03";
       const D = 5.0;
       
       const H = window.VisualEngine;
       H.registerEases(gsap);
       const tl = gsap.timeline({ paused: true });
       
-      // Initialize Grain
+      // Initialize Grain Safely
       const grain = document.getElementById("grain");
       if (grain) {
-        H.initFilmGrain(grain, 0.14, 43703);
+        H.initFilmGrain(grain, 0.15, 43803);
       }
       
       const plexusCanvas = document.getElementById("plexus-canvas");
@@ -363,7 +363,9 @@
       
       // Particle burst on explosion frame
       const burstContainer = document.querySelector(".z-mg");
-      H.particleBurst(tl, burstContainer, 540, 864, 0.75, 25, "#ff6b35", 4373);
+      if (burstContainer) {
+        H.particleBurst(tl, burstContainer, 540, 864, 0.75, 25, "#ff6b35", 4383);
+      }
       
       // Drift organic motion
       H.lifePulse(tl, ".center-core-wrap", D, { scaleAmp: 0.015, yAmp: 8, rotAmp: 0.4 });
@@ -375,13 +377,13 @@
         
         // Draw Plexus Network on Canvas relative to time (with orange tint matching peak explosion)
         if (plexusCanvas) {
-          H.drawPlexus(plexusCanvas, time, "#ff6b35", "#ff9f1c", 437303);
+          H.drawPlexus(plexusCanvas, time, "#ff6b35", "#ff9f1c", 438303);
         }
       });
       
       // Initial render
       if (plexusCanvas) {
-        H.drawPlexus(plexusCanvas, 0, "#ff6b35", "#ff9f1c", 437303);
+        H.drawPlexus(plexusCanvas, 0, "#ff6b35", "#ff9f1c", 438303);
       }
       tl.seek(0);
       window.__timelines[CID] = tl;

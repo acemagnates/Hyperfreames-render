@@ -1,6 +1,6 @@
 /**
- * NEURO-NET GENESIS (Video437) Shared Visual Engine (Headless-Safe & High-End)
- * Programmatic Canvas & SVG motion helpers for stunning 3D-depth parallax spaces.
+ * THE SYNAPTIC ODYSSEY (Video438) Shared Visual Engine (Headless-Safe & High-End)
+ * Mathematical Canvas & SVG motion engines for 30s premium cinematic showreel.
  */
 (function (global) {
   // Deterministic PRNG
@@ -38,7 +38,7 @@
   }
 
   // Procedural Static Film Grain (adds analog premium grit)
-  function initFilmGrain(canvas, opacity = 0.12, seed = 437) {
+  function initFilmGrain(canvas, opacity = 0.12, seed = 438) {
     const ctx = canvas.getContext("2d");
     const w = canvas.width;
     const h = canvas.height;
@@ -57,7 +57,7 @@
   }
 
   // Procedural Cyber Plexus Network (L0 - Background)
-  function drawPlexus(canvas, time, accentColor = "#00ff88", glowColor = "#00d4ff", seed = 1001) {
+  function drawPlexus(canvas, time, accentColor = "#00ffaa", glowColor = "#00d4ff", seed = 1001) {
     const ctx = canvas.getContext("2d");
     const w = canvas.width;
     const h = canvas.height;
@@ -74,7 +74,6 @@
       const speedX = (rng() - 0.5) * 50;
       const speedY = (rng() - 0.5) * 50;
 
-      // Animate position using time and speed
       const x = (bx + speedX * time + w) % w;
       const y = (by + speedY * time + h) % h;
       nodes.push({ x, y, size: 2 + rng() * 3 });
@@ -157,7 +156,6 @@
       ctx.beginPath();
       ctx.moveTo(points[0][c].x, points[0][c].y);
       for (let r = 1; r <= rows; r++) {
-        // fade lines towards horizon
         ctx.strokeStyle = `rgba(0, 212, 255, ${0.08 + (r / rows) * 0.35})`;
         ctx.lineTo(points[r][c].x, points[r][c].y);
       }
@@ -234,7 +232,6 @@
     const rotAmp = opts.rotAmp != null ? opts.rotAmp : 0.25;
     const rotPeriod = opts.rotPeriod != null ? opts.rotPeriod : 4.0;
     
-    // Calculates how many times to repeat
     function repeatCount(dur, period) {
       return Math.max(0, Math.ceil(dur / period) - 1);
     }
