@@ -12,6 +12,7 @@
     "render:local": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 render .",
     "sync:public-render": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/sync-public-render-repo.mjs",
     "assemble:ace435": "bash scripts/assemble-ace435-downloaded.sh",
+    "assemble:video434": "bash scripts/assemble-video434-downloaded.sh",
     "publish": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 publish"
   },
   "dependencies": {}
