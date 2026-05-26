@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Vault3D30 — Obsidian Vault</title>
+    <title>Fusion30 — Ink & Geometry</title>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
     <style>
@@ -23,7 +23,7 @@
   </head>
   <body>
     <div id="composition-root"
-         data-composition-id="Vault3D30"
+         data-composition-id="Fusion30"
          data-start="0"
          data-duration="30"
          data-width="1080"
@@ -33,31 +33,38 @@
       <div class="letterbox lb-top"></div>
       <div class="letterbox lb-bottom"></div>
 
-      <iframe class="clip" data-composition-id="Vault3D30-clip-01" data-composition-src="compositions/Vault3D30/Vault3D30-clip-01.html" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Vault3D30-clip-02" data-composition-src="compositions/Vault3D30/Vault3D30-clip-02.html" data-start="5" data-duration="5" data-track-index="2" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Vault3D30-clip-03" data-composition-src="compositions/Vault3D30/Vault3D30-clip-03.html" data-start="10" data-duration="5" data-track-index="3" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Vault3D30-clip-04" data-composition-src="compositions/Vault3D30/Vault3D30-clip-04.html" data-start="15" data-duration="5" data-track-index="4" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Vault3D30-clip-05" data-composition-src="compositions/Vault3D30/Vault3D30-clip-05.html" data-start="20" data-duration="5" data-track-index="5" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
-      <iframe class="clip" data-composition-id="Vault3D30-clip-06" data-composition-src="compositions/Vault3D30/Vault3D30-clip-06.html" data-start="25" data-duration="5" data-track-index="6" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" data-composition-id="Fusion30-clip-01" data-composition-src="compositions/Fusion30/Fusion30-clip-01.html" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" data-composition-id="Fusion30-clip-02" data-composition-src="compositions/Fusion30/Fusion30-clip-02.html" data-start="5" data-duration="5" data-track-index="2" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" data-composition-id="Fusion30-clip-03" data-composition-src="compositions/Fusion30/Fusion30-clip-03.html" data-start="10" data-duration="5" data-track-index="3" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" data-composition-id="Fusion30-clip-04" data-composition-src="compositions/Fusion30/Fusion30-clip-04.html" data-start="15" data-duration="5" data-track-index="4" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" data-composition-id="Fusion30-clip-05" data-composition-src="compositions/Fusion30/Fusion30-clip-05.html" data-start="20" data-duration="5" data-track-index="5" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
+      <iframe class="clip" data-composition-id="Fusion30-clip-06" data-composition-src="compositions/Fusion30/Fusion30-clip-06.html" data-start="25" data-duration="5" data-track-index="6" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1;"></iframe>
 
       <div id="global-hud">
         <div style="display:flex;justify-content:space-between;">
-          <span>VAULT3D30 // OBSIDIAN VAULT</span>
+          <span>FUSION30 // 2D + 3D ARCHIVE</span>
           <span id="hud-time" class="hud-clock">00:00.0</span>
         </div>
         <div style="display:flex;justify-content:space-between;">
-          <span id="hud-phase">PHASE 01 — DESCENT</span>
-          <span>WEBGL PBR</span>
+          <span id="hud-phase">I — BLUEPRINT × OBELISK</span>
+          <span>CANVAS + WEBGL</span>
         </div>
       </div>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
-      window.__timelines["Vault3D30"] = gsap.timeline({ paused: true });
-      const phases = [[0,"PHASE 01 — DESCENT"],[5,"PHASE 02 — ARMILLARY"],[10,"PHASE 03 — GLOBE"],[15,"PHASE 04 — TABLETS"],[20,"PHASE 05 — PRISM"],[25,"PHASE 06 — CHAMBER"]];
+      window.__timelines["Fusion30"] = gsap.timeline({ paused: true });
+      const phases = [
+        [0, "I — BLUEPRINT × OBELISK"],
+        [5, "II — MAP × GLOBE"],
+        [10, "III — TELEGRAM × ARMILLARY"],
+        [15, "IV — COORDS × TABLETS"],
+        [20, "V — TELEGRAM × PRISM"],
+        [25, "VI — CHAMBER PAYOFF"],
+      ];
       window.addEventListener("hf-seek", (e) => {
         const t = e.detail.time;
-        document.getElementById("hud-time").textContent = `00:${String(Math.floor(t)).padStart(2,"0")}.${Math.floor((t%1)*10)}`;
+        document.getElementById("hud-time").textContent = `00:${String(Math.floor(t)).padStart(2, "0")}.${Math.floor((t % 1) * 10)}`;
         let ph = phases[0][1];
         for (let i = phases.length - 1; i >= 0; i--) if (t >= phases[i][0]) { ph = phases[i][1]; break; }
         document.getElementById("hud-phase").textContent = ph;

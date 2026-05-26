@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>Fusion30 Clip 05</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script src="compositions/Fusion30/fusion30-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#14100e}
+    #root{position:relative;width:1080px;height:1920px}
+    #canvas3d,#canvas2d{position:absolute;inset:0;width:1080px;height:1920px}
+    #canvas3d{z-index:1}#canvas2d{z-index:2;pointer-events:none}
+    #vignette{position:absolute;inset:0;z-index:3;background:radial-gradient(ellipse at center,transparent 25%,rgba(0,0,0,.6) 100%)}
+    #grain{position:absolute;inset:0;z-index:4;opacity:.2;mix-blend-mode:overlay}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="Fusion30-clip-05" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <canvas id="canvas3d" class="clip" data-start="0" data-duration="5" data-track-index="0"></canvas>
+    <canvas id="canvas2d" class="clip" data-start="0" data-duration="5" data-track-index="1" width="1080" height="1920"></canvas>
+    <div id="vignette" class="clip" data-start="0" data-duration="5" data-track-index="2"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="3" width="540" height="960"></canvas>
+  </div>
+  <script>
+    window.__timelines=window.__timelines||{};
+    const CID="Fusion30-clip-05",D=5,F=window.Fusion30;
+    const tl=gsap.timeline({paused:true});
+    F.initFilmGrain(document.getElementById("grain"),.2,405);
+    const r3=F.createRenderer(document.getElementById("canvas3d"));
+    const {scene,camera}=F.createSceneCamera();
+    const lights=F.addLights(scene);F.addFloor(scene);
+    const g=new THREE.Group();scene.add(g);
+    g.add(new THREE.Mesh(new THREE.IcosahedronGeometry(1.1,1),F.goldMat(.5)));
+    const shell=new THREE.Mesh(new THREE.OctahedronGeometry(2.6,0),F.fauxGlass());
+    g.add(shell);
+    const edges=new THREE.LineSegments(new THREE.EdgesGeometry(shell.geometry,12),new THREE.LineBasicMaterial({color:0xBB9457}));
+    g.add(edges);
+    const st={tg:0};tl.to(st,{tg:1,duration:2.8,ease:"power2.out"},.2);
+    function seek(p){
+      g.rotation.y=p*Math.PI*2;lights.key.position.x=5*Math.cos(p*Math.PI*2);
+      F.orbitCamera(camera,p,{radius0:14,radius1:9,y0:4,y1:2.2,turns:1.1});
+      r3.render(scene,camera);
+      F.drawTelegramOverlay(document.getElementById("canvas2d"),st.tg);
+    }
+    window.addEventListener("hf-seek",e=>{tl.seek(e.detail.time);seek(e.detail.time/D);});
+    seek(0);tl.seek(0);window.__timelines[CID]=tl;
+  </script>
+</body>
+</html>
