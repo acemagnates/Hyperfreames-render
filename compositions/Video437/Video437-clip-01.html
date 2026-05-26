@@ -3,12 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Video437 Clip 01 — Neuro-Net Genesis</title>
+    <link rel="icon" href="data:," />
+    <title>Video437 Clip 01 — Synapse Nursery</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Inter:wght@400;700&family=Oswald:wght@700&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/CustomEase.min.js"></script>
+    <script src="compositions/Video437/video437-shared.js"></script>
     <style>
       *, *::before, *::after {
         box-sizing: border-box;
@@ -20,6 +22,7 @@
         height: 1920px;
         overflow: hidden;
         background: #020306;
+        color: #ffffff;
       }
       #root {
         position: relative;
@@ -27,122 +30,131 @@
         height: 1920px;
         overflow: hidden;
       }
-      
-      /* 3D Perspective Stage Container */
-      .depth-stage {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        perspective: 900px;
-        perspective-origin: 50% 50%;
-        transform-style: preserve-3d;
-        overflow: hidden;
-      }
-      
-      /* Depth Stack Classes */
-      .z-bg, .z-light, .z-mg, .z-fg {
+      #root-inner {
         position: absolute;
         inset: 0;
+      }
+      #depth-stage {
+        position: absolute;
+        inset: 0;
+        perspective: 1000px;
+        perspective-origin: 50% 50%;
         transform-style: preserve-3d;
-        pointer-events: none;
       }
-      
       .z-bg {
-        transform: translateZ(-300px) scale(1.5);
+        position: absolute;
+        inset: 0;
+        transform: translateZ(-350px) scale(1.6);
+        background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.15), #020306 70%);
       }
-      
+      #plexus-canvas {
+        position: absolute;
+        inset: 0;
+        width: 1080px;
+        height: 1920px;
+      }
       .z-mg {
+        position: absolute;
+        inset: 0;
         transform: translateZ(0);
+        transform-style: preserve-3d;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 180px 90px;
+        padding: 160px 80px;
       }
-      
-      .z-fg {
-        transform: translateZ(100px) scale(0.9);
-      }
-      
-      /* WebGL transparent layer */
-      #three-stage {
+      .center-orbit-wrap {
         position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        mix-blend-mode: screen;
-      }
-      
-      /* Ambient Lighting effects */
-      .light-leak {
-        position: absolute;
+        left: 50%;
+        top: 45%;
+        transform: translate(-50%, -50%) translateZ(40px);
         width: 600px;
         height: 600px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 70%);
-        top: -100px;
-        left: -100px;
-        filter: blur(40px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
       }
-      
-      .lens-vignette {
+      .orbit-svg {
+        width: 100%;
+        height: 100%;
+      }
+      .z-fg {
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.75) 100%);
-        mix-blend-mode: multiply;
+        transform: translateZ(150px) scale(0.85);
+        pointer-events: none;
       }
-      
-      /* HUD brackets in Foreground layer */
       .hud-brackets {
         position: absolute;
         inset: 60px;
-        border: 1px solid rgba(0, 255, 136, 0.08);
+        border: 1px solid rgba(0, 255, 170, 0.08);
       }
       .bracket {
         position: absolute;
-        width: 40px;
-        height: 40px;
-        border: 2px solid #00ff88;
+        width: 45px;
+        height: 45px;
+        border: 2px solid #00ffaa;
       }
       .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
       .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
       .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
       .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
       
-      /* Text layouts */
+      /* HUD Interface components */
       .hud-header {
+        border-bottom: 1px solid rgba(0, 255, 170, 0.25);
+        padding-bottom: 20px;
+        font-family: 'Courier Prime', monospace;
+        color: #00ffaa;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        border-bottom: 1px solid rgba(0, 255, 136, 0.2);
-        padding-bottom: 25px;
-        font-family: 'Courier Prime', monospace;
-        color: #00ff88;
-      }
-      .title-block {
-        display: flex;
-        flex-direction: column;
       }
       .hud-title {
         font-family: 'Oswald', sans-serif;
-        font-size: 38px;
-        letter-spacing: 0.12em;
+        font-size: 42px;
+        letter-spacing: 0.1em;
         color: #ffffff;
-        text-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
+        text-shadow: 0 0 15px rgba(0, 255, 170, 0.5);
       }
       .hud-subtitle {
         font-size: 14px;
-        opacity: 0.8;
-        letter-spacing: 0.2em;
-        margin-top: 5px;
+        letter-spacing: 0.25em;
+        margin-top: 6px;
+        opacity: 0.85;
       }
       .hud-footer {
+        border-top: 1px solid rgba(0, 255, 170, 0.25);
+        padding-top: 20px;
+        font-family: 'Courier Prime', monospace;
+        color: #00ffaa;
         display: flex;
         justify-content: space-between;
-        align-items: flex-end;
-        border-top: 1px solid rgba(0, 255, 136, 0.2);
-        padding-top: 25px;
-        font-family: 'Courier Prime', monospace;
-        color: #00ff88;
+        font-size: 14px;
+      }
+      #chrom-wrap {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 99;
+        opacity: 0;
+      }
+      #chrom-r, #chrom-b {
+        position: absolute;
+        inset: 0;
+        mix-blend-mode: screen;
+      }
+      #chrom-r { background: rgba(255, 0, 0, 0.15); }
+      #chrom-b { background: rgba(0, 100, 255, 0.15); }
+      
+      #grain {
+        position: absolute;
+        inset: 0;
+        z-index: 100;
+        opacity: 0.15;
+        mix-blend-mode: overlay;
+        pointer-events: none;
       }
     </style>
   </head>
@@ -154,246 +166,159 @@
          data-width="1080"
          data-height="1920"
          data-fps="60">
-         
-      <!-- Background Audio Synced -->
-      <audio id="bg-audio" src="../../test_12.mp3" data-start="0" data-duration="5.0" data-track-index="0" data-volume="1"></audio>
-      
-      <div class="depth-stage">
-        
-        <!-- L0: Environment Background -->
-        <div class="z-bg">
-          <div class="light-leak"></div>
-          <canvas id="three-stage"></canvas>
-        </div>
-        
-        <!-- L2: Hero Text Interface -->
-        <div class="z-mg">
-          <div class="hud-header">
-            <div class="title-block">
-              <h1 class="hud-title" id="type-title">NEURO-NET GENESIS</h1>
-              <div class="hud-subtitle">SECTOR // SYNAPSE_NURSERY</div>
+      <div id="root-inner">
+        <div id="depth-stage" class="clip" data-start="0" data-duration="5.0" data-track-index="0">
+          
+          <!-- L0: Background Parallax Layer -->
+          <div class="z-bg clip" data-start="0" data-duration="5.0" data-track-index="1">
+            <canvas id="plexus-canvas" width="1080" height="1920"></canvas>
+          </div>
+          
+          <!-- L1: Middle Ground Content Layer -->
+          <div class="z-mg clip" data-start="0" data-duration="5.0" data-track-index="2">
+            
+            <div class="hud-header">
+              <div>
+                <h1 class="hud-title" id="type-title">NEURO-NET GENESIS</h1>
+                <div class="hud-subtitle">SECTOR // SYNAPSE_NURSERY</div>
+              </div>
+              <div style="text-align: right; font-size: 15px; line-height: 1.6;">
+                <div>SYSTEM // <span style="font-weight: 700;">OK</span></div>
+                <div>DRIFT // <span>0.001%</span></div>
+              </div>
             </div>
-            <div style="text-align: right; line-height: 1.6; font-size: 14px;">
-              <div>CELL_SYS: <span style="font-weight: 700;">ACTIVE</span></div>
-              <div>DEVIATION: <span>0.003%</span></div>
+            
+            <!-- Central Procedural Orbit Rings -->
+            <div class="center-orbit-wrap clip" data-start="0" data-duration="5.0" data-track-index="3">
+              <svg class="orbit-svg" viewBox="0 0 400 400">
+                <!-- Inner glow ring -->
+                <circle cx="200" cy="200" r="110" fill="none" stroke="url(#cyanGlow)" stroke-width="1" opacity="0.3" />
+                <!-- Core element -->
+                <circle cx="200" cy="200" r="30" fill="url(#coreGlow)" />
+                <!-- Rotating dashed orbits -->
+                <circle id="orbit-dot-1" cx="200" cy="200" r="85" fill="none" stroke="#00ffaa" stroke-dasharray="12, 18, 4, 18" stroke-width="2" stroke-linecap="round" />
+                <circle id="orbit-dot-2" cx="200" cy="200" r="130" fill="none" stroke="#00d4ff" stroke-dasharray="25, 45, 10, 45" stroke-width="1.5" stroke-linecap="round" />
+                <circle id="orbit-dot-3" cx="200" cy="200" r="160" fill="none" stroke="#00ffaa" stroke-dasharray="6, 6" stroke-width="1" opacity="0.6" />
+                
+                <defs>
+                  <radialGradient id="cyanGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#00d4ff" stop-opacity="1" />
+                    <stop offset="100%" stop-color="#020306" stop-opacity="0" />
+                  </radialGradient>
+                  <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#ffffff" />
+                    <stop offset="35%" stop-color="#00ffaa" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#020306" stop-opacity="0" />
+                  </radialGradient>
+                </defs>
+              </svg>
+            </div>
+            
+            <div class="hud-footer">
+              <div>SYS_INIT_OK // STABLE</div>
+              <div style="font-weight: 700; letter-spacing: 0.15em;">PHASE_01 // DRIFT</div>
+            </div>
+            
+          </div>
+          
+          <!-- L2: Foreground Overlay Layer -->
+          <div class="z-fg clip" data-start="0" data-duration="5.0" data-track-index="4">
+            <div class="hud-brackets">
+              <div class="bracket tl"></div>
+              <div class="bracket tr"></div>
+              <div class="bracket bl"></div>
+              <div class="bracket br"></div>
             </div>
           </div>
           
-          <div class="hud-footer">
-            <div style="font-size: 14px;">SYS_INIT_OK // STABLE</div>
-            <div style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em;">PHASE_01 // DRIFT</div>
-          </div>
         </div>
         
-        <!-- L3: Lens Vignette & Brackets -->
-        <div class="z-fg">
-          <div class="lens-vignette"></div>
-          <div class="hud-brackets">
-            <div class="bracket tl"></div>
-            <div class="bracket tr"></div>
-            <div class="bracket bl"></div>
-            <div class="bracket br"></div>
-          </div>
+        <!-- Post-Processing Elements -->
+        <div id="chrom-wrap" class="clip" data-start="0" data-duration="5.0" data-track-index="5">
+          <div id="chrom-r"></div>
+          <div id="chrom-b"></div>
         </div>
-        
+        <canvas id="grain" class="clip" data-start="0" data-duration="5.0" data-track-index="6" width="540" height="960"></canvas>
       </div>
     </div>
 
     <script>
-      const duration = 5.0;
-      const canvas = document.getElementById("three-stage");
-      
-      // Initialize WebGL Scene
-      const scene = new THREE.Scene();
-      
-      // Camera matching FOV Perspective
-      const fov = 2 * Math.atan((1920 / 2) / 900) * (180 / Math.PI);
-      const camera = new THREE.PerspectiveCamera(fov, 1080 / 1920, 0.1, 1000);
-      camera.position.set(0, 0, 7.5);
-      
-      let renderer;
-      function isWebGLAvailable() {
-        try {
-          const c = document.createElement('canvas');
-          return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
-        } catch(e) {
-          return false;
-        }
-      }
-      
-      const glAvailable = isWebGLAvailable();
-      if (glAvailable) {
-        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setSize(1080, 1920);
-        renderer.setPixelRatio(1);
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        renderer.toneMappingExposure = 1.4;
-      } else {
-        renderer = { render: () => {}, setSize: () => {} };
-      }
-      
-      // 3-Point Lighting Rig
-      const keyLight = new THREE.SpotLight(0x00ff88, 25); // Neon Mint Key
-      keyLight.position.set(6, 6, 6);
-      keyLight.angle = Math.PI / 5;
-      keyLight.penumbra = 0.8;
-      scene.add(keyLight);
-      
-      const fillLight = new THREE.DirectionalLight(0x00d4ff, 5); // Ice Cyan Fill
-      fillLight.position.set(-6, -2, 4);
-      scene.add(fillLight);
-      
-      const rimLight = new THREE.SpotLight(0xffffff, 30); // Rim back light
-      rimLight.position.set(0, 5, -8);
-      rimLight.target.position.set(0, 0, 0);
-      scene.add(rimLight);
-      
-      // Procedural Malleable AI Synapse Blob
-      const blobGeo = new THREE.IcosahedronGeometry(2.0, 6); // Detail 6 for smooth deformation
-      
-      // Brushed Glass-like Translucent PBR Material
-      const blobMat = new THREE.MeshPhysicalMaterial({
-        color: 0x00ff88,
-        roughness: 0.15,
-        metalness: 0.2,
-        transmission: 0.85,
-        thickness: 2.0,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.1,
-        transparent: true,
-        opacity: 0.95
-      });
-      
-      const blobMesh = new THREE.Mesh(blobGeo, blobMat);
-      scene.add(blobMesh);
-      
-      const basePosition = blobGeo.attributes.position.clone();
-      
-      // Volumetric floating particles (Gold Spark Field)
-      const particleCount = 60;
-      const partGeo = new THREE.BufferGeometry();
-      const positions = new Float32Array(particleCount * 3);
-      const velocities = [];
-      
-      let pSeed = 9999;
-      function prng() {
-        let t = pSeed += 0x6D2B79F5;
-        t = Math.imul(t ^ (t >>> 15), t | 1);
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-      }
-      
-      for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (prng() - 0.5) * 8;     // X
-        positions[i+1] = (prng() - 0.5) * 12;   // Y
-        positions[i+2] = (prng() - 0.5) * 6;    // Z
-        velocities.push((prng() + 0.1) * 0.8);
-      }
-      
-      partGeo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-      
-      const partMat = new THREE.PointsMaterial({
-        color: 0xffd700,
-        size: 0.12,
-        transparent: true,
-        opacity: 0.8,
-        blending: THREE.AdditiveBlending
-      });
-      
-      const sparkField = new THREE.Points(partGeo, partMat);
-      scene.add(sparkField);
-      
-      // Orbit Rings
-      const ringGeo = new THREE.RingGeometry(3.5, 3.52, 64);
-      const ringMat = new THREE.MeshBasicMaterial({
-        color: 0x00d4ff,
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0.35
-      });
-      const orbitRing = new THREE.Mesh(ringGeo, ringMat);
-      scene.add(orbitRing);
-      
-      function renderAt(time) {
-        if (!glAvailable) return;
-        // 1. Deform the procedural malleable blob Mesh dynamically using wave noise
-        const position = blobGeo.attributes.position;
-        const v = new THREE.Vector3();
-        
-        for (let i = 0; i < position.count; i++) {
-          v.fromBufferAttribute(basePosition, i);
-          
-          const noise = Math.sin(v.x * 1.8 + time * 2.2) * 
-                        Math.cos(v.y * 1.5 + time * 1.8) * 
-                        Math.sin(v.z * 1.2 + time * 1.4) * 0.35;
-                        
-          const normal = v.clone().normalize();
-          v.addScaledVector(normal, noise);
-          position.setXYZ(i, v.x, v.y, v.z);
-        }
-        position.needsUpdate = true;
-        blobGeo.computeVertexNormals();
-        
-        // 2. Continuous rotations
-        blobMesh.rotation.y = time * 0.35;
-        blobMesh.rotation.x = Math.sin(time * 0.25) * 0.2;
-        
-        orbitRing.rotation.x = Math.PI / 2 + Math.cos(time * 0.3) * 0.2;
-        orbitRing.rotation.y = time * 0.2;
-        
-        // 3. Floating spark animation
-        const coords = partGeo.attributes.position.array;
-        for (let i = 0; i < particleCount; i++) {
-          const idx = i * 3;
-          const speed = velocities[i];
-          coords[idx+1] = ((positions[idx+1] + time * speed + 6) % 12) - 6;
-        }
-        partGeo.attributes.position.needsUpdate = true;
-        
-        // 4. Slow orbital camera sweep pan
-        camera.position.x = Math.sin(time * 0.12) * 8.0;
-        camera.position.z = Math.cos(time * 0.12) * 8.0;
-        camera.position.y = 1.0 + Math.sin(time * 0.2) * 0.4;
-        camera.lookAt(0, 0, 0);
-        
-        renderer.render(scene, camera);
-      }
-      
-      // GSAP Timelines Setup (seeking contract)
       window.__timelines = window.__timelines || {};
+      const CID = "Video437-clip-01";
+      const D = 5.0;
+      
+      const H = window.VisualEngine;
+      H.registerEases(gsap);
       const tl = gsap.timeline({ paused: true });
       
-      // Parallax stages Ken Burns drift
-      tl.fromTo(".z-bg", { scale: 1.4 }, { scale: 1.6, duration: duration, ease: "sine.inOut" }, 0);
-      tl.fromTo(".z-fg", { scale: 0.95 }, { scale: 0.9, duration: duration, ease: "sine.inOut" }, 0);
-      
-      // Character typing effect on Header Title
-      const CMD = "NEURO-NET GENESIS";
-      const typed = document.getElementById("type-title");
-      for (let i = 0; i < CMD.length; i++) {
-        (function (idx) {
-          tl.call(
-            () => {
-              typed.textContent = CMD.substring(0, idx + 1);
-            },
-            null,
-            0.1 + (idx / CMD.length) * 1.5
-          );
-        })(i);
+      // Initialize Grain Canvas
+      const grain = document.getElementById("grain");
+      if (grain) {
+        H.initFilmGrain(grain, 0.14, 43701);
       }
       
-      // Edge brackets drawing in
-      tl.fromTo(".hud-brackets", { inset: "80px" }, { inset: "60px", duration: 1.0, ease: "power3.out" }, 0.2);
+      // Plexus rendering loop bound to GSAP
+      const plexusCanvas = document.getElementById("plexus-canvas");
       
-      // Framework seeks exactly this time
+      // Seed values for initial positions
+      gsap.set(".hud-brackets", { inset: "80px", opacity: 0 });
+      gsap.set(".bracket", { scale: 0.65, opacity: 0 });
+      gsap.set("#type-title", { opacity: 0 });
+      gsap.set(".hud-subtitle", { opacity: 0, x: -30 });
+      gsap.set("#orbit-dot-1, #orbit-dot-2, #orbit-dot-3", { transformOrigin: "200px 200px" });
+      
+      // GSAP Animations
+      // 1. Zoom and orbital reveal
+      tl.fromTo("#depth-stage", { scale: 0.95 }, { scale: 1.0, duration: D, ease: "sine.out" }, 0);
+      
+      // 2. Corner brackets drawing in
+      tl.to(".hud-brackets", { inset: "60px", opacity: 1, duration: 1.2, ease: "power3.out" }, 0.1);
+      tl.to(".bracket", { scale: 1, opacity: 1, duration: 0.8, ease: "springSnappy", stagger: 0.08 }, 0.1);
+      
+      // 3. Central core rotations
+      tl.fromTo("#orbit-dot-1", { rotation: 0 }, { rotation: 120, duration: D, ease: "none" }, 0);
+      tl.fromTo("#orbit-dot-2", { rotation: 0 }, { rotation: -90, duration: D, ease: "none" }, 0);
+      tl.fromTo("#orbit-dot-3", { rotation: 0 }, { rotation: 60, duration: D, ease: "none" }, 0);
+      
+      // 4. Typewriter reveal for title
+      const titleStr = "NEURO-NET GENESIS";
+      const titleEl = document.getElementById("type-title");
+      tl.call(() => { titleEl.style.opacity = 1; }, null, 0.4);
+      for (let i = 0; i < titleStr.length; i++) {
+        tl.call(() => {
+          titleEl.textContent = titleStr.substring(0, i + 1);
+        }, null, 0.4 + (i / titleStr.length) * 1.2);
+      }
+      tl.to(".hud-subtitle", { opacity: 0.85, x: 0, duration: 0.8, ease: "power2.out" }, 1.4);
+      
+      // 5. Heavy impact at start (0.05s)
+      H.screenShake(tl, "#root-inner", 0.05, 1.4);
+      H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 0.05, 1.6);
+      
+      // Particle burst inside plexus on impact
+      const plexusContainer = document.querySelector(".z-bg");
+      H.particleBurst(tl, plexusContainer, 540, 960, 0.05, 20, "#00ffaa", 4371);
+      
+      // Continuous drift
+      H.lifePulse(tl, ".center-orbit-wrap", D, { scaleAmp: 0.012, yAmp: 8, rotAmp: 0.5 });
+      
+      // Seek logic
       window.addEventListener("hf-seek", (event) => {
-        const t = event.detail.time;
-        tl.seek(t);
-        renderAt(t);
+        const time = event.detail.time;
+        tl.seek(time);
+        
+        // Draw Plexus Network on Canvas relative to time
+        if (plexusCanvas) {
+          H.drawPlexus(plexusCanvas, time, "#00ffaa", "#00d4ff", 437101);
+        }
       });
       
-      // Render first frame
-      renderAt(0);
+      // Initial render
+      if (plexusCanvas) {
+        H.drawPlexus(plexusCanvas, 0, "#00ffaa", "#00d4ff", 437101);
+      }
       tl.seek(0);
+      window.__timelines[CID] = tl;
     </script>
   </body>
 </html>
