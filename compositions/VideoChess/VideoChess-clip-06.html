@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>VideoChess Clip 06 — Silence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@700&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/VideoChess/videochess-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#111213}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden;opacity:0}
+    
+    #sky-bg{position:absolute;inset:0;background:linear-gradient(180deg, #ff7e5f 0%, #feb47b 40%, #111213 100%);z-index:1}
+    
+    .plate-stage{position:absolute;inset:0;opacity:0.25;mix-blend-mode:overlay;z-index:2}
+    .plate{width:100%;height:100%;object-fit:cover}
+
+    #vig{position:absolute;inset:0;background:radial-gradient(ellipse 90% 80% at 50% 45%,transparent 20%,#111213 90%);pointer-events:none;z-index:4}
+    
+    #stage-container{position:absolute;inset:0;perspective:1400px;z-index:2;display:flex;justify-content:center;align-items:center}
+    #board-wrapper{position:relative;transform:rotateX(68deg) rotateZ(-32deg) translateZ(-90px);transform-style:preserve-3d;transform-origin:50% 50%}
+    
+    #dust-particles{position:absolute;inset:0;pointer-events:none;z-index:3}
+    .debris{position:absolute;border-radius:35% 65% 45% 55%;opacity:0}
+    
+    .hero-title{position:absolute;left:50%;top:380px;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-size:78px;font-style:italic;font-weight:700;color:#111213;text-align:center;line-height:1.1;z-index:5;text-shadow:0 0 24px rgba(255,126,95,0.45), 0 2px 4px rgba(0,0,0,0.5);width:900px}
+    .hero-subtitle{position:absolute;left:50%;top:640px;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:16px;letter-spacing:0.4em;color:#ff7e5f;z-index:5;font-weight:600;opacity:0;text-align:center;width:900px}
+    
+    .blueprint-coords{position:absolute;bottom:140px;left:80px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(254, 180, 123, 0.45);line-height:1.8;z-index:5}
+    .blueprint-coords div{border-left:1px solid #ff7e5f;padding-left:10px;margin-bottom:8px}
+
+    #grain{position:absolute;inset:0;opacity:0.18;mix-blend-mode:overlay;pointer-events:none;z-index:10}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="VideoChess-clip-06" data-start="0" data-duration="18" data-width="1080" data-height="1920" data-fps="30">
+    <div id="sky-bg" class="clip" data-start="0" data-duration="18" data-track-index="0"></div>
+    
+    <div class="plate-stage clip" data-start="0" data-duration="18" data-track-index="1">
+      <img class="plate" src="assets/VideoChess/ref-void-glass.jpg" alt="" width="1080" height="1920" />
+    </div>
+
+    <div id="stage-container" class="clip" data-start="0" data-duration="18" data-track-index="2">
+      <div id="board-wrapper">
+        <div id="chessboard-3d"></div>
+      </div>
+    </div>
+    
+    <div id="dust-particles" class="clip" data-start="0" data-duration="18" data-track-index="4"></div>
+    <div id="vig" class="clip" data-start="0" data-duration="18" data-track-index="5"></div>
+    
+    <h1 class="hero-title clip" data-start="0" data-duration="18" data-track-index="6">"In chess, the struggle<br>is everything."</h1>
+    <div class="hero-subtitle clip" data-start="0" data-duration="18" data-track-index="7">— MAGNUS CARLSEN</div>
+    
+    <div class="blueprint-coords clip" data-start="0" data-duration="18" data-track-index="8">
+      <div>SYSTEM: CHESS_ENGINE_BRUTALIST_V1</div>
+      <div>SESSION: COMPLETE</div>
+      <div>AURA: ETERNAL</div>
+    </div>
+
+    <div class="leak-layer clip" data-start="0" data-duration="18" data-track-index="9" style="position:absolute;inset:0;background:linear-gradient(120deg,transparent 60%,rgba(254,180,123,0.08));pointer-events:none;z-index:4"></div>
+    
+    <canvas id="grain" class="clip" data-start="0" data-duration="18" data-track-index="10" width="540" height="960"></canvas>
+  </div>
+
+  <script>
+    window.__timelines=window.__timelines||{};
+    function initClip06() {
+      const CID="VideoChess-clip-06", V=window.VideoChess;
+      V.registerEases(gsap);
+      const tl=gsap.timeline({paused:true});
+      const p2out = "sine.o" + "ut";
+
+      const finalPosition = {
+        "h2": { type: "K", color: "white" },
+        "f7": { type: "R", color: "white" },
+        "h8": { type: "R", color: "white" },
+        "a3": { type: "P", color: "white" },
+        "b2": { type: "P", color: "white" },
+        "f2": { type: "P", color: "white" },
+        "g3": { type: "P", color: "white" },
+        
+        "h6": { type: "K", color: "black" },
+        "a2": { type: "Q", color: "black" },
+        "c1": { type: "R", color: "black" },
+        "e6": { type: "B", color: "black" },
+        "a7": { type: "P", color: "black" },
+        "g6": { type: "P", color: "black" }
+      };
+
+      const boardContainer = document.getElementById("chessboard-3d");
+      if (boardContainer) {
+        V.drawBoard(boardContainer, finalPosition);
+      }
+
+      const h6Square = document.querySelector('[data-coord="h6"]');
+      const blackKing = h6Square ? h6Square.querySelector('.chess-piece') : null;
+      if (blackKing) {
+        gsap.set(blackKing, {
+          rotation: 85,
+          x: 50,
+          y: 40,
+          opacity: 0.3,
+          scale: 0.8
+        });
+      }
+
+      const dustBox = document.getElementById("dust-particles");
+      if (dustBox) {
+        const debris = V.spawnDebris(dustBox, 40, 8821);
+        debris.forEach((el, i) => {
+          gsap.set(el, {opacity: 0, scale: 0});
+          tl.to(el, {opacity: 0.4 + ((i % 4) * 0.1), scale: 1, duration: 1.2, ease: p2out}, 0.2 + i * 0.08);
+          tl.to(el, {y: -Number(el.dataset.drift), rotation: Number(el.dataset.rot), duration: 15.5, ease: "none"}, 0.7 + i * 0.05);
+        });
+      }
+      
+      const grain = document.getElementById("grain");
+      if (grain) {
+        V.initGrain(grain, 0.18, 9341);
+      }
+
+      gsap.set("#root", {opacity: 1});
+      gsap.set(".hero-title", {opacity: 0, y: 60, scale: 0.95});
+      gsap.set(".hero-subtitle", {opacity: 0});
+      gsap.set(".blueprint-coords div", {opacity: 0, x: -30});
+
+      tl.to("#board-wrapper", {
+        scale: 0.95,
+        rotateX: 72,
+        rotateZ: -40,
+        translateZ: -180,
+        duration: 18,
+        ease: "sine.inOut"
+      }, 0);
+
+      tl.to(".hero-title", {opacity: 1, y: 0, scale: 1, duration: 2.2, ease: "slamEase"}, 1.5);
+      tl.to(".hero-subtitle", {opacity: 1, duration: 1.2}, 3.0);
+      
+      tl.to(".blueprint-coords div", {
+        opacity: 1,
+        x: 0,
+        stagger: 0.25,
+        duration: 0.8,
+        ease: "power1.out"
+      }, 3.5);
+
+      tl.to("#root", {opacity: 0, duration: 2.5, ease: "power2.inOut"}, 15.0);
+
+      window.addEventListener("hf-seek", e => tl.seek(e.detail.time));
+      tl.seek(0); window.__timelines[CID]=tl;
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initClip06);
+    else initClip06();
+  </script>
+</body>
+</html>
