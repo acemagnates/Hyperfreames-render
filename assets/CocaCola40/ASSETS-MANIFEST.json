@@ -1,0 +1,131 @@
+{
+  "version": "v2",
+  "created": "2026-05-27",
+  "notes": "Web-discovered reference plates for CocaCola40 fan edit. Non-commercial reference; attribute per license.",
+  "plates_dir": "assets/CocaCola40/plates/v2",
+  "models_dir": "assets/CocaCola40/models",
+  "assets": [
+    {
+      "filename": "01-red-bokeh-atmosphere.jpeg",
+      "source_url": "https://www.pexels.com/photo/red-bokeh-301673/",
+      "description": "Dynamic red bokeh circles on dark background — cinematic void / red-gel atmosphere.",
+      "assigned_clip": "01",
+      "license_note": "Pexels License (free use; no attribution required)"
+    },
+    {
+      "filename": "01b-red-orange-bokeh.jpeg",
+      "source_url": "https://www.pexels.com/photo/vivid-bokeh-lights-in-red-and-orange-2264245/",
+      "description": "Red and orange bokeh light field — alternate atmosphere plate for void act.",
+      "assigned_clip": "01",
+      "license_note": "Pexels License"
+    },
+    {
+      "filename": "01c-dark-red-gradient.jpeg",
+      "source_url": "https://www.pexels.com/photo/dark-red-background-13216333/",
+      "description": "Abstract dark red/black gradient — minimal copy-space backdrop.",
+      "assigned_clip": "01",
+      "license_note": "Pexels License (Francesco Ungaro)"
+    },
+    {
+      "filename": "02-ice-condensation-glass.jpeg",
+      "source_url": "https://www.pexels.com/photo/monochrome-glass-of-ice-with-water-condensation-32088554/",
+      "description": "Macro glass filled with ice cubes and water condensation (monochrome).",
+      "assigned_clip": "02",
+      "license_note": "Pexels License (Gu Ko)"
+    },
+    {
+      "filename": "02b-cola-ice-closeup-marco-verch.jpeg",
+      "source_url": "https://foto.wuestenigel.com/glass-of-cola-with-ice-closeup/",
+      "description": "Top-down cola in glass with ice — warm amber tones, real beverage reference.",
+      "assigned_clip": "02",
+      "license_note": "CC BY 2.0 (Marco Verch / foto.wuestenigel.com — attribution required)"
+    },
+    {
+      "filename": "02c-ice-cubes-macro.jpeg",
+      "source_url": "https://foto.wuestenigel.com/ice-cubes-in-a-glass-of-pepsi-close-up/",
+      "description": "Ice cubes macro inside dark soda glass — specular / cold texture reference.",
+      "assigned_clip": "02",
+      "license_note": "CC BY 2.0 (Marco Verch)"
+    },
+    {
+      "filename": "03c-cola-pour-into-glass-ice.jpeg",
+      "source_url": "https://foto.wuestenigel.com/brown-carbonated-drink-is-poured-into-a-glass-with-ice/",
+      "description": "Brown carbonated drink pouring into iced glass — primary cola pour reference.",
+      "assigned_clip": "03",
+      "license_note": "CC BY 2.0 (Marco Verch)"
+    },
+    {
+      "filename": "03-pour-liquid-splash.jpeg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Pouring_Water_Into_Glass_(55963794).jpeg",
+      "description": "High-speed clear liquid pour with splash (generic; use for splash shape / timing craft).",
+      "assigned_clip": "03",
+      "license_note": "CC BY 3.0 (Hassan Hagi / 500px archive on Wikimedia)"
+    },
+    {
+      "filename": "03b-serving-ice-cold-cola.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Serving_ice_cold_cola.jpg",
+      "description": "Hands serving Coca-Cola into branded glasses with ice — multi-glass pour context.",
+      "assigned_clip": "03",
+      "license_note": "CC BY 2.0 (Reiner Schubert via Flickr)"
+    },
+    {
+      "filename": "04-hero-glass-coca-cola.png",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Glass_of_Coca-Cola.png",
+      "description": "Hero glass of Coca-Cola with visible logo and liquid — product-in-glass reference.",
+      "assigned_clip": "04",
+      "license_note": "CC BY-SA 3.0 / GFDL (Loupeznik) — share-alike if adapted; trademark notice on Commons"
+    },
+    {
+      "filename": "04b-cola-branded-glass.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Coca-Cola_Glass_Color.jpg",
+      "description": "Branded Coca-Cola glass on table — color product still.",
+      "assigned_clip": "04",
+      "license_note": "CC BY 2.0 (Kevin Jones via Flickr)"
+    },
+    {
+      "filename": "05-bottle-windowsill-product.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:2023-09-17_16_46_53_Glass_Coca-Cola_bottle_on_a_windowsill_in_Robbinsville_Township,_Mercer_County,_New_Jersey.jpg",
+      "description": "Modern glass contour bottle on windowsill — liquid visible, natural light product shot.",
+      "assigned_clip": "05",
+      "license_note": "CC BY-SA 4.0 (Famartin)"
+    },
+    {
+      "filename": "05b-vintage-glass-bottle.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:An_old_Coca_Cola_glass_bottle_1954.jpg",
+      "description": "Vintage contour glass bottle (1954 style) — nostalgia / red-world bottle layer.",
+      "assigned_clip": "05",
+      "license_note": "CC BY-SA 3.0 (Amada44)"
+    },
+    {
+      "filename": "06-carbonation-foam-bubbles.jpeg",
+      "source_url": "https://foto.wuestenigel.com/close-up-foam-and-bubbles-in-a-glass-with-cold-pepsi/",
+      "description": "Macro foam and carbonation bubbles on dark soda surface — fizz / lock-up tail reference.",
+      "assigned_clip": "06",
+      "license_note": "CC BY 2.0 (Marco Verch)"
+    },
+    {
+      "filename": "06b-diet-coke-bubbles-wikimedia.jpg",
+      "source_url": "https://commons.wikimedia.org/wiki/File:Diet_Coke_Bubbles_(51442153643).jpg",
+      "description": "High-res Diet Coke surface with carbonation bubbles (4410×3463) — premium fizz macro reference.",
+      "assigned_clip": "06",
+      "license_note": "CC BY 2.0 (Brett Jordan via Flickr / Wikimedia Commons)"
+    }
+  ],
+  "models": [
+    {
+      "filename": "bottle.glb",
+      "source_url": "https://poly.pizza/m/IqXSdKUMnY",
+      "description": "Low-poly soda bottle (Quaternius) — CC0 hero mesh for clip 04 Three.js pass.",
+      "assigned_clip": "04",
+      "license_note": "CC0 1.0 (Public Domain) via Poly Pizza / Quaternius",
+      "direct_download": "https://static.poly.pizza/7190956b-a23e-4f35-ba10-c8ffcc6fad1e.glb"
+    }
+  ],
+  "failures": [
+    {
+      "target": "06b-coke-bottle-pixabay.jpg",
+      "source_url": "https://pixabay.com/photos/coke-coca-cola-soda-soft-drink-698545/",
+      "reason": "cdn.pixabay.com direct URL returned 403; bottle coverage via Wikimedia windowsill + vintage plates"
+    }
+  ]
+}

@@ -3,61 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>CocaCola40 Clip 05 — Red World</title>
+  <title>CocaCola40 Clip 05 — Red World (V2)</title>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet" />
   <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
   <script src="compositions/CocaCola40/cocacola40-shared.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html,body{width:1080px;height:1920px;overflow:hidden;background:#0a0204}
-    #root{position:relative;width:1080px;height:1920px;perspective:1000px;overflow:hidden}
-    .bg{position:absolute;inset:-10%;background:url('../../assets/CocaCola40/plates/cosmic-red.jpg') center/cover;filter:saturate(1.4) brightness(0.45);transform:translateZ(-280px) scale(1.5)}
-    .smoke{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% 100%,rgba(244,0,9,0.45),transparent 55%);mix-blend-mode:screen}
-    .bottle-silhouette{position:absolute;right:-40px;top:320px;width:380px;height:900px;opacity:0.35;filter:drop-shadow(0 0 60px rgba(244,0,9,0.5))}
-    .line1{font-family:'Oswald',sans-serif;font-size:72px;font-weight:700;color:#fff;position:absolute;top:280px;left:56px;letter-spacing:0.08em;line-height:1.05}
-    .line2{font-family:'Playfair Display',serif;font-style:italic;font-size:88px;color:#f40009;position:absolute;top:480px;left:56px;text-shadow:0 0 60px rgba(244,0,9,0.45)}
-    .line1 span,.line2 .magic{display:inline-block}
-    svg.bottle-silhouette path{fill:rgba(20,0,4,0.85);stroke:rgba(255,200,180,0.25);stroke-width:2}
-    #grain{position:absolute;inset:0;mix-blend-mode:overlay;opacity:0.2;pointer-events:none}
-    #vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 18%,rgba(0,0,0,0.68) 100%)}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden;--accent-rgb:230,0,18}
+    .solid-bg{position:absolute;inset:0;background:#0a0204;z-index:0}
+    #rw{position:absolute;inset:0;overflow:hidden}
+    .plate-ken{position:absolute;inset:-8%;will-change:transform}
+    .bottle-photo{position:absolute;right:-24px;top:260px;width:min(520px,48vw);height:auto;max-height:980px;object-fit:contain;filter:drop-shadow(0 24px 80px rgba(0,0,0,0.55));z-index:3}
+    .type-block{position:absolute;left:56px;top:260px;z-index:10;max-width:620px}
+    .line1{font-family:'Oswald',sans-serif;font-size:68px;font-weight:700;color:#fff;letter-spacing:0.1em;line-height:1.08}
+    .line1 span{display:inline-block;margin-right:0.2em}
+    .moment-wrap{margin-top:20px;position:relative}
+    .type-panel{font-family:'Playfair Display',serif;font-style:italic;font-size:92px;font-weight:600;line-height:1;background:linear-gradient(135deg,#fff 0%,#f40009 45%,#8a0010 100%);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+    .title-stack{position:relative;display:inline-block}
+    .title-stack .ch{position:absolute;left:0;top:0;font-family:'Playfair Display',serif;font-style:italic;font-size:92px;font-weight:600;line-height:1}
+    .ch-r{color:#ff2a2a;mix-blend-mode:screen;-webkit-text-fill-color:#ff2a2a;background:none}
+    .ch-g{color:#2aff9a;mix-blend-mode:screen;opacity:0.75;-webkit-text-fill-color:#2aff9a;background:none}
+    .ch-b{position:relative;-webkit-text-fill-color:transparent;background:linear-gradient(135deg,#fff,#f40009);-webkit-background-clip:text;background-clip:text}
+    .red-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 90% 70% at 30% 80%,rgba(var(--accent-rgb),0.35),transparent 58%);mix-blend-mode:screen;opacity:0.5}
+    #vig{position:absolute;inset:0;z-index:15;background:radial-gradient(ellipse at center,transparent 16%,rgba(0,0,0,0.7) 100%);pointer-events:none}
+    #grain{position:absolute;inset:0;z-index:20;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
   </style>
 </head>
 <body>
   <div id="root" data-composition-id="CocaCola40-clip-05" data-start="0" data-duration="8" data-width="1080" data-height="1920" data-fps="30">
-    <div id="rw" class="clip" data-start="0" data-duration="8" data-track-index="0">
-      <div class="bg clip" data-start="0" data-duration="8" data-track-index="1"></div>
-      <div class="smoke clip" data-start="0" data-duration="8" data-track-index="2"></div>
-      <svg class="bottle-silhouette clip" data-start="0" data-duration="8" data-track-index="3" viewBox="0 0 120 280" xmlns="http://www.w3.org/2000/svg">
-        <path d="M60 8 C72 8 78 18 76 32 L70 48 C68 58 82 62 88 78 L92 120 C94 150 88 200 82 240 C78 260 68 272 60 272 C52 272 42 260 38 240 C32 200 26 150 28 120 L32 78 C38 62 52 58 50 48 L44 32 C42 18 48 8 60 8 Z"/>
-      </svg>
-      <div class="line1 clip" data-start="0" data-duration="8" data-track-index="4" id="l1">TASTE THE</div>
-      <div class="line2 clip" data-start="0" data-duration="8" data-track-index="5" id="l2"><span class="magic">MOMENT</span></div>
-      <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="6"></div>
-      <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="7" width="540" height="960"></canvas>
+    <div class="solid-bg clip" data-start="0" data-duration="8" data-track-index="0"></div>
+    <div id="rw" class="clip" data-start="0" data-duration="8" data-track-index="1">
+      <div class="plate-ken grade-target clip" data-start="0" data-duration="8" data-track-index="2" id="kb">
+        <img class="bottle-photo clip" data-start="0" data-duration="8" data-track-index="3" id="bottle" src="../../assets/CocaCola40/plates/v2/05-bottle-windowsill-product.jpg" alt="Coca-Cola contour bottle" />
+      </div>
+      <div class="red-veil clip" data-start="0" data-duration="8" data-track-index="4"></div>
+      <div class="type-block clip" data-start="0" data-duration="8" data-track-index="5">
+        <div class="line1 clip" data-start="0" data-duration="8" data-track-index="6" id="l1"><span>TASTE</span> <span>THE</span></div>
+        <div class="moment-wrap clip" data-start="0" data-duration="8" data-track-index="7">
+          <div class="type-panel clip" data-start="0" data-duration="8" data-track-index="8" id="shim-panel">MOMENT</div>
+          <h2 class="title-stack clip" data-start="0" data-duration="8" data-track-index="9" id="moment-stack">
+            <span class="ch ch-r" aria-hidden="true">MOMENT</span>
+            <span class="ch ch-g" aria-hidden="true">MOMENT</span>
+            <span class="ch ch-b">MOMENT</span>
+          </h2>
+        </div>
+      </div>
     </div>
+    <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="10"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="11" width="540" height="960"></canvas>
   </div>
   <script>
     window.__timelines=window.__timelines||{};
     function init05(){
-      const CID="CocaCola40-clip-05",C=window.CocaCola40;
+      const CID="CocaCola40-clip-05",D=8,C=window.CocaCola40;
       if(!C)return;
-      const l1=document.getElementById("l1");
-      if(!l1)return;
-      l1.innerHTML="TASTE THE".split(" ").map(w=>'<span>'+w+'</span>').join(" ");
-      const tl=gsap.timeline({paused:true});
-      gsap.set(".line1 span",{opacity:0,y:80,rotateX:40});
-      gsap.set(".magic",{opacity:0,scale:0.5});
-      gsap.set(".bottle-silhouette",{opacity:0,x:120});
-      gsap.set(".bg",{scale:1.12});
-      tl.to(".line1 span",{opacity:1,y:0,rotateX:0,duration:0.75,stagger:0.12,ease:"power3.out"},0.4);
-      tl.to(".magic",{opacity:1,scale:1,duration:0.9,ease:"elastic.out(0.65)"},1.1);
-      tl.to(".bottle-silhouette",{opacity:0.4,x:0,duration:1.4,ease:"power2.out"},0.6);
-      tl.to(".bg",{scale:1.02,duration:6,ease:"none"},0.5);
-      tl.to("#rw",{rotateX:-2,y:-20,duration:5,ease:"sine.inOut"},2);
-      const g=document.getElementById("grain");if(g)C.initGrain(g,0.2,405);
-      C.addHandheld("#rw",gsap,405,{x:5,y:8});
-      window.addEventListener("hf-seek",e=>tl.seek(e.detail.time));
-      tl.seek(0);window.__timelines[CID]=tl;
+      C.setAccentRgb(document.getElementById("root"));
+      C.registerEases(gsap);
+      const tl=C.makeTimeline(CID);
+      const crush=C.applyCrushGrade(document.getElementById("kb"));
+      C.wireCrushGrade(tl,crush,D,0.2);
+      gsap.set(".line1 span",{opacity:0,y:72,rotateX:36});
+      gsap.set("#moment-stack",{opacity:0});
+      gsap.set("#shim-panel",{opacity:0});
+      gsap.set("#bottle",{opacity:0,x:100,scale:0.92});
+      gsap.set("#kb",{scale:1.06});
+      tl.to(".line1 span",{opacity:1,y:0,rotateX:0,duration:0.8,stagger:0.14,ease:"power4.out"},0.35);
+      tl.to("#bottle",{opacity:1,x:0,scale:1,duration:1.35,ease:"expo.out"},0.5);
+      tl.to("#moment-stack",{opacity:1,duration:0.01},1.05);
+      C.chromaticSplit(document.getElementById("moment-stack"),tl,1.08);
+      tl.fromTo("#moment-stack .ch-b",{scale:0.55},{scale:1,duration:0.85,ease:"elastic.out(0.7,0.35)"},1.1);
+      tl.to("#shim-panel",{opacity:0.35,duration:0.6,ease:"sine.inOut"},1.2);
+      const shim={phase:0};
+      const panel=document.getElementById("shim-panel");
+      tl.to(shim,{phase:Math.PI*5,duration:D,ease:"none",onUpdate:function(){
+        const x=Math.sin(shim.phase)*14;
+        const y=Math.cos(shim.phase*0.7)*10;
+        panel.style.backgroundPosition=(50+x)+"% "+(50+y)+"%";
+      }},0.55);
+      C.sineBreathe(tl,"#bottle",D,{delay:2.4,scaleAmp:0.01,yAmp:8});
+      tl.to("#kb",{scale:1.02,duration:5,ease:"sine.inOut"},1);
+      tl.to("#rw",{y:-16,duration:4.5,ease:"sine.inOut"},2.5);
+      tl.to(".type-block",{scale:1.03,duration:0.35,ease:"back.out(1.4)"},0.35);
+      const g=document.getElementById("grain");
+      if(g)C.initGrain(g,0.2,405);
     }
     if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init05);
     else init05();

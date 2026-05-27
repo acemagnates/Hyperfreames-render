@@ -6,13 +6,48 @@
   <title>CocaCola40 Clip 04 — Hero</title>
   <link rel="icon" href="data:," />
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="compositions/_shared/coke-GLTFLoader-bundle.js"></script>
   <script src="compositions/_shared/gsap.min.js"></script>
   <script src="compositions/CocaCola40/cocacola40-shared.js"></script>
+  <script src="compositions/CocaCola40/cocacola40-three-hero.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html,body{width:1080px;height:1920px;overflow:hidden;background:#0a0204}
-    #root{position:relative;width:1080px;height:1920px}
-    #canvas3d{position:absolute;inset:0;z-index:1}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden}
+    .hero-comp{position:absolute;inset:0;z-index:0}
+    #hero-plate{
+      position:absolute;inset:-12%;
+      width:124%;height:124%;
+      object-fit:cover;
+      object-position:center 42%;
+      opacity:0.32;
+      transform-origin:50% 55%;
+      will-change:transform;
+      pointer-events:none;
+    }
+    .hero-comp.is-fallback #hero-plate{opacity:1}
+    .hero-comp.is-fallback #canvas3d{opacity:0;visibility:hidden}
+    #canvas3d{position:absolute;inset:0;z-index:1;display:block}
+    .lens-flare-container{
+      position:absolute;inset:0;z-index:3;
+      pointer-events:none;overflow:hidden;
+      mix-blend-mode:screen;
+    }
+    .flare-core{
+      position:absolute;top:36%;width:140px;height:140px;
+      margin-left:-70px;border-radius:50%;
+      background:radial-gradient(circle,rgba(255,220,180,0.95) 0%,rgba(230,0,18,0.55) 35%,transparent 72%);
+      opacity:0;will-change:left,opacity;
+    }
+    .flare-streak{
+      position:absolute;width:250%;height:6px;left:-75%;top:42%;
+      background:linear-gradient(90deg,transparent 0%,
+        rgba(230,0,18,0.05) 20%,
+        rgba(230,0,18,0.75) 50%,
+        rgba(230,0,18,0.05) 80%,transparent 100%);
+      transform:translateY(-50%) rotate(-3deg);
+      opacity:0;will-change:left,opacity;
+    }
     #vig{position:absolute;inset:0;z-index:4;background:radial-gradient(ellipse at center,transparent 22%,rgba(0,0,0,0.7) 100%);pointer-events:none}
     #grain{position:absolute;inset:0;z-index:5;mix-blend-mode:overlay;opacity:0.2;pointer-events:none}
     #cap{position:absolute;bottom:110px;width:100%;text-align:center;font-family:Georgia,serif;font-size:18px;letter-spacing:0.4em;color:rgba(255,210,190,0.65);z-index:6}
@@ -20,50 +55,96 @@
 </head>
 <body>
   <div id="root" data-composition-id="CocaCola40-clip-04" data-start="0" data-duration="8" data-width="1080" data-height="1920" data-fps="30">
-    <canvas id="canvas3d" class="clip" data-start="0" data-duration="8" data-track-index="0"></canvas>
-    <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="1"></div>
-    <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="2" width="540" height="960"></canvas>
-    <div id="cap" class="clip" data-start="0" data-duration="8" data-track-index="3">HERO GLASS</div>
+    <div class="hero-comp grade-target clip" data-start="0" data-duration="8" data-track-index="0">
+      <img
+        id="hero-plate"
+        class="clip"
+        src="../../assets/CocaCola40/plates/v2/04-hero-glass-coca-cola.png"
+        alt=""
+        data-start="0"
+        data-duration="8"
+        data-track-index="1"
+      />
+      <canvas id="canvas3d" class="clip" data-start="0" data-duration="8" data-track-index="2" width="1080" height="1920"></canvas>
+    </div>
+    <div class="lens-flare-container">
+      <div class="flare-core clip" data-start="0" data-duration="8" data-track-index="28"></div>
+      <div class="flare-streak clip" data-start="0" data-duration="8" data-track-index="29"></div>
+    </div>
+    <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="3"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="4" width="540" height="960"></canvas>
+    <div id="cap" class="clip" data-start="0" data-duration="8" data-track-index="5">HERO GLASS</div>
   </div>
   <script>
-    window.__timelines=window.__timelines||{};
-    function init04(){
-      const CID="CocaCola40-clip-04",D=8,C=window.CocaCola40;
-      if(!C)return;
-      const tl=gsap.timeline({paused:true});
-      gsap.set("#cap",{opacity:0});
-      tl.to("#cap",{opacity:0.85,duration:1,ease:"power2.out"},1.5);
-      const g=document.getElementById("grain");
-      if(g)C.initGrain(g,0.2,404);
-      const renderer=C.createRenderer(document.getElementById("canvas3d"));
-      const {scene,camera}=C.createScene();
-      C.addColaLights(scene);
-      C.addReflectiveFloor(scene);
-      const bottle=C.createBottle();
-      if(bottle)scene.add(bottle);
-      let rise=0;
-      function frame(p){
-        rise=Math.min(1,p*1.35);
-        if(bottle){
-          bottle.rotation.y=p*0.45;
-          bottle.position.y=-3.2+(1-rise)*4.5;
-          bottle.scale.setScalar(0.85+rise*0.2);
-        }
-        C.orbitBottle(camera,p);
-        const base=0.85+rise*0.2;
-        const breathe=1+Math.sin(p*Math.PI*4)*0.012;
-        if(bottle)bottle.scale.set(base*breathe,base*breathe,base*breathe);
-        if(renderer.render)renderer.render(scene,camera);
+    window.__timelines = window.__timelines || {};
+    function init04() {
+      const CID = "CocaCola40-clip-04";
+      const D = 8;
+      const C = window.CocaCola40;
+      const H = window.CocaCola40ThreeHero;
+      if (!C || !H) return;
+      if (window.CokeGLTFLoaderPack && window.THREE && !THREE.GLTFLoader) {
+        THREE.GLTFLoader = CokeGLTFLoaderPack.GLTFLoader;
       }
-      window.addEventListener("hf-seek",e=>{
-        const t=e.detail.time;
-        tl.seek(t);
-        frame(t/D);
+
+      C.setAccentRgb(document.getElementById("root"));
+      const tl = C.makeTimeline(CID);
+      const heroComp = document.querySelector(".hero-comp");
+      const plate = document.getElementById("hero-plate");
+      const canvas = document.getElementById("canvas3d");
+
+      gsap.set("#cap", { opacity: 0 });
+      tl.to("#cap", { opacity: 0.85, duration: 1, ease: "power2.out" }, 1.5);
+
+      gsap.set("#hero-plate", { scale: 1.1, xPercent: -3, yPercent: 0 });
+      tl.to("#hero-plate", { scale: 1.22, xPercent: 4, yPercent: -2, duration: D, ease: "none" }, 0.15);
+
+      C.wireOpticalFlare(tl, ".flare-core", ".flare-streak", D, 0.3);
+
+      const crush = C.applyCrushGrade(".grade-target");
+      C.wireCrushGrade(tl, crush, D, 0.1);
+
+      const g = document.getElementById("grain");
+      if (g) C.initGrain(g, 0.2, 404);
+
+      const state = H.initHeroScene(canvas);
+      if (!state) return;
+
+      let useFallback = !C.isWebGLAvailable();
+      function setFallback(on) {
+        useFallback = on;
+        if (heroComp) heroComp.classList.toggle("is-fallback", on);
+        if (plate) plate.style.opacity = on ? "1" : "0.32";
+      }
+      if (useFallback) setFallback(true);
+
+      function renderHero(t) {
+        if (useFallback || !state.glbReady) return;
+        H.frameHero(state, t / D);
+      }
+
+      window.addEventListener("hf-seek", function (e) {
+        renderHero(e.detail.time);
       });
-      frame(0);tl.seek(0);window.__timelines[CID]=tl;
+
+      H.loadBottle(state.scene, "../../assets/CocaCola40/models/bottle.glb", function (bottle, ok) {
+        if (ok && bottle) {
+          state.bottle = bottle;
+          state.glbReady = true;
+          setFallback(false);
+          renderHero(window.__hfThreeTime || 0);
+        } else {
+          setFallback(true);
+        }
+      });
+
+      renderHero(0);
     }
-    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init04);
-    else init04();
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init04);
+    } else {
+      init04();
+    }
   </script>
 </body>
 </html>

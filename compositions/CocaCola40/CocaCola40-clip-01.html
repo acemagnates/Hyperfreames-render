@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>CocaCola40 Clip 01 — Void</title>
+  <title>CocaCola40 Clip 01 — Void (V2)</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
   <script src="compositions/_shared/gsap.min.js"></script>
   <script src="compositions/_shared/CustomEase.min.js"></script>
@@ -11,63 +11,82 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html,body{width:1080px;height:1920px;overflow:hidden;background:#0a0204}
-    #root{position:relative;width:1080px;height:1920px;overflow:hidden}
-    .depth-stage{position:absolute;inset:0;perspective:1100px;transform-style:preserve-3d}
-    .z-bg{position:absolute;inset:-8%;background:url('../../assets/CocaCola40/plates/cosmic-red.jpg') center/cover;transform:translateZ(-320px) scale(1.55);filter:saturate(1.2) brightness(0.35)}
-    .z-light{position:absolute;inset:0;pointer-events:none}
-    .ray{position:absolute;width:280%;height:420px;left:-90%;top:18%;background:linear-gradient(90deg,transparent,rgba(244,0,9,0.04),rgba(244,0,9,0.12),rgba(244,0,9,0.04),transparent);transform:rotate(-18deg);mix-blend-mode:screen}
-    .pulse{position:absolute;inset:0;background:radial-gradient(ellipse 55% 40% at 50% 45%,rgba(244,0,9,0.35),transparent 70%);opacity:0}
-    .z-mg{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;transform:translateZ(0)}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden;--accent-rgb:230,0,18}
+    .solid-bg{position:absolute;inset:0;background:#0a0204;z-index:0}
+    .plate-stage{position:absolute;inset:0;overflow:hidden}
+    .kenburns{position:absolute;inset:-12%;will-change:transform}
+    .plate-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .plate-grad{z-index:1;opacity:0.55;mix-blend-mode:multiply}
+    .plate-bokeh{z-index:2}
+    .plate-bokeh-alt{position:absolute;inset:0;z-index:3;opacity:0;mix-blend-mode:screen;object-fit:cover;width:100%;height:100%}
+    .grade-target{position:absolute;inset:0}
+    .leak-layer{position:absolute;inset:-20%;z-index:90;pointer-events:none;mix-blend-mode:screen;opacity:0;background:linear-gradient(118deg,transparent 30%,rgba(var(--accent-rgb),0.55) 48%,rgba(255,180,80,0.35) 52%,transparent 70%);transform:translateX(-40%) rotate(-8deg)}
+    .lens-flare-wrap{position:absolute;inset:0;z-index:28;pointer-events:none;mix-blend-mode:screen;overflow:hidden}
+    .flare-core{position:absolute;width:18%;height:18%;top:38%;border-radius:50%;background:radial-gradient(circle,rgba(255,220,200,0.9),transparent 70%);opacity:0}
+    .flare-streak{position:absolute;width:250%;height:6px;left:-75%;top:42%;background:linear-gradient(90deg,transparent 0%,rgba(var(--accent-rgb),0.05) 20%,rgba(var(--accent-rgb),0.75) 50%,rgba(var(--accent-rgb),0.05) 80%,transparent 100%);transform:translateY(-50%) rotate(-3deg);opacity:0}
+    .z-mg{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:center;align-items:center}
     .whisper{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:42px;color:rgba(255,220,210,0.55);letter-spacing:0.12em}
-    .cold{font-family:'Oswald',sans-serif;font-size:148px;font-weight:700;color:#fff;letter-spacing:0.28em;margin-top:24px;text-shadow:0 0 80px rgba(244,0,9,0.5)}
-    .cold span{display:inline-block}
-    .z-fg{position:absolute;inset:0;pointer-events:none}
-    #vig{background:radial-gradient(ellipse at center,transparent 25%,rgba(0,0,0,0.72) 100%)}
-    #grain{mix-blend-mode:overlay;opacity:0.2}
+    .title-stack{position:relative;margin-top:24px;text-align:center}
+    .title-stack .ch{position:absolute;left:0;right:0;font-family:'Oswald',sans-serif;font-size:148px;font-weight:700;letter-spacing:0.28em;line-height:1}
+    .ch-r{color:#ff2a2a;mix-blend-mode:screen;transform:translate(-3px,0)}
+    .ch-g{color:#2aff9a;mix-blend-mode:screen;transform:translate(2px,1px);opacity:0.7}
+    .ch-b{color:#fff;position:relative;text-shadow:0 0 80px rgba(244,0,9,0.5)}
+    #vig{position:absolute;inset:0;z-index:80;background:radial-gradient(ellipse at center,transparent 22%,rgba(0,0,0,0.72) 100%);pointer-events:none}
+    #grain{position:absolute;inset:0;z-index:95;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
   </style>
 </head>
 <body>
   <div id="root" data-composition-id="CocaCola40-clip-01" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
-    <div id="stage" class="depth-stage clip" data-start="0" data-duration="5" data-track-index="0">
-      <div class="z-bg clip" data-start="0" data-duration="5" data-track-index="1"></div>
-      <div class="z-light clip" data-start="0" data-duration="5" data-track-index="2">
-        <div class="ray clip" data-start="0" data-duration="5" data-track-index="3"></div>
-        <div class="pulse clip" data-start="0" data-duration="5" data-track-index="4"></div>
-      </div>
-      <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="5">
-        <div class="whisper clip" data-start="0" data-duration="5" data-track-index="6">something cold is coming</div>
-        <div class="cold clip" data-start="0" data-duration="5" data-track-index="7" id="cold-word">COLD</div>
-      </div>
-      <div class="z-fg">
-        <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="8"></div>
-        <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="9" width="540" height="960"></canvas>
+    <div class="solid-bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
+    <div id="stage" class="plate-stage clip" data-start="0" data-duration="5" data-track-index="1">
+      <div class="kenburns grade-target clip" data-start="0" data-duration="5" data-track-index="2" id="kb">
+        <img class="plate-img plate-grad clip" data-start="0" data-duration="5" data-track-index="3" id="img-grad" src="../../assets/CocaCola40/plates/v2/01c-dark-red-gradient.jpeg" alt="" />
+        <img class="plate-img plate-bokeh clip" data-start="0" data-duration="5" data-track-index="4" id="img-bokeh" src="../../assets/CocaCola40/plates/v2/01-red-bokeh-atmosphere.jpeg" alt="" />
+        <img class="plate-bokeh-alt clip" data-start="0" data-duration="5" data-track-index="5" id="img-bokeh-alt" src="../../assets/CocaCola40/plates/v2/01b-red-orange-bokeh.jpeg" alt="" />
       </div>
     </div>
+    <div class="leak-layer clip" data-start="0" data-duration="5" data-track-index="90" id="leak"></div>
+    <div class="lens-flare-wrap clip" data-start="0" data-duration="5" data-track-index="28">
+      <div class="flare-core clip" data-start="0" data-duration="5" data-track-index="29" id="flare-core"></div>
+      <div class="flare-streak clip" data-start="0" data-duration="5" data-track-index="30" id="flare-streak"></div>
+    </div>
+    <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="40">
+      <div class="whisper clip" data-start="0" data-duration="5" data-track-index="41">something cold is coming</div>
+      <h1 class="title-stack clip" data-start="0" data-duration="5" data-track-index="42" id="cold-stack">
+        <span class="ch ch-r" aria-hidden="true">COLD</span>
+        <span class="ch ch-g" aria-hidden="true">COLD</span>
+        <span class="ch ch-b">COLD</span>
+      </h1>
+    </div>
+    <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="80"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="91" width="540" height="960"></canvas>
   </div>
   <script>
     window.__timelines=window.__timelines||{};
     function init01(){
-      const CID="CocaCola40-clip-01",C=window.CocaCola40;
+      const CID="CocaCola40-clip-01",D=5,C=window.CocaCola40;
       if(!C)return;
+      const root=document.getElementById("root");
+      C.setAccentRgb(root);
       C.registerEases(gsap);
-      const cold=document.getElementById("cold-word");
-      if(!cold)return;
-      cold.innerHTML="COLD".split("").map(c=>'<span>'+c+'</span>').join("");
-      const tl=gsap.timeline({paused:true});
-      gsap.set(".whisper",{opacity:0,y:20});
-      gsap.set(".cold span",{opacity:0,rotateX:88,y:60,transformOrigin:"50% 100%"});
-      gsap.set(".pulse",{opacity:0});
-      gsap.set(".ray",{opacity:0,x:-120});
-      tl.to(".pulse",{opacity:0.55,duration:1.1,ease:"sine.inOut",repeat:3,yoyo:true},0.35);
-      tl.to(".ray",{opacity:1,x:0,duration:1.4,ease:"expo.out"},0.25);
-      tl.to(".whisper",{opacity:1,y:0,duration:1.2,ease:"power2.out"},0.45);
-      tl.to(".cold span",{opacity:1,rotateX:0,y:0,duration:0.85,stagger:0.09,ease:"expo.out"},0.55);
-      tl.to(".z-bg",{scale:1.08,duration:4.2,ease:"none"},0.3);
-      tl.to("#stage",{scale:1.06,z:80,duration:0.9,ease:"power3.in"},4.1);
-      const g=document.getElementById("grain");if(g)C.initGrain(g,0.2,401);
-      C.addHandheld("#stage",gsap,401,{x:4,y:6});
-      window.addEventListener("hf-seek",e=>tl.seek(e.detail.time));
-      tl.seek(0);window.__timelines[CID]=tl;
+      const tl=C.makeTimeline(CID);
+      const crush=C.applyCrushGrade(document.getElementById("kb"));
+      C.wireCrushGrade(tl,crush,D,0.1);
+      C.lightLeakSweep(document.getElementById("leak"),tl,0.15);
+      C.wireOpticalFlare(tl,"#flare-core","#flare-streak",D,0.35);
+      gsap.set(".whisper",{opacity:0,y:24});
+      gsap.set(".ch-r,.ch-g",{opacity:0});
+      gsap.set(".ch-b",{opacity:0,scale:1.12});
+      gsap.set("#kb",{scale:1.12});
+      tl.to(".whisper",{opacity:1,y:0,duration:1.15,ease:"expo.out"},0.4);
+      C.chromaticSplit(document.getElementById("cold-stack"),tl,0.55);
+      tl.to("#img-bokeh-alt",{opacity:0.42,duration:2.4,ease:"sine.inOut"},0.5);
+      tl.to("#kb",{scale:1.06,duration:3.8,ease:"sine.inOut"},0.35);
+      C.sineBreathe(tl,"#kb",D,{delay:1.6,scaleAmp:0.008,yAmp:4});
+      tl.to("#stage",{scale:1.05,y:-12,duration:0.75,ease:"expo.in"},4.15);
+      tl.to(".z-mg",{opacity:0,duration:0.5,ease:"power4.in"},4.35);
+      const g=document.getElementById("grain");
+      if(g)C.initGrain(g,0.2,401);
     }
     if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init01);
     else init01();

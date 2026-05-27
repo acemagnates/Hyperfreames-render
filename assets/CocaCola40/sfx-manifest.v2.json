@@ -1,0 +1,101 @@
+{
+  "projectId": "CocaCola40",
+  "version": 2,
+  "profile": "spot_sfx_first_v1",
+  "mix_notes": "SFX-first spot mix: designed hits at wall times; optional underbed ≤28% if music/underbed.mp3 exists. No full-length random bed.",
+  "underbed": {
+    "path": "music/underbed.mp3",
+    "volume": 0.28,
+    "optional": true
+  },
+  "events": [
+    {
+      "id": "cold_room",
+      "wallSec": 0.35,
+      "stem": "v2/cold_room_tone_sub.wav",
+      "gain": 0.58,
+      "scene": "clip-01 void",
+      "role": "COLD OPEN",
+      "emotion": "refrigerated hush, sub pressure",
+      "listener_feel": "Cold air and low rumble — the bottle lives in ice.",
+      "search_queries": ["refrigerator hum low sub", "cold room ambient drone bass"]
+    },
+    {
+      "id": "ice_crack",
+      "wallSec": 5.0,
+      "stem": "v2/ice_crack_glass_tick.wav",
+      "gain": 0.6,
+      "scene": "clip-02 macro",
+      "role": "MACRO REVEAL",
+      "emotion": "brittle crystal, glass tick",
+      "listener_feel": "Ice fractures — crisp macro beat.",
+      "search_queries": ["ice crack sound effect", "glass tick ice cube"]
+    },
+    {
+      "id": "pour_fizz",
+      "wallSec": 10.0,
+      "stem": "v2/pour_liquid_fizz_burst.wav",
+      "gain": 0.68,
+      "scene": "clip-03 pour",
+      "role": "POUR DOWNBEAT",
+      "emotion": "liquid pour, carbonation burst",
+      "listener_feel": "Cola pours then fizzes — wet impact.",
+      "search_queries": ["soda pour liquid fizz", "carbonated drink pour bubble"]
+    },
+    {
+      "id": "hero_swell",
+      "wallSec": 16.0,
+      "stem": "v2/hero_rise_air_swell.wav",
+      "gain": 0.55,
+      "scene": "clip-04 hero",
+      "role": "HERO RISE",
+      "emotion": "product reveal, air swell",
+      "listener_feel": "Bottle rises — cinematic lift and breath.",
+      "search_queries": ["cinematic air swell rise", "whoosh swell product reveal"]
+    },
+    {
+      "id": "type_whoosh",
+      "wallSec": 24.0,
+      "stem": "v2/typographic_whoosh.wav",
+      "gain": 0.62,
+      "scene": "clip-05 type",
+      "role": "TYPE HIT",
+      "emotion": "kinetic typography, motion whoosh",
+      "listener_feel": "Type slams in with fast air.",
+      "search_queries": ["fast whoosh transition short", "typography swoosh ui"]
+    },
+    {
+      "id": "build",
+      "wallSec": 32.0,
+      "stem": "v2/build_rise.wav",
+      "gain": 0.52,
+      "scene": "clip-06 lock (pre-slam)",
+      "role": "LOCK BUILD",
+      "emotion": "tension rise, pre-logo energy",
+      "listener_feel": "Energy stacks before the logo hit.",
+      "search_queries": ["rising tension build short", "cinematic riser 2 seconds"]
+    },
+    {
+      "id": "logo_slam",
+      "wallSec": 36.0,
+      "stem": "v2/logo_slam_glass_clink.wav",
+      "gain": 0.74,
+      "scene": "clip-06 lock",
+      "role": "LOGO SLAM",
+      "emotion": "impact slam, glass clink",
+      "listener_feel": "Logo lands — glass toast punctuation.",
+      "search_queries": ["glass clink impact short", "logo slam bass hit glass"]
+    },
+    {
+      "id": "fizz_tail",
+      "wallSec": 38.5,
+      "stem": "v2/carbonation_fizz_tail.wav",
+      "gain": 0.5,
+      "scene": "clip-06 outro",
+      "role": "FIZZ TAIL",
+      "emotion": "sparkle, carbonation tail",
+      "listener_feel": "Bubbles fizz out — sparkling finish.",
+      "search_queries": ["soda fizz bubbles short", "carbonation sparkle fizz"]
+    }
+  ]
+}

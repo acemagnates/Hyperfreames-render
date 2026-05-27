@@ -1,9 +1,13 @@
-# VISUAL STORYBOARD — CocaCola40
+# VISUAL STORYBOARD — CocaCola40 (V2)
 
-**Logline:** Darkness wakes with red light → ice macro → kinetic pour → Three.js hero bottle → typographic cathedral → “REAL MAGIC” lock-up.
+**Logline:** Red void wakes with film leak → ice matte macro → speed-ramped pour → GLB hero bottle (clip 04) → windowsill bottle + chromatic type → carbonation plate + REAL MAGIC SLAM.
 
-**Assets:** `assets/CocaCola40/plates/` (Unsplash), music bed, procedural SFX.
+**Assets:** Manifest-driven stills in `assets/CocaCola40/plates/v2/` (`ASSETS-MANIFEST.json`). AE craft wired via `cocacola40-shared.js` + `AE-TECHNIQUES.md`.
 
-**Creative mandate:** Cinematic, asymmetric easing, micro-motion on holds, 4-layer depth — not template motion.
+**Acts I–III, V–VI (clips 01–03, 05–06):** Real `<img>` plates, crush grades, track-matte / velocity / chromatic / leak / flare stacks — no Unsplash or gradient hero stand-ins.
 
-See plan in chat for full beat direction; clips 01–06 implement acts I–VI.
+**Act IV (clip 04):** Agent E — `bottle.glb` Three.js hero (unchanged in this pass).
+
+**Motion:** Varied easings (expo, back, elastic, power4), sine breathe on holds, solid `#0a0204` edges behind plates.
+
+See `PRODUCTION-PLAN-V2.md` and `TIMING.md` for wall clock and SFX pairing.
