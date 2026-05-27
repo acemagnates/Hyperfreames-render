@@ -3,73 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Chrysalis30 — Metamorph</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+    <title>CocaCola40 — Real Magic</title>
     <script src="compositions/_shared/gsap.min.js"></script>
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #050508; }
-      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #050508; }
-      #global-hud {
-        position: absolute; inset: 0; z-index: 100; pointer-events: none;
-        display: flex; flex-direction: column; justify-content: space-between;
-        padding: 88px 64px; font-family: 'JetBrains Mono', monospace; color: #2ee8d6;
-        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
-      }
-      .hud-row { display: flex; justify-content: space-between; font-size: 14px; letter-spacing: 0.16em; }
-      .hud-clock { color: #f4f2ff; font-size: 18px; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a0204; }
+      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #0a0204; }
     </style>
   </head>
   <body>
     <div
       id="composition-root"
-      data-composition-id="Chrysalis30"
+      data-composition-id="CocaCola40"
       data-start="0"
-      data-duration="30.00"
+      data-duration="40.00"
       data-width="1080"
       data-height="1920"
       data-fps="30"
     >
-      <iframe class="clip" data-composition-id="Chrysalis30-clip-01" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-01.html" data-start="0" data-duration="5.00" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
-      <iframe class="clip" data-composition-id="Chrysalis30-clip-02" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-02.html" data-start="5.00" data-duration="5.00" data-track-index="2" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
-      <iframe class="clip" data-composition-id="Chrysalis30-clip-03" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-03.html" data-start="10.00" data-duration="6.00" data-track-index="3" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
-      <iframe class="clip" data-composition-id="Chrysalis30-clip-04" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-04.html" data-start="16.00" data-duration="6.00" data-track-index="4" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
-      <iframe class="clip" data-composition-id="Chrysalis30-clip-05" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-05.html" data-start="22.00" data-duration="5.00" data-track-index="5" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
-      <iframe class="clip" data-composition-id="Chrysalis30-clip-06" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-06.html" data-start="27.00" data-duration="3.00" data-track-index="6" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <audio
+        id="music-bed"
+        class="clip"
+        src="assets/CocaCola40/music/dramatic-bed-40s.mp3"
+        data-start="0"
+        data-duration="40"
+        data-track-index="0"
+        data-volume="0.92"
+      ></audio>
 
-      <div id="global-hud">
-        <div class="hud-row">
-          <span>CHRYSALIS30 // METAMORPH</span>
-          <span id="hud-time" class="hud-clock">00:00.0</span>
-        </div>
-        <div class="hud-row">
-          <span id="hud-chapter">I — FLATLAND</span>
-          <span>30.00s VISUAL</span>
-        </div>
-      </div>
+      <iframe class="clip" data-composition-id="CocaCola40-clip-01" data-composition-src="compositions/CocaCola40/CocaCola40-clip-01.html" data-start="0" data-duration="5" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="CocaCola40-clip-02" data-composition-src="compositions/CocaCola40/CocaCola40-clip-02.html" data-start="5" data-duration="5" data-track-index="2" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="CocaCola40-clip-03" data-composition-src="compositions/CocaCola40/CocaCola40-clip-03.html" data-start="10" data-duration="6" data-track-index="3" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="CocaCola40-clip-04" data-composition-src="compositions/CocaCola40/CocaCola40-clip-04.html" data-start="16" data-duration="8" data-track-index="4" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="CocaCola40-clip-05" data-composition-src="compositions/CocaCola40/CocaCola40-clip-05.html" data-start="24" data-duration="8" data-track-index="5" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="CocaCola40-clip-06" data-composition-src="compositions/CocaCola40/CocaCola40-clip-06.html" data-start="32" data-duration="8" data-track-index="6" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
-      window.__timelines["Chrysalis30"] = gsap.timeline({ paused: true });
-      const chapters = [
-        [0, "I — FLATLAND"],
-        [5, "II — THE FOLD"],
-        [10, "III — MORPHESIS"],
-        [16, "IV — STAGGER FIELD"],
-        [22, "V — FUSION CORE"],
-        [27, "VI — MIRROR"],
-      ];
-      window.addEventListener("hf-seek", (e) => {
-        const t = e.detail.time;
-        const sec = Math.floor(t).toString().padStart(2, "0");
-        const dec = Math.floor((t % 1) * 10);
-        document.getElementById("hud-time").textContent = `${sec}:${dec.toString().padStart(2, "0")}.0`;
-        let ch = chapters[0][1];
-        for (const [start, label] of chapters) {
-          if (t >= start) ch = label;
-        }
-        document.getElementById("hud-chapter").textContent = ch;
-      });
+      window.__timelines["CocaCola40"] = gsap.timeline({ paused: true });
     </script>
   </body>
 </html>

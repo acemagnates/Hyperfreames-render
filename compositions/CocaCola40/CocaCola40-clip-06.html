@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>CocaCola40 Clip 06 — Lock</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/CocaCola40/cocacola40-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#0a0204}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden}
+    .bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 55% at 50% 42%,#4a0010,#0a0204 72%)}
+    #spark{position:absolute;inset:0;pointer-events:none}
+    .spark{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 12px #ffd0c0}
+    .lockup{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);text-align:center}
+    .wave{font-size:0;width:520px;height:120px;margin:0 auto 28px}
+    .wave path{fill:none;stroke:#f40009;stroke-width:14;stroke-linecap:round}
+    .brand{font-family:'Oswald',sans-serif;font-size:88px;font-weight:700;color:#fff;letter-spacing:0.06em;text-shadow:0 12px 48px rgba(244,0,9,0.55)}
+    .sub{font-family:'Oswald',sans-serif;font-size:28px;letter-spacing:0.45em;color:rgba(255,200,190,0.7);margin-top:20px}
+    .mini-bottle{position:absolute;bottom:180px;right:80px;width:120px;opacity:0.5;filter:drop-shadow(0 0 30px rgba(244,0,9,0.4))}
+    #grain{position:absolute;inset:0;mix-blend-mode:overlay;opacity:0.22;pointer-events:none}
+    #vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 15%,rgba(0,0,0,0.75) 100%)}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="CocaCola40-clip-06" data-start="0" data-duration="8" data-width="1080" data-height="1920" data-fps="30">
+    <div id="finale" class="clip" data-start="0" data-duration="8" data-track-index="0">
+      <div class="bg clip" data-start="0" data-duration="8" data-track-index="1"></div>
+      <div id="spark" class="clip" data-start="0" data-duration="8" data-track-index="2"></div>
+      <div class="lockup clip" data-start="0" data-duration="8" data-track-index="3">
+        <svg class="wave" viewBox="0 0 520 120"><path id="wave-path" d="M20,60 C120,20 220,100 320,60 S480,40 500,60"/></svg>
+        <div class="brand clip" data-start="0" data-duration="8" data-track-index="4">REAL MAGIC</div>
+        <div class="sub clip" data-start="0" data-duration="8" data-track-index="5">OPEN HAPPINESS</div>
+      </div>
+      <svg class="mini-bottle clip" data-start="0" data-duration="8" data-track-index="6" viewBox="0 0 80 180"><path fill="#cc0a12" d="M40 4c8 0 12 8 11 18l-4 12c-2 6 8 8 12 22l2 40c2 28-4 58-8 72-2 8-10 12-13 12s-11-4-13-12c-4-14-10-44-8-72l2-40c4-14 14-16 12-22l-4-12c-1-10 3-18 11-18z"/></svg>
+      <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="7"></div>
+      <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="8" width="540" height="960"></canvas>
+    </div>
+  </div>
+  <script>
+    window.__timelines=window.__timelines||{};
+    function init06(){
+      const CID="CocaCola40-clip-06",C=window.CocaCola40;
+      if(!C)return;
+      C.registerEases(gsap);
+      const spark=document.getElementById("spark");
+      if(!spark)return;
+      const rng=C.mulberry32(606);
+      for(let i=0;i<55;i++){
+        const s=document.createElement("div");
+        s.className="spark";
+        s.style.left=(rng()*100)+"%";
+        s.style.top=(rng()*100)+"%";
+        spark.appendChild(s);
+      }
+      const path=document.getElementById("wave-path");
+      const len=path?path.getTotalLength():400;
+      if(path){path.style.strokeDasharray=String(len);path.style.strokeDashoffset=String(len);}
+      const tl=gsap.timeline({paused:true});
+      gsap.set(".lockup",{opacity:0,scale:0.55});
+      gsap.set(".spark",{opacity:0,scale:0});
+      gsap.set(".mini-bottle",{opacity:0,y:80});
+      tl.to(".spark",{opacity:1,scale:1,duration:0.4,stagger:{each:0.02,from:"random"},ease:"power2.out"},0.2);
+      if(path)tl.to(path,{strokeDashoffset:0,duration:1.6,ease:"power2.inOut"},0.5);
+      tl.to(".lockup",{opacity:1,scale:1,duration:0.85,ease:"back.out(3)"},3.8);
+      tl.to(".brand",{scale:1.03,duration:1.6,repeat:2,yoyo:true,ease:"sine.inOut"},4.8);
+      tl.to(".mini-bottle",{opacity:0.55,y:0,duration:1,ease:"power2.out"},4.2);
+      tl.to(".bg",{background:"radial-gradient(ellipse 75% 60% at 50% 42%,#5a0018,#0a0204 75%)",duration:3},4);
+      const g=document.getElementById("grain");if(g)C.initGrain(g,0.22,406);
+      window.addEventListener("hf-seek",e=>tl.seek(e.detail.time));
+      tl.seek(0);window.__timelines[CID]=tl;
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init06);
+    else init06();
+  </script>
+</body>
+</html>

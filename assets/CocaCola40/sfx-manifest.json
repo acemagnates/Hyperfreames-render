@@ -1,0 +1,14 @@
+{
+  "projectId": "CocaCola40",
+  "profile": "cinematic_punch_v1",
+  "events": [
+    { "id": "sub_pulse", "wallSec": 0.35, "stem": "sub_pulse.wav", "gain": 0.62 },
+    { "id": "whoosh_fold", "wallSec": 5.0, "stem": "whoosh_fold.wav", "gain": 0.58 },
+    { "id": "pour_hit", "wallSec": 10.0, "stem": "pour_hit.wav", "gain": 0.65 },
+    { "id": "hero_swell", "wallSec": 16.0, "stem": "hero_swell.wav", "gain": 0.55 },
+    { "id": "type_hit", "wallSec": 24.0, "stem": "type_hit.wav", "gain": 0.6 },
+    { "id": "build_rise", "wallSec": 32.0, "stem": "build_rise.wav", "gain": 0.5 },
+    { "id": "logo_slam", "wallSec": 36.0, "stem": "logo_slam.wav", "gain": 0.72 },
+    { "id": "sparkle", "wallSec": 38.5, "stem": "sparkle.wav", "gain": 0.48 }
+  ]
+}
