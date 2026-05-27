@@ -3,281 +3,238 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Chrono-Fracture Clip 02 — The Refraction</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+  <title>OriginalSpot Clip 02 — The Refractive Fracture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Courier+Prime:wght@400&display=swap" rel="stylesheet" />
   <script src="compositions/_shared/gsap.min.js"></script>
   <script src="compositions/_shared/CustomEase.min.js"></script>
   <script src="compositions/OriginalSpot/originalspot-shared.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #070709; }
-    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; filter: blur(20px); opacity: 0; }
-    
-    /* Background L0: Tectonic Shale & Vault */
-    #vault-bg {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 50%, #10151a 0%, #070709 75%, #020203 100%);
-      z-index: 1;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#070709}
+    #root{
+      position:relative;width:1080px;height:1920px;overflow:hidden;
+      --g-x:50%;--g-y:38%;
     }
-    
-    /* Integration Plate L1 */
-    .plate-stage {
-      position: absolute;
-      inset: 0;
-      opacity: 0.15;
-      mix-blend-mode: overlay;
-      z-index: 2;
-      pointer-events: none;
+    .solid-bg{position:absolute;inset:0;background:#070709;z-index:0}
+    .plate-stage{position:absolute;inset:0;z-index:1;opacity:0.13;mix-blend-mode:soft-light;pointer-events:none}
+    .plate-stage img{width:100%;height:100%;object-fit:cover}
+    .depth-stage{position:absolute;inset:0;z-index:2}
+    #vault-bg{
+      position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse 88% 62% at var(--g-x) var(--g-y),rgba(14,194,221,0.16),transparent 52%),
+        radial-gradient(ellipse 120% 80% at 50% 88%,rgba(35,35,38,0.55),#070709 70%);
     }
-    .plate {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .camera-rig{
+      position:absolute;inset:0;z-index:4;
+      perspective:1400px;transform-style:preserve-3d;will-change:transform;
     }
-    
-    /* 3D Glass Stage L2 */
-    #glass-stage {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      perspective: 1400px;
+    .z-bg{
+      position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+      transform-style:preserve-3d;
     }
-    #glass-prism-container {
-      width: 600px;
-      height: 600px;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateX(10deg) rotateY(-5deg) translateZ(0px);
+    #prism-stage{
+      position:relative;width:776px;height:840px;
+      transform-style:preserve-3d;will-change:transform;
     }
-    .geom-svg {
-      width: 100%;
-      height: 100%;
+    #prism-wrap{width:100%;height:100%;transform-origin:50% 52%;will-change:transform}
+    #prism-wrap .geom-svg{width:100%;height:100%;display:block}
+    #prism-glow{
+      position:absolute;inset:-6%;border-radius:50%;
+      background:radial-gradient(ellipse 55% 48% at 48% 42%,rgba(14,194,221,0.22),transparent 68%);
+      mix-blend-mode:screen;opacity:0;pointer-events:none;
     }
-    
-    /* Chromatic Aberration flares */
-    .optical-flare {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(14, 194, 221, 0.4) 0%, transparent 60%);
-      mix-blend-mode: screen;
-      pointer-events: none;
-      z-index: 3;
-      filter: blur(10px);
-      opacity: 0;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) scale(0.2);
+    #refraction-sweep{
+      position:absolute;inset:-4%;overflow:hidden;pointer-events:none;opacity:0;
+      mix-blend-mode:overlay;
     }
-    #flare-white {
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.6) 0%, transparent 50%);
-      width: 250px;
-      height: 250px;
+    #sweep-band{
+      position:absolute;top:-20%;bottom:-20%;left:0;width:55%;
+      background:linear-gradient(108deg,transparent 0%,rgba(14,194,221,0.35) 42%,rgba(255,255,255,0.28) 50%,rgba(14,194,221,0.2) 58%,transparent 100%);
+      transform:translateX(-120%) skewX(-12deg);will-change:transform;
     }
-    
-    /* Volumetric dust */
-    #dust-particles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 4;
+    .z-mg{position:absolute;inset:0;z-index:6;pointer-events:none}
+    #glass-debris{position:absolute;inset:0}
+    .debris{position:absolute}
+    .flare-band{
+      position:absolute;top:-8%;bottom:-8%;width:42%;
+      background:linear-gradient(105deg,transparent,rgba(255,255,255,0.5) 48%,rgba(14,194,221,0.35) 52%,transparent);
+      mix-blend-mode:screen;opacity:0;pointer-events:none;
     }
-    .debris {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0;
+    #flare-a{left:-25%}
+    #flare-b{left:18%}
+    #flare-c{left:55%;width:36%;background:linear-gradient(95deg,transparent,rgba(14,194,221,0.55),transparent)}
+    #shard-field{position:absolute;inset:0}
+    .shard{position:absolute;opacity:0;box-shadow:0 0 12px rgba(14,194,221,0.45)}
+    .z-fg{position:absolute;inset:0;z-index:12;pointer-events:none}
+    .chapter{
+      position:absolute;left:52px;bottom:168px;
+      font-family:"Cormorant Garamond",serif;font-size:38px;font-weight:600;
+      letter-spacing:0.12em;color:rgba(110,110,115,0.55);
     }
-    
-    /* Typography L4 */
-    .hero-title {
-      position: absolute;
-      left: 50%;
-      top: 260px;
-      transform: translateX(-50%);
-      font-family: 'Oswald', sans-serif;
-      font-size: 78px;
-      font-weight: 700;
-      color: #ffffff;
-      text-align: center;
-      line-height: 0.95;
-      letter-spacing: 0.15em;
-      z-index: 5;
-      text-shadow: 0 0 20px rgba(14, 194, 221, 0.5), 0 4px 8px rgba(0,0,0,0.8);
-      opacity: 0;
+    .readout{
+      position:absolute;right:56px;top:142px;
+      font-family:"Courier Prime",monospace;font-size:12px;letter-spacing:0.28em;
+      color:rgba(110,110,115,0.65);
     }
-    
-    .blueprint-ui {
-      position: absolute;
-      bottom: 120px;
-      left: 90px;
-      right: 90px;
-      font-family: 'Courier Prime', monospace;
-      font-size: 14px;
-      color: #6e6e73;
-      z-index: 5;
-      border-top: 1px solid rgba(14, 194, 221, 0.2);
-      padding-top: 20px;
-      display: flex;
-      justify-content: space-between;
+    #impact-flash{
+      position:absolute;inset:0;z-index:20;background:#fff;
+      opacity:0;pointer-events:none;mix-blend-mode:overlay;
     }
-    .blueprint-ui-side {
-      border-left: 2px solid #0ec2dd;
-      padding-left: 12px;
+    #vig{
+      position:absolute;inset:0;z-index:18;
+      background:radial-gradient(ellipse 74% 56% at 50% 40%,transparent 14%,rgba(0,0,0,0.8) 100%);
+      pointer-events:none;
     }
-    
-    /* Blinding Flash Overlay */
-    #flash-wipe {
-      position: absolute;
-      inset: 0;
-      background: #ffffff;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 9;
-    }
-    
-    #grain {
-      position: absolute;
-      inset: 0;
-      opacity: 0.15;
-      mix-blend-mode: overlay;
-      pointer-events: none;
-      z-index: 10;
+    #grain{
+      position:absolute;inset:0;z-index:22;mix-blend-mode:overlay;
+      opacity:0.2;pointer-events:none;width:100%;height:100%;
     }
   </style>
 </head>
 <body>
   <div id="root" data-composition-id="OriginalSpot-clip-02" data-start="0" data-duration="10" data-width="1080" data-height="1920" data-fps="30">
-    <div id="vault-bg" class="clip" data-start="0" data-duration="10" data-track-index="0"></div>
-    
+    <div class="solid-bg clip" data-start="0" data-duration="10" data-track-index="0"></div>
     <div class="plate-stage clip" data-start="0" data-duration="10" data-track-index="1">
-      <img class="plate" src="assets/OriginalSpot/ref-void-glass.jpg" alt="" width="1080" height="1920" />
+      <img src="assets/OriginalSpot/plates/ref-void-glass.jpg" alt="" />
     </div>
-
-    <div id="glass-stage" class="clip" data-start="0" data-duration="10" data-track-index="2">
-      <div id="glass-prism-container">
-        <!-- SVG will be injected by script -->
+    <div class="depth-stage clip" data-start="0" data-duration="10" data-track-index="2">
+      <div id="vault-bg" class="clip" data-start="0" data-duration="10" data-track-index="3"></div>
+    </div>
+    <div class="camera-rig grade-target clip" data-start="0" data-duration="10" data-track-index="4" id="cam02" data-layout-allow-overflow>
+      <div class="z-bg clip" data-start="0" data-duration="10" data-track-index="5">
+        <div id="prism-stage" class="clip" data-start="0" data-duration="10" data-track-index="6">
+          <div id="prism-glow" class="clip" data-start="0" data-duration="10" data-track-index="7"></div>
+          <div id="prism-wrap" class="clip" data-start="0" data-duration="10" data-track-index="8"></div>
+          <div id="refraction-sweep" class="clip" data-start="0" data-duration="10" data-track-index="9">
+            <div id="sweep-band"></div>
+          </div>
+        </div>
+      </div>
+      <div class="z-mg clip" data-start="0" data-duration="10" data-track-index="10">
+        <div id="glass-debris"></div>
+        <div class="flare-band clip" id="flare-a" data-start="0" data-duration="10" data-track-index="11"></div>
+        <div class="flare-band clip" id="flare-b" data-start="0" data-duration="10" data-track-index="12"></div>
+        <div class="flare-band clip" id="flare-c" data-start="0" data-duration="10" data-track-index="13"></div>
+        <div id="shard-field"></div>
+      </div>
+      <div class="z-fg clip" data-start="0" data-duration="10" data-track-index="14">
+        <span class="readout clip" id="read-n" data-start="0" data-duration="10" data-track-index="15">n=1.52</span>
+        <p class="chapter clip" data-start="0" data-duration="10" data-track-index="16">REFRACTION</p>
       </div>
     </div>
-    
-    <div id="flare-cyan" class="optical-flare clip" data-start="0" data-duration="10" data-track-index="3"></div>
-    <div id="flare-white" class="optical-flare clip" data-start="0" data-duration="10" data-track-index="4"></div>
-    
-    <div id="dust-particles" class="clip" data-start="0" data-duration="10" data-track-index="5"></div>
-    <div id="flash-wipe" class="clip" data-start="0" data-duration="10" data-track-index="6"></div>
-    
-    <h1 class="hero-title clip" data-start="0" data-duration="10" data-track-index="7">REFRACTIVE<br>TIME</h1>
-    
-    <div class="blueprint-ui clip" data-start="0" data-duration="10" data-track-index="8">
-      <div class="blueprint-ui-side">
-        <div>SYS.SYS: CHRONO-FRACTURE_V1</div>
-        <div>OPTICAL_ANGLE: 42.14 deg</div>
-      </div>
-      <div>
-        <div>SYS.LOC: L1_REFRACTION</div>
-        <div>TIME_ELAPSED: 10.00s - 20.00s</div>
-      </div>
-    </div>
-    
-    <canvas id="grain" class="clip" data-start="0" data-duration="10" data-track-index="10" width="540" height="960"></canvas>
+    <div id="impact-flash" class="clip" data-start="0" data-duration="10" data-track-index="17"></div>
+    <div id="vig" class="clip" data-start="0" data-duration="10" data-track-index="18"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="10" data-track-index="19" width="540" height="960"></canvas>
   </div>
-
   <script>
     window.__timelines = window.__timelines || {};
-    function initClip02() {
-      const CID = "OriginalSpot-clip-02", S = window.OriginalSpot;
-      S.registerEases(gsap);
-      const tl = gsap.timeline({ paused: true });
+    function init02() {
+      var OS = window.OriginalSpot;
+      var CID = "OriginalSpot-clip-02";
+      var D = 10;
+      if (!OS) return;
+      OS.registerEases(gsap);
 
-      const prismBox = document.getElementById("glass-prism-container");
-      if (prismBox) {
-        prismBox.innerHTML = S.crystalGeometricSVGs.prism;
+      var prismWrap = document.getElementById("prism-wrap");
+      var prismStage = document.getElementById("prism-stage");
+      var shardField = document.getElementById("shard-field");
+      var debrisHost = document.getElementById("glass-debris");
+      var grain = document.getElementById("grain");
+      var vault = document.getElementById("vault-bg");
+      if (!prismWrap || !prismStage || !shardField || !debrisHost || !grain) return;
+
+      prismWrap.innerHTML = OS.crystalGeometricSVGs.prism;
+      var debris = OS.spawnDebris(debrisHost, 36, 4202);
+      var shards = OS.spawnShards(shardField, 22, 4202);
+      OS.initGrain(grain, 0.2, 4202);
+
+      var tl = OS.makeTimeline(CID);
+
+      gsap.set("#prism-stage", { autoAlpha: 0, scale: 0.6, rotationY: -18, z: -80 });
+      gsap.set("#prism-glow", { autoAlpha: 0, scale: 0.85 });
+      gsap.set("#refraction-sweep", { autoAlpha: 0 });
+      gsap.set("#sweep-band", { x: "-120%" });
+      gsap.set(".chapter", { autoAlpha: 0, y: 18 });
+      gsap.set("#read-n", { autoAlpha: 0 });
+      gsap.set("#cam02", { x: 0, y: 12, skewY: 0, rotation: 0, scale: 1.04 });
+      gsap.set(".flare-band", { xPercent: 0, autoAlpha: 0 });
+      gsap.set("#impact-flash", { opacity: 0 });
+
+      /* B02 — prism bloom */
+      tl.to("#prism-stage", { autoAlpha: 1, scale: 1, rotationY: 0, z: 0, duration: 0.42, ease: "crystalLock" }, 0.02);
+      tl.to("#prism-glow", { autoAlpha: 1, scale: 1, duration: 0.55, ease: "power3.out" }, 0.08);
+      tl.to(".chapter", { autoAlpha: 1, y: 0, duration: 1, ease: "breathEase" }, 1.1);
+      tl.to("#read-n", { autoAlpha: 1, duration: 0.8, ease: "breathEase" }, 2.2);
+
+      /* ORBIT — camera rig pan ~15° feel */
+      tl.to("#cam02", { x: 32, skewY: -3.2, rotation: 0.6, duration: 3.8, ease: "sine.inOut" }, 0.45);
+      tl.to("#prism-stage", { rotationY: 14, duration: 3.8, ease: "sine.inOut" }, 0.45);
+      tl.to("#cam02", { x: -26, skewY: 2.8, rotation: -0.5, duration: 3.6, ease: "sine.inOut" }, 4.35);
+      tl.to("#prism-stage", { rotationY: -10, duration: 3.6, ease: "sine.inOut" }, 4.35);
+      tl.to("#cam02", { x: 8, skewY: 0, scale: 1.08, duration: 1.4, ease: "sine.inOut" }, 8.1);
+
+      /* vault cyan pool drift */
+      if (vault) {
+        tl.to(vault, { "--g-x": "44%", "--g-y": "34%", duration: 3.5, ease: "sine.inOut" }, 0.6);
+        tl.to(vault, { "--g-x": "56%", "--g-y": "42%", duration: 3.8, ease: "sine.inOut" }, 4);
       }
 
-      const dustBox = document.getElementById("dust-particles");
-      if (dustBox) {
-        const debris = S.spawnDebris(dustBox, 20, 201103);
-        debris.forEach((el, i) => {
-          gsap.set(el, { opacity: 0, scale: 0 });
-          tl.to(el, { opacity: 0.6 + ((i % 3) * 0.1), scale: 1.2, duration: 1.6, ease: "sine.out" }, 0.1 + i * 0.08);
-          tl.to(el, { y: -Number(el.dataset.drift) * 1.2, rotation: Number(el.dataset.rot), duration: 8.5, ease: "none" }, 0.6 + i * 0.05);
-        });
-      }
+      /* FLARE sweeps */
+      tl.to("#flare-a", { xPercent: 115, autoAlpha: 0.58, duration: 2.1, ease: "power3.inOut" }, 1.05);
+      tl.to("#flare-a", { autoAlpha: 0, duration: 0.75, ease: "power3.in" }, 3.05);
+      tl.to("#flare-b", { xPercent: 92, autoAlpha: 0.48, duration: 2.3, ease: "power3.inOut" }, 2.35);
+      tl.to("#flare-b", { autoAlpha: 0, duration: 0.7, ease: "power3.in" }, 4.55);
+      tl.to("#flare-c", { xPercent: -88, autoAlpha: 0.42, duration: 2.6, ease: "power3.inOut" }, 4.2);
+      tl.to("#flare-c", { autoAlpha: 0, duration: 0.65, ease: "power3.in" }, 6.65);
+      tl.to("#flare-a", { xPercent: 100, autoAlpha: 0.38, duration: 1.8, ease: "power3.inOut" }, 5.5);
+      tl.to("#flare-a", { autoAlpha: 0, duration: 0.6, ease: "power3.in" }, 7.2);
 
-      const grain = document.getElementById("grain");
-      if (grain) {
-        S.initGrain(grain, 0.15, 99401);
-      }
+      /* internal refraction shadow sweep */
+      tl.to("#refraction-sweep", { autoAlpha: 1, duration: 0.35, ease: "power2.out" }, 0.9);
+      tl.to("#sweep-band", { x: "220%", duration: 2.4, ease: "power2.inOut" }, 1);
+      tl.to("#sweep-band", { x: "-120%", duration: 0.01, ease: "none" }, 3.75);
+      tl.to("#sweep-band", { x: "220%", duration: 2.2, ease: "power2.inOut" }, 3.8);
+      tl.to("#refraction-sweep", { autoAlpha: 0, duration: 0.5, ease: "power2.in" }, 7.8);
 
-      // ACT 1: ENTRANCE (10.00s - 12.00s)
-      tl.to("#root", {
-        filter: "blur(0px)",
-        opacity: 1,
-        duration: 1.8,
-        ease: "power2.out"
-      }, 0);
+      OS.wireDebrisDrift(gsap, tl, debris, D, 0.35);
 
-      gsap.set("#glass-prism-container", { scale: 0.3, rotateZ: -30 });
-      tl.to("#glass-prism-container", {
-        scale: 1,
-        rotateZ: 0,
-        duration: 2.0,
-        ease: "crystalLock"
-      }, 0);
+      /* GLITCH tension 3.4–7s */
+      tl.to("#prism-stage", { x: "+=6", duration: 0.055, ease: "none", repeat: 8, yoyo: true }, 3.4);
+      tl.to("#prism-wrap", { skewX: 2.5, duration: 0.07, ease: "none", repeat: 6, yoyo: true }, 3.55);
+      tl.to("#prism-stage", { rotationY: "+=4", duration: 0.08, ease: "none", repeat: 5, yoyo: true }, 4.2);
+      tl.to("#prism-wrap", { x: "-=5", duration: 0.05, ease: "none", repeat: 7, yoyo: true }, 5.1);
+      tl.to("#prism-stage", { scale: 1.03, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: 2 }, 4.2);
 
-      tl.to("#flare-cyan", { opacity: 0.75, scale: 1.6, duration: 1.4, ease: "power2.out" }, 0.2);
-      tl.to("#flare-white", { opacity: 0.9, scale: 1.4, duration: 1.0, ease: "power1.out" }, 0.4);
+      /* pre-shatter push */
+      tl.to("#cam02", { scale: 1.14, y: -18, duration: 0.85, ease: "power3.in" }, 8.2);
+      tl.to("#prism-glow", { autoAlpha: 0.85, scale: 1.15, duration: 0.7, ease: "power3.in" }, 8.35);
 
-      tl.to(".hero-title", { opacity: 1, scale: 1, duration: 1.5, ease: "crystalLock" }, 1.2);
-      tl.to(".blueprint-ui", { opacity: 0.6, duration: 1.0 }, 1.5);
+      /* SHATTER 9.15 + flash */
+      shards.forEach(function (sh, i) {
+        tl.to(
+          sh,
+          {
+            autoAlpha: 1,
+            x: sh.dataset.ax,
+            y: sh.dataset.ay,
+            rotation: "+=160",
+            duration: 0.42,
+            ease: "power4.out",
+          },
+          9.15 + i * 0.016
+        );
+      });
+      tl.to("#prism-stage", { autoAlpha: 0, scale: 1.28, rotationY: 22, duration: 0.32, ease: "power4.in" }, 9.15);
+      tl.to("#prism-glow", { autoAlpha: 0, duration: 0.2, ease: "power4.in" }, 9.18);
+      tl.to("#impact-flash", { opacity: 0.62, duration: 0.06, ease: "power4.out" }, 9.22);
+      tl.to("#impact-flash", { opacity: 0, duration: 0.48, ease: "power3.in" }, 9.3);
 
-      // ACT 2: EVOLUTION/HOLD (12.00s - 18.00s)
-      tl.to("#glass-prism-container", {
-        rotateX: -15,
-        rotateY: 25,
-        z: 80,
-        duration: 6.0,
-        ease: "sine.inOut"
-      }, 2.0);
-
-      tl.to("#flare-cyan", {
-        scale: 1.8,
-        opacity: 0.5,
-        duration: 3.0,
-        repeat: 1,
-        yoyo: true,
-        ease: "sine.inOut"
-      }, 2.0);
-
-      // ACT 3: EXIT & SHATTER-WIPE (18.00s - 20.00s)
-      tl.to("#glass-prism-container", {
-        scale: 1.6,
-        rotateZ: 45,
-        filter: "brightness(3)",
-        duration: 1.8,
-        ease: "power2.in"
-      }, 8.0);
-
-      tl.to("#flare-cyan", { scale: 3.5, opacity: 1, duration: 1.8, ease: "power2.in" }, 8.0);
-      tl.to("#flare-white", { scale: 3.0, opacity: 1, duration: 1.8, ease: "power2.in" }, 8.0);
-
-      tl.to("#flash-wipe", {
-        opacity: 1,
-        backgroundColor: "#e6faff",
-        duration: 0.8,
-        ease: "power3.in"
-      }, 9.2);
-
-      window.addEventListener("hf-seek", e => tl.seek(e.detail.time));
-      tl.seek(0);
-      window.__timelines[CID] = tl;
+      OS.sineBreathe(tl, "#prism-stage", D, { delay: 1.6, scaleAmp: 0.012, yAmp: 10, period: 2.7 });
+      OS.sineBreathe(tl, "#prism-glow", D, { delay: 2.4, scaleAmp: 0.02, yAmp: 0, period: 3.1 });
     }
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip02);
-    else initClip02();
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init02);
+    else init02();
   </script>
 </body>
 </html>

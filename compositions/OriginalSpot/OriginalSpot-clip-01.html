@@ -3,249 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Chrono-Fracture Clip 01 — The Compression</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+  <title>OriginalSpot Clip 01 — The Compression</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Courier+Prime:wght@400&display=swap" rel="stylesheet" />
   <script src="compositions/_shared/gsap.min.js"></script>
   <script src="compositions/_shared/CustomEase.min.js"></script>
   <script src="compositions/OriginalSpot/originalspot-shared.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #070709; }
-    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
-    
-    /* Background L0 */
-    #vault-bg {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at var(--g-x, 50%) var(--g-y, 45%), #1e150f 0%, #070709 70%, #020203 100%);
-      z-index: 1;
-    }
-    
-    /* Integration Plate L1 */
-    .plate-stage {
-      position: absolute;
-      inset: 0;
-      opacity: 0.15;
-      mix-blend-mode: overlay;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .plate {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    /* Tectonic Plates L1 */
-    #tectonic-container {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      perspective: 1200px;
-    }
-    .plate-panel {
-      width: 50%;
-      height: 100%;
-      background: #232326;
-      border: 1px solid rgba(243, 63, 11, 0.15);
-      box-shadow: inset 0 0 80px rgba(0,0,0,0.95);
-      position: relative;
-    }
-    #plate-left {
-      transform-origin: 0% 50%;
-    }
-    #plate-right {
-      transform-origin: 100% 50%;
-    }
-    
-    /* Molten Core Fissure */
-    #fissure-light {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      width: 100px;
-      transform: translateX(-50%);
-      background: linear-gradient(90deg, transparent, #f33f0b 45%, #ffffff 50%, #f33f0b 55%, transparent);
-      box-shadow: 0 0 60px #f33f0b, 0 0 120px #f33f0b;
-      opacity: 0;
-      z-index: 3;
-      pointer-events: none;
-    }
-    
-    /* Volumetric Dust L3 */
-    #dust-particles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 4;
-    }
-    .debris {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0;
-    }
-    
-    /* Vignette L3 */
-    #vig {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(2, 2, 3, 0.9) 100%);
-      pointer-events: none;
-      z-index: 5;
-    }
-    
-    /* Typography & UI L4 */
-    .hero-title {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 84px;
-      font-weight: 900;
-      color: #ffffff;
-      text-align: center;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      z-index: 6;
-      text-shadow: 0 10px 30px rgba(0, 0, 0, 0.95), 0 0 40px rgba(243, 63, 11, 0.3);
-      opacity: 0;
-    }
-    
-    .blueprint-ui {
-      position: absolute;
-      bottom: 120px;
-      left: 90px;
-      right: 90px;
-      font-family: 'Courier Prime', monospace;
-      font-size: 14px;
-      color: #6e6e73;
-      z-index: 6;
-      border-top: 1px solid rgba(243, 63, 11, 0.2);
-      padding-top: 20px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .blueprint-ui-side {
-      border-left: 2px solid #f33f0b;
-      padding-left: 12px;
-    }
-    
-    #grain {
-      position: absolute;
-      inset: 0;
-      opacity: 0.16;
-      mix-blend-mode: overlay;
-      pointer-events: none;
-      z-index: 10;
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#070709}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden;--g-x:50%;--g-y:42%}
+    .solid-bg{position:absolute;inset:0;background:#070709;z-index:0}
+    .plate-stage{position:absolute;inset:0;z-index:1;opacity:0.14;mix-blend-mode:overlay;pointer-events:none}
+    .plate-stage img{width:100%;height:100%;object-fit:cover}
+    #vault-bg{position:absolute;inset:0;z-index:2;background:radial-gradient(circle at var(--g-x) var(--g-y),#1e150f 0%,#070709 68%,#020203 100%)}
+    .camera-rig{position:absolute;inset:0;z-index:3;perspective:1200px;transform-style:preserve-3d;will-change:transform}
+    .z-bg{position:absolute;inset:0;z-index:1}
+    #tectonic-container{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:stretch}
+    .plate-panel{width:50%;height:100%;background:#232326;box-shadow:inset 0 0 90px rgba(0,0,0,0.92);border:1px solid rgba(243,63,11,0.12);position:relative}
+    #plate-left{transform-origin:0% 50%}
+    #plate-right{transform-origin:100% 50%}
+    .plate-panel::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(105deg,transparent,transparent 3px,rgba(0,0,0,0.15) 3px,rgba(0,0,0,0.15) 5px);opacity:0.5;pointer-events:none}
+    #fissure-light{position:absolute;top:0;bottom:0;left:50%;width:120px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#f33f0b 42%,#fff 50%,#f33f0b 58%,transparent);box-shadow:0 0 70px #f33f0b,0 0 140px rgba(243,63,11,0.45);opacity:0;z-index:4;pointer-events:none}
+    .z-mg{position:absolute;inset:0;z-index:5;pointer-events:none}
+    #dust-particles{position:absolute;inset:0}
+    .debris{position:absolute;opacity:0}
+    #crystal-seed{position:absolute;left:50%;top:48%;width:140px;height:160px;margin:-80px 0 0 -70px;z-index:8;opacity:0;transform-origin:50% 60%}
+    #crystal-seed .geom-svg{width:100%;height:100%;display:block}
+    .z-fg{position:absolute;inset:0;z-index:10;pointer-events:none}
+    .chapter{position:absolute;left:52px;bottom:168px;font-family:"Cormorant Garamond",serif;font-size:38px;font-weight:600;letter-spacing:0.12em;color:rgba(110,110,115,0.55);opacity:0}
+    #vig{position:absolute;inset:0;z-index:18;background:radial-gradient(ellipse 78% 58% at 50% 42%,transparent 18%,rgba(0,0,0,0.72) 100%);pointer-events:none}
+    #grain{position:absolute;inset:0;z-index:22;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
   </style>
 </head>
 <body>
   <div id="root" data-composition-id="OriginalSpot-clip-01" data-start="0" data-duration="10" data-width="1080" data-height="1920" data-fps="30">
-    <div id="vault-bg" class="clip" data-start="0" data-duration="10" data-track-index="0"></div>
-    
+    <div class="solid-bg clip" data-start="0" data-duration="10" data-track-index="0"></div>
     <div class="plate-stage clip" data-start="0" data-duration="10" data-track-index="1">
-      <img class="plate" src="assets/OriginalSpot/ref-eclipse-gold.jpg" alt="" width="1080" height="1920" />
+      <img src="assets/OriginalSpot/plates/ref-eclipse-gold.jpg" alt="" />
     </div>
-
-    <div id="tectonic-container" class="clip" data-start="0" data-duration="10" data-track-index="2">
-      <div id="plate-left" class="plate-panel"></div>
-      <div id="plate-right" class="plate-panel"></div>
-    </div>
-    
-    <div id="fissure-light" class="clip" data-start="0" data-duration="10" data-track-index="3"></div>
-    <div id="dust-particles" class="clip" data-start="0" data-duration="10" data-track-index="4"></div>
-    <div id="vig" class="clip" data-start="0" data-duration="10" data-track-index="5"></div>
-    
-    <h1 class="hero-title clip" data-start="0" data-duration="10" data-track-index="6">GEOLOGICAL<br><span style="color:#f33f0b; font-style:italic;">COMPRESSION</span></h1>
-    
-    <div class="blueprint-ui clip" data-start="0" data-duration="10" data-track-index="7">
-      <div class="blueprint-ui-side">
-        <div>SYS.SYS: CHRONO-FRACTURE_V1</div>
-        <div>PRESSURE_INDEX: 4.882 TPa</div>
+    <div id="vault-bg" class="clip" data-start="0" data-duration="10" data-track-index="2"></div>
+    <div class="camera-rig grade-target clip" data-start="0" data-duration="10" data-track-index="3" id="cam01">
+      <div class="z-bg clip" data-start="0" data-duration="10" data-track-index="4">
+        <div id="tectonic-container">
+          <div class="plate-panel clip" id="plate-left" data-start="0" data-duration="10" data-track-index="5"></div>
+          <div class="plate-panel clip" id="plate-right" data-start="0" data-duration="10" data-track-index="6"></div>
+        </div>
+        <div id="fissure-light" class="clip" data-start="0" data-duration="10" data-track-index="7"></div>
       </div>
-      <div>
-        <div>SYS.LOC: L0_COMPRESSION</div>
-        <div>TIME_ELAPSED: 0.00s - 10.00s</div>
+      <div class="z-mg clip" data-start="0" data-duration="10" data-track-index="8">
+        <div id="dust-particles"></div>
+        <div id="crystal-seed" class="clip" data-start="0" data-duration="10" data-track-index="9"></div>
+      </div>
+      <div class="z-fg clip" data-start="0" data-duration="10" data-track-index="10">
+        <p class="chapter clip" data-start="0" data-duration="10" data-track-index="11">COMPRESSION</p>
       </div>
     </div>
-    
-    <div class="leak-layer clip" data-start="0" data-duration="10" data-track-index="8" style="position:absolute;inset:0;background:linear-gradient(120deg,transparent 60%,rgba(243,63,11,0.08));pointer-events:none;z-index:4"></div>
-
-    <canvas id="grain" class="clip" data-start="0" data-duration="10" data-track-index="10" width="540" height="960"></canvas>
+    <div id="vig" class="clip" data-start="0" data-duration="10" data-track-index="12"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="10" data-track-index="13" width="540" height="960"></canvas>
   </div>
-
   <script>
     window.__timelines = window.__timelines || {};
-    function initClip01() {
-      const CID = "OriginalSpot-clip-01", S = window.OriginalSpot;
-      S.registerEases(gsap);
-      const tl = gsap.timeline({ paused: true });
-
-      const dustBox = document.getElementById("dust-particles");
-      if (dustBox) {
-        const debris = S.spawnDebris(dustBox, 25, 44102);
-        debris.forEach((el, i) => {
-          gsap.set(el, { opacity: 0, scale: 0 });
-          tl.to(el, { opacity: 0.5 + ((i % 3) * 0.1), scale: 1, duration: 1.5, ease: "sine.out" }, 0.2 + i * 0.06);
-          tl.to(el, { y: -Number(el.dataset.drift), rotation: Number(el.dataset.rot), duration: 8.8, ease: "none" }, 0.8 + i * 0.04);
-        });
+    function init01() {
+      var OS = window.OriginalSpot;
+      var CID = "OriginalSpot-clip-01";
+      var D = 10;
+      if (!OS) return;
+      OS.registerEases(gsap);
+      var seedEl = document.getElementById("crystal-seed");
+      if (seedEl) seedEl.innerHTML = OS.crystalGeometricSVGs.prism;
+      var dust = document.getElementById("dust-particles");
+      var grain = document.getElementById("grain");
+      if (!dust || !grain) return;
+      var debris = OS.spawnDebris(dust, 44, 4101);
+      OS.initGrain(grain, 0.2, 4101);
+      var tl = OS.makeTimeline(CID);
+      var vault = document.getElementById("vault-bg");
+      gsap.set("#plate-left", { x: -560 });
+      gsap.set("#plate-right", { x: 560 });
+      gsap.set("#fissure-light", { autoAlpha: 0, scaleY: 0.2 });
+      gsap.set("#crystal-seed", { autoAlpha: 0, scale: 0.5 });
+      gsap.set(".chapter", { autoAlpha: 0, y: 24 });
+      gsap.set("#cam01", { scale: 1.06, y: 30 });
+      tl.to("#plate-left", { x: -28, duration: 0.32, ease: "tectonicSlam" }, 0);
+      tl.to("#plate-right", { x: 28, duration: 0.32, ease: "tectonicSlam" }, 0);
+      tl.to("#fissure-light", { autoAlpha: 1, scaleY: 1, duration: 0.55, ease: "power3.out" }, 0.18);
+      tl.to(".chapter", { autoAlpha: 1, y: 0, duration: 1.1, ease: "breathEase" }, 1.6);
+      OS.wireDebrisDrift(gsap, tl, debris, D, 0.25);
+      if (vault) {
+        tl.to(vault, { "--g-x": "46%", "--g-y": "38%", duration: 3.2, ease: "sine.inOut" }, 2);
+        tl.to(vault, { "--g-x": "54%", "--g-y": "48%", duration: 3.4, ease: "sine.inOut" }, 5.2);
       }
-
-      const grain = document.getElementById("grain");
-      if (grain) {
-        S.initGrain(grain, 0.16, 77312);
-      }
-
-      // ACT 1: ENTRANCE (0.00s - 2.50s)
-      gsap.set("#plate-left", { x: "-100%" });
-      gsap.set("#plate-right", { x: "100%" });
-      gsap.set(".hero-title", { opacity: 0, scale: 0.8, y: 30 });
-      gsap.set(".blueprint-ui", { opacity: 0 });
-
-      tl.to("#plate-left", { x: "0%", duration: 2.2, ease: "tectonicSlam" }, 0);
-      tl.to("#plate-right", { x: "0%", duration: 2.2, ease: "tectonicSlam" }, 0);
-      
-      tl.to("#fissure-light", { opacity: 0.8, width: "30px", duration: 0.15, ease: "power2.out" }, 2.0);
-      tl.to("#fissure-light", { opacity: 0.45, width: "12px", duration: 0.5, ease: "sine.inOut" }, 2.15);
-
-      tl.to(".hero-title", { opacity: 1, scale: 1, y: 0, duration: 1.8, ease: "tectonicSlam" }, 2.2);
-      tl.to(".blueprint-ui", { opacity: 0.65, duration: 1.2 }, 2.5);
-
-      // ACT 2: EVOLUTION/HOLD (2.50s - 8.50s)
-      tl.to("#vault-bg", {
-        "--g-x": "55%",
-        "--g-y": "47%",
-        duration: 7.5,
-        ease: "sine.inOut"
-      }, 0);
-      
-      tl.to("#fissure-light", {
-        width: "2px",
-        opacity: 0.95,
-        duration: 6.0,
-        ease: "none"
-      }, 2.5);
-
-      // ACT 3: EXIT (8.50s - 10.00s)
-      tl.to("#root", {
-        filter: "blur(20px)",
-        opacity: 0,
-        duration: 1.5,
-        ease: "power2.inOut"
-      }, 8.5);
-
-      window.addEventListener("hf-seek", e => tl.seek(e.detail.time));
-      tl.seek(0);
-      window.__timelines[CID] = tl;
+      tl.to("#fissure-light", { autoAlpha: 0.55, duration: 1.8, ease: "sine.inOut", yoyo: true, repeat: 3 }, 2.2);
+      tl.to("#plate-left", { autoAlpha: 0.45, scale: 1.04, duration: 1.4, ease: "power3.inOut" }, 7.4);
+      tl.to("#plate-right", { autoAlpha: 0.45, scale: 1.04, duration: 1.4, ease: "power3.inOut" }, 7.4);
+      tl.to("#fissure-light", { backgroundColor: "rgba(14,194,221,0.35)", duration: 1.2, ease: "power3.inOut" }, 7.5);
+      tl.to("#crystal-seed", { autoAlpha: 1, scale: 1, duration: 0.9, ease: "crystalLock" }, 7.6);
+      tl.to("#cam01", { scale: 1, y: 0, duration: 2.1, ease: "breathEase" }, 0.5);
+      OS.sineBreathe(tl, "#cam01", D, { delay: 3.5, scaleAmp: 0.008, yAmp: 6, period: 2.6 });
     }
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip01);
-    else initClip01();
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init01);
+    else init01();
   </script>
 </body>
 </html>

@@ -17,8 +17,8 @@
 - **Shot Grammar:** Slow 15-degree camera pan around the prism, capturing intense internal refraction shadow sweeps. Catastrophic camera push-in triggers crystal shattering at 20.00s.
 
 ### Scene 3: "The Crystallized Resolution" (20.00s - 30.00s)
-- **Aesthetic:** Clean, architectural obsidian panels form a massive monolith. Delicate blue 1px blueprint UI lines, corner brackets, and coordinate data streams draw procedural readouts onto the frame.
-- **Shot Grammar:** Dolly-out revealing scale of the obsidian monument, slow perspective 3D rotation, followed by gradual fade to pure black vault.
+- **Aesthetic:** Clean, architectural obsidian panels form a massive monolith. **Lithic survey traces** — 1px chrono-cyan facet lines, seismograph stroke along stone base, Courier Prime ticks (`Δt`, `ρ`, `λ`) etched on margins. **No gold corner brackets or HUD frames** (repo ban; see `HYPERFRAMES-STYLE-BIBLE.md` §6).
+- **Shot Grammar:** Dolly-out revealing scale of the obsidian monument, slow perspective 3D rotation, survey SVG draw-on, followed by gradual fade to pure black vault.
 
 ---
 

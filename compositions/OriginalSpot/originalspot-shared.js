@@ -46,6 +46,7 @@
   }
 
   function spawnDebris(parent, count, seed) {
+    if (!parent) return [];
     let s = seed >>> 0;
     const rand = () => {
       s = (s * 1103515245 + 12345) >>> 0;
@@ -55,10 +56,7 @@
     const debris = [];
     for (let i = 0; i < count; i++) {
       const el = document.createElement("div");
-      el.className = "debris clip";
-      el.dataset.start = "0";
-      el.dataset.duration = "10";
-      el.dataset.trackIndex = "25";
+      el.className = "debris";
       const size = 3 + (rand() * 9) | 0;
       el.style.width = `${size}px`;
       el.style.height = `${size}px`;
@@ -105,11 +103,98 @@
     </svg>`
   };
 
+  function makeTimeline(CID) {
+    const tl = gsap.timeline({ paused: true });
+    window.__timelines = window.__timelines || {};
+    window.__timelines[CID] = tl;
+    // HyperFrames runtime drives seeks via __timelines proxy (global → local).
+    // Do not bind hf-seek here — breaks sub-compositions (PERMANENT-MEMORY §2).
+    tl.seek(0);
+    return tl;
+  }
+
+  function wireDebrisDrift(gsap, tl, debris, D, start) {
+    debris.forEach(function (el, i) {
+      const drift = parseFloat(el.dataset.drift || "80", 10);
+      const rot = parseFloat(el.dataset.rot || "0", 10);
+      gsap.set(el, { autoAlpha: 0.35 + (i % 5) * 0.1 });
+      tl.to(
+        el,
+        {
+          y: "+=" + drift,
+          rotation: "+=" + rot,
+          duration: 2.8 + (i % 4) * 0.35,
+          ease: "sine.inOut",
+          repeat: 4,
+          yoyo: true,
+        },
+        (start || 0.2) + i * 0.02
+      );
+    });
+  }
+
+  function spawnShards(parent, count, seed) {
+    if (!parent) return [];
+    let s = seed >>> 0;
+    const rand = () => {
+      s = (s * 1664525 + 1013904223) >>> 0;
+      return s / 4294967296;
+    };
+    const out = [];
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement("div");
+      el.className = "shard";
+      const w = 8 + (rand() * 28) | 0;
+      el.style.width = w + "px";
+      el.style.height = (w * (0.6 + rand() * 0.8)).toFixed(0) + "px";
+      el.style.left = "50%";
+      el.style.top = "42%";
+      el.style.marginLeft = "-4px";
+      el.style.background =
+        rand() > 0.5
+          ? "linear-gradient(135deg, rgba(14,194,221,0.9), rgba(255,255,255,0.5))"
+          : "linear-gradient(135deg, rgba(255,255,255,0.85), rgba(14,194,221,0.4))";
+      el.style.transform = "rotate(" + (rand() * 360).toFixed(1) + "deg)";
+      el.style.opacity = "0";
+      el.dataset.ax = String((rand() - 0.5) * 520);
+      el.dataset.ay = String((rand() - 0.5) * 680);
+      frag.appendChild(el);
+      out.push(el);
+    }
+    parent.appendChild(frag);
+    return out;
+  }
+
+  function sineBreathe(tl, target, D, opts) {
+    opts = opts || {};
+    const delay = opts.delay != null ? opts.delay : 1.2;
+    const scaleAmp = opts.scaleAmp != null ? opts.scaleAmp : 0.012;
+    const yAmp = opts.yAmp != null ? opts.yAmp : 4;
+    const period = opts.period != null ? opts.period : 2.4;
+    tl.to(
+      target,
+      {
+        scale: "+=" + scaleAmp,
+        y: "+=" + yAmp,
+        duration: period,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: Math.max(1, Math.floor((D - delay) / period) - 1),
+      },
+      delay
+    );
+  }
+
   global.OriginalSpot = {
     colors: C,
     registerEases,
     initGrain,
     spawnDebris,
+    spawnShards,
     crystalGeometricSVGs,
+    makeTimeline,
+    wireDebrisDrift,
+    sineBreathe,
   };
 })(typeof window !== "undefined" ? window : globalThis);

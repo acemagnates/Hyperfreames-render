@@ -9,7 +9,7 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **C01** | 0 | 300 | 0.00 | 10.00 | 10.00 | `OriginalSpot-clip-01.html` |
 | **C02** | 300 | 600 | 10.00 | 20.00 | 10.00 | `OriginalSpot-clip-02.html` |
-| **C03** | 600 | 900 | 20.00 | 30.00 | 30.00 | `OriginalSpot-clip-03.html` |
+| **C03** | 600 | 900 | 20.00 | 30.00 | 10.00 | `OriginalSpot-clip-03.html` |
 
 ## Audio Beats & Mux Alignment
 

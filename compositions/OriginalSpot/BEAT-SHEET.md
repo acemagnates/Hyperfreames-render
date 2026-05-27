@@ -15,7 +15,7 @@
 |----|-----------|---------|-----|--------------|--------------|------------|----------------|
 | B01 | OriginalSpot-clip-01.html | 0.00 | 10.00 | Pressure | SLAM panels, DRIFT embers, GLOW fissure | Slam + scrape | Cut to focus |
 | B02 | OriginalSpot-clip-02.html | 10.00 | 10.00 | Tension | ORBIT cam, SCALE prism, FLARE shine | Spark + crack | Cut to shatter |
-| B03 | OriginalSpot-clip-03.html | 20.00 | 10.00 | Tranquility | MONOLITH align, DRAW UI, TICK coords | Shatter + hum | Fade to vault |
+| B03 | OriginalSpot-clip-03.html | 20.00 | 10.00 | Tranquility | MONOLITH, DRAW survey, BREATHE, FADE | Shatter + hum | Fade to vault |
 
 ## Pacing notes
 

@@ -1,0 +1,15 @@
+{
+  "projectId": "OriginalSpot",
+  "lane": "procedural-cinematic",
+  "plates": [
+    {
+      "file": "plates/ref-void-glass.jpg",
+      "use": "Clip 02 plate-stage integration — void glass wash"
+    },
+    {
+      "file": "plates/ref-eclipse-gold.jpg",
+      "use": "Clip 01 plate-stage — magma eclipse overlay"
+    }
+  ],
+  "notes": "Copied from compositions/OriginalSpot/references/ for static src= in clip HTML."
+}

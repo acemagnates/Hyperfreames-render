@@ -3,291 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Chrono-Fracture Clip 03 — The Resolution</title>
-  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,600;0,900;1,700&display=swap" rel="stylesheet" />
+  <title>OriginalSpot Clip 03 — The Crystallized Resolution</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Courier+Prime:wght@400&display=swap" rel="stylesheet" />
   <script src="compositions/_shared/gsap.min.js"></script>
   <script src="compositions/_shared/CustomEase.min.js"></script>
   <script src="compositions/OriginalSpot/originalspot-shared.js"></script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #070709; }
-    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
-    
-    /* Background L0: Deep Obsidian Vault */
-    #vault-bg {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 55%, #0e161c 0%, #070709 60%, #010102 100%);
-      z-index: 1;
-    }
-    
-    /* Integration Plate L1 */
-    .plate-stage {
-      position: absolute;
-      inset: 0;
-      opacity: 0.15;
-      mix-blend-mode: overlay;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .plate {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    /* 3D Monolith Stage L2 */
-    #monolith-stage {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      perspective: 1200px;
-    }
-    #monolith-container {
-      width: 640px;
-      height: 640px;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: rotateX(8deg) rotateY(-5deg) translateZ(50px);
-    }
-    .geom-svg {
-      width: 100%;
-      height: 100%;
-    }
-    
-    /* Technical UI Overlay L4 */
-    .blueprint-overlay {
-      position: absolute;
-      inset: 90px;
-      border: 1px dashed rgba(14, 194, 221, 0.15);
-      z-index: 4;
-      pointer-events: none;
-    }
-    
-    /* Corner Brackets */
-    .corner-bracket {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      border-color: #0ec2dd;
-      border-style: solid;
-      border-width: 0;
-      opacity: 0;
-    }
-    .c-tl { top: -2px; left: -2px; border-top-width: 2px; border-left-width: 2px; }
-    .c-tr { top: -2px; right: -2px; border-top-width: 2px; border-right-width: 2px; }
-    .c-bl { bottom: -2px; left: -2px; border-bottom-width: 2px; border-left-width: 2px; }
-    .c-br { bottom: -2px; right: -2px; border-bottom-width: 2px; border-right-width: 2px; }
-    
-    /* Volumetric dust */
-    #dust-particles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 3;
-    }
-    .debris {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0;
-    }
-    
-    /* Vignette L3 */
-    #vig {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(2, 2, 3, 0.9) 100%);
-      pointer-events: none;
-      z-index: 5;
-    }
-    
-    /* Typography L4 */
-    .hero-title {
-      position: absolute;
-      left: 50%;
-      bottom: 260px;
-      transform: translateX(-50%);
-      font-family: 'Courier Prime', monospace;
-      font-size: 42px;
-      font-weight: 700;
-      color: #ffffff;
-      text-align: center;
-      line-height: 1.1;
-      letter-spacing: 0.35em;
-      z-index: 5;
-      text-shadow: 0 0 15px rgba(14, 194, 221, 0.4), 0 4px 8px rgba(0,0,0,0.85);
-      opacity: 0;
-    }
-    
-    /* Blueprint Coordinate Array */
-    .blueprint-array {
-      position: absolute;
-      top: 130px;
-      left: 120px;
-      font-family: 'Courier Prime', monospace;
-      font-size: 14px;
-      color: #6e6e73;
-      z-index: 5;
-      line-height: 1.6;
-    }
-    .blueprint-array span {
-      color: #0ec2dd;
-    }
-    
-    /* Blinding Entrance Flash Wipe */
-    #flash-wipe {
-      position: absolute;
-      inset: 0;
-      background: #e6faff;
-      opacity: 1;
-      pointer-events: none;
-      z-index: 9;
-    }
-    
-    #grain {
-      position: absolute;
-      inset: 0;
-      opacity: 0.18;
-      mix-blend-mode: overlay;
-      pointer-events: none;
-      z-index: 10;
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#070709}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden;--g-x:50%;--g-y:58%}
+    .solid-bg{position:absolute;inset:0;background:#070709;z-index:0}
+    .plate-stage{position:absolute;inset:0;z-index:1;opacity:0.1;mix-blend-mode:overlay;pointer-events:none}
+    .plate-stage img{width:100%;height:100%;object-fit:cover}
+    #vault-bg{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 85% 55% at var(--g-x) var(--g-y),rgba(14,194,221,0.09),#070709 65%,#020203 100%)}
+    #carry-flash{position:absolute;inset:0;z-index:3;background:#fff;opacity:0.92;pointer-events:none}
+    .camera-rig{position:absolute;inset:0;z-index:4;perspective:1400px;transform-style:preserve-3d;will-change:transform}
+    .z-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+    #monolith-wrap{position:relative;width:min(82vw,780px);height:min(62vh,900px);opacity:0;transform-origin:50% 52%;will-change:transform}
+    .monolith-geom{position:relative;width:100%;height:100%;filter:drop-shadow(0 28px 48px rgba(0,0,0,0.88))}
+    #monolith-wrap .geom-svg{width:100%;height:100%;display:block}
+    #monolith-spec{position:absolute;inset:12% 18% 28% 22%;background:linear-gradient(135deg,rgba(255,255,255,0.14),transparent 55%);mix-blend-mode:overlay;opacity:0;pointer-events:none;border-radius:2px}
+    #survey-overlay{position:absolute;inset:-4%;pointer-events:none;z-index:2}
+    #survey-overlay svg{width:100%;height:100%}
+    .survey-path{fill:none;stroke:#0ec2dd;vector-effect:non-scaling-stroke}
+    .facet-line{stroke-width:1;opacity:0.9}
+    .seismo{stroke-width:1.2;stroke-dasharray:1200;stroke-dashoffset:1200}
+    .z-mg{position:absolute;inset:0;z-index:6;pointer-events:none}
+    #dust-particles{position:absolute;inset:0}
+    .debris{position:absolute;opacity:0}
+    .z-fg{position:absolute;inset:0;z-index:10;pointer-events:none;display:flex;align-items:center;justify-content:center}
+    #readout-layer{position:absolute;width:min(82vw,780px);height:min(62vh,900px);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .readout{font-family:"Courier Prime",monospace;font-size:12px;letter-spacing:0.28em;color:rgba(110,110,115,0.78);position:absolute;opacity:0;text-transform:uppercase}
+    #read-dt{left:8px;top:18%}
+    #read-rho{left:8px;bottom:26%}
+    #read-lam{right:8px;top:42%}
+    .chapter{position:absolute;left:52px;bottom:168px;font-family:"Cormorant Garamond",serif;font-size:38px;font-weight:600;letter-spacing:0.12em;color:rgba(110,110,115,0.55);opacity:0}
+    #vault-fade{position:absolute;inset:0;z-index:25;background:#070709;opacity:0;pointer-events:none}
+    #vig{position:absolute;inset:0;z-index:18;background:radial-gradient(ellipse 72% 52% at 50% 44%,transparent 16%,rgba(0,0,0,0.76) 100%);pointer-events:none}
+    #grain{position:absolute;inset:0;z-index:22;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
   </style>
 </head>
 <body>
   <div id="root" data-composition-id="OriginalSpot-clip-03" data-start="0" data-duration="10" data-width="1080" data-height="1920" data-fps="30">
-    <div id="vault-bg" class="clip" data-start="0" data-duration="10" data-track-index="0"></div>
-    
+    <div class="solid-bg clip" data-start="0" data-duration="10" data-track-index="0"></div>
     <div class="plate-stage clip" data-start="0" data-duration="10" data-track-index="1">
-      <img class="plate" src="assets/OriginalSpot/ref-void-glass.jpg" alt="" width="1080" height="1920" />
+      <img src="assets/OriginalSpot/plates/ref-void-glass.jpg" alt="" />
     </div>
-
-    <div id="monolith-stage" class="clip" data-start="0" data-duration="10" data-track-index="2">
-      <div id="monolith-container">
-        <!-- SVG will be injected by script -->
+    <div id="vault-bg" class="clip" data-start="0" data-duration="10" data-track-index="2"></div>
+    <div id="carry-flash" class="clip" data-start="0" data-duration="10" data-track-index="3"></div>
+    <div class="camera-rig grade-target clip" data-start="0" data-duration="10" data-track-index="4" id="cam03">
+      <div class="z-bg clip" data-start="0" data-duration="10" data-track-index="5">
+        <div id="monolith-wrap" class="clip" data-start="0" data-duration="10" data-track-index="6">
+          <div class="monolith-geom" id="monolith-geom"></div>
+          <div id="monolith-spec" class="clip" data-start="0" data-duration="10" data-track-index="7"></div>
+          <div id="survey-overlay" aria-hidden="true">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+              <line class="survey-path facet-line" x1="50" y1="5" x2="50" y2="95" />
+              <line class="survey-path facet-line" x1="10" y1="25" x2="50" y2="45" />
+              <line class="survey-path facet-line" x1="90" y1="25" x2="50" y2="45" />
+              <line class="survey-path facet-line" x1="10" y1="75" x2="50" y2="45" />
+              <line class="survey-path facet-line" x1="90" y1="75" x2="50" y2="45" />
+              <path class="survey-path seismo" d="M 6 82 L 18 80 L 32 84 L 48 79 L 64 83 L 78 78 L 94 81" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="z-mg clip" data-start="0" data-duration="10" data-track-index="8">
+        <div id="dust-particles"></div>
+      </div>
+      <div class="z-fg clip" data-start="0" data-duration="10" data-track-index="9">
+        <div id="readout-layer">
+          <span class="readout clip" id="read-dt" data-start="0" data-duration="10" data-track-index="10">Δt</span>
+          <span class="readout clip" id="read-rho" data-start="0" data-duration="10" data-track-index="11">ρ</span>
+          <span class="readout clip" id="read-lam" data-start="0" data-duration="10" data-track-index="12">λ</span>
+        </div>
+        <p class="chapter clip" data-start="0" data-duration="10" data-track-index="13">RESOLUTION</p>
       </div>
     </div>
-    
-    <div class="blueprint-overlay clip" data-start="0" data-duration="10" data-track-index="3">
-      <div class="corner-bracket c-tl"></div>
-      <div class="corner-bracket c-tr"></div>
-      <div class="corner-bracket c-bl"></div>
-      <div class="corner-bracket c-br"></div>
-    </div>
-    
-    <div id="dust-particles" class="clip" data-start="0" data-duration="10" data-track-index="4"></div>
-    <div id="flash-wipe" class="clip" data-start="0" data-duration="10" data-track-index="5"></div>
-    <div id="vig" class="clip" data-start="0" data-duration="10" data-track-index="6"></div>
-    
-    <h1 class="hero-title clip" data-start="0" data-duration="10" data-track-index="7">SOLID RESOLUTION</h1>
-    
-    <div class="blueprint-array clip" data-start="0" data-duration="10" data-track-index="8">
-      <div>VAL.X: <span id="val-x">108.40</span></div>
-      <div>VAL.Y: <span id="val-y">994.20</span></div>
-      <div>VAL.Z: <span id="val-z">0.053</span></div>
-      <div>STATUS: <span style="color:#ffffff;">RESOLVED</span></div>
-    </div>
-    
-    <div class="leak-layer clip" data-start="0" data-duration="10" data-track-index="9" style="position:absolute;inset:0;background:linear-gradient(120deg,transparent 60%,rgba(14,194,221,0.05));pointer-events:none;z-index:4"></div>
-
-    <canvas id="grain" class="clip" data-start="0" data-duration="10" data-track-index="10" width="540" height="960"></canvas>
+    <div id="vault-fade" class="clip" data-start="0" data-duration="10" data-track-index="14"></div>
+    <div id="vig" class="clip" data-start="0" data-duration="10" data-track-index="15"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="10" data-track-index="16" width="540" height="960"></canvas>
   </div>
-
   <script>
     window.__timelines = window.__timelines || {};
-    function initClip03() {
-      const CID = "OriginalSpot-clip-03", S = window.OriginalSpot;
-      S.registerEases(gsap);
-      const tl = gsap.timeline({ paused: true });
-
-      const monolithBox = document.getElementById("monolith-container");
-      if (monolithBox) {
-        monolithBox.innerHTML = S.crystalGeometricSVGs.monolith;
+    function init03() {
+      var OS = window.OriginalSpot;
+      var CID = "OriginalSpot-clip-03";
+      var D = 10;
+      if (!OS) return;
+      OS.registerEases(gsap);
+      var geomEl = document.getElementById("monolith-geom");
+      var dust = document.getElementById("dust-particles");
+      var grain = document.getElementById("grain");
+      var vault = document.getElementById("vault-bg");
+      if (!geomEl || !dust || !grain) return;
+      geomEl.innerHTML = OS.crystalGeometricSVGs.monolith;
+      var debris = OS.spawnDebris(dust, 36, 4303);
+      OS.initGrain(grain, 0.2, 4303);
+      var tl = OS.makeTimeline(CID);
+      var seismo = document.querySelector(".seismo");
+      var facets = document.querySelectorAll(".facet-line");
+      gsap.set("#cam03", { scale: 1.12, y: 40 });
+      gsap.set("#monolith-wrap", { autoAlpha: 0, rotationY: -6, rotationX: 4 });
+      gsap.set("#monolith-spec", { autoAlpha: 0 });
+      gsap.set(".chapter", { autoAlpha: 0, y: 18 });
+      gsap.set(".readout", { autoAlpha: 0 });
+      facets.forEach(function (line) {
+        gsap.set(line, { strokeDasharray: 72, strokeDashoffset: 72 });
+      });
+      tl.to("#carry-flash", { opacity: 0, duration: 0.72, ease: "power4.out" }, 0);
+      tl.to("#monolith-wrap", { autoAlpha: 1, duration: 0.8, ease: "crystalLock" }, 0.08);
+      tl.to("#monolith-spec", { autoAlpha: 0.35, duration: 1.1, ease: "breathEase" }, 0.35);
+      tl.to("#cam03", { scale: 1, y: 0, duration: 2.6, ease: "breathEase" }, 0.75);
+      tl.to("#monolith-wrap", { rotationY: 0, rotationX: 0, duration: 3.2, ease: "sine.inOut" }, 0.9);
+      if (seismo) {
+        tl.fromTo(seismo, { strokeDashoffset: 1200 }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" }, 1.05);
       }
-
-      const dustBox = document.getElementById("dust-particles");
-      if (dustBox) {
-        const debris = S.spawnDebris(dustBox, 20, 88201);
-        debris.forEach((el, i) => {
-          gsap.set(el, { opacity: 0, scale: 0 });
-          tl.to(el, { opacity: 0.4 + ((i % 3) * 0.1), scale: 1.0, duration: 1.5, ease: "sine.out" }, 0.2 + i * 0.08);
-          tl.to(el, { y: -Number(el.dataset.drift), rotation: Number(el.dataset.rot), duration: 8.5, ease: "none" }, 0.8 + i * 0.05);
-        });
+      tl.to(facets, { strokeDashoffset: 0, duration: 1.05, stagger: 0.07, ease: "power3.out" }, 1.12);
+      tl.to(".readout", { autoAlpha: 1, duration: 0.55, stagger: 0.1, ease: "breathEase" }, 2.15);
+      tl.to(".chapter", { autoAlpha: 1, y: 0, duration: 0.95, ease: "breathEase" }, 1.95);
+      OS.wireDebrisDrift(gsap, tl, debris, D, 0.35);
+      if (vault) {
+        tl.to(vault, { "--g-x": "48%", "--g-y": "54%", duration: 3.5, ease: "sine.inOut" }, 2.5);
+        tl.to(vault, { "--g-x": "52%", "--g-y": "62%", duration: 3.8, ease: "sine.inOut" }, 5.8);
       }
-
-      const grain = document.getElementById("grain");
-      if (grain) {
-        S.initGrain(grain, 0.18, 55212);
-      }
-
-      // ACT 1: ENTRANCE (20.00s - 22.50s)
-      tl.to("#flash-wipe", {
-        opacity: 0,
-        duration: 1.2,
-        ease: "power2.out"
-      }, 0);
-
-      gsap.set("#monolith-container", { scale: 1.2, z: 200, rotateY: -15 });
-      tl.to("#monolith-container", {
-        scale: 0.95,
-        z: 0,
-        rotateY: -5,
-        duration: 2.5,
-        ease: "breathEase"
-      }, 0);
-
-      tl.to(".corner-bracket", {
-        opacity: 0.7,
-        duration: 0.8,
-        stagger: 0.12,
-        ease: "sine.out"
-      }, 0.8);
-
-      tl.to(".hero-title", { opacity: 1, duration: 1.5, ease: "breathEase" }, 1.5);
-      tl.to(".blueprint-array", { opacity: 0.75, duration: 1.0 }, 1.8);
-
-      // ACT 2: EVOLUTION/HOLD (22.50s - 27.50s)
-      tl.to("#monolith-container", {
-        rotateX: -2,
-        rotateY: 2,
-        duration: 5.5,
-        ease: "sine.inOut"
-      }, 2.5);
-
-      const valX = document.getElementById("val-x");
-      const valY = document.getElementById("val-y");
-      const valZ = document.getElementById("val-z");
-      const coordsObj = { x: 108.40, y: 994.20, z: 0.053 };
-      
-      tl.to(coordsObj, {
-        x: 124.95,
-        y: 1005.82,
-        z: 0.002,
-        duration: 6.0,
-        ease: "none",
-        onUpdate: () => {
-          if (valX) valX.textContent = coordsObj.x.toFixed(2);
-          if (valY) valY.textContent = coordsObj.y.toFixed(2);
-          if (valZ) valZ.textContent = coordsObj.z.toFixed(3);
-        }
-      }, 2.0);
-
-      // ACT 3: EXIT (27.50s - 30.00s)
-      tl.to("#root", {
-        opacity: 0,
-        duration: 1.8,
-        ease: "power2.inOut"
-      }, 8.0);
-
-      window.addEventListener("hf-seek", e => tl.seek(e.detail.time));
-      tl.seek(0);
-      window.__timelines[CID] = tl;
+      OS.sineBreathe(tl, "#monolith-wrap", D, { delay: 3.6, scaleAmp: 0.008, yAmp: 5, period: 2.45 });
+      tl.to("#monolith-spec", { opacity: 0.22, duration: 2.2, ease: "sine.inOut", yoyo: true, repeat: 2 }, 4);
+      tl.to(".chapter", { autoAlpha: 0.4, duration: 0.7, ease: "sine.in" }, 8.6);
+      tl.to("#vault-fade", { opacity: 1, duration: 1.05, ease: "power3.in" }, 8.92);
+      tl.to("#cam03", { scale: 0.98, duration: 1.05, ease: "power3.in" }, 8.92);
     }
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip03);
-    else initClip03();
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init03);
+    else init03();
   </script>
 </body>
 </html>
