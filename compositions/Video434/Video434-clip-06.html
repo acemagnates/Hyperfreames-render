@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Video434 Clip 06 — pristine prison</title>
+    <title>Video434 Clip 06 — Pristine Prison</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,7 +23,7 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #050302;
+        background: #100501; /* Burning Sunset Void */
         color: #ffffff;
       }
       #root {
@@ -56,8 +56,8 @@
         transform: translateZ(-350px) scale(1.6);
         transform-style: preserve-3d;
         background:
-          radial-gradient(circle at 15% 85%, #f48c06 0%, rgba(30, 20, 15, 0.8) 50%, #050302 100%),
-          linear-gradient(180deg, #18100c 0%, #050302 100%);
+          radial-gradient(circle at 15% 85%, #d95d1e 0%, rgba(43, 20, 8, 0.8) 50%, #100501 100%),
+          linear-gradient(180deg, #1b0e06 0%, #100501 100%);
       }
       .sunset-glare {
         position: absolute;
@@ -66,7 +66,7 @@
         width: 800px;
         height: 800px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(254, 140, 6, 0.25) 0%, rgba(254, 140, 6, 0.04) 50%, transparent 70%);
+        background: radial-gradient(circle, rgba(217, 93, 30, 0.25) 0%, rgba(217, 93, 30, 0.04) 50%, transparent 70%);
         pointer-events: none;
         z-index: 2;
       }
@@ -82,10 +82,10 @@
         pointer-events: none;
       }
       .hud-header {
-        border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         padding-bottom: 20px;
         font-family: 'Courier Prime', monospace;
-        color: #c9a84c;
+        color: #d95d1e; /* Sunset Orange */
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -95,7 +95,7 @@
         font-size: 38px;
         letter-spacing: 0.1em;
         color: #ffffff;
-        text-shadow: 0 0 15px rgba(244, 140, 6, 0.35);
+        text-shadow: 0 0 15px rgba(217, 93, 30, 0.35);
       }
       .hud-subtitle {
         font-size: 14px;
@@ -104,10 +104,10 @@
         opacity: 0.85;
       }
       .hud-footer {
-        border-top: 1px solid rgba(201, 168, 76, 0.25);
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
         padding-top: 20px;
         font-family: 'Courier Prime', monospace;
-        color: #c9a84c;
+        color: #d95d1e;
         display: flex;
         justify-content: space-between;
         font-size: 14px;
@@ -118,8 +118,8 @@
         right: 80px;
         width: 440px;
         height: 660px;
-        border: 2px solid rgba(201, 168, 76, 0.25);
-        background: rgba(5, 3, 2, 0.75);
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        background: rgba(16, 5, 1, 0.75);
         box-shadow: 0 20px 50px rgba(0,0,0,0.9);
         transform: rotateY(-18deg) rotateX(10deg) translateZ(40px);
         transform-style: preserve-3d;
@@ -129,8 +129,8 @@
         position: absolute;
         inset: 0;
         background-image:
-          linear-gradient(rgba(201, 168, 76, 0.15) 1.5px, transparent 1.5px),
-          linear-gradient(90deg, rgba(201, 168, 76, 0.15) 1.5px, transparent 1.5px);
+          linear-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px);
         background-size: 110px 110px;
         z-index: 10;
         pointer-events: none;
@@ -141,21 +141,6 @@
         transform: translateZ(150px) scale(0.85);
         pointer-events: none;
       }
-      .hud-brackets {
-        position: absolute;
-        inset: 60px;
-        opacity: 0.8;
-      }
-      .bracket {
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        border: 2px solid #c9a84c;
-      }
-      .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
-      .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
-      .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
-      .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
 
       .hero-stack {
         position: absolute;
@@ -207,7 +192,7 @@
       }
       .dust-particle {
         position: absolute;
-        background: rgba(201, 168, 76, 0.4);
+        background: rgba(217, 93, 30, 0.4);
         border-radius: 50%;
         pointer-events: none;
       }
@@ -224,15 +209,16 @@
       data-fps="30"
     >
       <div id="root-inner">
+        <!-- SINGLE LEVEL class="clip" ON DEPTH-STAGE -->
         <div id="depth-stage" class="clip" data-start="0" data-duration="5.01" data-track-index="0">
           <div id="stage-tilt">
             <!-- L0 Background Parallax -->
-            <div class="z-bg clip" data-start="0" data-duration="5.01" data-track-index="1">
+            <div class="z-bg">
               <div class="sunset-glare"></div>
             </div>
             
             <!-- Archival biospherian photo frame -->
-            <div class="archival-frame clip" data-start="0" data-duration="5.01" data-track-index="2">
+            <div class="archival-frame">
               <div class="glass-pane-grid"></div>
               <!-- Procedural vector biospherian silhouette looking out window -->
               <svg viewBox="0 0 440 660" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 100%;">
@@ -240,61 +226,54 @@
                 <circle cx="220" cy="300" r="55" fill="#120e0a" />
                 <!-- Shoulders and Body silhouette -->
                 <path d="M 80 660 C 80 500, 130 420, 220 420 C 310 420, 360 500, 360 660 Z" fill="#120e0a" />
-                <!-- Subtle gold highlight mapping on edge -->
-                <path d="M 218 420 Q 308 420 358 660" fill="none" stroke="rgba(244,140,6,0.35)" stroke-width="3" />
-                <path d="M 218 245 A 55 55 0 0 1 273 300" fill="none" stroke="rgba(244,140,6,0.35)" stroke-width="2.5" />
+                <!-- Subtle glowing silhouette edge highlight -->
+                <path d="M 218 420 Q 308 420 358 660" fill="none" stroke="rgba(217,93,30,0.35)" stroke-width="3" />
+                <path d="M 218 245 A 55 55 0 0 1 273 300" fill="none" stroke="rgba(217,93,30,0.35)" stroke-width="2.5" />
               </svg>
             </div>
 
             <!-- L2 Mid Ground Content -->
-            <div class="z-mg clip" data-start="0" data-duration="5.01" data-track-index="3">
+            <div class="z-mg">
               <div class="hud-header">
                 <div>
                   <h1 class="hud-title">MISSION ABANDONMENT PLAN</h1>
                   <div class="hud-subtitle">HUMAN_FACTORS // DOME_PRISON_1991</div>
                 </div>
                 <div style="text-align: right; font-size: 15px; line-height: 1.6;">
-                  <div>ISOLATION // <span style="font-weight: 700;">CRITICAL_LEVEL</span></div>
-                  <div>SURVIVAL // <span style="color: #ff8c00;">FAILING</span></div>
+                  <div>ISOLATION // <span style="font-weight: 700; color: #ffffff;">CRITICAL_LEVEL</span></div>
+                  <div>SURVIVAL // <span style="color: #ff6b6b;">FAILING</span></div>
                 </div>
               </div>
               
               <div class="hud-footer">
                 <div>SYS_ESCAPE_STATUS // PREPARING</div>
-                <div style="font-weight: 700; letter-spacing: 0.15em;">PHASE_06 // STORY_LANDS</div>
+                <div style="font-weight: 700; letter-spacing: 0.15em; color: #d95d1e;">PHASE_06 // STORY_LANDS</div>
               </div>
             </div>
             
-            <!-- L3 Foreground Brackets & Elements -->
-            <div class="z-fg clip" data-start="0" data-duration="5.01" data-track-index="4">
-              <div class="hud-brackets">
-                <div class="bracket tl"></div>
-                <div class="bracket tr"></div>
-                <div class="bracket bl"></div>
-                <div class="bracket br"></div>
-              </div>
-              
+            <!-- L3 Foreground Dust Elements -->
+            <div class="z-fg">
               <!-- Drifting warm dust -->
               <div id="sunset-dust" style="position: absolute; inset: 0; transform-style: preserve-3d;"></div>
             </div>
 
-            <div class="hero-stack clip" data-start="0" data-duration="5.01" data-track-index="5">
-              <span id="hw-scientists" class="hero-word" style="font-family: 'Playfair Display', serif; font-size: 40px; font-style: italic; color: #e2f1e7; text-shadow: 0 3px 10px rgba(0,0,0,0.95); line-height: 1.3;">The scientists were</span>
+            <div class="hero-stack">
+              <span id="hw-scientists" class="hero-word" style="font-family: 'Playfair Display', serif; font-size: 40px; font-style: italic; color: #ffffff; text-shadow: 0 3px 10px rgba(0,0,0,0.95); line-height: 1.3;">The scientists were</span>
               <span id="hw-dying" class="hero-word" style="font-family: 'Oswald', sans-serif; font-size: 80px; font-weight: 900; letter-spacing: 0.05em; color: #ff6b6b; text-shadow: 0 0 25px rgba(255,0,0,0.45), 0 4px 15px rgba(0,0,0,0.95); margin-top: 10px; text-transform: uppercase;">DYING</span>
-              <span id="hw-inside" class="hero-word" style="font-family: 'Courier Prime', monospace; font-size: 32px; letter-spacing: 0.15em; color: #c9a84c; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin-top: 25px;">INSIDE THEIR</span>
+              <span id="hw-inside" class="hero-word" style="font-family: 'Courier Prime', monospace; font-size: 32px; letter-spacing: 0.15em; color: #ffffff; opacity: 0.8; text-shadow: 0 2px 10px rgba(0,0,0,0.9); margin-top: 25px;">INSIDE THEIR</span>
               <span id="hw-pristine" class="hero-word" style="font-family: 'Playfair Display', serif; font-size: 52px; font-style: italic; font-weight: 700; color: #ffffff; text-shadow: 0 0 20px rgba(255,255,255,0.35), 0 4px 15px rgba(0,0,0,0.95); margin-top: 15px;">pristine</span>
-              <span id="hw-prison" class="hero-word" style="font-family: 'Oswald', sans-serif; font-size: 90px; font-weight: 900; letter-spacing: 0.08em; color: #ffffff; text-shadow: 0 0 30px rgba(201,168,76,0.5), 0 5px 25px rgba(0,0,0,0.95); text-transform: uppercase; margin-top: 2px;">PRISON.</span>
+              <span id="hw-prison" class="hero-word" style="font-family: 'Oswald', sans-serif; font-size: 90px; font-weight: 900; letter-spacing: 0.08em; color: #ffffff; text-shadow: 0 0 30px rgba(255,255,255,0.3), 0 5px 25px rgba(0,0,0,0.95); text-transform: uppercase; margin-top: 2px;">PRISON.</span>
             </div>
           </div>
         </div>
 
         <!-- Post-Processing -->
-        <div id="chrom-wrap" class="clip" data-start="0" data-duration="5.01" data-track-index="9">
+        <div id="chrom-wrap">
           <div id="chrom-r"></div>
           <div id="chrom-b"></div>
         </div>
-        <div id="vignette" class="clip" data-start="0" data-duration="5.01" data-track-index="10"></div>
-        <canvas id="grain" class="clip" data-start="0" data-duration="5.01" data-track-index="11" width="540" height="960"></canvas>
+        <div id="vignette"></div>
+        <canvas id="grain" width="540" height="960"></canvas>
       </div>
     </div>
 
@@ -316,7 +295,7 @@
           const data = img.data;
           const gRng = H.mulberry32(0x9ace4346);
           for (let i = 0; i < data.length; i += 4) {
-            const n = (gRng() * 64) | 0;
+            const n = (gRng() * 48) | 0;
             data[i] = data[i+1] = data[i+2] = n;
             data[i+3] = 255;
           }
@@ -348,8 +327,7 @@
       }
 
       // Initial positions
-      gsap.set(".hud-brackets", { inset: "80px", opacity: 0 });
-      gsap.set(".bracket", { scale: 0.6, opacity: 0 });
+      gsap.set(".hero-word", { x: -20, opacity: 0 });
 
       // Ken Burns Pan Left (slowly scaling and moving camera)
       tl.to("#stage-tilt", { scale: 1.08, duration: D, ease: "none" }, 0);
@@ -357,36 +335,29 @@
       tl.to(".archival-frame", { x: -35, rotateY: -12, duration: D, ease: "sine.inOut" }, 0);
       tl.to(".sunset-glare", { x: -40, duration: D, ease: "sine.inOut" }, 0);
 
-      // Brackets reveal
-      tl.to(".hud-brackets", { inset: "60px", opacity: 0.8, duration: 1.0, ease: "power3.out" }, 0.1);
-      tl.to(".bracket", { scale: 1, opacity: 1, duration: 0.7, ease: "springSnappy", stagger: 0.04 }, 0.15);
-
       // Revealing text relative to timeline start (45.99s)
       // The scientists were (0.31s)
-      tl.to("#hw-scientists", { opacity: 1, x: 15, duration: 0.45, ease: "springLight" }, 0.31);
+      tl.to("#hw-scientists", { opacity: 1, x: 0, duration: 0.45, ease: "springLight" }, 0.31);
 
       // DYING (1.69s)
       tl.fromTo("#hw-dying", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "springHeavy" }, 1.69);
-      H.bracketPulse(tl, ".bracket", 1.69);
       H.screenShake(tl, "#root-inner", 1.69, 0.75);
 
       // INSIDE THEIR (2.47s)
-      tl.to("#hw-inside", { opacity: 1, x: 15, duration: 0.4, ease: "power2.out" }, 2.47);
+      tl.to("#hw-inside", { opacity: 0.8, x: 0, duration: 0.4, ease: "power2.out" }, 2.47);
 
       // pristine (3.30s)
-      tl.to("#hw-pristine", { opacity: 1, y: 0, duration: 0.4, ease: "springHeavy" }, 3.30);
+      tl.to("#hw-pristine", { opacity: 1, x: 0, duration: 0.4, ease: "springHeavy" }, 3.30);
 
       // PRISON. (4.09s, major climax reveal)
       tl.fromTo("#hw-prison", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "springHeavy" }, 4.09);
       H.snapZoomWithRecover(tl, "#hw-prison", 4.09, { peakScale: 1.15, peakZ: 40, peakDur: 0.14, recoverDur: 0.42 });
       H.screenShake(tl, "#root-inner", 4.09, 1.1);
       H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 4.09, 1.0);
-      H.bracketPulse(tl, ".bracket", 4.09);
 
       // Outro transition matching next clip (last 12 frames)
       const transitionStart = D - 0.4; // 4.61s
       tl.to("#stage-tilt", { scale: 1.15, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
-      tl.to(".hud-brackets", { scale: 1.2, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
       tl.to(".hero-stack", { y: -50, opacity: 0, duration: 0.35, ease: "power3.in" }, transitionStart);
 
       // Seek connection

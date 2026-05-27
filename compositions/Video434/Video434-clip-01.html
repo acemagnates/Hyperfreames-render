@@ -23,8 +23,8 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #0a0a0a;
-        color: #ffffff;
+        background: #eae5d9; /* Warm Botanical Cardboard */
+        color: #1b1915; /* Charcoal */
       }
       #root {
         position: relative;
@@ -56,16 +56,16 @@
         transform: translateZ(-350px) scale(1.6);
         transform-style: preserve-3d;
         background:
-          radial-gradient(ellipse 70% 55% at 50% 45%, rgba(201, 168, 76, 0.08), transparent 70%),
-          linear-gradient(180deg, #12100d 0%, #0a0a0a 100%);
+          radial-gradient(ellipse 70% 55% at 50% 45%, rgba(45, 62, 51, 0.08), transparent 75%),
+          linear-gradient(180deg, #eae5d9 0%, #d8d1c0 100%);
       }
       .grid-lines {
         position: absolute;
         inset: -20%;
-        opacity: 0.12;
+        opacity: 0.05;
         background-image:
-          linear-gradient(rgba(201, 168, 76, 0.2) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(201, 168, 76, 0.2) 1px, transparent 1px);
+          linear-gradient(rgba(27, 25, 21, 0.3) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(27, 25, 21, 0.3) 1px, transparent 1px);
         background-size: 80px 80px;
         transform: rotateX(78deg);
         transform-origin: center 85%;
@@ -82,10 +82,10 @@
         pointer-events: none;
       }
       .hud-header {
-        border-bottom: 1px solid rgba(201, 168, 76, 0.25);
+        border-bottom: 2px dashed rgba(27, 25, 21, 0.15);
         padding-bottom: 20px;
         font-family: 'Courier Prime', monospace;
-        color: #c9a84c;
+        color: #7d7568;
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
@@ -93,35 +93,24 @@
       .hud-title {
         font-family: 'Oswald', sans-serif;
         font-size: 38px;
-        letter-spacing: 0.1em;
-        color: #ffffff;
-        text-shadow: 0 0 15px rgba(201, 168, 76, 0.4);
+        letter-spacing: 0.05em;
+        color: #1b1915;
+        font-weight: 700;
       }
       .hud-subtitle {
         font-size: 14px;
-        letter-spacing: 0.25em;
+        letter-spacing: 0.15em;
         margin-top: 6px;
-        opacity: 0.85;
+        text-transform: uppercase;
       }
       .hud-footer {
-        border-top: 1px solid rgba(201, 168, 76, 0.25);
+        border-top: 2px dashed rgba(27, 25, 21, 0.15);
         padding-top: 20px;
         font-family: 'Courier Prime', monospace;
-        color: #c9a84c;
+        color: #7d7568;
         display: flex;
         justify-content: space-between;
         font-size: 14px;
-      }
-      .god-ray {
-        position: absolute;
-        top: -200px;
-        left: 300px;
-        width: 480px;
-        height: 2200px;
-        background: linear-gradient(105deg, transparent, rgba(255, 215, 0, 0.07) 30%, rgba(255, 215, 0, 0.03) 60%, transparent);
-        transform: skewX(-15deg);
-        pointer-events: none;
-        z-index: 2;
       }
       .z-fg {
         position: absolute;
@@ -132,23 +121,23 @@
       .hud-brackets {
         position: absolute;
         inset: 60px;
-        opacity: 0;
+        opacity: 0.4;
       }
       .bracket {
         position: absolute;
         width: 50px;
         height: 50px;
-        border: 2px solid #c9a84c;
+        border: 2px solid #1b1915;
       }
       .tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
       .tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
       .bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
       .br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
-      
+
       .hero-stack {
         position: absolute;
         left: 50%;
-        top: 24%;
+        top: 26%;
         transform: translateX(-50%) translateZ(60px);
         width: 960px;
         text-align: center;
@@ -157,36 +146,38 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 40px;
+        gap: 20px;
       }
       .hero-word {
-        font-family: 'Oswald', sans-serif;
-        font-weight: 900;
-        color: #c9a84c;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        text-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 4px 20px rgba(0, 0, 0, 0.95);
         opacity: 0;
       }
       #hw-1991 {
-        font-size: 160px;
-        line-height: 1.1;
+        font-family: 'Oswald', sans-serif;
+        font-size: 130px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: #1b1915;
+        text-shadow: 0 4px 15px rgba(27, 25, 21, 0.08);
       }
       #hw-150m {
         font-family: 'Playfair Display', serif;
         font-size: 90px;
-        color: #ffffff;
-        text-shadow: 0 0 25px rgba(255, 215, 0, 0.35), 0 4px 15px rgba(0, 0, 0, 0.85);
+        font-style: italic;
+        color: #c83a2a; /* Archival Red Stamp Color */
+        text-shadow: 0 2px 10px rgba(200, 58, 42, 0.08);
       }
       #hw-escape {
         font-family: 'Courier Prime', monospace;
-        font-size: 56px;
-        letter-spacing: 0.25em;
-        background: rgba(0, 0, 0, 0.8);
-        padding: 10px 30px;
-        border: 1px solid #c9a84c;
+        font-size: 60px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        border: 3px solid #1b1915;
+        padding: 10px 40px;
+        background: #eae5d9;
+        text-shadow: none;
+        text-transform: uppercase;
       }
-
+      
       #chrom-wrap {
         position: absolute;
         inset: 0;
@@ -197,18 +188,18 @@
       #chrom-r, #chrom-b {
         position: absolute;
         inset: 0;
-        mix-blend-mode: screen;
+        mix-blend-mode: multiply;
         pointer-events: none;
       }
-      #chrom-r { background: rgba(255, 0, 0, 0.12); }
-      #chrom-b { background: rgba(0, 100, 255, 0.12); }
+      #chrom-r { background: rgba(200, 50, 50, 0.05); }
+      #chrom-b { background: rgba(50, 50, 200, 0.05); }
       
       #vignette {
         position: absolute;
         inset: 0;
         pointer-events: none;
         z-index: 35;
-        background: radial-gradient(ellipse 72% 78% at 50% 50%, transparent 40%, rgba(0,0,0,0.65) 100%);
+        background: radial-gradient(ellipse 72% 78% at 50% 50%, transparent 40%, rgba(27,25,21,0.2) 100%);
       }
       #grain {
         position: absolute;
@@ -217,6 +208,13 @@
         opacity: 0.18;
         mix-blend-mode: overlay;
         pointer-events: none;
+      }
+      .organic-particle {
+        position: absolute;
+        background: #7d7568;
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0.4;
       }
     </style>
   </head>
@@ -231,36 +229,37 @@
       data-fps="30"
     >
       <div id="root-inner">
+        <!-- SINGLE LEVEL class="clip" TO PREVENT CHROMIUM RENDER BUG -->
         <div id="depth-stage" class="clip" data-start="0" data-duration="10.00" data-track-index="0">
           <div id="stage-tilt">
-            <!-- L0 Background Parallax -->
-            <div class="z-bg clip" data-start="0" data-duration="10.00" data-track-index="1">
+            <!-- L0 Background Parallax (no class="clip" to avoid suppression) -->
+            <div class="z-bg">
               <div class="grid-lines"></div>
             </div>
             
-            <div class="god-ray clip" data-start="0" data-duration="10.00" data-track-index="2"></div>
+            <div class="god-ray" style="position: absolute; top: -300px; left: -100px; width: 600px; height: 2400px; background: linear-gradient(105deg, transparent, rgba(27,25,21,0.03) 25%, rgba(27,25,21,0.01) 55%, transparent); transform: skewX(-15deg); pointer-events: none; z-index: 2;"></div>
             
             <!-- L2 Mid Ground Content -->
-            <div class="z-mg clip" data-start="0" data-duration="10.00" data-track-index="3">
+            <div class="z-mg">
               <div class="hud-header">
                 <div>
                   <h1 class="hud-title">MISSION INITIALIZATION</h1>
-                  <div class="hud-subtitle">BIOSPHERE 2 // PROJECT_VAULT</div>
+                  <div class="hud-subtitle">BIOSPHERE 2 // ARCHIVAL SURVEY</div>
                 </div>
                 <div style="text-align: right; font-size: 15px; line-height: 1.6;">
-                  <div>SECTOR // <span style="font-weight: 700;">AZ_DESERT</span></div>
-                  <div>ATMOSPHERE // <span>STABLE</span></div>
+                  <div>SECTOR // <span style="font-weight: 700; color: #1b1915;">AZ_DESERT</span></div>
+                  <div>ATMOSPHERE // <span>SURVEYING</span></div>
                 </div>
               </div>
               
               <div class="hud-footer">
-                <div>SYS_DOME_SEALED // OK</div>
-                <div style="font-weight: 700; letter-spacing: 0.15em;">PHASE_01 // THE_HOOK</div>
+                <div>SYS_DOME_SEALED // DETECTED</div>
+                <div style="font-weight: 700; letter-spacing: 0.15em; color: #1b1915;">PHASE_01 // THE_HOOK</div>
               </div>
             </div>
             
             <!-- L3 Foreground Brackets & Elements -->
-            <div class="z-fg clip" data-start="0" data-duration="10.00" data-track-index="4">
+            <div class="z-fg">
               <div class="hud-brackets">
                 <div class="bracket tl"></div>
                 <div class="bracket tr"></div>
@@ -269,21 +268,22 @@
               </div>
             </div>
 
-            <div class="hero-stack clip" data-start="0" data-duration="10.00" data-track-index="5">
-              <span id="hw-1991" class="hero-word clip" data-start="0.29" data-duration="9.71" data-track-index="6">1991</span>
-              <span id="hw-150m" class="hero-word clip" data-start="5.40" data-duration="4.60" data-track-index="7">$150M</span>
-              <span id="hw-escape" class="hero-word clip" data-start="8.15" data-duration="1.85" data-track-index="8">ESCAPE</span>
+            <!-- Hero stack text items (no nested clips!) -->
+            <div class="hero-stack">
+              <span id="hw-1991" class="hero-word">1991</span>
+              <span id="hw-150m" class="hero-word">$150M</span>
+              <span id="hw-escape" class="hero-word">ESCAPE</span>
             </div>
           </div>
         </div>
 
-        <!-- Post-Processing -->
-        <div id="chrom-wrap" class="clip" data-start="0" data-duration="10.00" data-track-index="9">
+        <!-- Post-Processing layers (no nested clips) -->
+        <div id="chrom-wrap">
           <div id="chrom-r"></div>
           <div id="chrom-b"></div>
         </div>
-        <div id="vignette" class="clip" data-start="0" data-duration="10.00" data-track-index="10"></div>
-        <canvas id="grain" class="clip" data-start="0" data-duration="10.00" data-track-index="11" width="540" height="960"></canvas>
+        <div id="vignette"></div>
+        <canvas id="grain" width="540" height="960"></canvas>
       </div>
     </div>
 
@@ -305,11 +305,30 @@
           const data = img.data;
           const gRng = H.mulberry32(0x9ace4341);
           for (let i = 0; i < data.length; i += 4) {
-            const n = (gRng() * 64) | 0;
-            data[i] = data[i+1] = data[i+2] = n;
-            data[i+3] = 255;
+            const n = (gRng() * 32) | 0; // softer noise
+            data[i] = data[i+1] = data[i+2] = 200 + n;
+            data[i+3] = 45; // softer overlay
           }
           ctx.putImageData(img, 0, 0);
+        }
+      }
+
+      // Generate procedural dirt/paper organic particles drifting
+      const dynamicContainer = document.getElementById("stage-tilt");
+      if (dynamicContainer) {
+        for (let i = 0; i < 15; i++) {
+          const part = document.createElement("div");
+          part.className = "organic-particle";
+          const size = 3 + rng() * 4;
+          part.style.cssText = `position:absolute;left:${rng()*1080}px;top:${rng()*1920}px;width:${size}px;height:${size}px;opacity:${0.15+rng()*0.3};`;
+          dynamicContainer.appendChild(part);
+
+          tl.to(part, {
+            x: "+=" + ((rng() - 0.5) * 80),
+            y: "-=" + (100 + rng() * 120),
+            duration: D,
+            ease: "none"
+          }, 0);
         }
       }
 
@@ -323,7 +342,6 @@
       // Camera orbital reveal and steady drift
       H.orbitalReveal(tl, "#stage-tilt", 0, 1.4);
       tl.to("#stage-tilt .z-bg", { scale: 1.07, x: 20, y: -10, rotateY: 3, rotateX: -1, duration: D, ease: "sine.inOut" }, 0);
-      tl.to(".god-ray", { x: 50, duration: D, ease: "sine.inOut" }, 0);
 
       // Corner brackets opening
       tl.to(".hud-brackets", { inset: "60px", opacity: 1, duration: 1.2, ease: "power3.out" }, 0.1);
@@ -337,8 +355,7 @@
       H.screenShake(tl, "#root-inner", 0.29, 1.2);
       
       // Particle burst on first impact
-      const dynamicContainer = document.getElementById("stage-tilt");
-      H.particleBurst(tl, dynamicContainer, 540, 960, 0.29, 15, "#c9a84c", 4341);
+      H.particleBurst(tl, dynamicContainer, 540, 960, 0.29, 15, "#7d7568", 4341);
 
       // $150M entry (5.40s)
       tl.to("#hw-150m", { y: 0, opacity: 1, duration: 0.55, ease: "springHeavy" }, 5.40);

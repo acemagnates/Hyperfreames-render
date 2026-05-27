@@ -23,7 +23,7 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #050608;
+        background: #121b18; /* deep clinical teal/grey */
         color: #ffffff;
       }
       #root {
@@ -56,8 +56,8 @@
         transform: translateZ(-350px) scale(1.6);
         transform-style: preserve-3d;
         background:
-          radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.12) 0%, transparent 60%),
-          linear-gradient(180deg, #090b10 0%, #050608 100%);
+          radial-gradient(circle at 30% 30%, rgba(200, 50, 50, 0.12) 0%, transparent 60%),
+          linear-gradient(180deg, #121b18 0%, #080d0b 100%);
       }
       .z-mg {
         position: absolute;
@@ -71,7 +71,7 @@
         pointer-events: none;
       }
       .hud-header {
-        border-bottom: 1px solid rgba(226, 241, 231, 0.2);
+        border-bottom: 1px solid rgba(226, 241, 231, 0.15);
         padding-bottom: 20px;
         font-family: 'Courier Prime', monospace;
         color: #e2f1e7;
@@ -93,7 +93,7 @@
         opacity: 0.85;
       }
       .hud-footer {
-        border-top: 1px solid rgba(226, 241, 231, 0.2);
+        border-top: 1px solid rgba(226, 241, 231, 0.15);
         padding-top: 20px;
         font-family: 'Courier Prime', monospace;
         color: #e2f1e7;
@@ -109,7 +109,7 @@
         width: 320px;
         height: 380px;
         border: 1.5px solid rgba(226, 241, 231, 0.18);
-        background-color: rgba(10, 12, 16, 0.8);
+        background-color: rgba(18, 27, 24, 0.95);
         transform: rotateY(20deg) rotateX(15deg) translateZ(40px);
         padding: 20px;
         box-shadow: 0 20px 40px rgba(0,0,0,0.8);
@@ -126,7 +126,7 @@
         margin-top: 15px;
         font-size: 26px;
         font-weight: bold;
-        color: #e5b05c;
+        color: #ff6b6b;
       }
       .chart-svg-wrap {
         position: relative;
@@ -162,7 +162,7 @@
       .hero-word {
         font-family: 'Oswald', sans-serif;
         font-weight: 900;
-        color: red;
+        color: #ff3b3b;
         text-transform: uppercase;
         letter-spacing: 0.06em;
         text-shadow: 0 0 30px rgba(139, 0, 0, 0.8), 0 4px 15px rgba(0, 0, 0, 0.95);
@@ -180,7 +180,7 @@
         margin-top: 30px;
         background: rgba(139, 0, 0, 0.8);
         padding: 5px 25px;
-        border: 1.5px solid red;
+        border: 1.5px solid #ff3b3b;
         text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
       }
       .phrase-row {
@@ -254,67 +254,69 @@
       data-fps="30"
     >
       <div id="root-inner">
+        <!-- SINGLE LEVEL class="clip" ON DEPTH-STAGE -->
         <div id="depth-stage" class="clip" data-start="0" data-duration="8.50" data-track-index="0">
           <div id="stage-tilt">
-            <!-- L0 Background -->
-            <div class="z-bg clip" data-start="0" data-duration="8.50" data-track-index="1"></div>
+            <!-- L0 Background Parallax -->
+            <div class="z-bg"></div>
             
-            <div class="red-alert-overlay clip" data-start="0" data-duration="8.50" data-track-index="2"></div>
+            <div class="red-alert-overlay"></div>
             
-            <!-- L2 Mid Ground Chart & HUD -->
-            <div class="chart-container clip" data-start="0" data-duration="8.50" data-track-index="3">
-              <div class="chart-header">BIO_OXYGEN_ANALYSIS</div>
-              <div class="chart-value" id="oxygen-text">20.9% <span style="font-size: 12px; color: red;">▼ CRITICAL</span></div>
+            <!-- Technical sensor dashboard showing oxygen collapse (no clip) -->
+            <div class="chart-container">
+              <div class="chart-header">O2 SENSOR COLLAPSE</div>
+              <div class="chart-value" id="o2-val">20.9%</div>
               <div class="chart-svg-wrap">
-                <svg width="280" height="180">
-                  <path id="chart-path" d="M 0 20 L 80 40 L 160 90 L 240 150 L 280 170" fill="none" stroke="red" stroke-width="4.5" stroke-linecap="round" />
-                  <circle id="chart-marker" cx="0" cy="20" r="6" fill="red" />
+                <!-- Glowing falling chart line -->
+                <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <path id="chart-path" d="M 0 10 L 25 10 L 40 10 L 60 45 L 80 85 L 100 95" fill="none" stroke="#ff3b3b" stroke-width="2.5" style="filter: drop-shadow(0 0 4px #ff0000);" />
                 </svg>
               </div>
             </div>
-            
-            <div class="z-mg clip" data-start="0" data-duration="8.50" data-track-index="4">
+
+            <!-- L2 Mid Ground Content -->
+            <div class="z-mg">
               <div class="hud-header">
                 <div>
-                  <h1 class="hud-title">BIOLOGICAL FAILURE</h1>
-                  <div class="hud-subtitle">SYS_ERROR // REPLICA_FRACTURE</div>
+                  <h1 class="hud-title">ATMOSPHERIC COLLAPSE</h1>
+                  <div class="hud-subtitle">CRISIS RECON // PRESSURE_SECTOR_4</div>
                 </div>
                 <div style="text-align: right; font-size: 15px; line-height: 1.6;">
-                  <div>STATUS // <span style="font-weight: 700; color: red;">ALERT</span></div>
-                  <div>DRIFT // <span style="color: red;">CRITICAL</span></div>
+                  <div>STATUS // <span style="font-weight: 700; color: #ff3b3b;">HYPOXIA_DREAD</span></div>
+                  <div>LEVELS // <span style="color: #ff3b3b;">CRITICAL</span></div>
                 </div>
               </div>
               
               <div class="hud-footer">
-                <div>SYS_O2_LEVELS // FAILING</div>
-                <div style="font-weight: 700; letter-spacing: 0.15em;">PHASE_03 // RESPIRATION_CRISIS</div>
+                <div>SYS_O2_ALARM // RED_ACTIVE</div>
+                <div style="font-weight: 700; letter-spacing: 0.15em; color: #ff3b3b;">PHASE_03 // THE_CRISIS</div>
               </div>
             </div>
-
-            <!-- Condensation droplets layer (Z: 150px) -->
-            <div class="z-fg clip" data-start="0" data-duration="8.50" data-track-index="5">
-              <!-- Procedural drops generated by script -->
-              <div id="drop-host"></div>
+            
+            <!-- L3 Foreground Condensation Flecks -->
+            <div class="z-fg">
+              <!-- Drifting moisture particles (condensation overlay) -->
+              <div id="condensation-overlay" style="position: absolute; inset: 0; pointer-events: none;"></div>
             </div>
 
-            <div class="hero-stack clip" data-start="0" data-duration="8.50" data-track-index="6">
-              <span id="hw-suffocating" class="hero-word clip" data-start="2.46" data-duration="6.04" data-track-index="7">SUFFOCATING</span>
-              <span id="hw-apnea" class="hero-word clip" data-start="5.22" data-duration="3.28" data-track-index="8">APNEA</span>
+            <div class="hero-stack">
+              <span id="hw-suffocating" class="hero-word">SUFFOCATING</span>
+              <span id="hw-apnea" class="hero-word">APNEA</span>
               <div class="phrase-row">
-                <span id="hw-clouded" class="phrase-part clip" data-start="6.71" data-duration="1.79" data-track-index="9">Clouded</span>
-                <span id="hw-fog" class="phrase-part clip" data-start="7.76" data-duration="0.74" data-track-index="10">Fog.</span>
+                <span id="hw-clouded" class="phrase-part">Clouded</span>
+                <span id="hw-fog" class="phrase-part">Fog.</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Post-Processing -->
-        <div id="chrom-wrap" class="clip" data-start="0" data-duration="8.50" data-track-index="11">
+        <div id="chrom-wrap">
           <div id="chrom-r"></div>
           <div id="chrom-b"></div>
         </div>
-        <div id="vignette" class="clip" data-start="0" data-duration="8.50" data-track-index="12"></div>
-        <canvas id="grain" class="clip" data-start="0" data-duration="8.50" data-track-index="13" width="540" height="960"></canvas>
+        <div id="vignette"></div>
+        <canvas id="grain" width="540" height="960"></canvas>
       </div>
     </div>
 
@@ -336,7 +338,7 @@
           const data = img.data;
           const gRng = H.mulberry32(0x9ace4343);
           for (let i = 0; i < data.length; i += 4) {
-            const n = (gRng() * 64) | 0;
+            const n = (gRng() * 48) | 0;
             data[i] = data[i+1] = data[i+2] = n;
             data[i+3] = 255;
           }
@@ -344,86 +346,91 @@
         }
       }
 
-      // Generate procedural water droplets
-      const host = document.getElementById("drop-host");
-      if (host) {
+      // Generate procedural condensed moisture droplets
+      const condHost = document.getElementById("condensation-overlay");
+      if (condHost) {
+        const cRng = H.mulberry32(0x9ace4343);
         for (let i = 0; i < 40; i++) {
-          const x = rng() * 1080;
-          const y = rng() * 1920;
-          const size = 3 + rng() * 6;
-          const drop = document.createElement("div");
-          drop.className = "condensation-fleck";
-          drop.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;opacity:${0.4+rng()*0.4};`;
-          host.appendChild(drop);
+          const droplet = document.createElement("div");
+          droplet.className = "condensation-fleck";
+          const x = cRng() * 1080;
+          const y = cRng() * 1920;
+          const size = 2 + cRng() * 6;
+          droplet.style.cssText = `left:${x}px;top:${y}px;width:${size}px;height:${size}px;opacity:${0.05 + cRng() * 0.15};`;
+          condHost.appendChild(droplet);
+
+          // Droplets slowly slide down under gravity
+          tl.to(droplet, {
+            y: "+=" + (15 + cRng() * 30),
+            duration: D,
+            ease: "none"
+          }, 0);
         }
       }
 
       // Initial positions
-      gsap.set("#hw-suffocating", { y: 40, opacity: 0 });
-      gsap.set("#hw-apnea", { scale: 0.8, opacity: 0 });
-      gsap.set("#hw-clouded", { y: 20, opacity: 0 });
-      gsap.set("#hw-fog", { scale: 1.3, opacity: 0 });
+      gsap.set("#hw-suffocating", { y: 60, opacity: 0 });
+      gsap.set("#hw-apnea", { scale: 0.7, opacity: 0 });
+      gsap.set("#hw-clouded", { x: -30, opacity: 0 });
+      gsap.set("#hw-fog", { x: 30, opacity: 0 });
+      
+      // Chart Drawing Setup
+      const pathLen = 250;
+      gsap.set("#chart-path", { strokeDasharray: pathLen, strokeDashoffset: pathLen });
 
-      // Chart values
-      const chartPath = document.getElementById("chart-path");
-      const pathLen = 400;
-      gsap.set(chartPath, { strokeDasharray: pathLen, strokeDashoffset: pathLen });
+      // Camera dolly zoom effect (Dolly-in and scale down background tilt)
+      tl.to("#stage-tilt", { scale: 0.96, duration: D, ease: "sine.inOut" }, 0);
+      tl.to("#stage-tilt .z-bg", { scale: 1.15, translateZ: 30, duration: D, ease: "sine.inOut" }, 0);
+      tl.to(".chart-container", { rotateY: 15, rotateX: 10, translateZ: 15, duration: D, ease: "sine.inOut" }, 0);
 
-      // Dolly Zoom simulation (perspective contracts, scale increases)
-      tl.to("#depth-stage", { perspective: 720, duration: D, ease: "sine.inOut" }, 0);
-      tl.to("#stage-tilt .z-bg", { scale: 1.25, duration: D, ease: "sine.inOut" }, 0);
-      tl.to(".chart-container", { scale: 1.15, translateZ: 60, duration: D, ease: "sine.inOut" }, 0);
-
-      // Pulse red warning light
-      const pulseReps = H.repeatCount(D, 2.0);
-      tl.to(".red-alert-overlay", { opacity: 0.22, yoyo: true, repeat: pulseReps, duration: 1.0, ease: "sine.inOut" }, 0);
-
-      // Animate Chart Draw & Values
-      const roll = { v: 20.9 };
-      tl.to(chartPath, { strokeDashoffset: 0, duration: D, ease: "none" }, 0);
-      tl.to(roll, {
-        v: 14.2,
-        duration: D,
-        ease: "none",
-        onUpdate() {
-          document.getElementById("oxygen-text").innerHTML = `${roll.v.toFixed(1)}% <span style="font-size:12px;color:red;">▼ CRITICAL</span>`;
-          // Move chart marker dot in sync along path
-          const progress = (D - tl.time()) / D; // 0 to 1
-          const mx = progress * 280;
-          const my = 20 + (progress * 150);
-          const marker = document.getElementById("chart-marker");
-          if (marker) {
-            marker.setAttribute("cx", mx);
-            marker.setAttribute("cy", my);
-          }
+      // Heartbeat Pulsing Red warning light overlays
+      const pulsePeriods = 4;
+      for (let i = 0; i < pulsePeriods; i++) {
+        const time = i * 2.1;
+        if (time < D) {
+          tl.to(".red-alert-overlay", { opacity: 0.22, duration: 0.22, ease: "power2.out" }, time);
+          tl.to(".red-alert-overlay", { opacity: 0, duration: 0.8, ease: "power2.in" }, time + 0.22);
         }
-      }, 0);
+      }
+
+      // Draw sensor collapse chart
+      tl.to("#chart-path", { strokeDashoffset: 0, duration: 4.5, ease: "power1.inOut" }, 0.5);
+
+      // Animate oxygen drop counter
+      const o2Obj = { value: 20.9 };
+      tl.to(o2Obj, {
+        value: 14.2,
+        duration: 5.5,
+        ease: "power2.out",
+        onUpdate: () => {
+          const valEl = document.getElementById("o2-val");
+          if (valEl) valEl.textContent = o2Obj.value.toFixed(1) + "%";
+        }
+      }, 0.5);
 
       // SUFFOCATING entry (2.46s)
       const localSuffocating = 2.46;
-      tl.to("#hw-suffocating", { y: 0, opacity: 1, duration: 0.5, ease: "springHeavy" }, localSuffocating);
-      tl.to("#depth-stage", { perspective: 660, duration: 0.15, ease: "power2.out" }, localSuffocating);
-      tl.to("#depth-stage", { perspective: 720, duration: 0.45, ease: "sine.inOut" }, localSuffocating + 0.15);
-      H.screenShake(tl, "#root-inner", localSuffocating, 1.3);
-      H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", localSuffocating, 1.4);
+      tl.to("#hw-suffocating", { y: 0, opacity: 1, duration: 0.52, ease: "springHeavy" }, localSuffocating);
+      H.screenShake(tl, "#root-inner", localSuffocating, 0.9);
+      H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", localSuffocating, 0.65);
 
-      // APNEA entry (5.22s)
+      // APNEA entry (5.22s, extreme warning)
       const localApnea = 5.22;
       tl.to("#hw-apnea", { scale: 1, opacity: 1, duration: 0.45, ease: "springSnappy" }, localApnea);
-      H.screenShake(tl, "#root-inner", localApnea, 0.8);
+      H.screenShake(tl, "#root-inner", localApnea, 1.4);
+      H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", localApnea, 1.15);
 
-      // Clouded entry (6.71s)
-      const localClouded = 6.71;
-      tl.to("#hw-clouded", { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }, localClouded);
+      // Clouded (6.71s)
+      tl.to("#hw-clouded", { x: 0, opacity: 1, duration: 0.45, ease: "power2.out" }, 6.71);
 
-      // Fog. entry (7.76s)
-      const localFog = 7.76;
-      tl.to("#hw-fog", { scale: 1, opacity: 1, duration: 0.35, ease: "springSnappy" }, localFog);
+      // Fog. (7.76s)
+      tl.to("#hw-fog", { x: 0, opacity: 1, duration: 0.4, ease: "springHeavy" }, 7.76);
+      H.screenShake(tl, "#root-inner", 7.76, 0.6);
 
       // Outro transition matching next clip (last 12 frames)
       const transitionStart = D - 0.4; // 8.10s
-      tl.to("#stage-tilt", { scale: 1.25, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
-      tl.to(".chart-container", { scale: 1.3, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
+      tl.to("#stage-tilt", { scale: 1.15, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
+      tl.to(".chart-container", { scale: 0.85, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
       tl.to(".hero-stack", { y: -50, opacity: 0, duration: 0.35, ease: "power3.in" }, transitionStart);
 
       // Seek connection
