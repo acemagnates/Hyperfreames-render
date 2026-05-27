@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Obsidian30 Clip 02 — Fissure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=IBM+Plex+Mono&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/Obsidian30/obsidian30-shared.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#0a0604}
+    #root{position:relative;width:1080px;height:1920px}
+    .depth-stage{position:absolute;inset:0}
+    .plate-stage{position:absolute;inset:0;opacity:0.28}
+    .plate{width:100%;height:100%;object-fit:cover}
+    #vig{position:absolute;inset:0;background:radial-gradient(ellipse 75% 65% at 50% 50%,transparent 25%,#0a0604 88%);z-index:3;pointer-events:none}
+    #grain{position:absolute;inset:0;opacity:0.14;mix-blend-mode:overlay;pointer-events:none;z-index:5}
+    #glass{position:absolute;inset:0;background:linear-gradient(165deg,#1a1210 0%,#0a0604 55%,#120c09 100%);z-index:2}
+    #cracks{position:absolute;inset:0;width:100%;height:100%}
+    #cracks path{fill:none;stroke:url(#goldStroke);stroke-width:3;stroke-linecap:round;filter:drop-shadow(0 0 8px rgba(255,209,102,0.6))}
+    .glow{position:absolute;inset:0;background:radial-gradient(circle at 52% 48%,rgba(255,154,60,0.18),transparent 55%);opacity:0}
+    .title{position:absolute;left:56px;top:160px;font-family:'Cormorant Garamond',serif;font-size:96px;color:#f8f0e6}
+    .hud{position:absolute;right:56px;bottom:180px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.28em;color:rgba(255,209,102,0.8)}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="Obsidian30-clip-02" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <div class="depth-stage clip" data-start="0" data-duration="5" data-track-index="0">
+      <div class="plate-stage clip" data-start="0" data-duration="5" data-track-index="1">
+        <img class="plate" src="assets/Obsidian30/ref-eclipse-gold.jpg" alt="" width="1080" height="1920" />
+      </div>
+      <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="2"></div>
+    <div id="glass" class="clip" data-start="0" data-duration="5" data-track-index="3"></div>
+    <svg id="cracks" class="clip" data-start="0" data-duration="5" data-track-index="1" viewBox="0 0 1080 1920">
+      <defs>
+        <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffd166"/><stop offset="100%" stop-color="#ff9a3c"/>
+        </linearGradient>
+      </defs>
+      <path class="crack" d="M540 200 L420 520 L380 900 L340 1400 L300 1750"/>
+      <path class="crack" d="M540 180 L680 480 L720 860 L780 1300 L820 1780"/>
+      <path class="crack" d="M200 960 L540 920 L880 980"/>
+      <path class="crack" d="M120 600 L540 640 L960 580"/>
+    </svg>
+    <div class="glow clip" data-start="0" data-duration="5" data-track-index="2"></div>
+    <div class="title clip" data-start="0" data-duration="5" data-track-index="3">FISSURE</div>
+    <div class="hud clip" data-start="0" data-duration="5" data-track-index="4">STRESS · 0.94</div>
+    </div>
+    <canvas id="grain" width="540" height="960" class="clip" data-start="0" data-duration="5" data-track-index="10"></canvas>
+    <div class="leak-layer clip" data-start="0" data-duration="5" data-track-index="11" style="position:absolute;inset:0;background:linear-gradient(200deg,rgba(255,209,102,0.1),transparent 50%);z-index:4;pointer-events:none"></div>
+  </div>
+  <script>
+    window.__timelines=window.__timelines||{};
+    function initObsidian02() {
+      const CID="Obsidian30-clip-02",C=window.Obsidian30;
+      const grain=document.getElementById("grain");
+      if(grain)C.initGrain(grain,0.14,502);
+      const tl=gsap.timeline({paused:true});
+      tl.to("#glass",{scale:1.04,duration:5,ease:"sine.inOut"},0);
+      document.querySelectorAll(".crack").forEach((p,i)=>{
+        const len=p.getTotalLength();
+        gsap.set(p,{strokeDasharray:len,strokeDashoffset:len});
+        tl.to(p,{strokeDashoffset:0,duration:1.4,ease:"power2.inOut"},0.3+i*0.25);
+      });
+      gsap.set(".title,.hud",{opacity:0});
+      gsap.set(".glow",{opacity:0});
+      tl.to(".glow",{opacity:1,duration:1.2,ease:"power1.in"},1.2);
+      tl.to(".title",{opacity:1,duration:0.8,ease:"power3.out"},0.9);
+      tl.to(".hud",{opacity:1,duration:0.5},2.0);
+      window.addEventListener("hf-seek",e=>tl.seek(e.detail.time));
+      tl.seek(0);window.__timelines[CID]=tl;
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initObsidian02);
+    else initObsidian02();
+  </script>
+</body>
+</html>
