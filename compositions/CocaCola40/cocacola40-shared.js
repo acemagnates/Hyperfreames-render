@@ -5,7 +5,8 @@
   const RED = 0xf40009;
   const RED_DARK = 0x1a0508;
   const GOLD = 0xd4a574;
-  const VOID = 0x0a0204;
+  /** Shadow Cut–aligned base (tinted, not pure black) */
+  const VOID = 0x0e0c10;
   const ACCENT_RGB = "230, 0, 18";
 
   const PLATE_BASE = "../../assets/CocaCola40/plates/v2/";
@@ -232,6 +233,22 @@
     });
   }
 
+  /** Ambient pulse on `[data-decorative=ambient]` layers (finite repeat). Pass `gsap` from clip. */
+  function ambientDecorativePulse(gsapRef, tl, selector, opts) {
+    if (!tl || !gsapRef) return;
+    opts = opts || {};
+    const at = opts.at != null ? opts.at : 0.18;
+    const els = document.querySelectorAll(selector || "[data-decorative=ambient]");
+    if (!els.length) return;
+    const reps = Math.min(6, Math.max(2, opts.repeats != null ? opts.repeats : 4));
+    gsapRef.fromTo(
+      els,
+      { autoAlpha: 0.15 },
+      { autoAlpha: 0.62, yoyo: true, repeat: reps, duration: 0.75, ease: "sine.inOut", stagger: 0.07 },
+      at
+    );
+  }
+
   function sineBreathe(tl, el, D, opts) {
     opts = opts || {};
     const scaleAmp = opts.scaleAmp != null ? opts.scaleAmp : 0.012;
@@ -372,50 +389,6 @@
     scene.add(fill);
   }
 
-  function colaGlassMaterial() {
-    return new THREE.MeshStandardMaterial({
-      color: 0xff1a28,
-      metalness: 0.35,
-      roughness: 0.12,
-      transparent: true,
-      opacity: 0.92,
-      emissive: 0x4a0008,
-      emissiveIntensity: 0.35,
-    });
-  }
-
-  function createBottle() {
-    if (!global.THREE) return null;
-    const pts = [];
-    pts.push(new THREE.Vector2(0, 0));
-    pts.push(new THREE.Vector2(1.15, 0));
-    pts.push(new THREE.Vector2(1.28, 0.35));
-    pts.push(new THREE.Vector2(0.95, 0.85));
-    pts.push(new THREE.Vector2(0.72, 1.05));
-    pts.push(new THREE.Vector2(0.68, 1.35));
-    pts.push(new THREE.Vector2(0.82, 1.55));
-    pts.push(new THREE.Vector2(0.88, 1.75));
-    pts.push(new THREE.Vector2(0.78, 2.05));
-    pts.push(new THREE.Vector2(0.62, 2.45));
-    pts.push(new THREE.Vector2(0.58, 2.85));
-    pts.push(new THREE.Vector2(0.72, 3.15));
-    pts.push(new THREE.Vector2(0.95, 3.35));
-    pts.push(new THREE.Vector2(1.05, 3.55));
-    pts.push(new THREE.Vector2(1.02, 3.85));
-    pts.push(new THREE.Vector2(0.88, 4.15));
-    pts.push(new THREE.Vector2(0.75, 4.55));
-    pts.push(new THREE.Vector2(0.72, 5.05));
-    pts.push(new THREE.Vector2(0.78, 5.55));
-    pts.push(new THREE.Vector2(0.85, 6.05));
-    pts.push(new THREE.Vector2(0.82, 6.55));
-    pts.push(new THREE.Vector2(0.7, 7.05));
-    pts.push(new THREE.Vector2(0, 7.05));
-    const geo = new THREE.LatheGeometry(pts, 72);
-    const mesh = new THREE.Mesh(geo, colaGlassMaterial());
-    mesh.position.y = -3.2;
-    return mesh;
-  }
-
   function addReflectiveFloor(scene) {
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(30, 30),
@@ -453,6 +426,7 @@
     chromaticSplit,
     chromaticCollapse,
     velocityStreak,
+    ambientDecorativePulse,
     createMatteReveal,
     wireMatteReveal,
     sineBreathe,
@@ -465,7 +439,6 @@
     createRenderer,
     createScene,
     addColaLights,
-    createBottle,
     addReflectiveFloor,
     orbitBottle,
   };

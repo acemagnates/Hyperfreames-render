@@ -8,6 +8,6 @@
 
 **Act IV (clip 04):** Agent E — `bottle.glb` Three.js hero (unchanged in this pass).
 
-**Motion:** Varied easings (expo, back, elastic, power4), sine breathe on holds, solid `#0a0204` edges behind plates.
+**Motion:** Varied easings (expo, back, elastic, power4), sine breathe on holds, Shadow Cut base `#0e0c10` behind plates, `[data-decorative=ambient]` + `ambientDecorativePulse(gsap, …)` on z-light / z-fg stacks.
 
 See `PRODUCTION-PLAN-V2.md` and `TIMING.md` for wall clock and SFX pairing.

@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=1080, height=1920" />
   <title>CocaCola40 Clip 04 — Hero</title>
   <link rel="icon" href="data:," />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script src="compositions/_shared/coke-GLTFLoader-bundle.js"></script>
   <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
   <script src="compositions/CocaCola40/cocacola40-shared.js"></script>
   <script src="compositions/CocaCola40/cocacola40-three-hero.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:1080px;height:1920px;overflow:hidden;background:#0a0204}
-    #root{position:relative;width:1080px;height:1920px;overflow:hidden}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#0e0c10}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden;--accent-rgb:230,0,18}
+    .solid-bg{position:absolute;inset:0;background:#0e0c10;z-index:-1}
     .hero-comp{position:absolute;inset:0;z-index:0}
+    .hero-comp .z-light{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0.08;background:radial-gradient(ellipse 58% 48% at 50% 28%,rgba(255,220,200,0.22),transparent 58%)}
+    .hero-comp .z-fg{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:soft-light;opacity:0.05}
+    .hero-comp .z-fg span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.48em;color:rgba(237,230,223,0.16);position:absolute;left:44px;top:132px}
     #hero-plate{
       position:absolute;inset:-12%;
       width:124%;height:124%;
@@ -24,6 +30,7 @@
       transform-origin:50% 55%;
       will-change:transform;
       pointer-events:none;
+      z-index:0;
     }
     .hero-comp.is-fallback #hero-plate{opacity:1}
     .hero-comp.is-fallback #canvas3d{opacity:0;visibility:hidden}
@@ -48,14 +55,17 @@
       transform:translateY(-50%) rotate(-3deg);
       opacity:0;will-change:left,opacity;
     }
-    #vig{position:absolute;inset:0;z-index:4;background:radial-gradient(ellipse at center,transparent 22%,rgba(0,0,0,0.7) 100%);pointer-events:none}
+    #vig{position:absolute;inset:0;z-index:4;background:radial-gradient(ellipse at center,transparent 22%,rgba(0,0,0,0.72) 100%);pointer-events:none}
     #grain{position:absolute;inset:0;z-index:5;mix-blend-mode:overlay;opacity:0.2;pointer-events:none}
-    #cap{position:absolute;bottom:110px;width:100%;text-align:center;font-family:Georgia,serif;font-size:18px;letter-spacing:0.4em;color:rgba(255,210,190,0.65);z-index:6}
+    #cap{position:absolute;bottom:110px;width:100%;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:14px;letter-spacing:0.42em;color:rgba(220,235,255,0.72);z-index:6}
   </style>
 </head>
 <body>
   <div id="root" data-composition-id="CocaCola40-clip-04" data-start="0" data-duration="8" data-width="1080" data-height="1920" data-fps="30">
-    <div class="hero-comp grade-target clip" data-start="0" data-duration="8" data-track-index="0">
+    <div class="solid-bg clip" data-start="0" data-duration="8" data-track-index="0"></div>
+    <div class="hero-comp grade-target clip" data-start="0" data-duration="8" data-track-index="1">
+      <div class="z-light clip" data-decorative="ambient" data-start="0" data-duration="8" data-track-index="20"></div>
+      <div class="z-fg clip" data-decorative="ambient" data-start="0" data-duration="8" data-track-index="21"><span aria-hidden="true">HERO BUS</span></div>
       <img
         id="hero-plate"
         class="clip"
@@ -63,17 +73,17 @@
         alt=""
         data-start="0"
         data-duration="8"
-        data-track-index="1"
+        data-track-index="2"
       />
-      <canvas id="canvas3d" class="clip" data-start="0" data-duration="8" data-track-index="2" width="1080" height="1920"></canvas>
+      <canvas id="canvas3d" class="clip" data-start="0" data-duration="8" data-track-index="3" width="1080" height="1920"></canvas>
     </div>
     <div class="lens-flare-container">
       <div class="flare-core clip" data-start="0" data-duration="8" data-track-index="28"></div>
       <div class="flare-streak clip" data-start="0" data-duration="8" data-track-index="29"></div>
     </div>
-    <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="3"></div>
-    <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="4" width="540" height="960"></canvas>
-    <div id="cap" class="clip" data-start="0" data-duration="8" data-track-index="5">HERO GLASS</div>
+    <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="4"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="5" width="540" height="960"></canvas>
+    <div id="cap" class="clip" data-start="0" data-duration="8" data-track-index="6">HERO GLASS</div>
   </div>
   <script>
     window.__timelines = window.__timelines || {};
@@ -88,13 +98,15 @@
       }
 
       C.setAccentRgb(document.getElementById("root"));
+      C.registerEases(gsap);
       const tl = C.makeTimeline(CID);
+      C.ambientDecorativePulse(gsap, tl, "[data-decorative=ambient]", { at: 0.12 });
       const heroComp = document.querySelector(".hero-comp");
       const plate = document.getElementById("hero-plate");
       const canvas = document.getElementById("canvas3d");
 
-      gsap.set("#cap", { opacity: 0 });
-      tl.to("#cap", { opacity: 0.85, duration: 1, ease: "power2.out" }, 1.5);
+      gsap.set("#cap", { autoAlpha: 0, y: 10 });
+      tl.to("#cap", { autoAlpha: 1, y: 0, duration: 0.85, ease: "expo.out" }, 1.45);
 
       gsap.set("#hero-plate", { scale: 1.1, xPercent: -3, yPercent: 0 });
       tl.to("#hero-plate", { scale: 1.22, xPercent: 4, yPercent: -2, duration: D, ease: "none" }, 0.15);
@@ -102,7 +114,8 @@
       C.wireOpticalFlare(tl, ".flare-core", ".flare-streak", D, 0.3);
 
       const crush = C.applyCrushGrade(".grade-target");
-      C.wireCrushGrade(tl, crush, D, 0.1);
+      C.wireCrushGrade(tl, crush, D, 0.1, { duration: 2.0, ease: "power3.inOut" });
+      C.sineBreathe(tl, "#hero-plate", D, { delay: 1.4, scaleAmp: 0.012, scalePeriod: 2.6 });
 
       const g = document.getElementById("grain");
       if (g) C.initGrain(g, 0.2, 404);

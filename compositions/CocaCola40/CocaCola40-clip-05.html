@@ -3,31 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>CocaCola40 Clip 05 — Red World (V2)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet" />
+  <title>CocaCola40 Clip 05 — Red World</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
   <script src="compositions/_shared/gsap.min.js"></script>
   <script src="compositions/_shared/CustomEase.min.js"></script>
   <script src="compositions/CocaCola40/cocacola40-shared.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:1080px;height:1920px;overflow:hidden;background:#0a0204}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#0e0c10}
     #root{position:relative;width:1080px;height:1920px;overflow:hidden;--accent-rgb:230,0,18}
-    .solid-bg{position:absolute;inset:0;background:#0a0204;z-index:0}
+    .solid-bg{position:absolute;inset:0;background:#0e0c10;z-index:0}
     #rw{position:absolute;inset:0;overflow:hidden}
     .plate-ken{position:absolute;inset:-8%;will-change:transform}
     .bottle-photo{position:absolute;right:-24px;top:260px;width:min(520px,48vw);height:auto;max-height:980px;object-fit:contain;filter:drop-shadow(0 24px 80px rgba(0,0,0,0.55));z-index:3}
+    .z-light{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.07;background:radial-gradient(ellipse 70% 55% at 28% 22%,rgba(200,230,255,0.18),transparent 58%)}
+    .z-fg{position:absolute;inset:0;z-index:2;pointer-events:none;mix-blend-mode:overlay;opacity:0.05}
+    .z-fg span{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.5em;color:rgba(237,230,223,0.18);position:absolute;right:48px;top:148px}
     .type-block{position:absolute;left:56px;top:260px;z-index:10;max-width:620px}
-    .line1{font-family:'Oswald',sans-serif;font-size:68px;font-weight:700;color:#fff;letter-spacing:0.1em;line-height:1.08}
+    .line1{font-family:'Oswald',sans-serif;font-size:68px;font-weight:700;color:#ede6df;letter-spacing:0.1em;line-height:1.08}
     .line1 span{display:inline-block;margin-right:0.2em}
-    .moment-wrap{margin-top:20px;position:relative}
-    .type-panel{font-family:'Playfair Display',serif;font-style:italic;font-size:92px;font-weight:600;line-height:1;background:linear-gradient(135deg,#fff 0%,#f40009 45%,#8a0010 100%);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
-    .title-stack{position:relative;display:inline-block}
-    .title-stack .ch{position:absolute;left:0;top:0;font-family:'Playfair Display',serif;font-style:italic;font-size:92px;font-weight:600;line-height:1}
+    .moment-wrap{margin-top:24px;position:relative}
+    .type-panel{font-family:'Oswald',sans-serif;font-size:22px;font-weight:500;letter-spacing:0.55em;color:rgba(237,230,223,0.35);margin-bottom:8px}
+    .title-stack{position:relative;display:inline-block;min-height:1em}
+    .title-stack .ch{position:absolute;left:0;top:0;font-family:'Oswald',sans-serif;font-size:92px;font-weight:700;line-height:1}
     .ch-r{color:#ff2a2a;mix-blend-mode:screen;-webkit-text-fill-color:#ff2a2a;background:none}
     .ch-g{color:#2aff9a;mix-blend-mode:screen;opacity:0.75;-webkit-text-fill-color:#2aff9a;background:none}
-    .ch-b{position:relative;-webkit-text-fill-color:transparent;background:linear-gradient(135deg,#fff,#f40009);-webkit-background-clip:text;background-clip:text}
-    .red-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 90% 70% at 30% 80%,rgba(var(--accent-rgb),0.35),transparent 58%);mix-blend-mode:screen;opacity:0.5}
-    #vig{position:absolute;inset:0;z-index:15;background:radial-gradient(ellipse at center,transparent 16%,rgba(0,0,0,0.7) 100%);pointer-events:none}
+    .ch-b{position:relative;-webkit-text-fill-color:transparent;background:linear-gradient(135deg,#fff 0%,#f40009 48%,#6a0010 100%);background-size:200% 200%;-webkit-background-clip:text;background-clip:text}
+    .red-veil{position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 90% 70% at 30% 80%,rgba(var(--accent-rgb),0.32),transparent 58%);mix-blend-mode:screen;opacity:0.48}
+    #vig{position:absolute;inset:0;z-index:15;background:radial-gradient(ellipse at center,transparent 16%,rgba(0,0,0,0.72) 100%);pointer-events:none}
     #grain{position:absolute;inset:0;z-index:20;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
   </style>
 </head>
@@ -38,11 +41,13 @@
       <div class="plate-ken grade-target clip" data-start="0" data-duration="8" data-track-index="2" id="kb">
         <img class="bottle-photo clip" data-start="0" data-duration="8" data-track-index="3" id="bottle" src="../../assets/CocaCola40/plates/v2/05-bottle-windowsill-product.jpg" alt="Coca-Cola contour bottle" />
       </div>
+      <div class="z-light clip" data-decorative="ambient" data-start="0" data-duration="8" data-track-index="30"></div>
+      <div class="z-fg clip" data-decorative="ambient" data-start="0" data-duration="8" data-track-index="31"><span aria-hidden="true">RED INDEX</span></div>
       <div class="red-veil clip" data-start="0" data-duration="8" data-track-index="4"></div>
       <div class="type-block clip" data-start="0" data-duration="8" data-track-index="5">
         <div class="line1 clip" data-start="0" data-duration="8" data-track-index="6" id="l1"><span>TASTE</span> <span>THE</span></div>
         <div class="moment-wrap clip" data-start="0" data-duration="8" data-track-index="7">
-          <div class="type-panel clip" data-start="0" data-duration="8" data-track-index="8" id="shim-panel">MOMENT</div>
+          <div class="type-panel clip" data-start="0" data-duration="8" data-track-index="8" id="shim-label">CHAPTER</div>
           <h2 class="title-stack clip" data-start="0" data-duration="8" data-track-index="9" id="moment-stack">
             <span class="ch ch-r" aria-hidden="true">MOMENT</span>
             <span class="ch ch-g" aria-hidden="true">MOMENT</span>
@@ -55,41 +60,56 @@
     <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="11" width="540" height="960"></canvas>
   </div>
   <script>
-    window.__timelines=window.__timelines||{};
-    function init05(){
-      const CID="CocaCola40-clip-05",D=8,C=window.CocaCola40;
-      if(!C)return;
+    window.__timelines = window.__timelines || {};
+    function init05() {
+      const CID = "CocaCola40-clip-05";
+      const D = 8;
+      const C = window.CocaCola40;
+      if (!C) return;
       C.setAccentRgb(document.getElementById("root"));
       C.registerEases(gsap);
-      const tl=C.makeTimeline(CID);
-      const crush=C.applyCrushGrade(document.getElementById("kb"));
-      C.wireCrushGrade(tl,crush,D,0.2);
-      gsap.set(".line1 span",{opacity:0,y:72,rotateX:36});
-      gsap.set("#moment-stack",{opacity:0});
-      gsap.set("#shim-panel",{opacity:0});
-      gsap.set("#bottle",{opacity:0,x:100,scale:0.92});
-      gsap.set("#kb",{scale:1.06});
-      tl.to(".line1 span",{opacity:1,y:0,rotateX:0,duration:0.8,stagger:0.14,ease:"power4.out"},0.35);
-      tl.to("#bottle",{opacity:1,x:0,scale:1,duration:1.35,ease:"expo.out"},0.5);
-      tl.to("#moment-stack",{opacity:1,duration:0.01},1.05);
-      C.chromaticSplit(document.getElementById("moment-stack"),tl,1.08);
-      tl.fromTo("#moment-stack .ch-b",{scale:0.55},{scale:1,duration:0.85,ease:"elastic.out(0.7,0.35)"},1.1);
-      tl.to("#shim-panel",{opacity:0.35,duration:0.6,ease:"sine.inOut"},1.2);
-      const shim={phase:0};
-      const panel=document.getElementById("shim-panel");
-      tl.to(shim,{phase:Math.PI*5,duration:D,ease:"none",onUpdate:function(){
-        const x=Math.sin(shim.phase)*14;
-        const y=Math.cos(shim.phase*0.7)*10;
-        panel.style.backgroundPosition=(50+x)+"% "+(50+y)+"%";
-      }},0.55);
-      C.sineBreathe(tl,"#bottle",D,{delay:2.4,scaleAmp:0.01,yAmp:8});
-      tl.to("#kb",{scale:1.02,duration:5,ease:"sine.inOut"},1);
-      tl.to("#rw",{y:-16,duration:4.5,ease:"sine.inOut"},2.5);
-      tl.to(".type-block",{scale:1.03,duration:0.35,ease:"back.out(1.4)"},0.35);
-      const g=document.getElementById("grain");
-      if(g)C.initGrain(g,0.2,405);
+      const tl = C.makeTimeline(CID);
+      C.ambientDecorativePulse(gsap, tl, "[data-decorative=ambient]", { at: 0.16 });
+      const crush = C.applyCrushGrade(document.getElementById("kb"));
+      C.wireCrushGrade(tl, crush, D, 0.2, { duration: 2.0, ease: "power3.inOut" });
+      gsap.set(".line1 span", { autoAlpha: 0, y: 72, rotateX: 36 });
+      gsap.set("#moment-stack", { autoAlpha: 0 });
+      gsap.set("#shim-label", { autoAlpha: 0, letterSpacing: "0.8em" });
+      gsap.set("#bottle", { autoAlpha: 0, x: 100, scale: 0.92 });
+      gsap.set("#kb", { scale: 1.06 });
+      tl.to(".line1 span", { autoAlpha: 1, y: 0, rotateX: 0, duration: 0.8, stagger: 0.14, ease: "power4.out" }, 0.35);
+      tl.to("#bottle", { autoAlpha: 1, x: 0, scale: 1, duration: 1.35, ease: "expo.out" }, 0.5);
+      tl.to("#moment-stack", { autoAlpha: 1, duration: 0.01 }, 1.05);
+      C.chromaticSplit(document.getElementById("moment-stack"), tl, 1.08);
+      tl.fromTo("#moment-stack .ch-b", { scale: 0.55 }, { scale: 1, duration: 0.85, ease: "elastic.out(0.7,0.35)" }, 1.1);
+      tl.to("#shim-label", { autoAlpha: 1, letterSpacing: "0.55em", duration: 0.55, ease: "expo.out" }, 0.95);
+      const shim = { phase: 0 };
+      const chB = document.querySelector("#moment-stack .ch-b");
+      tl.to(
+        shim,
+        {
+          phase: Math.PI * 5,
+          duration: D,
+          ease: "none",
+          onUpdate: function () {
+            if (!chB) return;
+            const x = Math.sin(shim.phase) * 14;
+            const y = Math.cos(shim.phase * 0.7) * 10;
+            chB.style.backgroundPosition = 50 + x + "% " + (50 + y) + "%";
+          },
+        },
+        0.55
+      );
+      C.sineBreathe(tl, "#bottle", D, { delay: 2.4, scaleAmp: 0.01, yAmp: 8 });
+      tl.to("#kb", { scale: 1.02, duration: 5, ease: "sine.inOut" }, 1);
+      tl.to("#rw", { y: -16, duration: 4.5, ease: "sine.inOut" }, 2.5);
+      tl.to(".type-block", { scale: 1.03, duration: 0.35, ease: "back.out(1.4)" }, 0.35);
+      tl.to(".red-veil", { opacity: 0.58, duration: 1.2, ease: "sine.inOut" }, 3.2);
+      tl.to(".red-veil", { opacity: 0.42, duration: 1.4, ease: "sine.inOut" }, 5.0);
+      const g = document.getElementById("grain");
+      if (g) C.initGrain(g, 0.2, 405);
     }
-    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init05);
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init05);
     else init05();
   </script>
 </body>

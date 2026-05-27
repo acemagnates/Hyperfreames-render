@@ -3,92 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>CocaCola40 Clip 01 — Void (V2)</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <title>CocaCola40 Clip 01 — Prelude</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
   <script src="compositions/_shared/gsap.min.js"></script>
   <script src="compositions/_shared/CustomEase.min.js"></script>
   <script src="compositions/CocaCola40/cocacola40-shared.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:1080px;height:1920px;overflow:hidden;background:#0a0204}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#0e0c10}
     #root{position:relative;width:1080px;height:1920px;overflow:hidden;--accent-rgb:230,0,18}
-    .solid-bg{position:absolute;inset:0;background:#0a0204;z-index:0}
+    .solid-bg{position:absolute;inset:0;background:#0e0c10;z-index:0}
+    .depth-stage{position:absolute;inset:0;perspective:1200px;transform-style:preserve-3d}
     .plate-stage{position:absolute;inset:0;overflow:hidden}
     .kenburns{position:absolute;inset:-12%;will-change:transform}
     .plate-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .plate-grad{z-index:1;opacity:0.55;mix-blend-mode:multiply}
-    .plate-bokeh{z-index:2}
-    .plate-bokeh-alt{position:absolute;inset:0;z-index:3;opacity:0;mix-blend-mode:screen;object-fit:cover;width:100%;height:100%}
-    .grade-target{position:absolute;inset:0}
-    .leak-layer{position:absolute;inset:-20%;z-index:90;pointer-events:none;mix-blend-mode:screen;opacity:0;background:linear-gradient(118deg,transparent 30%,rgba(var(--accent-rgb),0.55) 48%,rgba(255,180,80,0.35) 52%,transparent 70%);transform:translateX(-40%) rotate(-8deg)}
-    .lens-flare-wrap{position:absolute;inset:0;z-index:28;pointer-events:none;mix-blend-mode:screen;overflow:hidden}
-    .flare-core{position:absolute;width:18%;height:18%;top:38%;border-radius:50%;background:radial-gradient(circle,rgba(255,220,200,0.9),transparent 70%);opacity:0}
-    .flare-streak{position:absolute;width:250%;height:6px;left:-75%;top:42%;background:linear-gradient(90deg,transparent 0%,rgba(var(--accent-rgb),0.05) 20%,rgba(var(--accent-rgb),0.75) 50%,rgba(var(--accent-rgb),0.05) 80%,transparent 100%);transform:translateY(-50%) rotate(-3deg);opacity:0}
-    .z-mg{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:center;align-items:center}
-    .whisper{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:42px;color:rgba(255,220,210,0.55);letter-spacing:0.12em}
-    .title-stack{position:relative;margin-top:24px;text-align:center}
-    .title-stack .ch{position:absolute;left:0;right:0;font-family:'Oswald',sans-serif;font-size:148px;font-weight:700;letter-spacing:0.28em;line-height:1}
-    .ch-r{color:#ff2a2a;mix-blend-mode:screen;transform:translate(-3px,0)}
-    .ch-g{color:#2aff9a;mix-blend-mode:screen;transform:translate(2px,1px);opacity:0.7}
-    .ch-b{color:#fff;position:relative;text-shadow:0 0 80px rgba(244,0,9,0.5)}
-    #vig{position:absolute;inset:0;z-index:80;background:radial-gradient(ellipse at center,transparent 22%,rgba(0,0,0,0.72) 100%);pointer-events:none}
-    #grain{position:absolute;inset:0;z-index:95;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
+    .z-light{position:absolute;inset:-4%;z-index:3;pointer-events:none;opacity:0.1;background:radial-gradient(ellipse 70% 55% at 65% 22%,rgba(var(--accent-rgb),0.45),transparent 60%)}
+    .z-fg{position:absolute;inset:0;z-index:4;pointer-events:none;mix-blend-mode:soft-light;opacity:0.06}
+    .ghost-kern{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.55em;color:rgba(237,230,223,0.2);position:absolute;left:48px;top:120px}
+    .leak-layer{position:absolute;inset:-18%;z-index:12;pointer-events:none;mix-blend-mode:screen;opacity:0;background:linear-gradient(118deg,transparent 28%,rgba(var(--accent-rgb),0.5) 48%,rgba(255,190,120,0.28) 52%,transparent 72%);transform:translateX(-42%) rotate(-7deg)}
+    .z-mg{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;justify-content:center;align-items:center}
+    .whisper{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.42em;color:rgba(237,230,223,0.45);text-transform:uppercase}
+    .title-stack{position:relative;margin-top:28px;text-align:center}
+    .title-stack .ch{position:absolute;left:0;right:0;font-family:'Oswald',sans-serif;font-size:132px;font-weight:700;letter-spacing:0.26em;line-height:1}
+    .ch-r{color:#ff2a2a;mix-blend-mode:screen;transform:translate(-4px,0)}
+    .ch-g{color:#2aff9a;mix-blend-mode:screen;transform:translate(3px,1px);opacity:0.72}
+    .ch-b{color:#ede6df;position:relative;text-shadow:0 0 72px rgba(230,0,18,0.45)}
+    #vig{position:absolute;inset:0;z-index:80;background:radial-gradient(ellipse at center,transparent 20%,rgba(0,0,0,0.76) 100%);pointer-events:none}
+    #grain{position:absolute;inset:0;z-index:90;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
   </style>
 </head>
 <body>
   <div id="root" data-composition-id="CocaCola40-clip-01" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
     <div class="solid-bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
-    <div id="stage" class="plate-stage clip" data-start="0" data-duration="5" data-track-index="1">
-      <div class="kenburns grade-target clip" data-start="0" data-duration="5" data-track-index="2" id="kb">
-        <img class="plate-img plate-grad clip" data-start="0" data-duration="5" data-track-index="3" id="img-grad" src="../../assets/CocaCola40/plates/v2/01c-dark-red-gradient.jpeg" alt="" />
-        <img class="plate-img plate-bokeh clip" data-start="0" data-duration="5" data-track-index="4" id="img-bokeh" src="../../assets/CocaCola40/plates/v2/01-red-bokeh-atmosphere.jpeg" alt="" />
-        <img class="plate-bokeh-alt clip" data-start="0" data-duration="5" data-track-index="5" id="img-bokeh-alt" src="../../assets/CocaCola40/plates/v2/01b-red-orange-bokeh.jpeg" alt="" />
+    <div class="depth-stage clip" data-start="0" data-duration="5" data-track-index="1">
+      <div class="plate-stage clip" data-start="0" data-duration="5" data-track-index="2">
+        <div class="kenburns grade-target clip" data-start="0" data-duration="5" data-track-index="3" id="kb">
+          <img class="plate-img clip" data-start="0" data-duration="5" data-track-index="4" id="img-a" src="../../assets/CocaCola40/plates/v2/01c-dark-red-gradient.jpeg" alt="" />
+          <img class="plate-img clip" data-start="0" data-duration="5" data-track-index="5" id="img-b" src="../../assets/CocaCola40/plates/v2/01-red-bokeh-atmosphere.jpeg" alt="" />
+        </div>
+        <div class="z-light clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="6"></div>
+        <div class="z-fg clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="7"><div class="ghost-kern" aria-hidden="true">SHADOW CUT · 01</div></div>
       </div>
-    </div>
-    <div class="leak-layer clip" data-start="0" data-duration="5" data-track-index="90" id="leak"></div>
-    <div class="lens-flare-wrap clip" data-start="0" data-duration="5" data-track-index="28">
-      <div class="flare-core clip" data-start="0" data-duration="5" data-track-index="29" id="flare-core"></div>
-      <div class="flare-streak clip" data-start="0" data-duration="5" data-track-index="30" id="flare-streak"></div>
-    </div>
-    <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="40">
-      <div class="whisper clip" data-start="0" data-duration="5" data-track-index="41">something cold is coming</div>
-      <h1 class="title-stack clip" data-start="0" data-duration="5" data-track-index="42" id="cold-stack">
-        <span class="ch ch-r" aria-hidden="true">COLD</span>
-        <span class="ch ch-g" aria-hidden="true">COLD</span>
-        <span class="ch ch-b">COLD</span>
-      </h1>
+      <div class="leak-layer clip" data-start="0" data-duration="5" data-track-index="8" id="leak"></div>
+      <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="9">
+        <div class="whisper clip" data-start="0" data-duration="5" data-track-index="10">something cold is coming</div>
+        <h1 class="title-stack clip" data-start="0" data-duration="5" data-track-index="11" id="cold-stack">
+          <span class="ch ch-r" aria-hidden="true">COLD</span>
+          <span class="ch ch-g" aria-hidden="true">COLD</span>
+          <span class="ch ch-b">COLD</span>
+        </h1>
+      </div>
     </div>
     <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="80"></div>
     <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="91" width="540" height="960"></canvas>
   </div>
   <script>
-    window.__timelines=window.__timelines||{};
-    function init01(){
-      const CID="CocaCola40-clip-01",D=5,C=window.CocaCola40;
-      if(!C)return;
-      const root=document.getElementById("root");
-      C.setAccentRgb(root);
+    window.__timelines = window.__timelines || {};
+    function init01() {
+      var CID = "CocaCola40-clip-01", D = 5, C = window.CocaCola40;
+      if (!C) return;
+      C.setAccentRgb(document.getElementById("root"));
       C.registerEases(gsap);
-      const tl=C.makeTimeline(CID);
-      const crush=C.applyCrushGrade(document.getElementById("kb"));
-      C.wireCrushGrade(tl,crush,D,0.1);
-      C.lightLeakSweep(document.getElementById("leak"),tl,0.15);
-      C.wireOpticalFlare(tl,"#flare-core","#flare-streak",D,0.35);
-      gsap.set(".whisper",{opacity:0,y:24});
-      gsap.set(".ch-r,.ch-g",{opacity:0});
-      gsap.set(".ch-b",{opacity:0,scale:1.12});
-      gsap.set("#kb",{scale:1.12});
-      tl.to(".whisper",{opacity:1,y:0,duration:1.15,ease:"expo.out"},0.4);
-      C.chromaticSplit(document.getElementById("cold-stack"),tl,0.55);
-      tl.to("#img-bokeh-alt",{opacity:0.42,duration:2.4,ease:"sine.inOut"},0.5);
-      tl.to("#kb",{scale:1.06,duration:3.8,ease:"sine.inOut"},0.35);
-      C.sineBreathe(tl,"#kb",D,{delay:1.6,scaleAmp:0.008,yAmp:4});
-      tl.to("#stage",{scale:1.05,y:-12,duration:0.75,ease:"expo.in"},4.15);
-      tl.to(".z-mg",{opacity:0,duration:0.5,ease:"power4.in"},4.35);
-      const g=document.getElementById("grain");
-      if(g)C.initGrain(g,0.2,401);
+      var tl = C.makeTimeline(CID);
+      C.ambientDecorativePulse(gsap, tl, "[data-decorative=ambient]", { at: 0.16 });
+      var crush = C.applyCrushGrade(document.getElementById("kb"));
+      C.wireCrushGrade(tl, crush, D, 0.12, { duration: 2.0, ease: "power3.inOut" });
+      gsap.set("#kb", { scale: 1.12 });
+      tl.to("#kb", { scale: 1.04, duration: D - 0.35, ease: "sine.inOut" }, 0.2);
+      C.lightLeakSweep(document.getElementById("leak"), tl, 0.35);
+      C.chromaticSplit(document.getElementById("cold-stack"), tl, 0.55);
+      gsap.set(".whisper", { autoAlpha: 0, y: 14 });
+      tl.to(".whisper", { autoAlpha: 1, y: 0, duration: 0.55, ease: "expo.out" }, 0.22);
+      tl.fromTo(".ch-b", { autoAlpha: 0, scale: 0.88 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: "expo.out" }, 0.75);
+      C.sineBreathe(tl, "#kb", D, { delay: 1.6, scaleAmp: 0.008, yAmp: 4, scalePeriod: 2.4 });
+      var g = document.getElementById("grain");
+      if (g) C.initGrain(g, 0.2, 501);
     }
-    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init01);
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init01);
     else init01();
   </script>
 </body>
