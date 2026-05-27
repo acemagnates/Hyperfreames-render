@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>BorrowedLight38 Clip 04 — TRADE</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/_shared/motion-engine-utils.js"></script>
+  <script src="compositions/BorrowedLight38/borrowedlight38-shared.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #121816; }
+    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; --accent-rgb: 212, 180, 131; }
+    .solid-bg { position: absolute; inset: 0; background: #121816; z-index: 0; }
+    .depth-stage {
+      position: absolute; inset: 0; z-index: 1;
+      perspective: 1100px; perspective-origin: 50% 44%;
+      transform-style: preserve-3d;
+    }
+    #cam.camera-rig {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d; transform-origin: 50% 44%;
+    }
+    .plate-stage { position: absolute; inset: 0; z-index: 1; }
+    .plate { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.4; }
+    .z-bg {
+      position: absolute; inset: -8%;
+      transform: translateZ(-300px) scale(1.55);
+      transform-style: preserve-3d; z-index: 1;
+    }
+    .z-light {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.12;
+      background: radial-gradient(ellipse 50% 40% at 68% 42%, rgba(212, 180, 131, 0.5), transparent 58%);
+    }
+    .z-mg {
+      position: absolute; inset: 0; z-index: 3;
+      transform: translateZ(0); transform-style: preserve-3d;
+    }
+    .gate-pivot {
+      position: absolute; left: 620px; top: 720px;
+      width: 8px; height: 8px; transform: translate(-50%, -50%);
+    }
+    .gate-arm {
+      position: absolute; left: 0; top: 0;
+      width: 220px; height: 14px; margin-top: -7px;
+      transform-origin: 0% 50%;
+      background: linear-gradient(90deg, rgba(230, 223, 210, 0.15), rgba(230, 223, 210, 0.75));
+      border-radius: 2px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+    }
+    .gate-arm::after {
+      content: "";
+      position: absolute; right: -6px; top: 50%;
+      width: 12px; height: 12px; margin-top: -6px;
+      border-radius: 50%;
+      background: #D4B483;
+      box-shadow: 0 0 12px rgba(212, 180, 131, 0.6);
+    }
+    .trade-rail {
+      position: absolute; left: 120px; top: 900px;
+      width: 840px; height: 4px;
+      background: linear-gradient(90deg, transparent, rgba(230, 223, 210, 0.35), transparent);
+      transform: rotate(-4deg);
+    }
+    .sub-card {
+      position: absolute; left: 56px; right: 56px; bottom: 168px;
+      padding: 22px 28px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 15px; line-height: 1.45; letter-spacing: 0.06em;
+      color: #E6DFD2;
+      background: rgba(18, 24, 22, 0.82);
+      border-left: 3px solid #D4B483;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+    .z-fg-decor {
+      position: absolute; inset: 0; z-index: 4;
+      transform: translateZ(72px); transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .diag-cap {
+      position: absolute; right: 56px; top: 120px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px; letter-spacing: 0.32em; color: rgba(230, 223, 210, 0.4);
+    }
+    #vig {
+      position: absolute; inset: 0; z-index: 80; pointer-events: none;
+      background: radial-gradient(ellipse 82% 72% at 50% 42%, transparent 26%, rgba(18, 24, 22, 0.9) 100%);
+    }
+    #grain {
+      position: absolute; inset: 0; z-index: 90; width: 100%; height: 100%;
+      opacity: 0.18; mix-blend-mode: overlay; pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="BorrowedLight38-clip-04" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <div class="solid-bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
+    <div class="depth-stage clip" data-start="0" data-duration="5" data-track-index="1">
+      <div class="plate-stage clip" data-start="0" data-duration="5" data-track-index="2">
+        <img class="plate grade-target" src="assets/BorrowedLight38/plates/depot-iso.jpg" alt="" width="1080" height="1920" />
+      </div>
+      <div id="cam" class="camera-rig clip" data-start="0" data-duration="5" data-track-index="3">
+        <div class="z-bg clip" data-start="0" data-duration="5" data-track-index="4"></div>
+        <div class="z-light clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="5"></div>
+        <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="6" id="mg-stage">
+          <div class="trade-rail clip" data-start="0" data-duration="5" data-track-index="7" aria-hidden="true"></div>
+          <div class="gate-pivot clip" data-start="0" data-duration="5" data-track-index="8" id="gate-pivot">
+            <div class="gate-arm clip" data-start="0" data-duration="5" data-track-index="9" id="gate-arm"></div>
+          </div>
+        </div>
+        <div class="z-fg-decor clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="10">
+          <div class="diag-cap">DEPOT · GATE</div>
+        </div>
+      </div>
+    </div>
+    <div class="sub-card clip" data-start="0" data-duration="5" data-track-index="70" id="sub">Midline's closed after dusk.</div>
+    <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="80"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="91" width="540" height="960"></canvas>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    function initClip04() {
+      const CID = "BorrowedLight38-clip-04";
+      const D = 5;
+      const ME = window.MotionEngine;
+      const BL = window.BorrowedLight38;
+      if (!ME || !BL) return;
+
+      const mg = document.getElementById("mg-stage");
+      const holtStamp = BL.silhouette("holt", "stamp", { x: 820, y: 920, w: 110, h: 150, start: 0, duration: D, trackIndex: 12, className: "holt-stamp" });
+      const holtNod = BL.silhouette("holt", "nod", { x: 820, y: 920, w: 110, h: 150, start: 0, duration: D, trackIndex: 13, className: "holt-nod" });
+      const lantern = BL.lantern({ x: 900, y: 900, w: 72, h: 96, start: 0, duration: D, trackIndex: 14, className: "trade-lantern" });
+      if (mg) {
+        if (lantern) mg.appendChild(lantern);
+        if (holtStamp) mg.appendChild(holtStamp);
+        if (holtNod) {
+          holtNod.style.opacity = "0";
+          mg.appendChild(holtNod);
+        }
+      }
+
+      BL.registerEases(gsap);
+      ME.registerEases(gsap);
+      const tl = ME.makeTimeline(CID);
+      const crush = ME.applyCrushGrade(document.querySelector(".grade-target"));
+
+      ME.initGrain(document.getElementById("grain"), 0.18, 3804);
+      ME.wireCrushGrade(tl, crush, D, 0.1);
+      ME.ambientDecorativePulse(tl, "[data-decorative=ambient]", D, { at: 0.16, repeats: 4 });
+      BL.wireCamera(tl, "#cam", D);
+
+      gsap.set(".holt-stamp", { scale: 1.28, y: "-=36", transformOrigin: "50% 100%" });
+      gsap.set(".holt-nod", { autoAlpha: 0 });
+      gsap.set("#gate-arm", { rotation: -78, transformOrigin: "0% 50%" });
+      gsap.set("#sub", { autoAlpha: 0, y: 24 });
+      gsap.set(".trade-lantern", { left: 900 });
+
+      tl.to(".holt-stamp", { scale: 1, y: "+=36", duration: 0.2, ease: "meSlam" }, 0.2);
+      tl.to("#gate-arm", { rotation: 6, duration: 0.5, ease: "power2.inOut" }, 0.35);
+      tl.to(".trade-lantern", { left: 520, duration: 0.75, ease: "expo.out" }, 0.5);
+
+      tl.to(".holt-stamp", { autoAlpha: 0, duration: 0.15, ease: "power2.in" }, 1.05);
+      tl.to(".holt-nod", { autoAlpha: 1, duration: 0.2, ease: "power2.out" }, 1.12);
+      tl.to(".holt-nod", { rotation: 4, duration: 0.28, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.2);
+
+      tl.to("#sub", { autoAlpha: 1, y: 0, duration: 0.55, ease: "power2.out" }, 2.0);
+
+      ME.sineBreathe(tl, ".plate-stage", D, { delay: 1.6, scalePeriod: 2.5, scaleAmp: 0.007 });
+      ME.sineBreathe(tl, ".trade-lantern", D, { delay: 1.8, scalePeriod: 2.3, scaleAmp: 0.012 });
+      ME.sineBreathe(tl, "#cam", D, { delay: 2.2, scalePeriod: 2.8, scaleAmp: 0.006 });
+
+      tl.seek(0);
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip04);
+    else initClip04();
+  </script>
+</body>
+</html>

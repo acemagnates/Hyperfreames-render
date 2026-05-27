@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>BorrowedLight38 Clip 08 — RIDGE PLANT REVEAL</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/_shared/motion-engine-utils.js"></script>
+  <script src="compositions/BorrowedLight38/borrowedlight38-shared.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #121816; }
+    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+    .solid-bg { position: absolute; inset: 0; background: #121816; z-index: 0; }
+    .depth-stage {
+      position: absolute; inset: 0; z-index: 1;
+      perspective: 1100px; perspective-origin: 50% 46%;
+      transform-style: preserve-3d;
+    }
+    #cam.camera-rig {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d; transform-origin: 50% 46%;
+    }
+    .plate-stage { position: absolute; inset: 0; z-index: 1; }
+    .plate { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.9; }
+    .z-bg {
+      position: absolute; inset: -6%;
+      transform: translateZ(-260px) scale(1.48);
+      transform-style: preserve-3d; z-index: 1;
+      background: radial-gradient(ellipse 60% 40% at 50% 72%, rgba(107, 196, 138, 0.12), transparent 62%);
+    }
+    .z-mg {
+      position: absolute; inset: 0; z-index: 2;
+      transform: translateZ(0); transform-style: preserve-3d;
+    }
+    .soil-grid {
+      position: absolute; left: 50%; top: 52%;
+      width: 520px; height: 360px;
+      transform: translate(-50%, -50%);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 6px;
+      padding: 8px;
+      border: 2px solid rgba(42, 51, 46, 0.85);
+      background: rgba(18, 24, 22, 0.55);
+    }
+    .soil-cell {
+      border: 1px solid rgba(230, 223, 210, 0.12);
+      background: linear-gradient(165deg, #2A332E 0%, #1a211e 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .soil-cell.hero-cell {
+      border-color: rgba(212, 180, 131, 0.45);
+      box-shadow: inset 0 0 24px rgba(107, 196, 138, 0.15);
+    }
+    .sprout-line {
+      position: absolute; left: 50%; bottom: 18%;
+      width: 6px; height: 72%;
+      margin-left: -3px;
+      transform-origin: 50% 100%;
+      transform: scaleY(0);
+      background: linear-gradient(0deg, #3d5c42, #6BC48A 55%, #a8e8b8);
+      border-radius: 3px;
+      box-shadow: 0 0 18px rgba(107, 196, 138, 0.55);
+    }
+    .sprout-glow {
+      position: absolute; left: 50%; bottom: 22%;
+      width: 48px; height: 48px; margin-left: -24px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(107, 196, 138, 0.5), transparent 70%);
+      opacity: 0;
+    }
+    #kest-plant-host, #kest-horizon-host {
+      position: absolute; left: 540px; top: 1180px;
+      transform: translate(-50%, -100%);
+    }
+    .subtitle {
+      position: absolute; left: 56px; right: 56px; bottom: 520px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 28px; font-weight: 600; line-height: 1.45;
+      letter-spacing: 0.06em; color: #E6DFD2;
+      text-shadow: 0 4px 28px rgba(0, 0, 0, 0.65);
+    }
+    .end-card {
+      position: absolute; inset: 0; z-index: 12;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: radial-gradient(ellipse 80% 60% at 50% 44%, rgba(18, 24, 22, 0.72), rgba(18, 24, 22, 0.96));
+      opacity: 0; pointer-events: none;
+    }
+    .end-title {
+      font-family: Oswald, sans-serif;
+      font-size: 96px; font-weight: 700;
+      letter-spacing: 0.14em; color: #E6DFD2;
+      text-align: center;
+    }
+    .end-tag {
+      margin-top: 28px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 15px; letter-spacing: 0.28em;
+      color: #D4B483; text-align: center; max-width: 720px; line-height: 1.6;
+    }
+    .map-inset {
+      position: absolute; right: 48px; bottom: 120px;
+      width: 280px; height: 400px;
+      border: 2px solid rgba(230, 223, 210, 0.35);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+      overflow: hidden;
+      background: #121816;
+      transform: translateZ(48px);
+    }
+    .map-inset .inset-plate {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.55;
+    }
+    .map-inset-svg {
+      position: absolute; inset: 0; width: 280px; height: 400px;
+    }
+    .inset-route {
+      fill: none; stroke: #E8A838; stroke-width: 5;
+      stroke-linecap: round;
+    }
+    .inset-node {
+      fill: #121816; stroke: #E8A838; stroke-width: 3;
+    }
+    .inset-node-label {
+      fill: #E6DFD2; font-family: "IBM Plex Mono", monospace;
+      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+      text-anchor: middle;
+    }
+    .z-fg-decor {
+      position: absolute; inset: 0; z-index: 3;
+      transform: translateZ(64px); pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="BorrowedLight38-clip-08" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <div class="solid-bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
+    <div class="depth-stage clip" data-start="0" data-duration="5" data-track-index="1">
+      <div class="plate-stage clip" data-start="0" data-duration="5" data-track-index="2">
+        <img class="plate grade-target" src="assets/BorrowedLight38/plates/ridge-terrace.jpg" alt="" width="1080" height="1920" />
+      </div>
+      <div id="cam" class="camera-rig clip" data-start="0" data-duration="5" data-track-index="3">
+        <div class="z-bg clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="4"></div>
+        <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="5">
+          <div class="soil-grid clip" data-start="0" data-duration="5" data-track-index="6" id="soil-grid">
+            <div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div>
+            <div class="soil-cell"></div><div class="soil-cell"></div>
+            <div class="soil-cell hero-cell clip" data-start="0" data-duration="5" data-track-index="7">
+              <div class="sprout-glow clip" data-start="0" data-duration="5" data-track-index="8"></div>
+              <div class="sprout-line clip" data-start="0" data-duration="5" data-track-index="9"></div>
+            </div>
+            <div class="soil-cell"></div><div class="soil-cell"></div>
+            <div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div>
+            <div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div><div class="soil-cell"></div>
+          </div>
+          <div id="kest-plant-host"></div>
+          <div id="kest-horizon-host"></div>
+          <p class="subtitle clip" data-start="0" data-duration="5" data-track-index="10">Light borrowed. Light returned.</p>
+        </div>
+        <div class="z-fg-decor clip" data-start="0" data-duration="5" data-track-index="11">
+          <div class="map-inset clip" data-start="0" data-duration="5" data-track-index="12">
+            <img class="inset-plate" src="assets/BorrowedLight38/plates/map-intro.jpg" alt="" width="280" height="400" />
+            <svg class="map-inset-svg clip" data-start="0" data-duration="5" data-track-index="13" viewBox="0 0 280 400" aria-hidden="true">
+              <path id="inset-route" class="inset-route" d="M 72 308 C 108 268, 132 228, 148 188 S 172 128, 208 88" />
+              <g class="inset-node-g">
+                <circle class="inset-node" cx="72" cy="308" r="14" />
+                <text class="inset-node-label" x="72" y="332">DEPOT</text>
+              </g>
+              <g class="inset-node-g">
+                <circle class="inset-node" cx="148" cy="188" r="14" />
+                <text class="inset-node-label" x="148" y="212">HUB</text>
+              </g>
+              <g class="inset-node-g">
+                <circle class="inset-node" cx="208" cy="88" r="14" />
+                <text class="inset-node-label" x="208" y="112">RIDGE</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="end-card clip" data-start="0" data-duration="5" data-track-index="70">
+      <h1 class="end-title clip" data-start="0" data-duration="5" data-track-index="71">BORROWED LIGHT</h1>
+      <p class="end-tag clip" data-start="0" data-duration="5" data-track-index="72">One lantern. Three stops. The ridge remembers.</p>
+    </div>
+    <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="80"
+      style="position:absolute;inset:0;z-index:80;pointer-events:none;background:radial-gradient(ellipse 75% 70% at 50% 48%,transparent 26%,rgba(18,24,22,0.88) 100%)"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="91" width="540" height="960"
+      style="position:absolute;inset:0;z-index:90;width:100%;height:100%;opacity:0.18;mix-blend-mode:overlay;pointer-events:none"></canvas>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    function initClip08() {
+      const CID = "BorrowedLight38-clip-08";
+      const D = 5;
+      const ME = window.MotionEngine;
+      const BL = window.BorrowedLight38;
+      if (!ME || !BL) return;
+
+      BL.registerEases(gsap);
+      ME.registerEases(gsap);
+      const tl = ME.makeTimeline(CID);
+      const crush = ME.applyCrushGrade(document.querySelector(".grade-target"));
+
+      ME.initGrain(document.getElementById("grain"), 0.18, 3808);
+      ME.wireCrushGrade(tl, crush, D, 0.14, {
+        to: { contrast: 1.14, saturate: 1.12, brightness: 1.01 },
+        duration: 2.6,
+      });
+      ME.ambientDecorativePulse(tl, "[data-decorative=ambient]", D, { at: 0.18, repeats: 4 });
+      BL.wireCamera(tl, "#cam", D);
+
+      const plantHost = document.getElementById("kest-plant-host");
+      const horizonHost = document.getElementById("kest-horizon-host");
+      const kestPlant = BL.silhouette("kest", "plant", {
+        x: 0, y: 0, w: 128, h: 168, start: 0, duration: 5, trackIndex: 14,
+      });
+      const kestHorizon = BL.silhouette("kest", "horizon", {
+        x: 0, y: 0, w: 128, h: 168, start: 0, duration: 5, trackIndex: 15,
+      });
+      if (kestPlant && plantHost) plantHost.appendChild(kestPlant);
+      if (kestHorizon && horizonHost) {
+        horizonHost.appendChild(kestHorizon);
+        gsap.set(kestHorizon, { opacity: 0 });
+      }
+
+      const depositLantern = BL.lantern({
+        x: 540, y: 680, w: 64, h: 84, start: 0, duration: D, trackIndex: 16, className: "deposit-lantern",
+      });
+      const heroCell = document.querySelector(".hero-cell");
+      if (depositLantern && heroCell) {
+        heroCell.appendChild(depositLantern);
+        gsap.set(depositLantern, { autoAlpha: 1 });
+        gsap.set(depositLantern.querySelector(".lantern-seed"), { scale: 1 });
+        tl.to(depositLantern, { y: "+=72", duration: 0.5, ease: "power2.in" }, 0.7);
+        tl.to(depositLantern.querySelector(".lantern-seed"), {
+          scale: 0.2, opacity: 0, duration: 0.35, ease: "power2.in",
+        }, 1.05);
+        tl.to(depositLantern, { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 1.2);
+      }
+
+      gsap.set(".soil-grid", { opacity: 0, y: 24 });
+      tl.to(".soil-grid", { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }, 0.12);
+
+      gsap.set(".sprout-line", { scaleY: 0, transformOrigin: "50% 100%" });
+      tl.to(".sprout-line", { scaleY: 1, duration: 1.0, ease: "power2.inOut" }, 1.5);
+      tl.to(".sprout-glow", { opacity: 1, scale: 1.2, duration: 0.8, ease: "sine.inOut" }, 1.65);
+      tl.to(".sprout-glow", { opacity: 0.55, scale: 1.45, duration: 1.2, ease: "sine.inOut" }, 2.5);
+
+      if (kestPlant && kestHorizon) {
+        tl.to(kestPlant, { opacity: 0, duration: 0.55, ease: "power2.in" }, 2.35);
+        tl.to(kestHorizon, { opacity: 1, duration: 0.65, ease: "power2.out" }, 2.4);
+        tl.to(horizonHost, { y: -8, duration: 1.1, ease: "sine.inOut" }, 2.5);
+      }
+
+      gsap.set(".subtitle", { opacity: 0, y: 18 });
+      tl.to(".subtitle", { opacity: 1, y: 0, duration: 0.65, ease: "power2.out" }, 1.0);
+      tl.to(".subtitle", { opacity: 0, y: -12, duration: 0.5, ease: "power2.in" }, 2.6);
+
+      gsap.set(".map-inset", { opacity: 0, x: 32, scale: 0.94, transformOrigin: "100% 100%" });
+      tl.to(".map-inset", { opacity: 1, x: 0, scale: 1, duration: 0.85, ease: "power3.out" }, 1.0);
+
+      const insetRoute = document.getElementById("inset-route");
+      const routeLen = insetRoute ? insetRoute.getTotalLength() : 280;
+      if (insetRoute) {
+        gsap.set(insetRoute, { strokeDasharray: routeLen, strokeDashoffset: routeLen });
+        tl.to(insetRoute, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, 1.15);
+      }
+      gsap.set(".inset-node", { scale: 0.5, transformOrigin: "50% 50%", opacity: 0.4 });
+      tl.to(".inset-node", {
+        scale: 1.15, opacity: 1, stroke: "#E8A838", fill: "#1a211e",
+        duration: 0.4, stagger: 0.1, ease: "back.out(1.8)",
+      }, 1.35);
+      tl.to(".inset-node", { scale: 1, duration: 0.35, ease: "sine.inOut" }, 2.1);
+
+      gsap.set(".end-card", { opacity: 0 });
+      gsap.set(".end-title", { opacity: 0, y: 28, scale: 0.96 });
+      gsap.set(".end-tag", { opacity: 0, y: 16 });
+      tl.to(".end-card", { opacity: 1, duration: 0.55, ease: "power2.out" }, 3.15);
+      tl.to(".end-title", { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.5)" }, 3.22);
+      tl.to(".end-tag", { opacity: 1, y: 0, duration: 0.55, ease: "sine.out" }, 3.45);
+
+      ME.sineBreathe(tl, ".hero-cell", D, { delay: 2.2, scalePeriod: 2.4, scaleAmp: 0.018 });
+      ME.sineBreathe(tl, ".map-inset", D, { delay: 2.6, scalePeriod: 2.8, scaleAmp: 0.01 });
+
+      tl.seek(0);
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip08);
+    else initClip08();
+  </script>
+</body>
+</html>

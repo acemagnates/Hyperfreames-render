@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>BorrowedLight38 Clip 03 — REVEAL</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/_shared/motion-engine-utils.js"></script>
+  <script src="compositions/BorrowedLight38/borrowedlight38-shared.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #121816; }
+    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; --accent-rgb: 212, 180, 131; }
+    .solid-bg { position: absolute; inset: 0; background: #121816; z-index: 0; }
+    .depth-stage {
+      position: absolute; inset: 0; z-index: 1;
+      perspective: 1100px; perspective-origin: 50% 44%;
+      transform-style: preserve-3d;
+    }
+    #cam.camera-rig {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d; transform-origin: 50% 44%;
+    }
+    .plate-stage { position: absolute; inset: 0; z-index: 1; }
+    .plate { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.42; }
+    .z-bg {
+      position: absolute; inset: -8%;
+      transform: translateZ(-300px) scale(1.55);
+      transform-style: preserve-3d; z-index: 1;
+    }
+    .z-light {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.14;
+      background: radial-gradient(ellipse 42% 38% at 52% 46%, rgba(212, 180, 131, 0.55), transparent 62%);
+    }
+    .z-mg {
+      position: absolute; inset: 0; z-index: 3;
+      transform: translateZ(0); transform-style: preserve-3d;
+    }
+    .counter-forward {
+      position: absolute; left: 50%; top: 48%;
+      width: 480px; height: 200px;
+      transform: translate(-50%, -50%) rotateX(52deg) rotateZ(-38deg);
+      transform-style: preserve-3d;
+      background: linear-gradient(145deg, rgba(42, 51, 46, 0.92), rgba(18, 24, 22, 0.96));
+      border: 2px solid rgba(230, 223, 210, 0.35);
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(230, 223, 210, 0.12);
+      border-radius: 4px;
+    }
+    .counter-mat {
+      position: absolute; left: 50%; top: 50%;
+      width: 200px; height: 120px;
+      transform: translate(-50%, -50%);
+      border: 1px dashed rgba(212, 180, 131, 0.45);
+      border-radius: 2px;
+    }
+    .clipboard-edge {
+      position: absolute; right: 56px; top: 520px;
+      width: 56px; height: 72px;
+      border: 2px solid rgba(91, 143, 212, 0.65);
+      border-radius: 3px 3px 0 0;
+      background: linear-gradient(180deg, rgba(18, 24, 32, 0.9), rgba(18, 24, 32, 0.5));
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+    .clipboard-edge::before {
+      content: "";
+      position: absolute; left: 50%; top: -8px; width: 28px; height: 12px;
+      margin-left: -14px; border-radius: 2px;
+      background: rgba(91, 143, 212, 0.5);
+    }
+    .leak-layer {
+      position: absolute; inset: -18%; z-index: 12; pointer-events: none;
+      mix-blend-mode: screen; opacity: 0;
+      background: linear-gradient(118deg, transparent 28%, rgba(212, 180, 131, 0.48) 48%, rgba(232, 168, 56, 0.22) 52%, transparent 72%);
+      transform: translateX(-42%) rotate(-7deg);
+    }
+    .z-fg-decor {
+      position: absolute; inset: 0; z-index: 4;
+      transform: translateZ(72px); transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .diag-cap {
+      position: absolute; left: 56px; top: 120px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px; letter-spacing: 0.32em; color: rgba(230, 223, 210, 0.45);
+    }
+    #vig {
+      position: absolute; inset: 0; z-index: 80; pointer-events: none;
+      background: radial-gradient(ellipse 82% 72% at 50% 42%, transparent 26%, rgba(18, 24, 22, 0.9) 100%);
+    }
+    #grain {
+      position: absolute; inset: 0; z-index: 90; width: 100%; height: 100%;
+      opacity: 0.18; mix-blend-mode: overlay; pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="BorrowedLight38-clip-03" data-start="0" data-duration="4" data-width="1080" data-height="1920" data-fps="30">
+    <div class="solid-bg clip" data-start="0" data-duration="4" data-track-index="0"></div>
+    <div class="depth-stage clip" data-start="0" data-duration="4" data-track-index="1">
+      <div class="plate-stage clip" data-start="0" data-duration="4" data-track-index="2">
+        <img class="plate grade-target" src="assets/BorrowedLight38/plates/depot-iso.jpg" alt="" width="1080" height="1920" />
+      </div>
+      <div id="cam" class="camera-rig clip" data-start="0" data-duration="4" data-track-index="3">
+        <div class="z-bg clip" data-start="0" data-duration="4" data-track-index="4"></div>
+        <div class="z-light clip" data-decorative="ambient" data-start="0" data-duration="4" data-track-index="5"></div>
+        <div class="z-mg clip" data-start="0" data-duration="4" data-track-index="6" id="mg-stage">
+          <div class="counter-forward clip" data-start="0" data-duration="4" data-track-index="7" id="counter-layer">
+            <div class="counter-mat" aria-hidden="true"></div>
+          </div>
+          <div class="clipboard-edge clip" data-start="0" data-duration="4" data-track-index="8" aria-hidden="true"></div>
+        </div>
+        <div class="leak-layer clip" data-start="0" data-duration="4" data-track-index="9" id="leak"></div>
+        <div class="z-fg-decor clip" data-decorative="ambient" data-start="0" data-duration="4" data-track-index="10">
+          <div class="diag-cap">DEPOT · COUNTER</div>
+        </div>
+      </div>
+    </div>
+    <div id="vig" class="clip" data-start="0" data-duration="4" data-track-index="80"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="4" data-track-index="91" width="540" height="960"></canvas>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    function initClip03() {
+      const CID = "BorrowedLight38-clip-03";
+      const D = 4;
+      const ME = window.MotionEngine;
+      const BL = window.BorrowedLight38;
+      if (!ME || !BL) return;
+
+      const mg = document.getElementById("mg-stage");
+      const mira = BL.silhouette("mira", "wait", { x: 200, y: 1220, w: 88, h: 126, start: 0, duration: D, trackIndex: 10 });
+      const lantern = BL.lantern({ x: 540, y: 1040, w: 76, h: 100, start: 0, duration: D, trackIndex: 12, className: "hero-lantern" });
+      if (mg) {
+        if (mira) mg.appendChild(mira);
+        if (lantern) mg.appendChild(lantern);
+      }
+
+      BL.registerEases(gsap);
+      ME.registerEases(gsap);
+      const tl = ME.makeTimeline(CID);
+      const crush = ME.applyCrushGrade(document.querySelector(".grade-target"));
+
+      ME.initGrain(document.getElementById("grain"), 0.18, 3803);
+      ME.wireCrushGrade(tl, crush, D, 0.08);
+      ME.ambientDecorativePulse(tl, "[data-decorative=ambient]", D, { at: 0.14, repeats: 3 });
+      BL.wireCamera(tl, "#cam", D);
+      ME.lightLeakSweep(document.getElementById("leak"), tl, 0.22);
+
+      gsap.set("#counter-layer", { scale: 0.88, transformOrigin: "50% 50%" });
+      gsap.set(".hero-lantern", { top: 1040, opacity: 0, scale: 0.82 });
+      gsap.set(".lantern-seed", { scale: 0.4, transformOrigin: "50% 50%" });
+      if (mira) gsap.set(mira, { opacity: 0, scale: 0.92 });
+
+      if (mira) tl.to(mira, { opacity: 0.55, scale: 1, duration: 0.5, ease: "power2.out" }, 0.18);
+      tl.to("#counter-layer", { scale: 1.04, duration: 0.85, ease: "power3.out" }, 0.35);
+      tl.to(".z-mg", { z: 28, duration: 0.9, ease: "power2.out" }, 0.38);
+
+      tl.to(".hero-lantern", { top: 960, opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, 0.4);
+      tl.to(".lantern-seed", { scale: 1.35, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0.55);
+      tl.to(".lantern-seed", { scale: 1, duration: 0.35, ease: "sine.inOut" }, 1.05);
+
+      ME.sineBreathe(tl, "#counter-layer", D, { delay: 1.25, scalePeriod: 2.2, scaleAmp: 0.01 });
+      ME.sineBreathe(tl, ".hero-lantern", D, { delay: 1.3, scalePeriod: 2.4, scaleAmp: 0.014 });
+      ME.sineBreathe(tl, ".plate-stage", D, { delay: 1.4, scalePeriod: 2.6, scaleAmp: 0.006 });
+
+      tl.seek(0);
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip03);
+    else initClip03();
+  </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>BorrowedLight38 Clip 06 — Hub Gate Trade</title>
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/_shared/motion-engine-utils.js"></script>
+  <script src="compositions/BorrowedLight38/borrowedlight38-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#121816}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden;--accent-rgb:91,143,212}
+    .solid-bg{position:absolute;inset:0;background:#121816;z-index:0}
+    .depth-stage{position:absolute;inset:0;perspective:1100px;perspective-origin:50% 50%;transform-style:preserve-3d}
+    #cam{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:50% 50%;z-index:2}
+    .z-bg{position:absolute;inset:-8%;transform:translateZ(-280px) scale(1.46);transform-style:preserve-3d;z-index:1}
+    .plate-stage{position:absolute;inset:0;overflow:hidden}
+    .grade-target{will-change:transform,filter}
+    .plate-img{width:100%;height:100%;object-fit:cover;opacity:0.9}
+    .z-light{
+      position:absolute;inset:-8%;z-index:4;pointer-events:none;opacity:0.14;
+      background:
+        radial-gradient(ellipse 75% 45% at 50% 88%,rgba(91,143,212,0.55),transparent 62%),
+        radial-gradient(ellipse 50% 35% at 72% 22%,rgba(110,127,140,0.28),transparent 55%)
+    }
+    .z-fg-decor{position:absolute;inset:0;z-index:5;pointer-events:none;mix-blend-mode:soft-light;opacity:0.05}
+    .z-fg-decor .ghost{font-family:system-ui,sans-serif;font-size:11px;letter-spacing:0.42em;color:rgba(230,223,210,0.32);position:absolute;right:48px;top:150px}
+    .z-mg{position:absolute;inset:0;transform:translateZ(20px);z-index:8;display:flex;align-items:center;justify-content:center}
+    .hub-diagram{width:100%;height:100%;position:absolute;inset:0}
+    .hub-diagram svg{width:100%;height:100%}
+    .hub-ring{fill:none;stroke:rgba(230,223,210,0.38);stroke-width:3}
+    .hub-spoke{stroke:rgba(230,223,210,0.55);stroke-width:4;stroke-linecap:round}
+    .hub-hub-dot{fill:rgba(212,180,131,0.35);stroke:#D4B483;stroke-width:2}
+    .spoke-block{
+      position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px;
+      background:linear-gradient(180deg,rgba(18,24,32,0.92),rgba(18,24,32,0.75));
+      border:2px solid rgba(91,143,212,0.65);border-radius:8px;
+      transform:translate(-50%,-50%);opacity:0;pointer-events:none
+    }
+    .holt-stack{position:absolute;left:50%;top:35.4%;width:112px;height:156px;transform:translate(-50%,-100%)}
+    .subtitle-card{position:absolute;left:48px;right:48px;bottom:200px;padding:28px 36px;background:rgba(18,24,32,0.88);border:1px solid rgba(212,180,131,0.35);font-family:'IBM Plex Mono',monospace;font-size:22px;line-height:1.45;color:#E6DFD2;opacity:0}
+    .holt-stack .silhouette{position:absolute;left:0;top:0;width:100%;height:100%}
+    .lantern-mask-window{
+      position:absolute;inset:0;z-index:12;overflow:hidden;pointer-events:none
+    }
+    .lantern-slide{
+      position:absolute;top:46%;left:-140px;width:88px;height:116px;
+      transform:translateY(-50%)
+    }
+    .z-fg{position:absolute;inset:0;transform:translateZ(44px);z-index:14;pointer-events:none}
+    .hub-label{position:absolute;left:52px;bottom:172px;font-family:system-ui,sans-serif;font-size:12px;letter-spacing:0.36em;color:rgba(230,223,210,0.52);text-transform:uppercase}
+    #vig{position:absolute;inset:0;z-index:80;background:radial-gradient(ellipse 60% 50% at 50% 48%,transparent 16%,rgba(0,0,0,0.76) 100%);pointer-events:none}
+    #grain{position:absolute;inset:0;z-index:90;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="BorrowedLight38-clip-06" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <div class="solid-bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
+    <div class="depth-stage clip" data-start="0" data-duration="5" data-track-index="1">
+      <div id="cam" class="clip" data-start="0" data-duration="5" data-track-index="2">
+        <div class="z-bg clip" data-start="0" data-duration="5" data-track-index="3">
+          <div class="plate-stage grade-target clip" data-start="0" data-duration="5" data-track-index="4">
+            <img class="plate-img clip" data-start="0" data-duration="5" data-track-index="5" src="assets/BorrowedLight38/plates/hub-roundabout.jpg" alt="" />
+          </div>
+        </div>
+        <div class="z-light clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="6"></div>
+        <div class="z-fg-decor clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="7">
+          <div class="ghost" aria-hidden="true">HUB · GATE</div>
+        </div>
+        <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="8">
+          <div class="hub-diagram clip" data-start="0" data-duration="5" data-track-index="9" id="hub-diagram" aria-hidden="true">
+            <svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+              <circle class="hub-ring" cx="540" cy="980" r="300" />
+              <circle class="hub-ring" cx="540" cy="980" r="188" opacity="0.65" />
+              <line class="hub-spoke" x1="540" y1="680" x2="540" y2="1280" />
+              <line class="hub-spoke" x1="280" y1="1100" x2="800" y2="860" />
+              <line class="hub-spoke" x1="800" y1="1100" x2="280" y2="860" />
+              <circle class="hub-hub-dot" cx="540" cy="980" r="22" />
+            </svg>
+          </div>
+          <div class="spoke-block clip" data-start="0" data-duration="5" data-track-index="10" id="spoke-block"></div>
+          <div class="holt-stack clip" data-start="0" data-duration="5" data-track-index="11" id="holt-stack"></div>
+          <div class="lantern-mask-window clip" data-start="0" data-duration="5" data-track-index="12" id="lantern-mask">
+            <div class="lantern-slide clip" data-start="0" data-duration="5" data-track-index="13" id="lantern-slide"></div>
+          </div>
+        </div>
+        <div class="z-fg clip" data-start="0" data-duration="5" data-track-index="14">
+          <div class="hub-label clip" data-start="0" data-duration="5" data-track-index="15">GATE · TRADE</div>
+          <div class="subtitle-card clip" data-start="0" data-duration="5" data-track-index="16">Not for us. For the ridge.</div>
+        </div>
+      </div>
+    </div>
+    <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="80"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="91" width="540" height="960"></canvas>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    function initClip06() {
+      var CID = "BorrowedLight38-clip-06";
+      var D = 5;
+      var ME = window.MotionEngine;
+      var BL = window.BorrowedLight38;
+      if (!ME || !BL) return;
+
+      ME.setAccentRgb(document.getElementById("root"), "91, 143, 212");
+      BL.registerEases(gsap);
+      ME.registerEases(gsap);
+
+      var holtStack = document.getElementById("holt-stack");
+      var holtGate = BL.silhouette("holt", "gate", { x: 56, y: 156, w: 112, h: 156, start: 0, duration: D, trackIndex: 20 });
+      var holtNod = BL.silhouette("holt", "nod", { x: 56, y: 156, w: 112, h: 156, start: 0, duration: D, trackIndex: 21 });
+      if (holtGate && holtStack) {
+        holtGate.id = "holt-gate";
+        holtGate.style.left = "0";
+        holtGate.style.top = "0";
+        holtStack.appendChild(holtGate);
+      }
+      if (holtNod && holtStack) {
+        holtNod.id = "holt-nod";
+        holtNod.style.left = "0";
+        holtNod.style.top = "0";
+        holtNod.style.opacity = "0";
+        holtStack.appendChild(holtNod);
+      }
+
+      var slideWrap = document.getElementById("lantern-slide");
+      var slideLantern = BL.lantern({ x: 0, y: 58, w: 72, h: 96, start: 0, duration: D, trackIndex: 22 });
+      if (slideLantern && slideWrap) slideWrap.appendChild(slideLantern);
+
+      var tl = ME.makeTimeline(CID);
+      var crush = ME.applyCrushGrade(document.querySelector(".grade-target"));
+      ME.wireCrushGrade(tl, crush, D, 0.12, {
+        from: { contrast: 0.95, saturate: 0.9, brightness: 0.93 },
+        to: { contrast: 1.2, saturate: 1.28, brightness: 1.01 },
+        duration: 2.2,
+        ease: "power2.inOut",
+      });
+      ME.initGrain(document.getElementById("grain"), 0.2, 3806);
+      ME.ambientDecorativePulse(tl, ".z-light", D, { at: 0.18, repeats: 5 });
+
+      BL.wireCamera(tl, document.getElementById("cam"), D);
+
+      gsap.set("#hub-diagram", { scale: 0.94, autoAlpha: 0.7 });
+      tl.to("#hub-diagram", { scale: 1, autoAlpha: 1, duration: 1.2, ease: "power2.out" }, 0.1);
+
+      gsap.set("#spoke-block", { autoAlpha: 0 });
+      tl.to(".hub-spoke:nth-of-type(1)", { stroke: "#5B8FD4", strokeWidth: 7, duration: 0.35, ease: "power3.out" }, 0.35);
+      tl.to("#spoke-block", { autoAlpha: 0.75, duration: 0.25, ease: "sine.out" }, 0.4);
+      tl.to("#spoke-block", { autoAlpha: 0, duration: 0.35, ease: "power2.in" }, 1.5);
+
+      if (holtGate && holtNod) {
+        gsap.set(holtGate, { autoAlpha: 1, rotateZ: 0 });
+        gsap.set(holtNod, { autoAlpha: 0, rotateZ: -6 });
+        tl.to(holtGate, { rotateZ: 2, duration: 0.25, ease: "power2.in" }, 0.5);
+        tl.to(holtGate, { autoAlpha: 0, duration: 0.25, ease: "power2.in" }, 1.35);
+        tl.to(holtNod, { autoAlpha: 1, rotateZ: 4, duration: 0.45, ease: "back.out(1.6)" }, 1.4);
+        tl.to(holtNod, { rotateZ: 0, duration: 0.35, ease: "sine.inOut" }, 1.85);
+      }
+
+      if (slideWrap) {
+        gsap.set(slideWrap, { left: "-140px" });
+        tl.to(slideWrap, { left: "1180px", duration: 1.0, ease: "power2.inOut" }, 1.0);
+        if (slideLantern) {
+          tl.to(slideLantern.querySelector(".lantern-seed"), { scale: 1.2, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.15);
+        }
+      }
+
+      tl.fromTo(".z-light", { opacity: 0.1 }, { opacity: 0.22, duration: 2.4, ease: "sine.inOut" }, 0.2);
+      tl.to(".z-light", { opacity: 0.16, duration: 2.0, ease: "sine.inOut" }, 2.8);
+
+      ME.sineBreathe(tl, ".grade-target", D, { delay: 1.6, scaleAmp: 0.005, scalePeriod: 2.5 });
+
+      gsap.set(".hub-label", { autoAlpha: 0 });
+      tl.to(".hub-label", { autoAlpha: 1, duration: 0.55, ease: "power4.out" }, 0.5);
+      gsap.set(".subtitle-card", { opacity: 0, y: 20 });
+      tl.to(".subtitle-card", { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, 2.0);
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip06);
+    else initClip06();
+  </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>BorrowedLight38 Clip 02 — DEPOT</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/_shared/motion-engine-utils.js"></script>
+  <script src="compositions/BorrowedLight38/borrowedlight38-shared.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #121816; }
+    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+    .solid-bg { position: absolute; inset: 0; background: #121816; z-index: 0; }
+    .depth-stage {
+      position: absolute; inset: 0; z-index: 1;
+      perspective: 1100px; perspective-origin: 50% 46%;
+      transform-style: preserve-3d;
+    }
+    #cam.camera-rig {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d; transform-origin: 50% 46%;
+    }
+    .plate-stage { position: absolute; inset: 0; z-index: 1; opacity: 0.35; }
+    .plate { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .z-bg {
+      position: absolute; inset: -8%;
+      transform: translateZ(-300px) scale(1.55);
+      transform-style: preserve-3d; z-index: 1;
+      background: radial-gradient(ellipse 55% 40% at 48% 34%, rgba(212, 180, 131, 0.08), transparent 58%);
+    }
+    .z-mg {
+      position: absolute; inset: 0; z-index: 2;
+      transform: translateZ(0); transform-style: preserve-3d;
+    }
+    .z-fg-decor {
+      position: absolute; inset: 0; z-index: 3;
+      transform: translateZ(72px); transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .iso-wrap {
+      position: absolute; left: 50%; top: 52%;
+      width: 640px; height: 480px;
+      transform: translate(-50%, -50%) rotateX(58deg) rotateZ(-38deg);
+      transform-style: preserve-3d;
+    }
+    .iso-platform {
+      position: absolute; inset: 0;
+      border: 3px solid #2A332E;
+      background: linear-gradient(145deg, rgba(42, 51, 46, 0.55), rgba(18, 24, 22, 0.82));
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(230, 223, 210, 0.08);
+    }
+    .iso-rail {
+      position: absolute; background: transparent; border: 2px solid #6E7F8C;
+    }
+    .iso-rail.n { left: 12%; top: 0; width: 76%; height: 0; border-bottom: none; }
+    .iso-rail.s { left: 12%; bottom: 0; width: 76%; height: 0; border-top: none; }
+    .iso-rail.w { left: 0; top: 12%; width: 0; height: 76%; border-right: none; }
+    .iso-rail.e { right: 0; top: 12%; width: 0; height: 76%; border-left: none; }
+    .iso-bay {
+      position: absolute; left: 18%; top: 18%; width: 64%; height: 64%;
+      border: 2px dashed rgba(110, 127, 140, 0.45);
+    }
+    .iso-door {
+      position: absolute; left: 50%; top: 42%;
+      width: 112px; height: 148px;
+      transform: translate(-50%, -50%);
+      border: 3px solid #6E7F8C;
+      background: #121816;
+      box-shadow: inset 0 0 24px rgba(0, 0, 0, 0.65);
+    }
+    .iso-door::after {
+      content: ""; position: absolute; right: 14px; top: 50%;
+      width: 10px; height: 10px; margin-top: -5px;
+      border-radius: 50%; background: #D4B483;
+      box-shadow: 0 0 10px rgba(212, 180, 131, 0.6);
+    }
+    .practical-light {
+      position: absolute; left: 520px; top: 640px;
+      width: 420px; height: 420px; margin: -210px 0 0 -210px;
+      background: radial-gradient(circle, rgba(212, 180, 131, 0.42) 0%, rgba(232, 168, 56, 0.18) 38%, transparent 68%);
+      mix-blend-mode: screen; pointer-events: none;
+    }
+    .subtitle-card {
+      position: absolute; left: 50%; bottom: 148px;
+      transform: translateX(-50%);
+      max-width: 880px; padding: 22px 36px;
+      border: 1px solid rgba(230, 223, 210, 0.28);
+      background: rgba(18, 24, 22, 0.78);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.42);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 15px; letter-spacing: 0.06em; line-height: 1.45;
+      color: #E6DFD2; text-align: center;
+    }
+    .diag-tag {
+      position: absolute; left: 56px; top: 118px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px; letter-spacing: 0.34em; color: rgba(110, 127, 140, 0.85);
+    }
+    .fg-line {
+      position: absolute; height: 1px; background: rgba(230, 223, 210, 0.18);
+    }
+    .fg-line.a { left: 48px; top: 200px; width: 180px; }
+    .fg-line.b { right: 48px; bottom: 280px; width: 220px; }
+    #vig {
+      position: absolute; inset: 0; z-index: 80; pointer-events: none;
+      background: radial-gradient(ellipse 84% 74% at 50% 44%, transparent 26%, rgba(18, 24, 22, 0.9) 100%);
+    }
+    #grain {
+      position: absolute; inset: 0; z-index: 90; width: 100%; height: 100%;
+      opacity: 0.18; mix-blend-mode: overlay; pointer-events: none;
+    }
+    #knock-layer { position: absolute; inset: 0; z-index: 6; pointer-events: none; }
+    #mira-slot { position: absolute; inset: 0; z-index: 7; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="BorrowedLight38-clip-02" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <div class="solid-bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
+    <div class="depth-stage clip" data-start="0" data-duration="5" data-track-index="1">
+      <div class="plate-stage clip" data-start="0" data-duration="5" data-track-index="2">
+        <img class="plate grade-target" src="assets/BorrowedLight38/plates/depot-iso.jpg" alt="" width="1080" height="1920" />
+      </div>
+      <div id="cam" class="camera-rig clip" data-start="0" data-duration="5" data-track-index="3">
+        <div class="z-bg clip" data-start="0" data-duration="5" data-track-index="4"></div>
+        <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="5">
+          <div class="practical-light clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="6"></div>
+          <div class="diag-tag clip" data-start="0" data-duration="5" data-track-index="7">DEPOT // BAY 02</div>
+          <div class="iso-wrap clip" data-start="0" data-duration="5" data-track-index="8">
+            <div class="iso-platform">
+              <div class="iso-rail n"></div>
+              <div class="iso-rail s"></div>
+              <div class="iso-rail w"></div>
+              <div class="iso-rail e"></div>
+              <div class="iso-bay"></div>
+              <div class="iso-door clip" data-start="0" data-duration="5" data-track-index="9"></div>
+            </div>
+          </div>
+          <div id="knock-layer" class="clip" data-start="0" data-duration="5" data-track-index="10"></div>
+          <div id="mira-slot" class="clip" data-start="0" data-duration="5" data-track-index="11"></div>
+          <div class="subtitle-card clip" data-start="0" data-duration="5" data-track-index="12">Last run. Don't open it.</div>
+        </div>
+        <div class="z-fg-decor clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="13">
+          <div class="fg-line a"></div>
+          <div class="fg-line b"></div>
+        </div>
+      </div>
+    </div>
+    <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="80"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="91" width="540" height="960"></canvas>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    function initClip02() {
+      const CID = "BorrowedLight38-clip-02";
+      const D = 5;
+      const ME = window.MotionEngine;
+      const BL = window.BorrowedLight38;
+      if (!ME || !BL) return;
+
+      BL.registerEases(gsap);
+      ME.registerEases(gsap);
+      const tl = ME.makeTimeline(CID);
+      const crush = ME.applyCrushGrade(document.querySelector(".grade-target"));
+
+      ME.initGrain(document.getElementById("grain"), 0.18, 3802);
+      ME.wireCrushGrade(tl, crush, D, 0.1);
+      ME.ambientDecorativePulse(tl, "[data-decorative=ambient]", D, { at: 0.15, repeats: 4 });
+      BL.wireCamera(tl, "#cam", D);
+
+      const miraSlot = document.getElementById("mira-slot");
+      const mira = BL.silhouette("mira", "stride", {
+        x: 180, y: 1100, w: 92, h: 128,
+        start: 0, duration: D, trackIndex: 15,
+      });
+      if (mira && miraSlot) miraSlot.appendChild(mira);
+
+      const knockLayer = document.getElementById("knock-layer");
+      const rings = knockLayer ? BL.knockRings(knockLayer, 540, 820) : [];
+
+      gsap.set(".iso-wrap", { opacity: 0, y: 40 });
+      gsap.set(".subtitle-card", { opacity: 0, y: 28 });
+      gsap.set(".diag-tag", { opacity: 0 });
+      gsap.set(".practical-light", { opacity: 0.55, scale: 0.92 });
+
+      tl.to(".iso-wrap", { opacity: 1, y: 0, duration: 0.85, ease: "power3.out" }, 0.08);
+      tl.to(".diag-tag", { opacity: 1, duration: 0.5, ease: "sine.out" }, 0.18);
+
+      if (mira) {
+        tl.fromTo(mira, { left: 180 }, { left: 420, duration: 2.2, ease: "power2.inOut" }, 0.25);
+      }
+
+      rings.forEach(function (ring, i) {
+        const at = 0.35 + i * 0.18;
+        gsap.set(ring, { opacity: 0, scale: 0.3, transformOrigin: "50% 50%" });
+        tl.to(ring, { scale: 2.4, opacity: 0.82, duration: 0.52, ease: "back.out(1.4)" }, at);
+        tl.to(ring, { opacity: 0, duration: 0.38, ease: "power2.in" }, at + 0.48);
+      });
+
+      tl.to(".iso-door", { scale: 1.04, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 0.35);
+      tl.to(".iso-door", { scale: 1.04, duration: 0.12, ease: "power1.inOut", yoyo: true, repeat: 1 }, 0.53);
+      tl.to(".iso-door", { scale: 1.04, duration: 0.12, ease: "power1.inOut", yoyo: true, repeat: 1 }, 0.71);
+
+      tl.to(".practical-light", { opacity: 0.92, scale: 1, duration: 0.9, ease: "sine.inOut" }, 0.4);
+      tl.to(".subtitle-card", { opacity: 1, y: 0, duration: 0.75, ease: "power2.out" }, 2.0);
+
+      ME.sineBreathe(tl, ".iso-wrap", D, { delay: 1.5, scalePeriod: 2.8, scaleAmp: 0.01 });
+      ME.sineBreathe(tl, ".practical-light", D, { delay: 1.6, scalePeriod: 2.4, scaleAmp: 0.018 });
+      ME.sineBreathe(tl, ".subtitle-card", D, { delay: 2.0, scalePeriod: 3.0, scaleAmp: 0.006 });
+
+      tl.seek(0);
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip02);
+    else initClip02();
+  </script>
+</body>
+</html>

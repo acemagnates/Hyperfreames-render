@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <link rel="icon" href="data:," />
+  <title>BorrowedLight38 Clip 01 — MAP</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/_shared/motion-engine-utils.js"></script>
+  <script src="compositions/BorrowedLight38/borrowedlight38-shared.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #121816; }
+    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+    .solid-bg { position: absolute; inset: 0; background: #121816; z-index: 0; }
+    .depth-stage {
+      position: absolute; inset: 0; z-index: 1;
+      perspective: 1100px; perspective-origin: 50% 44%;
+      transform-style: preserve-3d;
+    }
+    #cam.camera-rig {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d; transform-origin: 50% 44%;
+    }
+    .plate-stage { position: absolute; inset: 0; z-index: 1; }
+    .plate { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .z-bg {
+      position: absolute; inset: -8%;
+      transform: translateZ(-300px) scale(1.55);
+      transform-style: preserve-3d; z-index: 1;
+      background: radial-gradient(ellipse 70% 50% at 50% 38%, rgba(110, 127, 140, 0.12), transparent 62%);
+    }
+    .z-mg {
+      position: absolute; inset: 0; z-index: 2;
+      transform: translateZ(0); transform-style: preserve-3d;
+    }
+    .z-fg-decor {
+      position: absolute; inset: 0; z-index: 3;
+      transform: translateZ(72px); transform-style: preserve-3d;
+      pointer-events: none;
+    }
+    .map-label {
+      position: absolute; left: 56px; top: 120px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 14px; font-weight: 600; letter-spacing: 0.38em;
+      color: #E6DFD2;
+      text-shadow: 0 0 18px rgba(232, 168, 56, 0.35);
+    }
+    .map-svg {
+      position: absolute; inset: 0; width: 1080px; height: 1920px;
+      overflow: visible;
+    }
+    .map-node {
+      fill: #121816; stroke: #E6DFD2; stroke-width: 3;
+    }
+    .map-node-label {
+      fill: #E6DFD2; font-family: "IBM Plex Mono", monospace;
+      font-size: 22px; font-weight: 600; letter-spacing: 0.22em;
+      text-anchor: middle;
+    }
+    .route-path {
+      fill: none; stroke: #E8A838; stroke-width: 8;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .corner-bracket {
+      position: absolute; width: 48px; height: 48px;
+      border: 2px solid rgba(230, 223, 210, 0.35);
+    }
+    .corner-bracket.tl { left: 44px; top: 44px; border-right: none; border-bottom: none; }
+    .corner-bracket.br { right: 44px; bottom: 44px; border-left: none; border-top: none; }
+    #vig {
+      position: absolute; inset: 0; z-index: 80; pointer-events: none;
+      background: radial-gradient(ellipse 82% 72% at 50% 42%, transparent 28%, rgba(18, 24, 22, 0.88) 100%);
+    }
+    #grain {
+      position: absolute; inset: 0; z-index: 90; width: 100%; height: 100%;
+      opacity: 0.18; mix-blend-mode: overlay; pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="BorrowedLight38-clip-01" data-start="0" data-duration="4" data-width="1080" data-height="1920" data-fps="30">
+    <div class="solid-bg clip" data-start="0" data-duration="4" data-track-index="0"></div>
+    <div class="depth-stage clip" data-start="0" data-duration="4" data-track-index="1">
+      <div class="plate-stage clip" data-start="0" data-duration="4" data-track-index="2">
+        <img class="plate grade-target" src="assets/BorrowedLight38/plates/map-intro.jpg" alt="" width="1080" height="1920" />
+      </div>
+      <div id="cam" class="camera-rig clip" data-start="0" data-duration="4" data-track-index="3">
+        <div class="z-bg clip" data-start="0" data-duration="4" data-track-index="4"></div>
+        <div class="z-mg clip" data-start="0" data-duration="4" data-track-index="5">
+          <div class="map-label clip" data-start="0" data-duration="4" data-track-index="6">LAST RUN</div>
+          <svg class="map-svg clip" data-start="0" data-duration="4" data-track-index="7" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path id="route-path" class="route-path" d="M 300 1480 C 380 1320, 460 1180, 540 980 S 660 720, 780 560" />
+            <g id="node-depot">
+              <circle class="map-node" cx="300" cy="1480" r="36" />
+              <text class="map-node-label" x="300" y="1558">DEPOT</text>
+            </g>
+            <g id="node-hub">
+              <circle class="map-node" cx="540" cy="980" r="36" />
+              <text class="map-node-label" x="540" y="1058">HUB</text>
+            </g>
+            <g id="node-ridge">
+              <circle id="ridge-node" class="map-node" cx="780" cy="560" r="36" />
+              <text class="map-node-label" x="780" y="638">RIDGE</text>
+            </g>
+          </svg>
+        </div>
+        <div class="z-fg-decor clip" data-decorative="ambient" data-start="0" data-duration="4" data-track-index="8">
+          <div class="corner-bracket tl"></div>
+          <div class="corner-bracket br"></div>
+        </div>
+      </div>
+    </div>
+    <div id="vig" class="clip" data-start="0" data-duration="4" data-track-index="80"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="4" data-track-index="91" width="540" height="960"></canvas>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    function initClip01() {
+      const CID = "BorrowedLight38-clip-01";
+      const D = 4;
+      const ME = window.MotionEngine;
+      const BL = window.BorrowedLight38;
+      if (!ME || !BL) return;
+
+      BL.registerEases(gsap);
+      ME.registerEases(gsap);
+      const tl = ME.makeTimeline(CID);
+      const crush = ME.applyCrushGrade(document.querySelector(".grade-target"));
+
+      ME.initGrain(document.getElementById("grain"), 0.18, 3801);
+      ME.wireCrushGrade(tl, crush, D, 0.1);
+      ME.ambientDecorativePulse(tl, "[data-decorative=ambient]", D, { at: 0.15, repeats: 3 });
+      BL.wireCamera(tl, "#cam", D);
+
+      const route = document.getElementById("route-path");
+      const routeLen = route ? route.getTotalLength() : 1200;
+      if (route) {
+        gsap.set(route, { strokeDasharray: routeLen, strokeDashoffset: routeLen });
+        tl.to(route, { strokeDashoffset: 0, duration: 1.5, ease: "power2.inOut" }, 0.3);
+      }
+
+      gsap.set(".map-label", { opacity: 0, y: -16 });
+      tl.to(".map-label", { opacity: 1, y: 0, duration: 0.65, ease: "power2.out" }, 0.12);
+      gsap.set("#ridge-node", { opacity: 0.28, scale: 0.72, transformOrigin: "50% 50%", stroke: "#6E7F8C" });
+      gsap.set("#node-depot .map-node, #node-hub .map-node", { scale: 0.6, transformOrigin: "50% 50%", opacity: 0 });
+      tl.to("#node-depot .map-node, #node-hub .map-node", {
+        scale: 1,
+        opacity: 1,
+        duration: 0.55,
+        stagger: 0.12,
+        ease: "back.out(1.6)",
+      }, 0.22);
+      tl.to("#ridge-node", { opacity: 0.85, scale: 1, stroke: "#E6DFD2", duration: 0.55, ease: "power2.out" }, 1.7);
+
+      const ridgeNode = document.getElementById("ridge-node");
+      if (ridgeNode) {
+        gsap.set(ridgeNode, { transformOrigin: "50% 50%" });
+        tl.to(ridgeNode, { scale: 1.45, stroke: "#E8A838", duration: 0.35, ease: "power2.out" }, 3.2);
+        tl.to(ridgeNode, { scale: 1, stroke: "#E6DFD2", duration: 0.45, ease: "sine.inOut" }, 3.55);
+      }
+
+      ME.sineBreathe(tl, ".plate-stage", D, { delay: 1.5, scalePeriod: 2.4, scaleAmp: 0.008 });
+      ME.sineBreathe(tl, ".map-label", D, { delay: 1.8, scalePeriod: 2.2, scaleAmp: 0.012 });
+
+      tl.seek(0);
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip01);
+    else initClip01();
+  </script>
+</body>
+</html>

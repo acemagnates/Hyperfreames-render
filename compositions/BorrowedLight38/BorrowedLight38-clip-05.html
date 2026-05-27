@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>BorrowedLight38 Clip 05 — Tunnel Drive</title>
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/_shared/motion-engine-utils.js"></script>
+  <script src="compositions/BorrowedLight38/borrowedlight38-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#121816}
+    #root{position:relative;width:1080px;height:1920px;overflow:hidden;--accent-rgb:110,127,140}
+    .solid-bg{position:absolute;inset:0;background:#121816;z-index:0}
+    .depth-stage{position:absolute;inset:0;perspective:1100px;perspective-origin:50% 46%;transform-style:preserve-3d}
+    #cam{position:absolute;inset:0;transform-style:preserve-3d;transform-origin:50% 48%;z-index:2}
+    .z-bg{position:absolute;inset:-8%;transform:translateZ(-300px) scale(1.48);transform-style:preserve-3d;z-index:1}
+    .plate-stage{position:absolute;inset:0;overflow:hidden}
+    .grade-target{will-change:transform,filter}
+    .plate-img{width:100%;height:100%;object-fit:cover;opacity:0.92}
+    .tunnel-arch-wrap{position:absolute;inset:0;pointer-events:none}
+    .tunnel-arch{
+      position:absolute;left:50%;width:92%;height:200px;margin-left:-46%;
+      border:3px solid rgba(230,223,210,0.42);border-bottom:none;
+      border-radius:50% 50% 0 0;
+      box-shadow:0 -8px 48px rgba(110,127,140,0.18),inset 0 12px 32px rgba(18,24,22,0.55);
+      background:linear-gradient(180deg,rgba(42,51,46,0.35),transparent 72%);
+      will-change:transform
+    }
+    .arch-a{top:8%;opacity:0.35;transform:scale(0.72)}
+    .arch-b{top:22%;opacity:0.48;transform:scale(0.82)}
+    .arch-c{top:36%;opacity:0.58;transform:scale(0.9)}
+    .arch-d{top:50%;opacity:0.72;transform:scale(0.96)}
+    .arch-e{top:64%;opacity:0.88;transform:scale(1)}
+    .headlamp{
+      position:absolute;left:-12%;top:-8%;width:72%;height:58%;z-index:3;pointer-events:none;
+      background:conic-gradient(from 215deg at 18% 22%,rgba(110,160,200,0.42) 0deg,rgba(110,127,140,0.22) 42deg,transparent 68deg);
+      mix-blend-mode:screen;opacity:0.85
+    }
+    .z-light{position:absolute;inset:-6%;z-index:4;pointer-events:none;opacity:0.06;
+      background:radial-gradient(ellipse 55% 40% at 12% 18%,rgba(110,160,200,0.5),transparent 58%)}
+    .z-fg-decor{position:absolute;inset:0;z-index:5;pointer-events:none;mix-blend-mode:soft-light;opacity:0.05}
+    .z-fg-decor .ghost{font-family:system-ui,sans-serif;font-size:11px;letter-spacing:0.48em;color:rgba(230,223,210,0.35);position:absolute;left:48px;top:140px}
+    .z-mg{position:absolute;inset:0;transform:translateZ(24px);z-index:8}
+    .z-fg{position:absolute;inset:0;transform:translateZ(48px);z-index:10;pointer-events:none}
+    .tunnel-label{position:absolute;right:52px;bottom:168px;font-family:system-ui,sans-serif;font-size:12px;letter-spacing:0.38em;color:rgba(230,223,210,0.5);text-transform:uppercase}
+    #vig{position:absolute;inset:0;z-index:80;background:radial-gradient(ellipse 65% 55% at 50% 42%,transparent 18%,rgba(0,0,0,0.78) 100%);pointer-events:none}
+    #grain{position:absolute;inset:0;z-index:90;mix-blend-mode:overlay;opacity:0.2;pointer-events:none;width:100%;height:100%}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="BorrowedLight38-clip-05" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-fps="30">
+    <div class="solid-bg clip" data-start="0" data-duration="5" data-track-index="0"></div>
+    <div class="depth-stage clip" data-start="0" data-duration="5" data-track-index="1">
+      <div id="cam" class="camera-rig clip" data-start="0" data-duration="5" data-track-index="2">
+        <div class="z-bg clip" data-start="0" data-duration="5" data-track-index="3">
+          <div class="plate-stage grade-target clip" data-start="0" data-duration="5" data-track-index="4">
+            <img class="plate-img clip" data-start="0" data-duration="5" data-track-index="5" src="assets/BorrowedLight38/plates/tunnel-arches.jpg" alt="" />
+            <div class="tunnel-arch-wrap clip" data-start="0" data-duration="5" data-track-index="6" id="arch-wrap">
+              <div class="tunnel-arch arch-a clip" data-start="0" data-duration="5" data-track-index="7"></div>
+              <div class="tunnel-arch arch-b clip" data-start="0" data-duration="5" data-track-index="8"></div>
+              <div class="tunnel-arch arch-c clip" data-start="0" data-duration="5" data-track-index="9"></div>
+              <div class="tunnel-arch arch-d clip" data-start="0" data-duration="5" data-track-index="10"></div>
+              <div class="tunnel-arch arch-e clip" data-start="0" data-duration="5" data-track-index="11"></div>
+            </div>
+            <div class="headlamp clip" data-start="0" data-duration="5" data-track-index="12" id="headlamp"></div>
+          </div>
+        </div>
+        <div class="z-light clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="13"></div>
+        <div class="z-fg-decor clip" data-decorative="ambient" data-start="0" data-duration="5" data-track-index="14">
+          <div class="ghost" aria-hidden="true">MIDLINE · TUNNEL</div>
+        </div>
+        <div class="z-mg clip" data-start="0" data-duration="5" data-track-index="15" id="hero-mg"></div>
+        <div class="z-fg clip" data-start="0" data-duration="5" data-track-index="16">
+          <div class="tunnel-label clip" data-start="0" data-duration="5" data-track-index="17">DRIVE · DRIFT</div>
+        </div>
+      </div>
+    </div>
+    <div id="vig" class="clip" data-start="0" data-duration="5" data-track-index="80"></div>
+    <canvas id="grain" class="clip" data-start="0" data-duration="5" data-track-index="91" width="540" height="960"></canvas>
+  </div>
+  <script>
+    window.__timelines = window.__timelines || {};
+    function initClip05() {
+      var CID = "BorrowedLight38-clip-05";
+      var D = 5;
+      var ME = window.MotionEngine;
+      var BL = window.BorrowedLight38;
+      if (!ME || !BL) return;
+
+      ME.setAccentRgb(document.getElementById("root"), "110, 127, 140");
+      BL.registerEases(gsap);
+      ME.registerEases(gsap);
+
+      var mg = document.getElementById("hero-mg");
+      var mira = BL.silhouette("mira", "offer", { x: 400, y: 1080, w: 108, h: 148, start: 0, duration: D, trackIndex: 20 });
+      var lantern = BL.lantern({ x: 468, y: 1010, w: 68, h: 90, start: 0, duration: D, trackIndex: 21 });
+      if (mira && mg) mg.appendChild(mira);
+      if (lantern && mg) mg.appendChild(lantern);
+
+      gsap.set(mira, { autoAlpha: 0, x: 300 });
+      gsap.set(lantern, { autoAlpha: 0, scale: 0.85 });
+
+      var tl = ME.makeTimeline(CID);
+      var crush = ME.applyCrushGrade(document.querySelector(".grade-target"));
+      ME.wireCrushGrade(tl, crush, D, 0.15, {
+        from: { contrast: 0.94, saturate: 0.88, brightness: 0.92 },
+        to: { contrast: 1.18, saturate: 1.22, brightness: 1.02 },
+        duration: 2.4,
+        ease: "sine.inOut",
+      });
+      ME.initGrain(document.getElementById("grain"), 0.2, 3805);
+      ME.ambientDecorativePulse(tl, "[data-decorative=ambient]", D, { at: 0.2, repeats: 4 });
+
+      BL.wireCamera(tl, "#cam", D);
+
+      tl.to(mira, { autoAlpha: 1, x: 400, duration: 0.85, ease: "power3.out" }, 0.35);
+      tl.to(lantern, { autoAlpha: 1, scale: 1, duration: 0.7, ease: "power2.out" }, 0.45);
+
+      gsap.set(".plate-img", { scale: 1.06 });
+      tl.to(".plate-img", { scale: 1.14, y: -48, duration: D - 0.25, ease: "power1.in" }, 0.2);
+
+      gsap.set(".tunnel-arch", { y: 0 });
+      tl.to(
+        ".tunnel-arch",
+        {
+          y: "-=520",
+          duration: 3.8,
+          ease: "power1.in",
+          stagger: { each: 0.09, from: "end" },
+        },
+        0.2
+      );
+
+      tl.fromTo("#headlamp", { opacity: 0.5 }, { opacity: 0.95, duration: 1.6, ease: "sine.inOut" }, 0.1);
+      tl.to("#headlamp", { opacity: 0.72, duration: 2.2, ease: "sine.inOut" }, 2.0);
+
+      if (lantern) {
+        var bobReps = Math.max(1, Math.ceil((D - 0.4) / 1.1) - 1);
+        tl.to(lantern, { y: "+=22", yoyo: true, repeat: bobReps, duration: 0.55, ease: "sine.inOut" }, 0.25);
+        tl.to(lantern.querySelector(".lantern-seed"), { scale: 1.15, yoyo: true, repeat: bobReps, duration: 0.55, ease: "sine.inOut" }, 0.25);
+      }
+
+      ME.sineBreathe(tl, ".grade-target", D, { delay: 1.4, scaleAmp: 0.006, scalePeriod: 2.6 });
+
+      gsap.set(".tunnel-label", { autoAlpha: 0, y: 12 });
+      tl.to(".tunnel-label", { autoAlpha: 1, y: 0, duration: 0.65, ease: "power2.out" }, 0.45);
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip05);
+    else initClip05();
+  </script>
+</body>
+</html>
