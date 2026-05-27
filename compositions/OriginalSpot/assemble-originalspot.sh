@@ -65,7 +65,7 @@ ffmpeg -y -hide_banner -loglevel error \
    [9:a]adelay=20800|20800,volume=0.55,afade=t=out:ss=28.2:d=1.8[sfx7]; \
    [10:a]adelay=21000|21000,volume=0.30[sfx8]; \
    [silent][sfx0][sfx1][sfx2][sfx3][sfx4][sfx5][sfx6][sfx7][sfx8]amix=inputs=10:duration=longest:dropout_transition=0[aout]; \
-   [aout]limiter=level_in=1.0:level_out=0.9:limit=0.95[final_audio]" \
+   [aout]alimiter=level_in=1.0:level_out=0.9:limit=0.95[final_audio]" \
   -map 0:v -c:v copy \
   -map "[final_audio]" -c:a aac -b:a 320k \
   -t 30.00 \
