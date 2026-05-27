@@ -81,7 +81,7 @@
         font-size: 16px;
         font-weight: bold;
         letter-spacing: 0.12em;
-        color: #c5a059; /* Sepia Clay */
+        color: #eae5d9; /* Sepia Chalk */
       }
       .layer-bar {
         margin-top: 20px;
@@ -225,8 +225,8 @@
               
               <!-- Act 2: 4.79s -> 12.0s -->
               <div id="para-2" style="display: flex; flex-direction: column; align-items: center; gap: 20px; transform-style: preserve-3d; opacity: 0; position: absolute; top: 12%;">
-                <span id="hw-beneath" style="font-family: 'Courier Prime', monospace; font-size: 38px; letter-spacing: 0.18em; color: #c5a059; text-shadow: 0 3px 12px rgba(0,0,0,0.95);">BENEATH THEIR FEET,</span>
-                <span id="hw-trillions" style="font-family: 'Oswald', sans-serif; font-size: 130px; font-weight: 900; letter-spacing: 0.08em; color: #ffffff; text-shadow: 0 0 40px rgba(197, 160, 89, 0.45), 0 5px 25px rgba(0,0,0,0.95); margin-top: -10px;">TRILLIONS</span>
+                 <span id="hw-beneath" style="font-family: 'Courier Prime', monospace; font-size: 38px; letter-spacing: 0.18em; color: #eae5d9; text-shadow: 0 3px 12px rgba(0,0,0,0.95);">BENEATH THEIR FEET,</span>
+                 <span id="hw-trillions" style="font-family: 'Oswald', sans-serif; font-size: 130px; font-weight: 900; letter-spacing: 0.08em; color: #ffffff; text-shadow: 0 0 40px rgba(255, 255, 255, 0.4), 0 5px 25px rgba(0,0,0,0.95); margin-top: -10px;">TRILLIONS</span>
                 <span id="hw-microbes" style="font-family: 'Courier Prime', monospace; font-size: 34px; letter-spacing: 0.12em; color: #e2e6dc; background: rgba(20, 17, 14, 0.85); border: 2px solid rgba(226, 230, 220, 0.35); padding: 10px 24px; margin-top: 10px;">SOIL MICROBES</span>
                 <span id="hw-frenzy" style="font-family: 'Playfair Display', serif; font-size: 42px; color: #ffffff; text-shadow: 0 3px 12px rgba(0,0,0,0.95); margin-top: 15px; font-style: italic;">went on an oxygen-devouring frenzy.</span>
               </div>
@@ -347,7 +347,7 @@
       H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 6.03, 1.2);
       
       // Seeded particle burst at center
-      H.particleBurst(tl, document.getElementById("stage-tilt"), 540, 960, 6.03, 18, "#c5a059", 4344);
+      H.particleBurst(tl, document.getElementById("stage-tilt"), 540, 960, 6.03, 18, "#eae5d9", 4344);
 
       // Microbes label (6.97s)
       tl.to("#hw-microbes", { opacity: 1, y: 0, duration: 0.4, ease: "springSnappy" }, 6.97);
@@ -355,10 +355,7 @@
       // Frenzy went on (9.00s)
       tl.to("#hw-frenzy", { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 9.00);
 
-      // Outro transition matching next clip (last 12 frames)
-      const transitionStart = D - 0.4; // 11.60s
-      tl.to("#stage-tilt", { scale: 1.15, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
-      tl.to(".hero-stack", { y: -50, opacity: 0, duration: 0.35, ease: "power3.in" }, transitionStart);
+
 
       // Seek connection
       window.addEventListener("hf-seek", (event) => {

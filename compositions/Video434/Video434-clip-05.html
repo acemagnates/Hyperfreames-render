@@ -363,10 +363,7 @@
       // Masking the crisis reveal (9.19s)
       tl.fromTo("#hw-masking", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "springSnappy" }, 9.19);
 
-      // Outro transition matching next clip (last 12 frames)
-      const transitionStart = D - 0.4; // 10.59s
-      tl.to("#stage-tilt", { scale: 1.15, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
-      tl.to(".hero-stack", { y: -50, opacity: 0, duration: 0.35, ease: "power3.in" }, transitionStart);
+
 
       // Seek connection
       window.addEventListener("hf-seek", (event) => {

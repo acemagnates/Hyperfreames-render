@@ -370,11 +370,7 @@
       const localReplica = 2.87;
       tl.to("#hw-replica", { y: 0, opacity: 1, duration: 0.5, ease: "springHeavy" }, localReplica);
 
-      // Outro transition matching next clip (last 12 frames)
-      const transitionStart = D - 0.4; // 4.10s
-      tl.to("#stage-tilt", { scale: 1.15, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
-      tl.to(".center-dome-wrap", { scale: 1.25, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
-      tl.to(".hero-stack", { y: -50, opacity: 0, duration: 0.35, ease: "power3.in" }, transitionStart);
+
 
       // Continuous breathing micro-motion
       H.lifePulse(tl, ".center-dome-wrap", D, { scaleAmp: 0.015, yAmp: 6, rotAmp: 0.3 });

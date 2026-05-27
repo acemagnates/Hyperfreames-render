@@ -355,10 +355,7 @@
       H.screenShake(tl, "#root-inner", 4.09, 1.1);
       H.chromaticFlash(tl, "#chrom-wrap", "#chrom-r", "#chrom-b", 4.09, 1.0);
 
-      // Outro transition matching next clip (last 12 frames)
-      const transitionStart = D - 0.4; // 4.61s
-      tl.to("#stage-tilt", { scale: 1.15, opacity: 0, duration: 0.4, ease: "power2.in" }, transitionStart);
-      tl.to(".hero-stack", { y: -50, opacity: 0, duration: 0.35, ease: "power3.in" }, transitionStart);
+
 
       // Seek connection
       window.addEventListener("hf-seek", (event) => {
