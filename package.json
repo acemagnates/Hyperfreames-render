@@ -13,6 +13,10 @@
     "sync:public-render": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/sync-public-render-repo.mjs",
     "assemble:ace435": "bash scripts/assemble-ace435-downloaded.sh",
     "assemble:video434": "bash scripts/assemble-video434-downloaded.sh",
+    "assemble:chrysalis30": "bash scripts/assemble-chrysalis30-downloaded.sh",
+    "sfx:plan": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node tools/sfx-mcp/src/cli.mjs plan",
+    "sfx:validate": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node tools/sfx-mcp/src/cli.mjs validate",
+    "sfx:mix-spec": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/sfx-mix-from-manifest.mjs",
     "publish": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 publish"
   },
   "dependencies": {}

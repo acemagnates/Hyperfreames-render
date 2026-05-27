@@ -1,0 +1,85 @@
+name: Render Chrysalis30 clips
+
+on:
+  workflow_dispatch:
+    inputs:
+      render_quality:
+        description: "hyperframes --quality"
+        type: choice
+        options: [draft, standard]
+        default: standard
+      render_fps:
+        description: "hyperframes --fps"
+        type: choice
+        options: ["30", "60"]
+        default: "30"
+
+concurrency:
+  group: render-chrysalis30
+  cancel-in-progress: false
+
+env:
+  NODE_VERSION: "22"
+  PROJECT_ID: "Chrysalis30"
+  HF_VERSION: "0.5.5"
+  RENDER_RETRIES: "2"
+  RENDER_RETRY_SLEEP_SEC: "3"
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      RENDER_QUALITY: ${{ inputs.render_quality }}
+      RENDER_FPS: ${{ inputs.render_fps }}
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        clip:
+          - compositions/Chrysalis30/Chrysalis30-clip-01.html
+          - compositions/Chrysalis30/Chrysalis30-clip-02.html
+          - compositions/Chrysalis30/Chrysalis30-clip-03.html
+          - compositions/Chrysalis30/Chrysalis30-clip-04.html
+          - compositions/Chrysalis30/Chrysalis30-clip-05.html
+          - compositions/Chrysalis30/Chrysalis30-clip-06.html
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install FFmpeg (apt)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y --no-install-recommends ffmpeg
+      - name: Install HyperFrames CLI
+        run: npm install -g hyperframes@${{ env.HF_VERSION }}
+      - name: Render clip
+        id: render
+        env:
+          PROJECT_ID: ${{ env.PROJECT_ID }}
+        run: |
+          set -u
+          BASENAME=$(basename "${{ matrix.clip }}" .html)
+          OUTDIR="renders/out/${PROJECT_ID}"
+          mkdir -p "$OUTDIR"
+          OUT="$OUTDIR/${BASENAME}.mp4"
+          ok=0
+          max="${RENDER_RETRIES:-2}"
+          sleep_sec="${RENDER_RETRY_SLEEP_SEC:-3}"
+          for attempt in $(seq 1 "$max"); do
+            if hyperframes render . --composition "${{ matrix.clip }}" \
+              --fps "${RENDER_FPS}" --quality "${RENDER_QUALITY}" --workers 1 --output "$OUT"; then
+              ok=1
+              break
+            fi
+            [[ "$attempt" -lt "$max" ]] && sleep "$sleep_sec"
+          done
+          [[ "$ok" -eq 1 ]] || exit 1
+          echo "outpath=$OUT" >> "$GITHUB_OUTPUT"
+          echo "artname=$BASENAME" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.render.outputs.artname }}
+          path: ${{ steps.render.outputs.outpath }}
+          retention-days: 7

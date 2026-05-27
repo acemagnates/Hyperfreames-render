@@ -3,148 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Video434 — The Glass Prison</title>
-    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet" />
+    <title>Chrysalis30 — Metamorph</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
     <script src="compositions/_shared/gsap.min.js"></script>
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a0a0a; }
-      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #0a0a0a; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #050508; }
+      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #050508; }
       #global-hud {
         position: absolute; inset: 0; z-index: 100; pointer-events: none;
         display: flex; flex-direction: column; justify-content: space-between;
-        padding: 88px 64px; font-family: 'Courier Prime', monospace; color: #eae5d9;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.65);
+        padding: 88px 64px; font-family: 'JetBrains Mono', monospace; color: #2ee8d6;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
       }
       .hud-row { display: flex; justify-content: space-between; font-size: 14px; letter-spacing: 0.16em; }
-      .hud-clock { color: #ffffff; font-size: 18px; }
-      .letterbox { position: absolute; left: 0; width: 1080px; height: 36px; background: #000000; z-index: 110; }
-      .lb-top { top: 0; }
-      .lb-bottom { bottom: 0; }
+      .hud-clock { color: #f4f2ff; font-size: 18px; }
     </style>
   </head>
   <body>
     <div
       id="composition-root"
-      data-composition-id="Video434"
+      data-composition-id="Chrysalis30"
       data-start="0"
-      data-duration="61.50"
+      data-duration="30.00"
       data-width="1080"
       data-height="1920"
       data-fps="30"
     >
-      <div class="letterbox lb-top"></div>
-      <div class="letterbox lb-bottom"></div>
-
-      <!-- Audio Track -->
-      <audio
-        id="narration"
-        src="Test_14.mp3"
-        data-start="0"
-        data-duration="58.50"
-        data-track-index="8"
-        data-volume="1"
-      ></audio>
-
-      <!-- Video Clips -->
-      <iframe
-        class="clip"
-        data-composition-id="Video434-clip-01"
-        data-composition-src="compositions/Video434/Video434-clip-01.html"
-        data-start="0"
-        data-duration="10.00"
-        data-track-index="1"
-        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
-      ></iframe>
-      <iframe
-        class="clip"
-        data-composition-id="Video434-clip-02"
-        data-composition-src="compositions/Video434/Video434-clip-02.html"
-        data-start="10.00"
-        data-duration="4.50"
-        data-track-index="2"
-        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
-      ></iframe>
-      <iframe
-        class="clip"
-        data-composition-id="Video434-clip-03"
-        data-composition-src="compositions/Video434/Video434-clip-03.html"
-        data-start="14.50"
-        data-duration="8.50"
-        data-track-index="3"
-        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
-      ></iframe>
-      <iframe
-        class="clip"
-        data-composition-id="Video434-clip-04"
-        data-composition-src="compositions/Video434/Video434-clip-04.html"
-        data-start="23.00"
-        data-duration="12.00"
-        data-track-index="4"
-        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
-      ></iframe>
-      <iframe
-        class="clip"
-        data-composition-id="Video434-clip-05"
-        data-composition-src="compositions/Video434/Video434-clip-05.html"
-        data-start="35.00"
-        data-duration="10.99"
-        data-track-index="5"
-        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
-      ></iframe>
-      <iframe
-        class="clip"
-        data-composition-id="Video434-clip-06"
-        data-composition-src="compositions/Video434/Video434-clip-06.html"
-        data-start="45.99"
-        data-duration="5.01"
-        data-track-index="6"
-        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
-      ></iframe>
-      <iframe
-        class="clip"
-        data-composition-id="Video434-clip-07"
-        data-composition-src="compositions/Video434/Video434-clip-07.html"
-        data-start="51.00"
-        data-duration="10.50"
-        data-track-index="7"
-        style="position: absolute; inset: 0; width: 1080px; height: 1920px; border: none; z-index: 1"
-      ></iframe>
+      <iframe class="clip" data-composition-id="Chrysalis30-clip-01" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-01.html" data-start="0" data-duration="5.00" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="Chrysalis30-clip-02" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-02.html" data-start="5.00" data-duration="5.00" data-track-index="2" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="Chrysalis30-clip-03" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-03.html" data-start="10.00" data-duration="6.00" data-track-index="3" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="Chrysalis30-clip-04" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-04.html" data-start="16.00" data-duration="6.00" data-track-index="4" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="Chrysalis30-clip-05" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-05.html" data-start="22.00" data-duration="5.00" data-track-index="5" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
+      <iframe class="clip" data-composition-id="Chrysalis30-clip-06" data-composition-src="compositions/Chrysalis30/Chrysalis30-clip-06.html" data-start="27.00" data-duration="3.00" data-track-index="6" style="position:absolute;inset:0;width:1080px;height:1920px;border:none;z-index:1"></iframe>
 
       <div id="global-hud">
         <div class="hud-row">
-          <span>VIDEO434 // THE GLASS PRISON</span>
+          <span>CHRYSALIS30 // METAMORPH</span>
           <span id="hud-time" class="hud-clock">00:00.0</span>
         </div>
         <div class="hud-row">
-          <span id="hud-chapter">I — THE HOOK</span>
-          <span>61.50s CINEMATIC</span>
+          <span id="hud-chapter">I — FLATLAND</span>
+          <span>30.00s VISUAL</span>
         </div>
       </div>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
-      window.__timelines["Video434"] = gsap.timeline({ paused: true });
+      window.__timelines["Chrysalis30"] = gsap.timeline({ paused: true });
       const chapters = [
-        [0, "I — THE HOOK"],
-        [10.00, "II — DOME RECONSTRUCT"],
-        [14.50, "III — RESPIRATION CRISIS"],
-        [23.00, "IV — THE TRILLIONS SWARM"],
-        [35.00, "V — CONCRETE ABSORPTION"],
-        [45.99, "VI — PRISTINE PRISON"],
-        [51.00, "VII — THE DIRT WINS"],
+        [0, "I — FLATLAND"],
+        [5, "II — THE FOLD"],
+        [10, "III — MORPHESIS"],
+        [16, "IV — STAGGER FIELD"],
+        [22, "V — FUSION CORE"],
+        [27, "VI — MIRROR"],
       ];
       window.addEventListener("hf-seek", (e) => {
         const t = e.detail.time;
         const sec = Math.floor(t).toString().padStart(2, "0");
         const dec = Math.floor((t % 1) * 10);
-        document.getElementById("hud-time").textContent = `00:${sec}.${dec}`;
+        document.getElementById("hud-time").textContent = `${sec}:${dec.toString().padStart(2, "0")}.0`;
         let ch = chapters[0][1];
-        for (let i = chapters.length - 1; i >= 0; i--) {
-          if (t >= chapters[i][0]) {
-            ch = chapters[i][1];
-            break;
-          }
+        for (const [start, label] of chapters) {
+          if (t >= start) ch = label;
         }
         document.getElementById("hud-chapter").textContent = ch;
       });

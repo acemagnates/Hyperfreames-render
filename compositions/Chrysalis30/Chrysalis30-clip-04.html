@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Chrysalis30 Clip 04 — Stagger Field</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/Chrysalis30/chrysalis30-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#050508}
+    #root{position:relative;width:1080px;height:1920px}
+    #field{position:absolute;inset:0;perspective:1600px;perspective-origin:50% 50%;transform-style:preserve-3d}
+    .shard{position:absolute;transform-style:preserve-3d;
+      background:linear-gradient(135deg,rgba(46,232,214,0.35),rgba(123,92,255,0.15) 40%,rgba(5,5,8,0.9));
+      border:1px solid rgba(46,232,214,0.45);box-shadow:0 12px 40px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.15)}
+    .cap{position:absolute;left:64px;top:120px;font-family:'Syne',sans-serif;font-size:42px;color:rgba(244,242,255,0.9);letter-spacing:0.12em}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="Chrysalis30-clip-04" data-start="0" data-duration="6" data-width="1080" data-height="1920" data-fps="30">
+    <div class="cap clip" data-start="0" data-duration="6" data-track-index="0">STAGGER // 28</div>
+    <div id="field" class="clip" data-start="0" data-duration="6" data-track-index="1"></div>
+  </div>
+  <script>
+    window.__timelines=window.__timelines||{};
+    function initChrysalis04() {
+    const CID="Chrysalis30-clip-04",C=window.Chrysalis30;
+    const field=document.getElementById("field");
+    if(!field)return;
+    const shards=C.spawnShards(field,28,404);
+    shards.forEach((el,i)=>{
+      el.classList.add("clip");
+      el.dataset.start="0";el.dataset.duration="6";el.dataset.trackIndex=String(10+i);
+    });
+    const tl=gsap.timeline({paused:true});
+    shards.forEach(el=>{
+      const z=parseFloat(el.dataset.z);
+      const rx=parseFloat(el.dataset.rx);
+      const ry=parseFloat(el.dataset.ry);
+      gsap.set(el,{z,z:-900,rotateX:rx+40,rotateY:ry,opacity:0,scale:0.2});
+    });
+    gsap.set(".cap",{opacity:0});
+    tl.to(".cap",{opacity:1,duration:0.4},0.2);
+    tl.to(shards,{
+      z:(i,el)=>parseFloat(el.dataset.z),
+      rotateX:(i,el)=>parseFloat(el.dataset.rx),
+      rotateY:(i,el)=>parseFloat(el.dataset.ry),
+      opacity:1,scale:1,duration:1.1,ease:"back.out(1.35)",
+      stagger:{each:0.055,from:"random"}
+    },0.35);
+    tl.to("#field",{rotateY:8,duration:4,ease:"sine.inOut"},1.5);
+    window.addEventListener("hf-seek",e=>tl.seek(e.detail.time));
+    tl.seek(0);window.__timelines[CID]=tl;
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initChrysalis04);
+    else initChrysalis04();
+  </script>
+</body>
+</html>

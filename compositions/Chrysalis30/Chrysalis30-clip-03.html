@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Chrysalis30 Clip 03 — Morphesis</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/Chrysalis30/chrysalis30-shared.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{width:1080px;height:1920px;overflow:hidden;background:#050508}
+    #root{position:relative;width:1080px;height:1920px}
+    #stage{position:absolute;inset:0;perspective:1200px;transform-style:preserve-3d}
+    .blob{position:absolute;width:520px;height:520px;left:50%;top:46%;margin:-260px 0 0 -260px;
+      background:radial-gradient(circle at 30% 30%,#ff4d8d,rgba(123,92,255,0.9) 45%,rgba(5,5,8,0) 70%);
+      mix-blend-mode:screen;transform-style:preserve-3d;box-shadow:0 0 80px rgba(123,92,255,0.35)}
+    .blob.b2{background:radial-gradient(circle at 70% 60%,#2ee8d6,rgba(123,92,255,0.5) 50%,transparent 72%)}
+    .blob.b3{width:380px;height:380px;margin:-190px 0 0 -190px;background:radial-gradient(circle,#7b5cff,#050508 68%)}
+    .meta{position:absolute;left:64px;bottom:200px;font-family:'Syne',sans-serif;font-size:96px;font-weight:800;color:#fff;letter-spacing:0.06em}
+    .meta span{display:inline-block;transform-origin:50% 100%}
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="Chrysalis30-clip-03" data-start="0" data-duration="6" data-width="1080" data-height="1920" data-fps="30">
+    <div id="stage" class="clip" data-start="0" data-duration="6" data-track-index="0">
+      <div class="blob b1 clip" data-start="0" data-duration="6" data-track-index="1"></div>
+      <div class="blob b2 clip" data-start="0" data-duration="6" data-track-index="2"></div>
+      <div class="blob b3 clip" data-start="0" data-duration="6" data-track-index="3"></div>
+      <div class="meta clip" data-start="0" data-duration="6" data-track-index="4" id="meta">METAMORPH</div>
+    </div>
+  </div>
+  <script>
+    window.__timelines=window.__timelines||{};
+    function initChrysalis03() {
+      const CID="Chrysalis30-clip-03",D=6;
+      const metaEl=document.getElementById("meta");
+      if(!metaEl)return;
+      const tl=gsap.timeline({paused:true});
+      const shapes=[
+        "30% 70% 70% 30% / 30% 30% 70% 70%",
+        "50% 50% 50% 50% / 50% 50% 50% 50%",
+        "63% 37% 54% 46% / 55% 48% 52% 45%",
+        "40% 60% 60% 40% / 60% 40% 60% 40%",
+      ];
+      gsap.set(".blob.b1",{z:40,rotateZ:0,borderRadius:shapes[0]});
+      gsap.set(".blob.b2",{z:-30,rotateZ:45,borderRadius:shapes[1],opacity:0.85});
+      gsap.set(".blob.b3",{z:-80,rotateZ:-20,borderRadius:shapes[2],opacity:0.7});
+      const text=metaEl.textContent;
+      metaEl.textContent="";
+      [...text].forEach(ch=>{
+        const s=document.createElement("span");
+        s.textContent=ch;
+        metaEl.appendChild(s);
+      });
+      gsap.set(".meta span",{rotateX:90,opacity:0});
+      shapes.forEach((br,i)=>{
+        tl.to(".blob.b1",{borderRadius:br,duration:1.1,ease:"sine.inOut"},0.4+i*1.1);
+      });
+      tl.to(".blob.b1",{rotateZ:120,scale:1.15,duration:D,ease:"none"},0);
+      tl.to(".blob.b2",{rotateZ:-90,z:60,duration:D,ease:"sine.inOut"},0);
+      tl.to(".blob.b3",{rotateZ:200,scale:0.6,duration:D,ease:"sine.inOut"},0);
+      tl.to(".meta span",{rotateX:0,opacity:1,duration:0.35,stagger:0.04,ease:"back.out(2)"},2.5);
+      window.addEventListener("hf-seek",e=>tl.seek(e.detail.time));
+      tl.seek(0);window.__timelines[CID]=tl;
+    }
+    if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",initChrysalis03);
+    else initChrysalis03();
+  </script>
+</body>
+</html>

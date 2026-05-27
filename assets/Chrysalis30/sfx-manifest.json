@@ -1,0 +1,108 @@
+{
+  "project_id": "Chrysalis30",
+  "source": "MASTER-TIMELINE.md — Chrysalis30 visual-only piece",
+  "mix_profile": "punchy_hook_v1",
+  "mix_notes": "No narration; SFX tell the story. Slightly hotter bus than documentary.",
+  "sfx": [
+    {
+      "stem_file": "sfx/digital_bed.wav",
+      "wall_seconds": 0.0,
+      "role": "bed",
+      "role_key": "bed",
+      "volume": 0.1,
+      "emotion": "tension, digital void",
+      "listener_feel": "A living machine hum under silence.",
+      "search_queries": ["sci-fi ambient drone loop", "digital texture hum"]
+    },
+    {
+      "stem_file": "sfx/glitch_tick.wav",
+      "wall_seconds": 0.35,
+      "role": "FLATLAND HOOK",
+      "role_key": "HOOK",
+      "volume": 0.55,
+      "emotion": "precision shock",
+      "listener_feel": "The grid snaps awake.",
+      "search_queries": ["ui glitch tick", "short digital click cinematic"]
+    },
+    {
+      "stem_file": "sfx/whoosh_fold.wav",
+      "wall_seconds": 5.0,
+      "role": "FOLD WHOOSH",
+      "role_key": "REVELATION",
+      "volume": 0.58,
+      "emotion": "vertigo, opening",
+      "listener_feel": "Space folds inward.",
+      "search_queries": ["cinematic whoosh transition", "air rush swoosh"]
+    },
+    {
+      "stem_file": "sfx/sub_align.wav",
+      "wall_seconds": 7.2,
+      "role": "VANISHING POINT",
+      "role_key": "REVELATION",
+      "volume": 0.62,
+      "emotion": "depth lock",
+      "listener_feel": "Gravity finds a center.",
+      "search_queries": ["sub bass impact short", "deep thud cinematic"]
+    },
+    {
+      "stem_file": "sfx/morph_swipe.wav",
+      "wall_seconds": 12.4,
+      "role": "MORPH SWIPE",
+      "role_key": "TURN",
+      "volume": 0.6,
+      "emotion": "organic shift",
+      "listener_feel": "Matter melts and reforms.",
+      "search_queries": ["liquid morph swoosh", "wet transition sound"]
+    },
+    {
+      "stem_file": "sfx/shard_cascade.wav",
+      "wall_seconds": 16.0,
+      "role": "STAGGER CASCADE",
+      "role_key": "ESCALATION",
+      "volume": 0.65,
+      "emotion": "overwhelm, beauty",
+      "listener_feel": "A thousand pieces arrive at once.",
+      "search_queries": ["glass shards cascade", "crystal scatter sound"]
+    },
+    {
+      "stem_file": "sfx/swarm_swell.wav",
+      "wall_seconds": 20.5,
+      "role": "SWARM SWELL",
+      "role_key": "ESCALATION",
+      "volume": 0.68,
+      "emotion": "scale",
+      "listener_feel": "The field pressurizes.",
+      "search_queries": ["cinematic riser short", "tension swell"]
+    },
+    {
+      "stem_file": "sfx/vacuum_in.wav",
+      "wall_seconds": 22.0,
+      "role": "FUSION VACUUM",
+      "role_key": "REVELATION",
+      "volume": 0.55,
+      "emotion": "implosion",
+      "listener_feel": "Everything is pulled home.",
+      "search_queries": ["reverse whoosh vacuum", "suck air cinematic"]
+    },
+    {
+      "stem_file": "sfx/core_ignite.wav",
+      "wall_seconds": 24.6,
+      "role": "CORE IGNITE",
+      "role_key": "PAYOFF",
+      "volume": 0.75,
+      "emotion": "transcendence",
+      "listener_feel": "The core ignites — finality.",
+      "search_queries": ["cinematic impact slam", "energy burst sound"]
+    },
+    {
+      "stem_file": "sfx/chime_mirror.wav",
+      "wall_seconds": 27.0,
+      "role": "MIRROR CHIME",
+      "role_key": "PAYOFF",
+      "volume": 0.45,
+      "emotion": "stillness",
+      "listener_feel": "A single clear bell — peace.",
+      "search_queries": ["soft glass chime", "cinematic bell hit"]
+    }
+  ]
+}
