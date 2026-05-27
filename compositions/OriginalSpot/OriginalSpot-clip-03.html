@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Chrono-Fracture Clip 03 — The Resolution</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display:ital,wght@0,600;0,900;1,700&display=swap" rel="stylesheet" />
+  <script src="compositions/_shared/gsap.min.js"></script>
+  <script src="compositions/_shared/CustomEase.min.js"></script>
+  <script src="compositions/OriginalSpot/originalspot-shared.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #070709; }
+    #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+    
+    /* Background L0: Deep Obsidian Vault */
+    #vault-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 55%, #0e161c 0%, #070709 60%, #010102 100%);
+      z-index: 1;
+    }
+    
+    /* Integration Plate L1 */
+    .plate-stage {
+      position: absolute;
+      inset: 0;
+      opacity: 0.15;
+      mix-blend-mode: overlay;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .plate {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* 3D Monolith Stage L2 */
+    #monolith-stage {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1200px;
+    }
+    #monolith-container {
+      width: 640px;
+      height: 640px;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: rotateX(8deg) rotateY(-5deg) translateZ(50px);
+    }
+    .geom-svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Technical UI Overlay L4 */
+    .blueprint-overlay {
+      position: absolute;
+      inset: 90px;
+      border: 1px dashed rgba(14, 194, 221, 0.15);
+      z-index: 4;
+      pointer-events: none;
+    }
+    
+    /* Corner Brackets */
+    .corner-bracket {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-color: #0ec2dd;
+      border-style: solid;
+      border-width: 0;
+      opacity: 0;
+    }
+    .c-tl { top: -2px; left: -2px; border-top-width: 2px; border-left-width: 2px; }
+    .c-tr { top: -2px; right: -2px; border-top-width: 2px; border-right-width: 2px; }
+    .c-bl { bottom: -2px; left: -2px; border-bottom-width: 2px; border-left-width: 2px; }
+    .c-br { bottom: -2px; right: -2px; border-bottom-width: 2px; border-right-width: 2px; }
+    
+    /* Volumetric dust */
+    #dust-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .debris {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+    }
+    
+    /* Vignette L3 */
+    #vig {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(2, 2, 3, 0.9) 100%);
+      pointer-events: none;
+      z-index: 5;
+    }
+    
+    /* Typography L4 */
+    .hero-title {
+      position: absolute;
+      left: 50%;
+      bottom: 260px;
+      transform: translateX(-50%);
+      font-family: 'Courier Prime', monospace;
+      font-size: 42px;
+      font-weight: 700;
+      color: #ffffff;
+      text-align: center;
+      line-height: 1.1;
+      letter-spacing: 0.35em;
+      z-index: 5;
+      text-shadow: 0 0 15px rgba(14, 194, 221, 0.4), 0 4px 8px rgba(0,0,0,0.85);
+      opacity: 0;
+    }
+    
+    /* Blueprint Coordinate Array */
+    .blueprint-array {
+      position: absolute;
+      top: 130px;
+      left: 120px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 14px;
+      color: #6e6e73;
+      z-index: 5;
+      line-height: 1.6;
+    }
+    .blueprint-array span {
+      color: #0ec2dd;
+    }
+    
+    /* Blinding Entrance Flash Wipe */
+    #flash-wipe {
+      position: absolute;
+      inset: 0;
+      background: #e6faff;
+      opacity: 1;
+      pointer-events: none;
+      z-index: 9;
+    }
+    
+    #grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.18;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="OriginalSpot-clip-03" data-start="20" data-duration="10" data-width="1080" data-height="1920" data-fps="30">
+    <div id="vault-bg" class="clip" data-start="0" data-duration="10" data-track-index="0"></div>
+    
+    <div class="plate-stage clip" data-start="0" data-duration="10" data-track-index="1">
+      <img class="plate" src="assets/OriginalSpot/ref-void-glass.jpg" alt="" width="1080" height="1920" />
+    </div>
+
+    <div id="monolith-stage" class="clip" data-start="0" data-duration="10" data-track-index="2">
+      <div id="monolith-container">
+        <!-- SVG will be injected by script -->
+      </div>
+    </div>
+    
+    <div class="blueprint-overlay clip" data-start="0" data-duration="10" data-track-index="3">
+      <div class="corner-bracket c-tl"></div>
+      <div class="corner-bracket c-tr"></div>
+      <div class="corner-bracket c-bl"></div>
+      <div class="corner-bracket c-br"></div>
+    </div>
+    
+    <div id="dust-particles" class="clip" data-start="0" data-duration="10" data-track-index="4"></div>
+    <div id="flash-wipe" class="clip" data-start="0" data-duration="10" data-track-index="5"></div>
+    <div id="vig" class="clip" data-start="0" data-duration="10" data-track-index="6"></div>
+    
+    <h1 class="hero-title clip" data-start="0" data-duration="10" data-track-index="7">SOLID RESOLUTION</h1>
+    
+    <div class="blueprint-array clip" data-start="0" data-duration="10" data-track-index="8">
+      <div>VAL.X: <span id="val-x">108.40</span></div>
+      <div>VAL.Y: <span id="val-y">994.20</span></div>
+      <div>VAL.Z: <span id="val-z">0.053</span></div>
+      <div>STATUS: <span style="color:#ffffff;">RESOLVED</span></div>
+    </div>
+    
+    <div class="leak-layer clip" data-start="0" data-duration="10" data-track-index="9" style="position:absolute;inset:0;background:linear-gradient(120deg,transparent 60%,rgba(14,194,221,0.05));pointer-events:none;z-index:4"></div>
+
+    <canvas id="grain" class="clip" data-start="0" data-duration="10" data-track-index="10" width="540" height="960"></canvas>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    function initClip03() {
+      const CID = "OriginalSpot-clip-03", S = window.OriginalSpot;
+      S.registerEases(gsap);
+      const tl = gsap.timeline({ paused: true });
+
+      const monolithBox = document.getElementById("monolith-container");
+      if (monolithBox) {
+        monolithBox.innerHTML = S.crystalGeometricSVGs.monolith;
+      }
+
+      const dustBox = document.getElementById("dust-particles");
+      if (dustBox) {
+        const debris = S.spawnDebris(dustBox, 20, 88201);
+        debris.forEach((el, i) => {
+          gsap.set(el, { opacity: 0, scale: 0 });
+          tl.to(el, { opacity: 0.4 + ((i % 3) * 0.1), scale: 1.0, duration: 1.5, ease: "sine.out" }, 0.2 + i * 0.08);
+          tl.to(el, { y: -Number(el.dataset.drift), rotation: Number(el.dataset.rot), duration: 8.5, ease: "none" }, 0.8 + i * 0.05);
+        });
+      }
+
+      const grain = document.getElementById("grain");
+      if (grain) {
+        S.initGrain(grain, 0.18, 55212);
+      }
+
+      // ACT 1: ENTRANCE (20.00s - 22.50s)
+      tl.to("#flash-wipe", {
+        opacity: 0,
+        duration: 1.2,
+        ease: "power2.out"
+      }, 0);
+
+      gsap.set("#monolith-container", { scale: 1.2, z: 200, rotateY: -15 });
+      tl.to("#monolith-container", {
+        scale: 0.95,
+        z: 0,
+        rotateY: -5,
+        duration: 2.5,
+        ease: "breathEase"
+      }, 0);
+
+      tl.to(".corner-bracket", {
+        opacity: 0.7,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: "sine.out"
+      }, 0.8);
+
+      tl.to(".hero-title", { opacity: 1, duration: 1.5, ease: "breathEase" }, 1.5);
+      tl.to(".blueprint-array", { opacity: 0.75, duration: 1.0 }, 1.8);
+
+      // ACT 2: EVOLUTION/HOLD (22.50s - 27.50s)
+      tl.to("#monolith-container", {
+        rotateX: -2,
+        rotateY: 2,
+        duration: 5.5,
+        ease: "sine.inOut"
+      }, 2.5);
+
+      const valX = document.getElementById("val-x");
+      const valY = document.getElementById("val-y");
+      const valZ = document.getElementById("val-z");
+      const coordsObj = { x: 108.40, y: 994.20, z: 0.053 };
+      
+      tl.to(coordsObj, {
+        x: 124.95,
+        y: 1005.82,
+        z: 0.002,
+        duration: 6.0,
+        ease: "none",
+        onUpdate: () => {
+          if (valX) valX.textContent = coordsObj.x.toFixed(2);
+          if (valY) valY.textContent = coordsObj.y.toFixed(2);
+          if (valZ) valZ.textContent = coordsObj.z.toFixed(3);
+        }
+      }, 2.0);
+
+      // ACT 3: EXIT (27.50s - 30.00s)
+      tl.to("#root", {
+        opacity: 0,
+        duration: 1.8,
+        ease: "power2.inOut"
+      }, 8.0);
+
+      window.addEventListener("hf-seek", e => tl.seek(e.detail.time));
+      tl.seek(0);
+      window.__timelines[CID] = tl;
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initClip03);
+    else initClip03();
+  </script>
+</body>
+</html>
