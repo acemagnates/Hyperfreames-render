@@ -13,6 +13,7 @@
     "render:ace-435-local": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/render-ace-435-local-all.mjs",
     "render:local": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 render .",
     "sync:public-render": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/sync-public-render-repo.mjs",
+    "sync:public-render:push": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/sync-public-render-repo.mjs --push",
     "assemble:ace435": "bash scripts/assemble-ace435-downloaded.sh",
     "assemble:video434": "bash scripts/assemble-video434-downloaded.sh",
     "assemble:chrysalis30": "bash scripts/assemble-chrysalis30-downloaded.sh",
