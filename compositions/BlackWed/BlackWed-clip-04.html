@@ -9,48 +9,143 @@
   <script src="compositions/_shared/CustomEase.min.js"></script>
   <script src="compositions/BlackWed/blackwed-shared.js"></script>
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:1080px;height:1920px;overflow:hidden;background:#030303}
-    #depth-stage{position:relative;width:1080px;height:1920px;overflow:hidden;perspective:950px;perspective-origin:50% 46%}
-    .z-mg-ui{position:absolute;inset:0;transform:translateZ(60px)}
-    .coin{position:absolute;width:52px;height:52px;border-radius:50%;border:2px solid rgba(180,138,58,.78);background:radial-gradient(circle at 35% 35%,rgba(210,175,85,.9) 0%,rgba(165,128,48,.85) 50%,rgba(120,90,30,.8) 100%);box-shadow:0 0 6px rgba(185,145,62,.82),inset 0 0 6px rgba(255,220,120,.15);display:flex;align-items:center;justify-content:center;font-family:"Courier Prime",monospace;font-size:22px;color:rgba(210,175,85,.9);opacity:0;transform:scale(.08)}
-    #vig{position:absolute;inset:0;z-index:90;background:radial-gradient(ellipse 75% 55% at 50% 48%,transparent 18%,rgba(0,0,0,.8) 100%);pointer-events:none}
-    #payoff{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;font-family:"Cormorant Garamond",serif;font-weight:300;font-size:30px;line-height:2.2;color:rgba(200,170,110,.55);opacity:0;z-index:20;white-space:pre-line}
-    #grain{position:absolute;inset:0;z-index:98;width:100%;height:100%;mix-blend-mode:overlay;opacity:.17;pointer-events:none}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #030303; }
+
+    #depth-stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      perspective: 950px;
+      perspective-origin: 50% 46%;
+    }
+
+    .z-mg-ui {
+      position: absolute;
+      inset: 0;
+      transform: translateZ(60px);
+    }
+
+    /* Highly aesthetic physical gold coin styling */
+    .coin {
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 2px solid rgba(180, 138, 58, 0.78);
+      background: radial-gradient(
+        circle at 35% 35%,
+        rgba(210, 175, 85, 0.9) 0%,
+        rgba(165, 128, 48, 0.85) 50%,
+        rgba(120, 90, 30, 0.8) 100%
+      );
+      box-shadow:
+        0 0 6px rgba(185, 145, 62, 0.82),
+        inset 0 0 6px rgba(255, 220, 120, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier Prime', monospace;
+      font-size: 22px;
+      color: rgba(210, 175, 85, 0.9);
+      opacity: 0;
+      transform: scale(0.08);
+    }
+
+    #vig {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      background: radial-gradient(ellipse 75% 55% at 50% 48%, transparent 18%, rgba(0, 0, 0, 0.80) 100%);
+      pointer-events: none;
+    }
+
+    /* Payoff slate: Cormorant Garamond elegant serif */
+    #payoff {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 30px;
+      line-height: 2.2;
+      color: rgba(200, 170, 110, 0.55);
+      opacity: 0;
+      z-index: 20;
+      white-space: pre-line;
+    }
+
+    #grain {
+      position: absolute;
+      inset: 0;
+      z-index: 98;
+      width: 100%;
+      height: 100%;
+      mix-blend-mode: overlay;
+      opacity: 0.17;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
-  <div id="depth-stage" class="clip" data-composition-id="BlackWed-clip-04" data-start="0" data-duration="7.5" data-width="1080" data-height="1920" data-fps="30" data-layout-allow-overflow>
-    <div class="plate-stage clip" data-start="0" data-duration="7.5" data-track-index="0" style="position:absolute;inset:0;opacity:.08;mix-blend-mode:overlay"><img src="assets/BlackWed/plates/ref-boe-night.jpg" alt="" style="width:100%;height:100%;object-fit:cover" /></div>
+  <div id="depth-stage" class="clip" data-composition-id="BlackWed-clip-04" data-start="22.5" data-duration="7.5" data-width="1080" data-height="1920" data-fps="30" data-layout-allow-overflow>
+    <div class="plate-stage clip" data-start="0" data-duration="7.5" data-track-index="0" style="position: absolute; inset: 0; opacity: 0.08; mix-blend-mode: overlay;"><img src="assets/BlackWed/plates/ref-boe-night.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;" /></div>
+    
+    <!-- Z-MG-UI containing falling gold coins -->
     <div class="z-mg-ui clip" data-start="0" data-duration="7.5" data-track-index="1" id="coin-field"></div>
+
+    <!-- Final Payoff Slate Text -->
     <p id="payoff" class="clip" data-start="0" data-duration="7.5" data-track-index="2">SEPT 16, 1992
 £3,300,000,000 LOST
 ONE TRADER</p>
+
+    <!-- Framing assets -->
     <div id="vig" class="clip" data-start="0" data-duration="7.5" data-track-index="3"></div>
     <canvas id="grain" class="clip" data-start="0" data-duration="7.5" data-track-index="4" width="540" height="960"></canvas>
   </div>
+
   <script>
     (function () {
       var BW = window.BlackWed;
       var CID = "BlackWed-clip-04";
       var D = 7.5;
       var rng = BW.mulberry32(7774);
+
       BW.registerEases(gsap);
       BW.initGrain(document.getElementById("grain"), 0.17, 88888);
+
+      // Spawn 44 sovereign coins
       var coins = BW.spawnCoins(document.getElementById("coin-field"), 44, 7774, BW.columnXs);
+
+      // Initialize Master Timeline
       var tl = BW.makeTimeline(CID);
       window.__timelines[CID] = tl;
+
+      // ACT 1: COINS ENTRANCE STAGGERED (Columns pop into coins at t=0.15s)
       tl.to(coins, { scale: 1, opacity: 1, duration: 0.28, stagger: 0.006, ease: "power2.out" }, 0.15);
+
+      // ACT 2: PHYSICAL CURRENCY RAIN GRAVITY FALLS
       coins.forEach(function (coin) {
-        var fallDur = 0.55 + rng() * 0.35;
-        var delay = rng() * 1.6;
+        var fallDur = 0.55 + rng() * 0.35; // 0.55s - 0.90s fall
+        var delay = rng() * 1.6; // stagger delay
         var landY = parseFloat(coin.dataset.landY, 10);
         var landX = parseFloat(coin.dataset.landX, 10);
+
+        // Accelerated gravity fall (power3.in)
         tl.to(coin, { x: landX, y: landY, duration: fallDur, ease: "power3.in" }, delay);
+        
+        // Settle marble impact bounce
         tl.to(coin, { y: "-=8", duration: 0.12, ease: "power2.out" }, delay + fallDur);
         tl.to(coin, { y: "+=8", duration: 0.22, ease: "elastic.out(1, 0.25)" }, delay + fallDur + 0.12);
       });
-      tl.to("#depth-stage", { scale: 1.035, rotateX: -0.7, duration: 4, ease: "sine.inOut", transformOrigin: "50% 50%" }, 0.5);
+
+      // Ken Burns drift camera push (Scale drift, rotate)
+      tl.to("#depth-stage", { scale: 1.035, rotateX: -0.7, duration: 4.0, ease: "sine.inOut", transformOrigin: "50% 50%" }, 0.5);
+
+      // ACT 3: CENTER COINS IMPLOSION (Morphism 4)
       coins.forEach(function (coin, i) {
         var left = parseFloat(coin.style.left, 10);
         tl.to(coin, {
@@ -59,12 +154,16 @@ ONE TRADER</p>
           scale: 0,
           opacity: 0,
           duration: 0.52 + i * 0.018,
-          ease: "power2.in",
-        }, 4 + i * 0.012);
+          ease: "power2.in"
+        }, 4.0 + i * 0.012);
       });
-      tl.to("#depth-stage", { perspective: 1900, duration: 3.5, ease: "sine.inOut" }, 4);
+
+      // Dolly out perspective shift
+      tl.to("#depth-stage", { perspective: 1900, duration: 3.5, ease: "sine.inOut" }, 4.0);
+
+      // ACT 4: FINAL PAYOFF IN VOID SILENCE
       tl.to("#payoff", { opacity: 0.55, duration: 1.4, ease: "power1.inOut" }, 5.3);
-      tl.to("#payoff", { opacity: 0.18, duration: 1, ease: "power1.inOut" }, 6);
+      tl.to("#payoff", { opacity: 0.18, duration: 1.0, ease: "power1.inOut" }, 6.0);
     })();
   </script>
 </body>

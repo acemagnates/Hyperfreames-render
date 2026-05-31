@@ -11,54 +11,189 @@
   <script src="compositions/BlackWed/blackwed-shared.js"></script>
   <script src="compositions/BlackWed/blackwed-three-dealing.js"></script>
   <style>
+    /* Premium CSS Color Properties Registration */
     @property --paper-warm { syntax: "<color>"; inherits: false; initial-value: #e8d9b5; }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:1080px;height:1920px;overflow:hidden;background:#030303}
-    #depth-stage{position:relative;width:1080px;height:1920px;overflow:hidden;perspective:950px;perspective-origin:50% 46%;opacity:0}
-    .z-bg,.z-3d,.z-mg-ui,.z-fg-1,.z-fg-2{position:absolute;transform-style:preserve-3d}
-    .z-bg{inset:-9%;transform:translateZ(-450px) scale(1.88);background:radial-gradient(ellipse 90% 70% at 50% 42%,var(--env-bg-center,rgba(48,31,12,.96)),var(--env-bg-edge,rgba(8,5,2,1)))}
-    .z-3d{inset:0;transform:translateZ(0)}
-    #three-canvas{width:1080px;height:1920px;display:block}
-    .z-mg-ui{inset:-3%;transform:translateZ(60px) scale(.944);opacity:0}
-    .ghost-bg-text{font-family:"Courier Prime",monospace;font-size:250px;font-weight:700;color:rgba(195,160,100,.025);letter-spacing:-5px;line-height:1.08;position:absolute;top:8%;left:-4%;width:108%;pointer-events:none}
-    .telex-doc{position:absolute;width:540px;left:270px;top:680px;background:var(--paper-warm);--paper-warm:#e8d9b5;box-shadow:-10px 14px 44px rgba(0,0,0,.65),-3px 5px 10px rgba(0,0,0,.32),inset 0 0 0 1px rgba(28,15,5,.04);transform:translateZ(80px) rotateX(7deg) rotateZ(-1.8deg);padding:40px 44px;font-family:"Courier Prime",monospace;font-size:13px;color:#1c0f05;letter-spacing:.5px;line-height:1.7;opacity:0}
-    .telex-doc .rate{font-size:22px;margin-top:12px}
-    .z-fg-1{inset:-5%;transform:translateZ(160px) scale(.858)}
-    .frame-mark{position:absolute;width:48px;height:48px;border-color:rgba(154,143,122,.4);border-style:solid;opacity:0}
-    .fm-tl{top:8%;left:6%;border-width:2px 0 0 2px}
-    .fm-tr{top:8%;right:6%;border-width:2px 2px 0 0}
-    .fm-bl{bottom:12%;left:6%;border-width:0 0 2px 2px}
-    .fm-br{bottom:12%;right:6%;border-width:0 2px 2px 0}
-    .date-stamp{position:absolute;right:52px;bottom:140px;font-family:"Courier Prime",monospace;font-size:12px;letter-spacing:.8em;color:rgba(232,217,181,.6);opacity:0}
-    .z-fg-2{inset:-8%;transform:translateZ(280px) scale(.765)}
-    .dust-mote{position:absolute;border-radius:50%;background:rgba(210,155,70,.35)}
-    #vig{position:absolute;inset:0;z-index:90;background:radial-gradient(ellipse 75% 55% at 50% 44%,transparent 12%,rgba(0,0,0,.72) 100%);pointer-events:none}
-    #grain{position:absolute;inset:0;z-index:98;width:100%;height:100%;mix-blend-mode:overlay;opacity:.17;pointer-events:none}
+    @property --void-text { syntax: "<color>"; inherits: false; initial-value: rgba(200,170,110,0.55); }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #030303; }
+
+    #depth-stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      perspective: 950px;
+      perspective-origin: 50% 46%;
+      opacity: 0;
+    }
+
+    .z-bg, .z-3d, .z-mg-ui, .z-fg-1, .z-fg-2 {
+      position: absolute;
+      transform-style: preserve-3d;
+    }
+
+    /* Z-BG: slowest, sepia gradient + large ghost texts */
+    .z-bg {
+      inset: -9%;
+      transform: translateZ(-450px) scale(1.88);
+      background: radial-gradient(ellipse 90% 70% at 50% 42%, rgba(48, 31, 12, 0.96), rgba(8, 5, 2, 1.0));
+    }
+
+    .ghost-bg-text {
+      font-family: 'Courier Prime', monospace;
+      font-size: 250px;
+      font-weight: 700;
+      color: rgba(195, 160, 100, 0.025);
+      letter-spacing: -5px;
+      line-height: 1.08;
+      position: absolute;
+      top: 8%;
+      left: -4%;
+      width: 108%;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Z-3D: hardware-accelerated three.js dealing room */
+    .z-3d {
+      inset: 0;
+      transform: translateZ(0);
+    }
+    #three-canvas {
+      width: 1080px;
+      height: 1920px;
+      display: block;
+    }
+
+    /* Z-MG-UI: CSS telex document */
+    .z-mg-ui {
+      inset: -3%;
+      transform: translateZ(60px) scale(0.944);
+      opacity: 0;
+    }
+
+    .telex-doc {
+      position: absolute;
+      width: 540px;
+      left: 270px;
+      top: 680px;
+      background: var(--paper-warm);
+      --paper-warm: #e8d9b5;
+      /* Motivated desk lamp shadow */
+      box-shadow:
+        -10px 14px 44px rgba(0, 0, 0, 0.65),
+        -3px  5px  10px rgba(0, 0, 0, 0.32),
+        inset 0 0 0 1px rgba(28, 15, 5, 0.04);
+      transform: translateZ(80px) rotateX(7deg) rotateZ(-1.8deg);
+      padding: 40px 44px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 13px;
+      color: #1c0f05;
+      letter-spacing: 0.5px;
+      line-height: 1.7;
+      opacity: 0;
+    }
+
+    .telex-doc .rate {
+      font-size: 22px;
+      margin-top: 12px;
+    }
+
+    /* Z-FG-1: Framing layer (corner brackets + date stamp) */
+    .z-fg-1 {
+      inset: -5%;
+      transform: translateZ(160px) scale(0.858);
+    }
+
+    .frame-mark {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      border-color: rgba(154, 143, 122, 0.4);
+      border-style: solid;
+      opacity: 0;
+    }
+    .fm-tl { top: 8%; left: 6%; border-width: 2px 0 0 2px; }
+    .fm-tr { top: 8%; right: 6%; border-width: 2px 2px 0 0; }
+    .fm-bl { bottom: 12%; left: 6%; border-width: 0 0 2px 2px; }
+    .fm-br { bottom: 12%; right: 6%; border-width: 0 2px 2px 0; }
+
+    .date-stamp {
+      position: absolute;
+      right: 52px;
+      bottom: 140px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 12px;
+      letter-spacing: 0.8em;
+      color: rgba(232, 217, 181, 0.6);
+      opacity: 0;
+    }
+
+    /* Z-FG-2: Atmospheric drifting particles */
+    .z-fg-2 {
+      inset: -8%;
+      transform: translateZ(280px) scale(0.765);
+    }
+
+    .dust-mote {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(210, 155, 70, 0.35);
+    }
+
+    /* Atmospheric Vignette overlay */
+    #vig {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      background: radial-gradient(ellipse 75% 55% at 50% 44%, transparent 12%, rgba(0, 0, 0, 0.72) 100%);
+      pointer-events: none;
+    }
+
+    /* Film grain stretched via CSS overlay for ultimate GPU performance */
+    #grain {
+      position: absolute;
+      inset: 0;
+      z-index: 98;
+      width: 100%;
+      height: 100%;
+      mix-blend-mode: overlay;
+      opacity: 0.17;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
   <div id="depth-stage" class="clip" data-composition-id="BlackWed-clip-01" data-start="0" data-duration="9.5" data-width="1080" data-height="1920" data-fps="30" data-layout-allow-overflow>
-    <div class="plate-stage clip" data-start="0" data-duration="9.5" data-track-index="0" style="position:absolute;inset:0;opacity:.12;mix-blend-mode:overlay;z-index:0"><img src="assets/BlackWed/plates/ref-dealing-room.jpg" alt="" style="width:100%;height:100%;object-fit:cover" /></div>
+    <div class="plate-stage clip" data-start="0" data-duration="9.5" data-track-index="0" style="position: absolute; inset: 0; opacity: 0.12; mix-blend-mode: overlay; z-index: 0;"><img src="assets/BlackWed/plates/ref-dealing-room.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;" /></div>
+    <!-- Z-BG -->
     <div class="z-bg clip" data-start="0" data-duration="9.5" data-track-index="1" data-layout-allow-overflow>
       <p class="ghost-bg-text clip" data-start="0" data-duration="9.5" data-track-index="1" data-layout-allow-overflow>STERLING<br/>RESERVE<br/>DEFENDED</p>
     </div>
+
+    <!-- Z-3D WebGL Dealing Room -->
     <div class="z-3d clip" data-start="0" data-duration="9.5" data-track-index="2">
-      <div id="css-room-fallback" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(48,31,12,.9),#070504);opacity:1"></div>
-      <canvas id="three-canvas" width="1080" height="1920" style="position:absolute;inset:0"></canvas>
+      <div id="css-room-fallback" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(48, 31, 12, 0.9), #070504); opacity: 1;"></div>
+      <canvas id="three-canvas" width="1080" height="1920" style="position: absolute; inset: 0;"></canvas>
     </div>
+
+    <!-- Z-MG-UI (Telex) -->
     <div class="z-mg-ui clip" data-start="0" data-duration="9.5" data-track-index="3" id="mg-ui">
       <div class="telex-doc clip" id="telex-doc" data-start="0" data-duration="9.5" data-track-index="4">
         <div>TELEX: LONDON / FRANKFURT</div>
-        <div>REF: QF-160992-STG-003</div>
-        <div>DATE: 16-09-1992 07:43 GMT</div>
-        <div>FROM: QUANTUM FUND</div>
-        <div style="margin-top:16px">INSTRUCTION: SELL</div>
-        <div>INSTRUMENT: GBP/DEM</div>
-        <div>AMOUNT: £ 1,000,000,000</div>
-        <div class="rate">RATE: <span class="telex-rate-value">2.9500</span></div>
-        <div style="margin-top:12px;opacity:.7">CONFIRM EXECUTION AT OPEN.</div>
+        <div>REF:   QF-160992-STG-003</div>
+        <div>DATE:  16-09-1992  07:43 GMT</div>
+        <div>FROM:  QUANTUM FUND</div>
+        <div style="margin-top: 16px;">INSTRUCTION: SELL</div>
+        <div>INSTRUMENT:  GBP/DEM</div>
+        <div>AMOUNT:      £ 1,000,000,000</div>
+        <div class="rate">RATE:        <span class="telex-rate-value">2.9500</span></div>
+        <div style="margin-top: 12px; opacity: 0.7;">CONFIRM EXECUTION AT OPEN.</div>
       </div>
     </div>
+
+    <!-- Z-FG-1 (Framing) -->
     <div class="z-fg-1 clip" data-start="0" data-duration="9.5" data-track-index="5">
       <span class="frame-mark fm-tl clip" data-start="0" data-duration="9.5" data-track-index="6"></span>
       <span class="frame-mark fm-tr clip" data-start="0" data-duration="9.5" data-track-index="7"></span>
@@ -66,31 +201,47 @@
       <span class="frame-mark fm-br clip" data-start="0" data-duration="9.5" data-track-index="9"></span>
       <p class="date-stamp clip" id="date-stamp" data-start="0" data-duration="9.5" data-track-index="10">SEPT 16, 1992</p>
     </div>
+
+    <!-- Z-FG-2 (Atmospheric Drifting Particles) -->
     <div class="z-fg-2 clip" data-start="0" data-duration="9.5" data-track-index="11" id="dust-field"></div>
+
+    <!-- Framing helpers -->
     <div id="vig" class="clip" data-start="0" data-duration="9.5" data-track-index="12"></div>
     <canvas id="grain" class="clip" data-start="0" data-duration="9.5" data-track-index="13" width="540" height="960"></canvas>
   </div>
+
   <script>
     (function () {
       var BW = window.BlackWed;
       var CID = "BlackWed-clip-01";
       var D = 9.5;
       if (!BW) return;
+
       BW.registerEases(gsap);
+      
+      // Initialize volumetric elements (grain, dust field)
       BW.initGrain(document.getElementById("grain"), 0.17, 88888);
       var dust = BW.spawnDust(document.getElementById("dust-field"), 28, 88888);
+
+      // Initialize WebGL Scene A
       var canvasEl = document.getElementById("three-canvas");
       var three = window.BlackWedThreeDealing.initDealingRoom(canvasEl);
       if (!three.camera) {
+        // Fallback to CSS visual gradient if WebGL crashes
         gsap.set("#css-room-fallback", { opacity: 1 });
         gsap.set("#three-canvas", { display: "none" });
       } else {
         gsap.set("#css-room-fallback", { opacity: 0 });
       }
+
+      // Initialize Master Timeline
       var tl = BW.makeTimeline(CID);
       window.__timelines[CID] = tl;
+
+      // Register Multi-axis organic drifts
       BW.wireOrbitalLayers(tl, D);
 
+      // Set initial element scales/opacities before entrance triggers
       gsap.set("#depth-stage", { opacity: 0 });
       gsap.set(".ghost-bg-text", { opacity: 0, scale: 1 });
       gsap.set(".frame-mark", { opacity: 0, scale: 0.6 });
@@ -98,28 +249,56 @@
       gsap.set("#telex-doc", { y: -280, opacity: 0 });
       gsap.set("#mg-ui", { opacity: 0 });
 
+      // ACT 1: ENTRANCE SEQUENCE
       tl.to("#depth-stage", { opacity: 1, duration: 0.8, ease: "power2.out" }, 0);
       if (three.camera) {
         tl.to(three.camera.position, { x: 2.8, y: 3.4, z: 8.2, duration: 2.4, ease: "power2.out" }, 0);
         if (three.fog) tl.to(three.fog, { density: 0.055, duration: 2.4, ease: "power1.inOut" }, 0);
       }
-      tl.to(".ghost-bg-text", { opacity: 0.025, duration: 2, ease: "sine.inOut" }, 1.2);
+      tl.to(".ghost-bg-text", { opacity: 0.025, duration: 2.0, ease: "sine.inOut" }, 1.2);
       tl.to(".frame-mark", { opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: "springHeavy" }, 2.8);
       tl.to("#date-stamp", { yPercent: 0, opacity: 1, duration: 0.35, ease: "expo.out" }, 4.2);
+
+      // ACT 2: DYNAMIC PUSH + TELEX DROP
       tl.to("#depth-stage", { perspective: 630, duration: 0.85, ease: "power3.out" }, 4.65);
       if (three.camera) tl.to(three.camera.position, { z: 5.5, duration: 0.85, ease: "power3.out" }, 4.65);
       tl.to("#mg-ui", { opacity: 1, duration: 0.5, ease: "power2.out" }, 5.0);
       tl.to("#telex-doc", { y: 0, opacity: 1, duration: 0.72, ease: "power3.in" }, 5.5);
       tl.to("#telex-doc", { y: "+=8", duration: 0.32, ease: "elastic.out(1, 0.35)" }, 6.22);
+      // Small landing shake impact
       tl.to("#depth-stage", { x: "+=4", yoyo: true, repeat: 3, duration: 0.04, ease: "none" }, 6.22);
-      if (three.deskLamp) tl.to(three.deskLamp.position, { x: -1.6, duration: 4, ease: "sine.inOut" }, 5.6);
-      BW.scrambleDigits(document.querySelector(".telex-rate-value"), "2.9500", tl, 6.5, 1.1);
-      tl.to("#depth-stage", { perspective: 420, duration: 0.75, ease: "power3.out" }, 8.75);
-      dust.forEach(function (m, i) {
-        tl.to(m, { y: "+=12", duration: 3.8, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(D / 3.8) - 1 }, 0.3 + i * 0.05);
-      });
-      tl.to(".ghost-bg-text", { scale: 1.015, duration: 3.6, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(D / 3.6) - 1 }, 1.5);
 
+      // Motivated spotlight moving sweep creating shadows across the telex
+      if (three.deskLamp) {
+        tl.to(three.deskLamp.position, { x: -1.6, duration: 4.0, ease: "sine.inOut" }, 5.6);
+      }
+
+      // GSAP Scramble Text
+      BW.scrambleDigits(document.querySelector(".telex-rate-value"), "2.9500", tl, 6.5, 1.1);
+
+      // ACT 3: PRE-ZOOM PUSH OUT
+      tl.to("#depth-stage", { perspective: 420, duration: 0.75, ease: "power3.out" }, 8.75);
+
+      // Loop atmospheric dust motes
+      dust.forEach(function (mote, i) {
+        tl.to(mote, {
+          y: "+=12",
+          duration: 3.8,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: Math.ceil(D / 3.8) - 1
+        }, 0.3 + i * 0.05);
+      });
+      // Drift background ghost text scale
+      tl.to(".ghost-bg-text", {
+        scale: 1.015,
+        duration: 3.6,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: Math.ceil(D / 3.6) - 1
+      }, 1.5);
+
+      // Render WebGL Loop
       if (three.camera) {
         (function tick() {
           three.render();

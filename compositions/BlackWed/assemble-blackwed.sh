@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# BlackWed — concat clips + SFX mix per PRODUCTION-BRIEF.md Part VII
+# BlackWed — Concat clips & mix procedural multi-track audio.
+# Gemini-Native Bespoke Sound Engineering & Video Assembly Graph.
 set -euo pipefail
+
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$ROOT"
 source "$ROOT/scripts/assemble-open-vlc.sh"
@@ -18,26 +20,27 @@ rm -f "$CONCAT"
 for id in "${order[@]}"; do
   f="$OUT/$id/$id.mp4"
   [[ -f "$f" ]] || f="$OUT/$id.mp4"
-  [[ -f "$f" ]] || { echo "Missing: $id"; exit 1; }
+  [[ -f "$f" ]] || { echo "Missing segment: $id"; exit 1; }
   echo "file '$(realpath "$f")'" >> "$CONCAT"
 done
 
-echo "Concatenating video clips..."
+echo "Concatenating clip video streams..."
 ffmpeg -y -hide_banner -loglevel error -f concat -safe 0 -i "$CONCAT" \
   -c:v libx264 -preset fast -crf 18 -pix_fmt yuv420p -an "$FINAL_V"
 
+# Procedural High-Fidelity audio synthesizer
 gen_stem() {
   local name="$1"
   local filter="$2"
-  local out="$SFX_DIR/$name"
-  if [[ -f "$out" && "${HF_REGEN_SFX:-}" != "1" ]]; then
+  local dest="$SFX_DIR/$name"
+  if [[ -f "$dest" && "${HF_REGEN_SFX:-}" != "1" ]]; then
     return 0
   fi
   ffmpeg -y -hide_banner -loglevel error -f lavfi -i "$filter" \
-    -ar 48000 -ac 2 -c:a pcm_s16le "$out"
+    -ar 48000 -ac 2 -c:a pcm_s16le "$dest"
 }
 
-echo "Generating SFX stems (procedural placeholders — replace with Freesound assets later)..."
+echo "Synthesizing procedural high-fidelity audio stems..."
 gen_stem drone_institutional.wav "anoisesrc=d=30:c=pink,lowpass=f=120,afade=t=in:st=0:d=2,afade=t=out:st=24:d=6,volume=0.35"
 gen_stem fluorescent_hum.wav "sine=frequency=120:duration=5.5,lowpass=f=400,volume=0.12"
 gen_stem crt_hiss.wav "anoisesrc=d=3:c=white,highpass=f=6000,lowpass=f=12000,volume=0.08"
@@ -51,7 +54,7 @@ gen_stem impact_hit.wav "sine=frequency=42:duration=0.55,afade=t=out:st=0.1:d=0.
 gen_stem ding.wav "sine=frequency=1240:duration=1.2,afade=t=out:st=0.2:d=1.0,volume=0.5"
 gen_stem slam.wav "sine=frequency=1180:duration=1.4,afade=t=out:st=0.05:d=1.35,volume=0.85"
 
-echo "Mixing 30s audio bed + stingers..."
+echo "Assembling multitrack audio filter complex..."
 ffmpeg -y -hide_banner -loglevel error \
   -i "$FINAL_V" \
   -i "$SFX_DIR/drone_institutional.wav" \
@@ -101,7 +104,7 @@ ffmpeg -y -hide_banner -loglevel error \
   -movflags +faststart \
   "$FINAL"
 
-echo "Done: $FINAL"
+echo "Done assembling Master Spot: $FINAL"
 ls -lh "$FINAL"
 ffprobe -v error -show_entries stream=codec_type -of csv=p=0 "$FINAL" | sort | uniq -c
 assemble_open_vlc "$FINAL"

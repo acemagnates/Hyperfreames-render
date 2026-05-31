@@ -11,73 +11,176 @@
   <script src="compositions/BlackWed/blackwed-shared.js"></script>
   <script src="compositions/BlackWed/blackwed-three-exterior.js"></script>
   <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:1080px;height:1920px;overflow:hidden;background:#030303}
-    #root{position:relative;width:1080px;height:1920px;overflow:visible}
-    #three-canvas{position:absolute;inset:0;width:1080px;height:1920px;opacity:0}
-    #base-rate-slot{position:absolute;left:0;right:0;top:32%;z-index:12;text-align:center;min-height:220px}
-    .base-rate-text{font-family:Oswald,sans-serif;font-size:82px;font-weight:700;letter-spacing:-1px;line-height:1.25;color:rgba(255,195,125,.9);text-shadow:0 0 40px rgba(255,195,125,.35);display:inline-block;padding:20px 12px}
-    #shard-ghost{position:absolute;inset:0;z-index:8;pointer-events:none}
-    .shard-col{position:absolute;bottom:0;width:80px;height:55%;background:linear-gradient(180deg,rgba(158,146,128,.5),rgba(60,50,40,.8));opacity:0}
-    #vig{position:absolute;inset:0;z-index:90;background:radial-gradient(ellipse 70% 55% at 50% 42%,transparent 15%,rgba(0,0,0,.78) 100%);pointer-events:none}
-    #grain{position:absolute;inset:0;z-index:98;width:100%;height:100%;mix-blend-mode:overlay;opacity:.17;pointer-events:none}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #030303; }
+
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: visible;
+    }
+
+    /* Z-3D: hardware-accelerated three.js bank exterior facade */
+    #three-canvas {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      opacity: 0;
+    }
+
+    /* Headline "BASE RATE: 15%" stamp */
+    #base-rate-slot {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 32%;
+      z-index: 12;
+      text-align: center;
+      min-height: 220px;
+    }
+
+    .base-rate-text {
+      font-family: 'Oswald', sans-serif;
+      font-size: 82px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.25;
+      color: rgba(255, 195, 125, 0.90); /* Motivated window light color */
+      text-shadow: 0 0 40px rgba(255, 195, 125, 0.35);
+      display: inline-block;
+      padding: 20px 12px;
+    }
+
+    /* Shard placeholders matching the ending column coordinates of Clip 02 */
+    #shard-ghost {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .shard-col {
+      position: absolute;
+      bottom: 0;
+      width: 80px;
+      height: 55%;
+      background: linear-gradient(180deg, rgba(158, 146, 128, 0.5), rgba(60, 50, 40, 0.8));
+      opacity: 0;
+    }
+
+    /* Vignette overlay */
+    #vig {
+      position: absolute;
+      inset: 0;
+      z-index: 90;
+      background: radial-gradient(ellipse 70% 55% at 50% 42%, transparent 15%, rgba(0, 0, 0, 0.78) 100%);
+      pointer-events: none;
+    }
+
+    #grain {
+      position: absolute;
+      inset: 0;
+      z-index: 98;
+      width: 100%;
+      height: 100%;
+      mix-blend-mode: overlay;
+      opacity: 0.17;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
-  <div id="root" class="clip" data-composition-id="BlackWed-clip-03" data-start="0" data-duration="8" data-width="1080" data-height="1920" data-fps="30" data-layout-allow-overflow>
-    <div class="plate-stage clip" data-start="0" data-duration="8" data-track-index="0" style="position:absolute;inset:0;opacity:.14;mix-blend-mode:overlay;z-index:1"><img src="assets/BlackWed/plates/ref-boe-night.jpg" alt="" style="width:100%;height:100%;object-fit:cover" /></div>
-    <div id="css-facade-fallback" style="position:absolute;inset:0;background:linear-gradient(180deg,#0a0806 0%,#1a1510 45%,#090705 100%);z-index:2"></div>
-    <canvas id="three-canvas" class="clip" data-start="0" data-duration="8" data-track-index="1" width="1080" height="1920" style="position:absolute;inset:0;z-index:3"></canvas>
+  <div id="root" class="clip" data-composition-id="BlackWed-clip-03" data-start="14.5" data-duration="8" data-width="1080" data-height="1920" data-fps="30" data-layout-allow-overflow>
+    <div class="plate-stage clip" data-start="0" data-duration="8" data-track-index="0" style="position: absolute; inset: 0; opacity: 0.14; mix-blend-mode: overlay; z-index: 1;"><img src="assets/BlackWed/plates/ref-boe-night.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;" /></div>
+    
+    <!-- CSS Facade Fallback (If WebGL crashes) -->
+    <div id="css-facade-fallback" style="position: absolute; inset: 0; background: linear-gradient(180deg, #0a0806 0%, #1a1510 45%, #090705 100%); z-index: 2;"></div>
+
+    <!-- WebGL Exterior -->
+    <canvas id="three-canvas" class="clip" data-start="0" data-duration="8" data-track-index="1" width="1080" height="1920" style="position: absolute; inset: 0; z-index: 3;"></canvas>
+
+    <!-- Shard Ghost Columns (Crossfading continuation) -->
     <div id="shard-ghost" class="clip" data-start="0" data-duration="8" data-track-index="1"></div>
+
+    <!-- Base rate Headline overlay -->
     <div id="base-rate-slot" class="clip" data-start="0" data-duration="8" data-track-index="2"></div>
+
+    <!-- Atmospheric framing -->
     <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="3"></div>
     <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="4" width="540" height="960"></canvas>
   </div>
+
   <script>
     (function () {
       var BW = window.BlackWed;
       var CID = "BlackWed-clip-03";
       var D = 8;
+
       BW.registerEases(gsap);
       BW.initGrain(document.getElementById("grain"), 0.17, 88888);
+
+      // Initialize WebGL Scene B
       var canvasEl = document.getElementById("three-canvas");
       var ext = window.BlackWedThreeExterior.initExterior(canvasEl);
       if (!ext.camera) {
         gsap.set("#css-facade-fallback", { opacity: 1 });
         gsap.set("#three-canvas", { display: "none" });
       }
+
+      // Spawn Shard Ghost Columns matching the columns mapped in Clip 02
       var ghost = document.getElementById("shard-ghost");
       BW.columnXs.forEach(function (x) {
         var c = document.createElement("div");
         c.className = "shard-col";
-        c.style.left = x - 40 + "px";
+        c.style.left = (x - 40) + "px";
         ghost.appendChild(c);
       });
+
+      // Initialize Master Timeline
       var tl = BW.makeTimeline(CID);
       window.__timelines[CID] = tl;
+
+      // Crossfade incoming: DOM shards fade out, WebGL canvas fades in
       gsap.set(".shard-col", { opacity: 1 });
+      
+      // Spawn floating headline text
       var rateEl = document.createElement("h1");
       rateEl.className = "base-rate-text";
       rateEl.id = "base-rate";
       rateEl.innerHTML = "BASE RATE:<br/>15%";
       document.getElementById("base-rate-slot").appendChild(rateEl);
       gsap.set(rateEl, { opacity: 0 });
+
+      // ACT 1: CROSSFADE & DOLLY OUT
       tl.to(rateEl, { y: -4, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(D / 2.4) - 1 }, 2);
-      tl.to(".shard-col", { opacity: 0, duration: 1, ease: "power1.inOut" }, 0);
+      tl.to(".shard-col", { opacity: 0, duration: 1.0, ease: "power1.inOut" }, 0);
       tl.to("#three-canvas", { opacity: 1, duration: 1.2, ease: "power1.inOut" }, 0);
+      
       if (ext.camera) {
+        // Slow Dolly out from z=16 to z=22
         tl.fromTo(ext.camera.position, { z: 16 }, { z: 22, duration: 1.6, ease: "power2.out" }, 0.5);
-        tl.to(ext.camera.position, { z: 18, duration: 3, ease: "power1.inOut" }, 5);
+        // ACT 3: Slow Dolly in
+        tl.to(ext.camera.position, { z: 18, duration: 3.0, ease: "power1.inOut" }, 5.0);
       }
+
+      // ACT 2: LIGHTING WINDOWS (Staggered 0.45s each)
       if (ext.windows) {
         ext.windows.forEach(function (mat, i) {
           tl.to(mat, { emissiveIntensity: 1.8, duration: 0.6, ease: "expo.out" }, 0.5 + i * 0.45);
         });
       }
+
+      // Spotlight Projected outage: spotlight goes out slowly over 3.0s
       if (ext.institutionalSpot) {
-        tl.to(ext.institutionalSpot, { intensity: 0, duration: 3, ease: "power1.inOut" }, 3);
+        tl.to(ext.institutionalSpot, { intensity: 0, duration: 3.0, ease: "power1.inOut" }, 3.0);
       }
+
+      // Settle Headline reveal
       tl.to(rateEl, { opacity: 1, duration: 1.1, ease: "expo.out" }, 1.7);
+
+      // WebGL render loop
       if (ext.camera) {
         (function tick() {
           ext.render();
