@@ -67,7 +67,7 @@ jobs:
           max="${RENDER_RETRIES:-2}"
           sleep_sec="${RENDER_RETRY_SLEEP_SEC:-3}"
           for attempt in $(seq 1 "$max"); do
-            if hyperframes render . --composition "${{ matrix.clip }}" \
+            if xvfb-run --auto-servernum --server-args="-screen 0 1080x1920x24 -ac +extension GLX +render -noreset"               hyperframes render . --composition "${{ matrix.clip }}" \
               --fps "${RENDER_FPS}" --quality "${RENDER_QUALITY}" --workers 1 --output "$OUT"; then
               ok=1
               break
