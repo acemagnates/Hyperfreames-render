@@ -1,156 +1,338 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1080, height=1920" />
-  <title>BlackWed Clip 04 — Dissolution & Void</title>
-  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400&family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet" />
-  <script src="compositions/_shared/gsap.min.js"></script>
-  <script src="compositions/_shared/CustomEase.min.js"></script>
-  <script src="compositions/BlackWed/blackwed-shared.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #030303; }
+<template id="BlackWed-clip-04-template">
+  <div data-composition-id="BlackWed-clip-04" data-width="1080" data-height="1920">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Courier+Prime:wght@400;700&family=Oswald:wght@700&family=Helvetica:wght@300&display=swap" rel="stylesheet">
 
-    #depth-stage {
-      position: relative;
-      width: 1080px;
-      height: 1920px;
-      overflow: hidden;
-      perspective: 950px;
-      perspective-origin: 50% 46%;
-    }
+    <!-- ═══════════════════════════════════════════════════════════════
+         BEAT 6: THE DISSOLUTION / CURRENCY RAIN  (local 0.0–4.0s)
+         BEAT 7: THE VOID                         (local 4.0–7.5s)
+         Wall time: 22.5–30.0s
+         Duration: 7.5s @ 30fps = 225 frames
+         ═══════════════════════════════════════════════════════════════ -->
 
-    .z-mg-ui {
-      position: absolute;
-      inset: 0;
-      transform: translateZ(60px);
-    }
+    <div id="depth-stage" style="position:relative; width:1080px; height:1920px; overflow:hidden; perspective:950px; perspective-origin:50% 46%;">
+  <div id="vig" style="position:absolute;inset:0;pointer-events:none;z-index:99;box-shadow:inset 0 0 200px rgba(0,0,0,0.8);"></div>
+  <div id="grain" style="position:absolute;inset:0;pointer-events:none;z-index:99;"></div></div>
+  <div class="grain" style="position:absolute;inset:0;pointer-events:none;z-index:99;"></div> style="position:relative; width:1080px; height:1920px; overflow:hidden; perspective:950px; perspective-origin:50% 46%;">
 
-    /* Highly aesthetic physical gold coin styling */
-    .coin {
-      position: absolute;
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      border: 2px solid rgba(180, 138, 58, 0.78);
-      background: radial-gradient(
-        circle at 35% 35%,
-        rgba(210, 175, 85, 0.9) 0%,
-        rgba(165, 128, 48, 0.85) 50%,
-        rgba(120, 90, 30, 0.8) 100%
-      );
-      box-shadow:
-        0 0 6px rgba(185, 145, 62, 0.82),
-        inset 0 0 6px rgba(255, 220, 120, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Courier Prime', monospace;
-      font-size: 22px;
-      color: rgba(210, 175, 85, 0.9);
-      opacity: 0;
-      transform: scale(0.08);
-    }
+      <!-- ═══ Z-BG: Void atmosphere ═══ -->
+      <div class="z-bg" style="position:absolute; inset:-9%; transform:translateZ(-450px) scale(1.88); transform-style:preserve-3d;">
+        <!-- Radial void gradient -->
+        <div id="bg-void" style="position:absolute; inset:0; background: radial-gradient(ellipse at 50% 45%, rgba(48,31,12,0.96) 0%, rgba(12,8,3,0.98) 35%, #030303 70%);"></div>
+        <!-- Ghost text -->
+        <div style="position:absolute; top:280px; left:-80px; font-family:'Courier Prime',monospace; font-size:240px; font-weight:700; color:rgba(195,160,100,0.025); white-space:nowrap; transform:rotate(-8deg); pointer-events:none; user-select:none;">BLACK WEDNESDAY</div>
+        <div style="position:absolute; top:780px; left:120px; font-family:'Courier Prime',monospace; font-size:200px; font-weight:700; color:rgba(195,160,100,0.02); white-space:nowrap; transform:rotate(3deg); pointer-events:none; user-select:none;">£ £ £ £ £ £</div>
+        <div style="position:absolute; top:1300px; left:-200px; font-family:'Courier Prime',monospace; font-size:260px; font-weight:700; color:rgba(195,160,100,0.018); white-space:nowrap; transform:rotate(-5deg); pointer-events:none; user-select:none;">SEPT 16 1992</div>
+      </div>
 
-    #vig {
-      position: absolute;
-      inset: 0;
-      z-index: 90;
-      background: radial-gradient(ellipse 75% 55% at 50% 48%, transparent 18%, rgba(0, 0, 0, 0.80) 100%);
-      pointer-events: none;
-    }
+      <!-- ═══ Z-3D: Three.js canvas placeholder (building fade-out) ═══ -->
+      <div class="z-3d" style="position:absolute; inset:0; transform:translateZ(0);">
+        <canvas id="canvas3d" style="width:1080px; height:1920px; opacity:0;"></canvas>
+      </div>
 
-    /* Payoff slate: Cormorant Garamond elegant serif */
-    #payoff {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: 30px;
-      line-height: 2.2;
-      color: rgba(200, 170, 110, 0.55);
-      opacity: 0;
-      z-index: 20;
-      white-space: pre-line;
-    }
+      <!-- ═══ Z-MG-UI: Coins, £ symbol, payoff text ═══ -->
+      <div class="z-mg-ui" style="position:absolute; inset:-3%; transform:translateZ(60px) scale(0.944); transform-style:preserve-3d;">
 
-    #grain {
-      position: absolute;
-      inset: 0;
-      z-index: 98;
-      width: 100%;
-      height: 100%;
-      mix-blend-mode: overlay;
-      opacity: 0.17;
-      pointer-events: none;
-    }
-  </style>
-</head>
-<body>
-  <div id="depth-stage" class="clip" data-composition-id="BlackWed-clip-04" data-start="22.5" data-duration="7.5" data-width="1080" data-height="1920" data-fps="30" data-layout-allow-overflow>
-    <div class="plate-stage clip" data-start="0" data-duration="7.5" data-track-index="0" style="position: absolute; inset: 0; opacity: 0.08; mix-blend-mode: overlay;"><img src="assets/BlackWed/plates/ref-boe-night.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;" /></div>
-    
-    <!-- Z-MG-UI containing falling gold coins -->
-    <div class="z-mg-ui clip" data-start="0" data-duration="7.5" data-track-index="1" id="coin-field"></div>
+        <!-- 44 Coin elements (generated via JS) -->
+        <div id="coin-container" style="position:absolute; inset:0; width:1080px; height:1920px;"></div>
 
-    <!-- Final Payoff Slate Text -->
-    <p id="payoff" class="clip" data-start="0" data-duration="7.5" data-track-index="2">SEPT 16, 1992
-£3,300,000,000 LOST
-ONE TRADER</p>
+        <!-- Landing particle container -->
+        <div id="particle-container" style="position:absolute; inset:0; width:1080px; height:1920px; pointer-events:none;"></div>
 
-    <!-- Framing assets -->
-    <div id="vig" class="clip" data-start="0" data-duration="7.5" data-track-index="3"></div>
-    <canvas id="grain" class="clip" data-start="0" data-duration="7.5" data-track-index="4" width="540" height="960"></canvas>
-  </div>
+        <!-- Final £ Symbol -->
+        <div id="final-pound" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) scale(0); opacity:0; font-family:'Georgia',serif; font-size:200px; font-weight:700; color:rgba(210,175,85,0.9); text-shadow: 0 0 10px rgba(185,145,62,0.82), 0 0 40px rgba(185,145,62,0.45), 0 0 80px rgba(185,145,62,0.2), 0 0 3px rgba(232,217,181,0.6); pointer-events:none;">£</div>
 
-  <script>
-    (function () {
-      var BW = window.BlackWed;
-      var CID = "BlackWed-clip-04";
-      var D = 7.5;
-      var rng = BW.mulberry32(7774);
+        <!-- Final Payoff Text -->
+        <div id="payoff-text" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); text-align:center; opacity:0; pointer-events:none;">
+          <div style="font-family:'Helvetica',sans-serif; font-weight:300; font-size:28px; color:rgba(200,170,110,0.55); line-height:2.2; letter-spacing:0.06em;">SEPT 16, 1992</div>
+          <div style="font-family:'Helvetica',sans-serif; font-weight:300; font-size:34px; color:rgba(200,170,110,0.55); line-height:2.2; letter-spacing:0.04em; font-variant-numeric:tabular-nums;">£3,300,000,000 LOST</div>
+          <div style="font-family:'Helvetica',sans-serif; font-weight:300; font-size:28px; color:rgba(200,170,110,0.55); line-height:2.2; letter-spacing:0.08em;">ONE TRADER</div>
+        </div>
+      </div>
 
-      BW.registerEases(gsap);
-      BW.initGrain(document.getElementById("grain"), 0.17, 88888);
+      <!-- ═══ Z-FG-1: Corner brackets ═══ -->
+      <div class="z-fg-1" style="position:absolute; inset:-5%; transform:translateZ(160px) scale(0.858); transform-style:preserve-3d;">
+        <!-- Top-left bracket -->
+        <div id="bracket-tl" style="position:absolute; top:60px; left:60px; width:60px; height:60px; border-top:1px solid rgba(180,138,58,0.35); border-left:1px solid rgba(180,138,58,0.35);"></div>
+        <!-- Top-right bracket -->
+        <div id="bracket-tr" style="position:absolute; top:60px; right:60px; width:60px; height:60px; border-top:1px solid rgba(180,138,58,0.35); border-right:1px solid rgba(180,138,58,0.35);"></div>
+        <!-- Bottom-left bracket -->
+        <div id="bracket-bl" style="position:absolute; bottom:60px; left:60px; width:60px; height:60px; border-bottom:1px solid rgba(180,138,58,0.35); border-left:1px solid rgba(180,138,58,0.35);"></div>
+        <!-- Bottom-right bracket -->
+        <div id="bracket-br" style="position:absolute; bottom:60px; right:60px; width:60px; height:60px; border-bottom:1px solid rgba(180,138,58,0.35); border-right:1px solid rgba(180,138,58,0.35);"></div>
+      </div>
 
-      // Spawn 44 sovereign coins
-      var coins = BW.spawnCoins(document.getElementById("coin-field"), 44, 7774, BW.columnXs);
+      <!-- ═══ Z-FG-2: Atmospheric foreground ═══ -->
+      <div class="z-fg-2" style="position:absolute; inset:-8%; transform:translateZ(280px) scale(0.765); transform-style:preserve-3d;">
+        <!-- Vignette -->
+        <div id="vignette" style="position:absolute; inset:0; background: radial-gradient(ellipse at 50% 50%, transparent 30%, rgba(0,0,0,0.55) 80%, rgba(0,0,0,0.85) 100%); pointer-events:none;"></div>
+      </div>
 
-      // Initialize Master Timeline
-      var tl = BW.makeTimeline(CID);
-      window.__timelines[CID] = tl;
+      <!-- Film grain canvas -->
+      <canvas id="film-grain" style="position:absolute; inset:0; width:1080px; height:1920px; z-index:98; pointer-events:none; mix-blend-mode:overlay; opacity:0.17;"></canvas>
+    </div>
 
-      // ACT 1: COINS ENTRANCE STAGGERED (Columns pop into coins at t=0.15s)
-      tl.to(coins, { scale: 1, opacity: 1, duration: 0.28, stagger: 0.006, ease: "power2.out" }, 0.15);
+    <style>
+      [data-composition-id="BlackWed-clip-04"] {
+        --void-bg: #030303;
+        --ghost-type: rgba(195,160,100,0.025);
+        --coin-gold: rgba(185,145,62,0.82);
+        --coin-border: rgba(180,138,58,0.78);
+        --payoff-text: rgba(200,170,110,0.55);
+        --env-bg-center: rgba(48,31,12,0.96);
+        --env-bg-edge: rgba(8,5,2,1.0);
 
-      // ACT 2: PHYSICAL CURRENCY RAIN GRAVITY FALLS
-      coins.forEach(function (coin) {
-        var fallDur = 0.55 + rng() * 0.35; // 0.55s - 0.90s fall
-        var delay = rng() * 1.6; // stagger delay
-        var landY = parseFloat(coin.dataset.landY, 10);
-        var landX = parseFloat(coin.dataset.landX, 10);
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #030303;
+        font-variant-numeric: tabular-nums;
+      }
 
-        // Accelerated gravity fall (power3.in)
-        tl.to(coin, { x: landX, y: landY, duration: fallDur, ease: "power3.in" }, delay);
-        
-        // Settle marble impact bounce
-        tl.to(coin, { y: "-=8", duration: 0.12, ease: "power2.out" }, delay + fallDur);
-        tl.to(coin, { y: "+=8", duration: 0.22, ease: "elastic.out(1, 0.25)" }, delay + fallDur + 0.12);
+      [data-composition-id="BlackWed-clip-04"] .coin {
+        position: absolute;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        border: 2px solid var(--coin-border);
+        background: radial-gradient(
+          circle at 35% 35%,
+          rgba(210,175,85,0.9) 0%,
+          rgba(165,128,48,0.85) 50%,
+          rgba(120,90,30,0.8) 100%
+        );
+        box-shadow:
+          0 0 6px var(--coin-gold),
+          0 0 14px rgba(185,145,62,0.25),
+          inset 0 0 6px rgba(255,220,120,0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Courier Prime', monospace;
+        font-size: 22px;
+        color: rgba(210,175,85,0.9);
+        transform-origin: center center;
+        will-change: transform, opacity;
+      }
+
+      [data-composition-id="BlackWed-clip-04"] .landing-particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: rgba(210,175,85,0.85);
+        pointer-events: none;
+        will-change: transform, opacity;
+      }
+
+      [data-composition-id="BlackWed-clip-04"] #depth-stage {
+        transform-style: preserve-3d;
+      }
+    </style>
+
+    <script src="compositions/_shared/gsap.min.js"></script>
+    <script>
+    (function() {
+      "use strict";
+
+      // ═══════════════════════════════════════════════════
+      // MULBERRY32 SEEDED PRNG — seed 7774
+      // ═══════════════════════════════════════════════════
+      function mulberry32(a) {
+        return function() {
+          a |= 0; a = a + 0x6D2B79F5 | 0;
+          var t = Math.imul(a ^ a >>> 15, 1 | a);
+          t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+          return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+      }
+      const prng = mulberry32(7774);
+
+      const COMP_ID = "BlackWed-clip-04";
+      const D = 7.5; // clip duration in seconds
+
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ═══════════════════════════════════════════════════
+      // SCOPE HELPER
+      // ═══════════════════════════════════════════════════
+      const scope = document.querySelector('[data-composition-id="' + COMP_ID + '"]');
+      function $(sel) { return scope.querySelector(sel); }
+      function $$(sel) { return scope.querySelectorAll(sel); }
+
+      // ═══════════════════════════════════════════════════
+      // GENERATE 44 COINS
+      // ═══════════════════════════════════════════════════
+      const coinContainer = $('#coin-container');
+      const particleContainer = $('#particle-container');
+      const COLUMN_X = [105, 270, 430, 600, 760, 915];
+      const COIN_COUNT = 44;
+      const coins = [];
+      const coinData = [];
+
+      // Distribute coins across 6 columns (7-8 per column)
+      for (let i = 0; i < COIN_COUNT; i++) {
+        const colIdx = i % 6;
+        const rowInCol = Math.floor(i / 6);
+        const baseX = COLUMN_X[colIdx];
+        const baseY = 320 + rowInCol * 180 + prng() * 60; // spread vertically
+
+        const coinEl = document.createElement('div');
+        coinEl.className = 'coin';
+        coinEl.textContent = '£';
+        coinEl.style.transform = 'translate(' + (baseX - 26) + 'px, ' + (baseY - 26) + 'px) scale(0.08)';
+        coinEl.style.opacity = '0';
+        coinEl.id = 'coin-' + i;
+        coinContainer.appendChild(coinEl);
+        coins.push(coinEl);
+
+        coinData.push({
+          startX: baseX - 26,
+          startY: baseY - 26,
+          fallDuration: 0.55 + prng() * 0.35,
+          fallDelay: prng() * 1.6,
+          landY: 1620 + prng() * 180,
+          driftX: (prng() - 0.5) * 40
+        });
+      }
+
+      // ═══════════════════════════════════════════════════
+      // BEAT 6: BUILDING FADE-OUT (local 0.0–0.9s)
+      // Three.js canvas fade — opacity 1→0
+      // ═══════════════════════════════════════════════════
+      const threeCanvas = $('#three-canvas');
+      gsap.set(threeCanvas, { opacity: 1 });
+      tl.to(threeCanvas, {
+        opacity: 0,
+        duration: 0.9,
+        ease: "power2.inOut"
+      }, 0);
+
+      // ═══════════════════════════════════════════════════
+      // BACKGROUND TRANSITION: warm → void
+      // ═══════════════════════════════════════════════════
+      const bgVoid = $('#bg-void');
+      // Transition background to void during Beat 7
+      tl.to(bgVoid, {
+        background: 'radial-gradient(ellipse at 50% 45%, rgba(8,5,3,0.98) 0%, #030303 30%, #030303 100%)',
+        duration: 2.5,
+        ease: "power1.inOut"
+      }, 3.5);
+
+      // ═══════════════════════════════════════════════════
+      // BEAT 6: COINS APPEAR (local 0.15s)
+      // Pop into existence at column positions
+      // ═══════════════════════════════════════════════════
+      coins.forEach(function(coin, i) {
+        tl.to(coin, {
+          scale: 1,
+          opacity: 1,
+          duration: 0.28,
+          ease: "power2.out"
+        }, 0.15 + i * 0.008);
       });
 
-      // Ken Burns drift camera push (Scale drift, rotate)
-      tl.to("#depth-stage", { scale: 1.035, rotateX: -0.7, duration: 4.0, ease: "sine.inOut", transformOrigin: "50% 50%" }, 0.5);
+      // ═══════════════════════════════════════════════════
+      // BEAT 6: COIN FALL PHYSICS (local 0.4s+)
+      // Gravity-driven falls with bounce settle
+      // ═══════════════════════════════════════════════════
+      coins.forEach(function(coin, i) {
+        var cd = coinData[i];
+        var fallStart = 0.4 + cd.fallDelay;
 
-      // ACT 3: CENTER COINS IMPLOSION (Morphism 4)
-      coins.forEach(function (coin, i) {
-        var left = parseFloat(coin.style.left, 10);
+        // The fall — gravity acceleration
         tl.to(coin, {
-          x: 540 - left,
-          y: 960 - parseFloat(coin.style.top, 10),
+          x: cd.driftX,
+          y: cd.landY - cd.startY,
+          opacity: 1,
+          scale: 1,
+          duration: cd.fallDuration,
+          ease: "power3.in"
+        }, fallStart);
+
+        // The land — brief settle bounce
+        tl.to(coin, {
+          y: (cd.landY - cd.startY) - 8,
+          duration: 0.12,
+          ease: "power2.out"
+        }, fallStart + cd.fallDuration);
+
+        tl.to(coin, {
+          y: (cd.landY - cd.startY),
+          duration: 0.22,
+          ease: "elastic.out(1, 0.25)"
+        }, fallStart + cd.fallDuration + 0.12);
+      });
+
+      // ═══════════════════════════════════════════════════
+      // LANDING PARTICLE BURSTS (first 8 coins to land)
+      // ═══════════════════════════════════════════════════
+      // Sort coins by fall timing to find earliest landers
+      var sortedByLandTime = coinData.map(function(cd, i) {
+        return { idx: i, landTime: 0.4 + cd.fallDelay + cd.fallDuration };
+      }).sort(function(a, b) { return a.landTime - b.landTime; });
+
+      var particlePrng = mulberry32(7774 + 100); // sub-seed for particles
+      for (var pi = 0; pi < 8; pi++) {
+        var coinIdx = sortedByLandTime[pi].idx;
+        var cd = coinData[coinIdx];
+        var landTime = sortedByLandTime[pi].landTime;
+        var landX = cd.startX + cd.driftX + 26; // center of coin
+        var landY = cd.landY;
+
+        for (var pj = 0; pj < 3; pj++) {
+          var particle = document.createElement('div');
+          particle.className = 'landing-particle';
+          var pSize = 2 + particlePrng() * 4;
+          particle.style.width = pSize + 'px';
+          particle.style.height = pSize + 'px';
+          particle.style.transform = 'translate(' + landX + 'px, ' + landY + 'px)';
+          particle.style.opacity = '0';
+          particleContainer.appendChild(particle);
+
+          var burstX = (particlePrng() - 0.5) * 60;
+          var burstY = -10 - particlePrng() * 30;
+
+          tl.fromTo(particle, {
+            x: landX,
+            y: landY,
+            opacity: 0.7,
+            scale: 1
+          }, {
+            x: landX + burstX,
+            y: landY + burstY,
+            opacity: 0,
+            scale: 0.3,
+            duration: 0.3,
+            ease: "power2.out"
+          }, landTime);
+        }
+      }
+
+      // ═══════════════════════════════════════════════════
+      // KEN BURNS DRIFT (Beat 6 camera, local 0–4s)
+      // ═══════════════════════════════════════════════════
+      tl.to('#depth-stage', {
+        scale: 1.035,
+        duration: 4.0,
+        ease: "sine.inOut"
+      }, 0);
+
+      // ═══════════════════════════════════════════════════
+      // MORPHISM 4: COINS → VOID (local 4.0–5.3s)
+      // Implosion — all coins converge to center
+      // ═══════════════════════════════════════════════════
+      coins.forEach(function(coin, i) {
+        var cd = coinData[i];
+        var coinCenterX = cd.startX + 26;
+        var coinCenterY = cd.startY + 26;
+        var targetX = 540 - coinCenterX;
+        var targetY = 960 - coinCenterY;
+
+        tl.to(coin, {
+          x: targetX,
+          y: targetY,
           scale: 0,
           opacity: 0,
           duration: 0.52 + i * 0.018,
@@ -158,13 +340,171 @@ ONE TRADER</p>
         }, 4.0 + i * 0.012);
       });
 
-      // Dolly out perspective shift
-      tl.to("#depth-stage", { perspective: 1900, duration: 3.5, ease: "sine.inOut" }, 4.0);
+      // ═══════════════════════════════════════════════════
+      // FINAL £ SYMBOL (local 4.8–5.3s)
+      // Rises at convergence point, dissolves
+      // ═══════════════════════════════════════════════════
+      var finalPound = $('#final-pound');
 
-      // ACT 4: FINAL PAYOFF IN VOID SILENCE
-      tl.to("#payoff", { opacity: 0.55, duration: 1.4, ease: "power1.inOut" }, 5.3);
-      tl.to("#payoff", { opacity: 0.18, duration: 1.0, ease: "power1.inOut" }, 6.0);
+      // Appear and grow
+      tl.to(finalPound, {
+        scale: 3,
+        opacity: 0.8,
+        duration: 0.22,
+        ease: "power2.out"
+      }, 4.8);
+
+      // Slight rise
+      tl.to(finalPound, {
+        y: -20,
+        duration: 0.15,
+        ease: "sine.out"
+      }, 4.85);
+
+      // Dissolve
+      tl.to(finalPound, {
+        scale: 0,
+        opacity: 0,
+        y: -30,
+        duration: 0.28,
+        ease: "power2.in"
+      }, 5.02);
+
+      // ═══════════════════════════════════════════════════
+      // FINAL PAYOFF TEXT (appears at local 5.3s)
+      // Quiet, factual. Not dramatic.
+      // ═══════════════════════════════════════════════════
+      var payoffText = $('#payoff-text');
+
+      tl.to(payoffText, {
+        opacity: 0.55,
+        duration: 1.4,
+        ease: "power1.inOut"
+      }, 5.3);
+
+      // ═══════════════════════════════════════════════════
+      // DOLLY OUT (Beat 7 camera, local 4.0–7.5s)
+      // Perspective widens — viewer pushed away
+      // ═══════════════════════════════════════════════════
+      tl.to('#depth-stage', {
+        perspective: 1900,
+        duration: 3.5,
+        ease: "sine.inOut"
+      }, 4.0);
+
+      // Scale back to 1 from the Ken Burns
+      tl.to('#depth-stage', {
+        scale: 1.0,
+        duration: 2.0,
+        ease: "sine.inOut"
+      }, 4.0);
+
+      // ═══════════════════════════════════════════════════
+      // OUTRO HOLD (local 6.0–7.5s)
+      // Text fades to near-invisible, near-black frame
+      // ═══════════════════════════════════════════════════
+      tl.to(payoffText, {
+        opacity: 0.18,
+        duration: 1.0,
+        ease: "power1.inOut"
+      }, 6.0);
+
+      // Brackets fade
+      tl.to(['#bracket-tl', '#bracket-tr', '#bracket-bl', '#bracket-br'], {
+        opacity: 0.08,
+        duration: 1.5,
+        ease: "power1.inOut"
+      }, 5.5);
+
+      // Vignette deepens
+      tl.to('#vignette', {
+        opacity: 1.3,
+        duration: 3.0,
+        ease: "power1.inOut"
+      }, 4.5);
+
+      // ═══════════════════════════════════════════════════
+      // INDEPENDENT ORBITAL MOTION (all layers)
+      // Dampen during void section
+      // ═══════════════════════════════════════════════════
+
+      // Beat 6 orbital (full strength, 0–4s)
+      tl.fromTo('.z-bg',
+        { rotateY: -2.5, rotateX: 1.2 },
+        { rotateY: 1.5, rotateX: -0.5, duration: 4.0, ease: "sine.inOut" }, 0);
+      // Beat 7 orbital (dampened, 4–7.5s)
+      tl.fromTo('.z-bg',
+        { rotateY: 1.5, rotateX: -0.5 },
+        { rotateY: 2.0, rotateX: -0.3, duration: 3.5, ease: "sine.inOut" }, 4.0);
+
+      tl.fromTo('.z-mg-ui',
+        { rotateY: 1.4, rotateX: -0.6 },
+        { rotateY: -0.8, rotateX: 0.3, duration: D * 0.73, ease: "sine.inOut" }, 0);
+
+      tl.fromTo('.z-fg-1',
+        { rotateY: -3.2, rotateX: 1.8 },
+        { rotateY: 1.5, rotateX: -0.8, duration: 4.0, ease: "sine.inOut" }, 0);
+      // Dampened in void
+      tl.to('.z-fg-1', {
+        rotateY: 1.8, rotateX: -0.5, duration: 3.5, ease: "sine.inOut"
+      }, 4.0);
+
+      tl.fromTo('.z-fg-2',
+        { rotateY: 3.5, rotateX: -2.0 },
+        { rotateY: -1.0, rotateX: 0.5, duration: 4.0, ease: "sine.inOut" }, 0);
+      // Dampened in void
+      tl.to('.z-fg-2', {
+        rotateY: -1.2, rotateX: 0.3, duration: 3.5, ease: "sine.inOut"
+      }, 4.0);
+
+      // ═══════════════════════════════════════════════════
+      // FILM GRAIN — 540×960 canvas stretched
+      // ═══════════════════════════════════════════════════
+      var grainCanvas = $('#film-grain');
+      var grainCtx = grainCanvas.getContext('2d');
+      grainCanvas.width = 540;
+      grainCanvas.height = 960;
+
+      var grainPrng = mulberry32(7774 + 999);
+      var grainData = grainCtx.createImageData(540, 960);
+      var grainPixels = grainData.data;
+
+      // Fill grain once deterministically
+      for (var gi = 0; gi < grainPixels.length; gi += 4) {
+        var v = (grainPrng() * 255) | 0;
+        grainPixels[gi] = v;
+        grainPixels[gi + 1] = v;
+        grainPixels[gi + 2] = v;
+        grainPixels[gi + 3] = 45; // subtle alpha
+      }
+      grainCtx.putImageData(grainData, 0, 0);
+
+      // Animate grain refresh at intervals using finite repeats
+      var grainFrameCount = Math.ceil(D / 0.1);
+      var grainRefreshPrng = mulberry32(7774 + 2000);
+      for (var gf = 0; gf < grainFrameCount; gf++) {
+        // Schedule a grain update tween
+        (function(frameIdx) {
+          tl.call(function() {
+            // Regenerate grain
+            var localPrng = mulberry32(7774 + 2000 + frameIdx);
+            for (var p = 0; p < grainPixels.length; p += 16) { // update every 4th pixel for performance
+              var gv = (localPrng() * 255) | 0;
+              grainPixels[p] = gv;
+              grainPixels[p + 1] = gv;
+              grainPixels[p + 2] = gv;
+            }
+            grainCtx.putImageData(grainData, 0, 0);
+          }, null, frameIdx * 0.1);
+        })(gf);
+      }
+
+      // ═══════════════════════════════════════════════════
+      // REGISTER TIMELINE
+      // ═══════════════════════════════════════════════════
+      window.__timelines[COMP_ID] = tl;
+
     })();
-  </script>
-</body>
-</html>
+    </script>
+  </div>
+</template>

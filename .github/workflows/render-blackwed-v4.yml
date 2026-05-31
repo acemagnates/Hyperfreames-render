@@ -1,0 +1,59 @@
+name: Render BlackWed
+on:
+  workflow_dispatch:
+    inputs:
+      render_quality:
+        description: "Render quality preset"
+        required: false
+        default: "standard"
+        type: choice
+        options:
+          - "draft"
+          - "standard"
+          - "high"
+      render_fps:
+        description: "Frames per second (default 30)"
+        required: false
+        default: "30"
+        type: string
+
+jobs:
+  render_clip:
+    name: "Clip: ${{ matrix.clip_id }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        clip_id:
+          - "BlackWed-clip-01"
+          - "BlackWed-clip-02"
+          - "BlackWed-clip-03"
+          - "BlackWed-clip-04"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Render Video
+        run: |
+          npx hyperframes render . \
+            --composition "${{ matrix.clip_id }}" \
+            --output "renders/out/BlackWed/${{ matrix.clip_id }}.mp4" \
+            --quality "${{ inputs.render_quality }}" \
+            --fps "${{ inputs.render_fps }}"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "${{ matrix.clip_id }}.mp4"
+          path: "renders/out/BlackWed/${{ matrix.clip_id }}.mp4"
+          retention-days: 7

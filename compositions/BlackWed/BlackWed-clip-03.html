@@ -1,193 +1,663 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1080, height=1920" />
-  <title>BlackWed Clip 03 — The Institution</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet" />
-  <script src="compositions/_shared/gsap.min.js"></script>
-  <script src="compositions/_shared/CustomEase.min.js"></script>
-  <script src="compositions/_shared/three.min.js"></script>
-  <script src="compositions/BlackWed/blackwed-shared.js"></script>
-  <script src="compositions/BlackWed/blackwed-three-exterior.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #030303; }
+<template id="BlackWed-clip-03-template">
+  <div data-composition-id="BlackWed-clip-03" data-width="1080" data-height="1920">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Courier+Prime:wght@400;700&family=Oswald:wght@700&family=Helvetica:wght@300&display=swap" rel="stylesheet">
 
-    #root {
-      position: relative;
-      width: 1080px;
-      height: 1920px;
-      overflow: visible;
-    }
+    <!-- ═══════════════════════════════════════════════════════════
+         BEAT 5 — THE INSTITUTION STANDS (THEN DOESN'T)
+         Wall 14.5–22.5s · Local 0.0–8.0s · Duration 8.0s
+         Bank of England exterior, window light-up, spotlight death
+    ═══════════════════════════════════════════════════════════ -->
 
-    /* Z-3D: hardware-accelerated three.js bank exterior facade */
-    #three-canvas {
-      position: absolute;
-      inset: 0;
-      width: 1080px;
-      height: 1920px;
-      opacity: 0;
-    }
+    <!-- ─── DEPTH STAGE ─── -->
+    <div id="depth-stage" style="position:relative; width:1080px; height:1920px; overflow:hidden; perspective:950px; perspective-origin:50% 46%;">
+  <div id="vig" style="position:absolute;inset:0;pointer-events:none;z-index:99;box-shadow:inset 0 0 200px rgba(0,0,0,0.8);"></div>
+  <div id="grain" style="position:absolute;inset:0;pointer-events:none;z-index:99;"></div></div>
+  <div class="grain" style="position:absolute;inset:0;pointer-events:none;z-index:99;"></div> style="position:relative; width:1080px; height:1920px; overflow:hidden; perspective:950px; perspective-origin:50% 46%;">
 
-    /* Headline "BASE RATE: 15%" stamp */
-    #base-rate-slot {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 32%;
-      z-index: 12;
-      text-align: center;
-      min-height: 220px;
-    }
+      <!-- ▼ Z-BG: atmospheric dark layers (Z:-450px) -->
+      <div class="z-bg" style="position:absolute; inset:-9%; transform:translateZ(-450px) scale(1.88); transform-style:preserve-3d;">
+        <!-- Dark atmosphere gradient -->
+        <div id="bg-atmosphere" style="position:absolute; inset:0; background: radial-gradient(ellipse at 50% 35%, rgba(28,18,6,0.96) 0%, rgba(8,5,2,1.0) 55%, rgba(3,3,3,1.0) 100%);"></div>
+        <!-- Ghost text -->
+        <div id="ghost-text" style="position:absolute; top:38%; left:-5%; font-family:'Courier Prime',monospace; font-size:240px; font-weight:700; color:rgba(195,160,100,0.025); white-space:nowrap; transform:rotate(-4deg); pointer-events:none; user-select:none;">THREADNEEDLE</div>
+        <div id="ghost-text-2" style="position:absolute; top:62%; left:10%; font-family:'Courier Prime',monospace; font-size:200px; font-weight:700; color:rgba(195,160,100,0.018); white-space:nowrap; transform:rotate(2deg); pointer-events:none; user-select:none;">STERLING</div>
+      </div>
 
-    .base-rate-text {
-      font-family: 'Oswald', sans-serif;
-      font-size: 82px;
-      font-weight: 700;
-      letter-spacing: -1px;
-      line-height: 1.25;
-      color: rgba(255, 195, 125, 0.90); /* Motivated window light color */
-      text-shadow: 0 0 40px rgba(255, 195, 125, 0.35);
-      display: inline-block;
-      padding: 20px 12px;
-    }
+      <!-- ▼ Z-3D: Three.js canvas (Z:0) -->
+      <div class="z-3d" style="position:absolute; inset:0; transform:translateZ(0);">
+        <canvas id="canvas3d" style="width:1080px; height:1920px; display:block;"></canvas>
+      </div>
 
-    /* Shard placeholders matching the ending column coordinates of Clip 02 */
-    #shard-ghost {
-      position: absolute;
-      inset: 0;
-      z-index: 8;
-      pointer-events: none;
-    }
+      <!-- ▼ Z-MG-UI: Text overlays, window glow overlays (Z:+60px) -->
+      <div class="z-mg-ui" style="position:absolute; inset:-3%; transform:translateZ(60px) scale(0.944); transform-style:preserve-3d;">
 
-    .shard-col {
-      position: absolute;
-      bottom: 0;
-      width: 80px;
-      height: 55%;
-      background: linear-gradient(180deg, rgba(158, 146, 128, 0.5), rgba(60, 50, 40, 0.8));
-      opacity: 0;
-    }
+        <!-- Crossfade DOM column shards (from previous clip morphism) -->
+        <div id="column-shards" style="position:absolute; inset:0; pointer-events:none;">
+          <div class="col-shard" style="position:absolute; left:12%; top:20%; width:60px; height:600px; background:linear-gradient(180deg, #c4b59a 0%, #9e9280 100%); opacity:0.6; transform:rotate(-2deg);"></div>
+          <div class="col-shard" style="position:absolute; left:32%; top:15%; width:55px; height:650px; background:linear-gradient(180deg, #b8a88a 0%, #8a7d6a 100%); opacity:0.5; transform:rotate(1deg);"></div>
+          <div class="col-shard" style="position:absolute; left:55%; top:22%; width:65px; height:580px; background:linear-gradient(180deg, #c4b59a 0%, #9e9280 100%); opacity:0.55; transform:rotate(-1.5deg);"></div>
+          <div class="col-shard" style="position:absolute; left:75%; top:18%; width:50px; height:620px; background:linear-gradient(180deg, #b8a88a 0%, #8a7d6a 100%); opacity:0.45; transform:rotate(2.5deg);"></div>
+        </div>
 
-    /* Vignette overlay */
-    #vig {
-      position: absolute;
-      inset: 0;
-      z-index: 90;
-      background: radial-gradient(ellipse 70% 55% at 50% 42%, transparent 15%, rgba(0, 0, 0, 0.78) 100%);
-      pointer-events: none;
-    }
+        <!-- Window glow overlays (positioned to match 3D window locations) -->
+        <div id="window-glows" style="position:absolute; inset:0; pointer-events:none;">
+          <div class="window-glow" data-win="0" style="position:absolute; left:250px; top:620px; width:80px; height:110px; background:radial-gradient(ellipse, rgba(255,195,125,0.65) 0%, rgba(212,130,10,0.25) 45%, transparent 70%); opacity:0; border-radius:4px;"></div>
+          <div class="window-glow" data-win="1" style="position:absolute; left:380px; top:620px; width:80px; height:110px; background:radial-gradient(ellipse, rgba(255,195,125,0.65) 0%, rgba(212,130,10,0.25) 45%, transparent 70%); opacity:0; border-radius:4px;"></div>
+          <div class="window-glow" data-win="2" style="position:absolute; left:510px; top:620px; width:80px; height:110px; background:radial-gradient(ellipse, rgba(255,195,125,0.65) 0%, rgba(212,130,10,0.25) 45%, transparent 70%); opacity:0; border-radius:4px;"></div>
+          <div class="window-glow" data-win="3" style="position:absolute; left:640px; top:620px; width:80px; height:110px; background:radial-gradient(ellipse, rgba(255,195,125,0.65) 0%, rgba(212,130,10,0.25) 45%, transparent 70%); opacity:0; border-radius:4px;"></div>
+          <div class="window-glow" data-win="4" style="position:absolute; left:250px; top:760px; width:80px; height:110px; background:radial-gradient(ellipse, rgba(255,195,125,0.55) 0%, rgba(212,130,10,0.20) 45%, transparent 70%); opacity:0; border-radius:4px;"></div>
+          <div class="window-glow" data-win="5" style="position:absolute; left:640px; top:760px; width:80px; height:110px; background:radial-gradient(ellipse, rgba(255,195,125,0.55) 0%, rgba(212,130,10,0.20) 45%, transparent 70%); opacity:0; border-radius:4px;"></div>
+        </div>
 
-    #grain {
-      position: absolute;
-      inset: 0;
-      z-index: 98;
-      width: 100%;
-      height: 100%;
-      mix-blend-mode: overlay;
-      opacity: 0.17;
-      pointer-events: none;
-    }
-  </style>
-</head>
-<body>
-  <div id="root" class="clip" data-composition-id="BlackWed-clip-03" data-start="14.5" data-duration="8" data-width="1080" data-height="1920" data-fps="30" data-layout-allow-overflow>
-    <div class="plate-stage clip" data-start="0" data-duration="8" data-track-index="0" style="position: absolute; inset: 0; opacity: 0.14; mix-blend-mode: overlay; z-index: 1;"><img src="assets/BlackWed/plates/ref-boe-night.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;" /></div>
-    
-    <!-- CSS Facade Fallback (If WebGL crashes) -->
-    <div id="css-facade-fallback" style="position: absolute; inset: 0; background: linear-gradient(180deg, #0a0806 0%, #1a1510 45%, #090705 100%); z-index: 2;"></div>
+        <!-- "BASE RATE: 15%" text on facade -->
+        <div id="rate-text" style="position:absolute; top:510px; left:50%; transform:translateX(-50%); text-align:center; pointer-events:none;">
+          <div id="rate-chars" style="display:inline-flex; gap:0; font-family:'Oswald',sans-serif; font-size:96px; font-weight:700; color:rgba(255,195,125,0.90); letter-spacing:0.04em; text-shadow: 0 0 8px rgba(255,195,125,0.45), 0 0 28px rgba(210,155,70,0.25), 2px 4px 12px rgba(0,0,0,0.75);">
+            <!-- Characters populated by script -->
+          </div>
+        </div>
+      </div>
 
-    <!-- WebGL Exterior -->
-    <canvas id="three-canvas" class="clip" data-start="0" data-duration="8" data-track-index="1" width="1080" height="1920" style="position: absolute; inset: 0; z-index: 3;"></canvas>
+      <!-- ▼ Z-FG-1: Corner brackets, framing (Z:+160px) -->
+      <div class="z-fg-1" style="position:absolute; inset:-5%; transform:translateZ(160px) scale(0.858); transform-style:preserve-3d;">
+        <!-- Corner brackets -->
+        <div class="corner-bracket corner-tl" style="position:absolute; top:80px; left:60px; width:0px; height:0px; border-top:2px solid rgba(196,181,154,0.45); border-left:2px solid rgba(196,181,154,0.45);"></div>
+        <div class="corner-bracket corner-tr" style="position:absolute; top:80px; right:60px; width:0px; height:0px; border-top:2px solid rgba(196,181,154,0.45); border-right:2px solid rgba(196,181,154,0.45);"></div>
+        <div class="corner-bracket corner-bl" style="position:absolute; bottom:80px; left:60px; width:0px; height:0px; border-bottom:2px solid rgba(196,181,154,0.45); border-left:2px solid rgba(196,181,154,0.45);"></div>
+        <div class="corner-bracket corner-br" style="position:absolute; bottom:80px; right:60px; width:0px; height:0px; border-bottom:2px solid rgba(196,181,154,0.45); border-right:2px solid rgba(196,181,154,0.45);"></div>
+        <!-- Accent line -->
+        <div id="accent-line" style="position:absolute; bottom:260px; left:50%; transform:translateX(-50%); width:0px; height:1px; background:rgba(196,181,154,0.35);"></div>
+      </div>
 
-    <!-- Shard Ghost Columns (Crossfading continuation) -->
-    <div id="shard-ghost" class="clip" data-start="0" data-duration="8" data-track-index="1"></div>
+      <!-- ▼ Z-FG-2: Atmospheric particles (Z:+280px) -->
+      <div class="z-fg-2" style="position:absolute; inset:-8%; transform:translateZ(280px) scale(0.765); transform-style:preserve-3d;">
+        <div id="particles-container" style="position:absolute; inset:0; pointer-events:none;"></div>
+      </div>
 
-    <!-- Base rate Headline overlay -->
-    <div id="base-rate-slot" class="clip" data-start="0" data-duration="8" data-track-index="2"></div>
+      <!-- Film grain canvas -->
+      <canvas id="film-grain" style="position:absolute; inset:0; width:1080px; height:1920px; z-index:98; pointer-events:none; mix-blend-mode:overlay; opacity:0.17;"></canvas>
+    </div>
 
-    <!-- Atmospheric framing -->
-    <div id="vig" class="clip" data-start="0" data-duration="8" data-track-index="3"></div>
-    <canvas id="grain" class="clip" data-start="0" data-duration="8" data-track-index="4" width="540" height="960"></canvas>
-  </div>
+    <!-- ═══════════════════════════════════════════════════════════
+         STYLES
+    ═══════════════════════════════════════════════════════════ -->
+    <style>
+      [data-composition-id="BlackWed-clip-03"] {
+        /* INSTITUTIONAL WARMTH */
+        --env-bg-center: rgba(48,31,12,0.96);
+        --env-bg-edge: rgba(8,5,2,1.0);
+        --tungsten-glow: rgba(210,155,70,0.11);
+        --desk-surface: #170c04;
+        --paper-texture: #e8d9b5;
+        --ink-struck: #1c0f05;
+        --shadow-warm: rgba(0,0,0,0.62);
 
-  <script>
-    (function () {
-      var BW = window.BlackWed;
-      var CID = "BlackWed-clip-03";
-      var D = 8;
+        /* PHOSPHOR TERMINAL */
+        --crt-bg: #040e04;
+        --crt-glow-near: rgba(74,255,74,0.48);
+        --crt-glow-far: rgba(74,255,74,0.09);
+        --crt-border: rgba(120,200,120,0.22);
+        --crt-scanline: rgba(0,0,0,0.055);
+        --rate-fall-red: #ff3030;
+        --rate-fall-glow: rgba(255,48,48,0.45);
 
-      BW.registerEases(gsap);
-      BW.initGrain(document.getElementById("grain"), 0.17, 88888);
+        /* LIMESTONE */
+        --stone-warm: #c4b59a;
+        --stone-shadow: rgba(18,12,5,0.82);
+        --window-fire: rgba(255,195,125,0.90);
+        --sodium-lamp: rgba(212,118,10,0.78);
 
-      // Initialize WebGL Scene B
-      var canvasEl = document.getElementById("three-canvas");
-      var ext = window.BlackWedThreeExterior.initExterior(canvasEl);
-      if (!ext.camera) {
-        gsap.set("#css-facade-fallback", { opacity: 1 });
-        gsap.set("#three-canvas", { display: "none" });
+        /* VOID */
+        --void-bg: #030303;
+        --ghost-type: rgba(195,160,100,0.025);
+        --coin-gold: rgba(185,145,62,0.82);
+        --coin-border: rgba(180,138,58,0.78);
+        --payoff-text: rgba(200,170,110,0.55);
+
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #030303;
+        font-variant-numeric: tabular-nums;
       }
 
-      // Spawn Shard Ghost Columns matching the columns mapped in Clip 02
-      var ghost = document.getElementById("shard-ghost");
-      BW.columnXs.forEach(function (x) {
-        var c = document.createElement("div");
-        c.className = "shard-col";
-        c.style.left = (x - 40) + "px";
-        ghost.appendChild(c);
+      [data-composition-id="BlackWed-clip-03"] .col-shard {
+        will-change: opacity;
+      }
+
+      [data-composition-id="BlackWed-clip-03"] .window-glow {
+        will-change: opacity;
+      }
+
+      [data-composition-id="BlackWed-clip-03"] .corner-bracket {
+        will-change: width, height;
+      }
+
+      [data-composition-id="BlackWed-clip-03"] .rate-char-wrap {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: bottom;
+      }
+      [data-composition-id="BlackWed-clip-03"] .rate-char {
+        display: inline-block;
+        will-change: transform;
+      }
+
+      [data-composition-id="BlackWed-clip-03"] .sodium-particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        will-change: transform, opacity;
+      }
+
+      [data-composition-id="BlackWed-clip-03"] #three-canvas {
+        will-change: opacity;
+      }
+    </style>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SCRIPTS
+    ═══════════════════════════════════════════════════════════ -->
+    <script src="compositions/_shared/gsap.min.js"></script>
+    <script src="compositions/_shared/three.min.js"></script>
+    <script>
+    (function() {
+      "use strict";
+
+      const COMP_ID = "BlackWed-clip-03";
+      const D = 8.0; // local clip duration in seconds
+      const W = 1080, H = 1920;
+      const FPS = 30;
+
+      // ─── MULBERRY32 SEEDED PRNG ───
+      function mulberry32(seed) {
+        return function() {
+          var t = seed += 0x6D2B79F5;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      const rng = mulberry32(88888);
+
+      // ─── Scope selectors ───
+      const root = document.querySelector('[data-composition-id="' + COMP_ID + '"]');
+      function $(sel) { return root.querySelector(sel); }
+      function $$(sel) { return root.querySelectorAll(sel); }
+
+      // ═══════════════════════════════════════════════════════
+      //  THREE.JS SCENE B — BANK OF ENGLAND EXTERIOR (INLINED)
+      // ═══════════════════════════════════════════════════════
+
+      const canvas = $('#three-canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+      renderer.setSize(W, H, false);
+      renderer.setPixelRatio(1);
+      renderer.setClearColor(0x030303, 1);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 0.9;
+
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x070604, 0.018);
+
+      // Camera — low angle looking up
+      const camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 200);
+      camera.position.set(0, 1.5, 16);
+      camera.lookAt(0, 6, 0);
+
+      // ─── GROUND: wet Threadneedle Street stone ───
+      const groundGeo = new THREE.PlaneGeometry(60, 60);
+      const groundMat = new THREE.MeshStandardMaterial({
+        color: 0x090805, roughness: 0.82, metalness: 0.06
+      });
+      const ground = new THREE.Mesh(groundGeo, groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = -0.5;
+      scene.add(ground);
+
+      // ─── STEPS: 4 risers leading up to colonnade ───
+      for (let i = 0; i < 4; i++) {
+        const stepGeo = new THREE.BoxGeometry(18, 0.35, 1.6);
+        const stepMat = new THREE.MeshStandardMaterial({
+          color: 0x8a7d6a, roughness: 0.88, metalness: 0.02
+        });
+        const step = new THREE.Mesh(stepGeo, stepMat);
+        step.position.set(0, -0.3 + i * 0.35, 5.5 - i * 1.5);
+        scene.add(step);
+      }
+
+      // ─── BUILDING FACADE (flat plane behind columns) ───
+      const facadeGeo = new THREE.PlaneGeometry(20, 18);
+      const facadeMat = new THREE.MeshStandardMaterial({
+        color: 0x9e9280, roughness: 0.92, metalness: 0.01
+      });
+      const facade = new THREE.Mesh(facadeGeo, facadeMat);
+      facade.position.set(0, 8, -1);
+      scene.add(facade);
+
+      // ─── PEDIMENT (triangular top) ───
+      const pedimentShape = new THREE.Shape();
+      pedimentShape.moveTo(-10, 0);
+      pedimentShape.lineTo(0, 4);
+      pedimentShape.lineTo(10, 0);
+      pedimentShape.lineTo(-10, 0);
+      const pedimentGeo = new THREE.ExtrudeGeometry(pedimentShape, { depth: 1.2, bevelEnabled: false });
+      const pedimentMat = new THREE.MeshStandardMaterial({
+        color: 0xb8a88a, roughness: 0.85, metalness: 0.01
+      });
+      const pediment = new THREE.Mesh(pedimentGeo, pedimentMat);
+      pediment.position.set(0, 17, -1.5);
+      scene.add(pediment);
+
+      // ─── 6 PORTLAND LIMESTONE COLUMNS ───
+      const columnPositions = [];
+      const COL_SPACING = 3.0;
+      for (let i = 0; i < 6; i++) {
+        const x = (i - 2.5) * COL_SPACING;
+        columnPositions.push(x);
+
+        // Column shaft
+        const colGeo = new THREE.CylinderGeometry(0.38, 0.44, 14, 16);
+        const colMat = new THREE.MeshStandardMaterial({
+          color: 0x9e9280, roughness: 0.90, metalness: 0.01
+        });
+        const col = new THREE.Mesh(colGeo, colMat);
+        col.position.set(x, 6.5, 0);
+        scene.add(col);
+
+        // Column capital (wider top piece)
+        const capGeo = new THREE.CylinderGeometry(0.55, 0.40, 1.0, 16);
+        const capMat = new THREE.MeshStandardMaterial({
+          color: 0xb8a88a, roughness: 0.85, metalness: 0.01
+        });
+        const cap = new THREE.Mesh(capGeo, capMat);
+        cap.position.set(x, 13.8, 0);
+        scene.add(cap);
+
+        // Column base
+        const baseGeo = new THREE.CylinderGeometry(0.52, 0.56, 0.6, 16);
+        const baseMat = new THREE.MeshStandardMaterial({
+          color: 0x8a7d6a, roughness: 0.88, metalness: 0.02
+        });
+        const base = new THREE.Mesh(baseGeo, baseMat);
+        base.position.set(x, -0.2, 0);
+        scene.add(base);
+      }
+
+      // ─── 6 WINDOWS ───
+      const windowMeshes = [];
+      const windowPositions2D = []; // track screen positions for CSS glows
+      // Top row: 4 windows between column pairs
+      const winTopY = 10;
+      const winBotY = 5.5;
+      const winXPositions = [
+        (columnPositions[0] + columnPositions[1]) / 2,
+        (columnPositions[1] + columnPositions[2]) / 2,
+        (columnPositions[3] + columnPositions[4]) / 2,
+        (columnPositions[4] + columnPositions[5]) / 2,
+      ];
+      // Top row: 4 windows
+      for (let i = 0; i < 4; i++) {
+        const winGeo = new THREE.PlaneGeometry(1.6, 2.4);
+        const winMat = new THREE.MeshStandardMaterial({
+          color: 0x040302,
+          emissive: 0xd4820a,
+          emissiveIntensity: 0, // starts OFF
+          roughness: 0.3,
+          metalness: 0.1
+        });
+        const win = new THREE.Mesh(winGeo, winMat);
+        win.position.set(winXPositions[i], winTopY, -0.48);
+        scene.add(win);
+        windowMeshes.push(win);
+      }
+      // Bottom row: 2 windows at extremes
+      for (let i = 0; i < 2; i++) {
+        const bx = i === 0 ? winXPositions[0] : winXPositions[3];
+        const winGeo = new THREE.PlaneGeometry(1.6, 2.4);
+        const winMat = new THREE.MeshStandardMaterial({
+          color: 0x040302,
+          emissive: 0xd4820a,
+          emissiveIntensity: 0,
+          roughness: 0.3,
+          metalness: 0.1
+        });
+        const win = new THREE.Mesh(winGeo, winMat);
+        win.position.set(bx, winBotY, -0.48);
+        scene.add(win);
+        windowMeshes.push(win);
+      }
+
+      // ─── ENTABLATURE (horizontal beam above columns) ───
+      const entGeo = new THREE.BoxGeometry(20, 1.2, 1.5);
+      const entMat = new THREE.MeshStandardMaterial({
+        color: 0xb8a88a, roughness: 0.85, metalness: 0.01
+      });
+      const entablature = new THREE.Mesh(entGeo, entMat);
+      entablature.position.set(0, 14.6, -0.2);
+      scene.add(entablature);
+
+      // ─── LIGHTING ───
+      // Sodium vapour street lamp
+      const sodiumLight = new THREE.PointLight(0xd47208, 4.2, 28, 1.5);
+      sodiumLight.position.set(-9, 7, 6);
+      scene.add(sodiumLight);
+
+      // Institutional spotlight
+      const institutionalSpot = new THREE.SpotLight(0xeef0ff, 2.4);
+      institutionalSpot.position.set(0, 28, 8);
+      institutionalSpot.target.position.set(0, 4, 0);
+      institutionalSpot.angle = Math.PI / 11;
+      institutionalSpot.penumbra = 0.45;
+      scene.add(institutionalSpot);
+      scene.add(institutionalSpot.target);
+
+      // Overcast sky glow
+      const skyLight = new THREE.DirectionalLight(0x8090a8, 0.15);
+      skyLight.position.set(0, 20, -5);
+      scene.add(skyLight);
+
+      // Ambient fill (very subtle)
+      const ambLight = new THREE.AmbientLight(0x1a1510, 0.3);
+      scene.add(ambLight);
+
+      // ─── RENDER FUNCTION ───
+      // State variables for animation
+      let currentCamZ = 16;
+      let currentSpotIntensity = 2.4;
+      let windowIntensities = [0, 0, 0, 0, 0, 0];
+      let threeCanvasOpacity = 0;
+
+      function renderThreeAt(localTime) {
+        // Update window emissive intensities
+        for (let i = 0; i < 6; i++) {
+          windowMeshes[i].material.emissiveIntensity = windowIntensities[i];
+        }
+
+        // Update spotlight intensity
+        institutionalSpot.intensity = currentSpotIntensity;
+
+        // Camera position updates (driven by GSAP, stored in currentCamZ)
+        camera.position.z = currentCamZ;
+        camera.lookAt(0, 6, 0);
+
+        // Subtle camera breathing from time
+        camera.position.x = Math.sin(localTime * 0.15) * 0.3;
+        camera.position.y = 1.5 + Math.sin(localTime * 0.22) * 0.12;
+
+        renderer.render(scene, camera);
+      }
+
+      // ─── HF-SEEK INTEGRATION ───
+      window.addEventListener("hf-seek", function(e) {
+        renderThreeAt(e.detail.time);
       });
 
-      // Initialize Master Timeline
-      var tl = BW.makeTimeline(CID);
-      window.__timelines[CID] = tl;
+      // ═══════════════════════════════════════════════════════
+      //  "BASE RATE: 15%" CHARACTER STAGGER SETUP
+      // ═══════════════════════════════════════════════════════
 
-      // Crossfade incoming: DOM shards fade out, WebGL canvas fades in
-      gsap.set(".shard-col", { opacity: 1 });
-      
-      // Spawn floating headline text
-      var rateEl = document.createElement("h1");
-      rateEl.className = "base-rate-text";
-      rateEl.id = "base-rate";
-      rateEl.innerHTML = "BASE RATE:<br/>15%";
-      document.getElementById("base-rate-slot").appendChild(rateEl);
-      gsap.set(rateEl, { opacity: 0 });
-
-      // ACT 1: CROSSFADE & DOLLY OUT
-      tl.to(rateEl, { y: -4, duration: 2.4, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(D / 2.4) - 1 }, 2);
-      tl.to(".shard-col", { opacity: 0, duration: 1.0, ease: "power1.inOut" }, 0);
-      tl.to("#three-canvas", { opacity: 1, duration: 1.2, ease: "power1.inOut" }, 0);
-      
-      if (ext.camera) {
-        // Slow Dolly out from z=16 to z=22
-        tl.fromTo(ext.camera.position, { z: 16 }, { z: 22, duration: 1.6, ease: "power2.out" }, 0.5);
-        // ACT 3: Slow Dolly in
-        tl.to(ext.camera.position, { z: 18, duration: 3.0, ease: "power1.inOut" }, 5.0);
+      const rateText = "BASE RATE: 15%";
+      const rateCharsEl = $('#rate-chars');
+      var charSpans = [];
+      for (let i = 0; i < rateText.length; i++) {
+        const ch = rateText[i];
+        const wrap = document.createElement('div');
+        wrap.className = 'rate-char-wrap';
+        const span = document.createElement('span');
+        span.className = 'rate-char';
+        span.textContent = ch === ' ' ? '\u00A0' : ch;
+        wrap.appendChild(span);
+        rateCharsEl.appendChild(wrap);
+        charSpans.push(span);
       }
 
-      // ACT 2: LIGHTING WINDOWS (Staggered 0.45s each)
-      if (ext.windows) {
-        ext.windows.forEach(function (mat, i) {
-          tl.to(mat, { emissiveIntensity: 1.8, duration: 0.6, ease: "expo.out" }, 0.5 + i * 0.45);
+      // ═══════════════════════════════════════════════════════
+      //  SODIUM-TINTED ATMOSPHERIC PARTICLES
+      // ═══════════════════════════════════════════════════════
+
+      const particlesContainer = $('#particles-container');
+      const PARTICLE_COUNT = 18;
+      const particleEls = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        const p = document.createElement('div');
+        p.className = 'sodium-particle';
+        const size = 1.5 + rng() * 3;
+        const opacity = 0.08 + rng() * 0.15;
+        const hue = 25 + rng() * 15; // sodium orange range
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.backgroundColor = 'hsla(' + hue + ', 85%, 55%, ' + opacity + ')';
+        p.style.transform = 'translate(' + (rng() * 1300) + 'px, ' + (rng() * 2200) + 'px)';
+        particlesContainer.appendChild(p);
+        particleEls.push({
+          el: p,
+          startX: rng() * 1300,
+          startY: rng() * 2200,
+          driftX: (rng() - 0.5) * 60,
+          driftY: -20 - rng() * 40,
+          sway: rng() * 2 + 0.5
         });
       }
 
-      // Spotlight Projected outage: spotlight goes out slowly over 3.0s
-      if (ext.institutionalSpot) {
-        tl.to(ext.institutionalSpot, { intensity: 0, duration: 3.0, ease: "power1.inOut" }, 3.0);
+      // ═══════════════════════════════════════════════════════
+      //  FILM GRAIN (540×960 canvas)
+      // ═══════════════════════════════════════════════════════
+
+      const grainCanvas = $('#film-grain');
+      const grainCtx = grainCanvas.getContext('2d');
+      grainCanvas.width = 540;
+      grainCanvas.height = 960;
+
+      const grainRng = mulberry32(77777);
+      const grainData = grainCtx.createImageData(540, 960);
+      const grainPixels = grainData.data;
+
+      function updateGrain(frame) {
+        const seed = mulberry32(77777 + frame * 137);
+        for (let i = 0; i < grainPixels.length; i += 4) {
+          const v = seed() * 255;
+          grainPixels[i] = v;
+          grainPixels[i + 1] = v;
+          grainPixels[i + 2] = v;
+          grainPixels[i + 3] = 45;
+        }
+        grainCtx.putImageData(grainData, 0, 0);
+      }
+      updateGrain(0);
+
+      // Update grain every 2 frames (~15fps grain flicker)
+      const grainFrames = Math.ceil(D * FPS / 2);
+      for (let f = 0; f < grainFrames; f++) {
+        // We'll update grain in the seek handler instead for determinism
       }
 
-      // Settle Headline reveal
-      tl.to(rateEl, { opacity: 1, duration: 1.1, ease: "expo.out" }, 1.7);
+      // ═══════════════════════════════════════════════════════
+      //  GSAP TIMELINE (ALL LOCAL TIME)
+      // ═══════════════════════════════════════════════════════
 
-      // WebGL render loop
-      if (ext.camera) {
-        (function tick() {
-          ext.render();
-          requestAnimationFrame(tick);
-        })();
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ─── INDEPENDENT ORBITAL MOTION (mandatory, all layers) ───
+      tl.fromTo(".z-bg",
+        { rotateY: -2.5, rotateX: 1.2 },
+        { rotateY: 3.0, rotateX: -1.0, duration: D, ease: "sine.inOut" }, 0);
+      tl.fromTo(".z-mg-ui",
+        { rotateY: 1.4, rotateX: -0.6 },
+        { rotateY: -1.8, rotateX: 0.7, duration: D * 0.73, ease: "sine.inOut" }, 0);
+      tl.fromTo(".z-fg-1",
+        { rotateY: -3.2, rotateX: 1.8 },
+        { rotateY: 4.1, rotateX: -2.2, duration: D * 0.54, ease: "sine.inOut" }, 0);
+      tl.fromTo(".z-fg-2",
+        { rotateY: 3.5, rotateX: -2.0 },
+        { rotateY: -4.2, rotateX: 2.6, duration: D * 0.39, ease: "sine.inOut" }, 0);
+
+      // ─── CROSSFADE: DOM column shards fade OUT ───
+      tl.to("#column-shards", {
+        opacity: 0, duration: 1.0, ease: "power1.inOut"
+      }, 0);
+
+      // ─── CROSSFADE: Three.js canvas fades IN ───
+      tl.fromTo("#three-canvas",
+        { opacity: 0 },
+        { opacity: 1, duration: 1.2, ease: "power1.inOut" }, 0);
+
+      // ─── CAMERA DOLLY: initial reveal z 16→22 ───
+      tl.to(
+        { value: 16 },
+        {
+          value: 22,
+          duration: 1.6,
+          ease: "power2.out",
+          onUpdate: function() { currentCamZ = this.targets()[0].value; }
+        }, 0
+      );
+
+      // ─── CAMERA: slow establishing dolly z 22→24 ───
+      tl.to(
+        { value: 22 },
+        {
+          value: 24,
+          duration: 3.4,
+          ease: "power1.inOut",
+          onUpdate: function() { currentCamZ = this.targets()[0].value; }
+        }, 1.6
+      );
+
+      // ─── CAMERA: slow push-in during silence z 24→18 ───
+      tl.to(
+        { value: 24 },
+        {
+          value: 18,
+          duration: 3.0,
+          ease: "power1.inOut",
+          onUpdate: function() { currentCamZ = this.targets()[0].value; }
+        }, 5.0
+      );
+
+      // ─── WINDOW LIGHT-UP SEQUENCE (local 0.5–3.2, stagger 0.45s) ───
+      for (let i = 0; i < 6; i++) {
+        const winStart = 0.5 + i * 0.45;
+        // Window emissive via proxy object
+        tl.to(
+          windowIntensities,
+          {
+            [i]: 1.8,
+            duration: 0.6,
+            ease: "expo.out"
+          }, winStart
+        );
+        // CSS glow overlay
+        tl.to('.window-glow[data-win="' + i + '"]', {
+          opacity: 1, duration: 0.6, ease: "expo.out"
+        }, winStart);
       }
+
+      // ─── "BASE RATE: 15%" CHARACTER STAGGER (local 1.7) ───
+      for (let i = 0; i < charSpans.length; i++) {
+        tl.fromTo(charSpans[i],
+          { y: "100%", opacity: 0 },
+          { y: "0%", opacity: 1, duration: 0.35, ease: "power3.out" },
+          1.7 + i * 0.06
+        );
+      }
+
+      // ─── Subtle rate text glow pulse during hold ───
+      const glowCycles = Math.ceil((D - 2.5) / 2.5);
+      tl.to('#rate-text', {
+        textShadow: '0 0 12px rgba(255,195,125,0.7), 0 0 40px rgba(210,155,70,0.35), 2px 4px 12px rgba(0,0,0,0.75)',
+        duration: 1.25,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: glowCycles * 2 - 1
+      }, 2.5);
+
+      // ─── CORNER BRACKETS animate in ───
+      tl.to('.corner-bracket', {
+        width: 55, height: 55, duration: 0.8, ease: "power2.out",
+        stagger: { each: 0.08, from: "start" }
+      }, 0.3);
+
+      // ─── ACCENT LINE ───
+      tl.to('#accent-line', {
+        width: 500, duration: 1.2, ease: "power2.out"
+      }, 0.6);
+
+      // ─── INSTITUTIONAL SPOTLIGHT GOES OUT (local 3.0–6.0) ───
+      tl.to(
+        { value: 2.4 },
+        {
+          value: 0,
+          duration: 3.0,
+          ease: "power1.inOut",
+          onUpdate: function() { currentSpotIntensity = this.targets()[0].value; }
+        }, 3.0
+      );
+
+      // Window glows also dim slightly as institutional light fades
+      tl.to('.window-glow', {
+        opacity: 0.55, duration: 2.5, ease: "power1.inOut"
+      }, 3.5);
+
+      // ─── PARTICLES: slow sodium-tinted drift ───
+      for (let i = 0; i < particleEls.length; i++) {
+        const p = particleEls[i];
+        tl.fromTo(p.el,
+          { x: p.startX, y: p.startY, opacity: 0 },
+          {
+            x: p.startX + p.driftX,
+            y: p.startY + p.driftY,
+            opacity: 1,
+            duration: D,
+            ease: "sine.inOut"
+          }, 0
+        );
+      }
+
+      // ─── TRANSITION TO BEAT 6 (local 7.5–8.0): fly-through exit ───
+      tl.to('.z-fg-1', {
+        scale: 2.5, opacity: 0, duration: 0.38, ease: "power3.in"
+      }, 7.5);
+      tl.to('.z-fg-2', {
+        scale: 2.5, opacity: 0, duration: 0.38, ease: "power3.in"
+      }, 7.5);
+
+      // Three.js canvas fade out
+      tl.to('#three-canvas', {
+        opacity: 0, duration: 0.6, ease: "power2.in"
+      }, 7.4);
+
+      // Rate text fades
+      tl.to('#rate-text', {
+        opacity: 0, duration: 0.4, ease: "power2.in"
+      }, 7.4);
+
+      // Window glows fade
+      tl.to('.window-glow', {
+        opacity: 0, duration: 0.4, ease: "power2.in"
+      }, 7.4);
+
+      // ─── GRAIN UPDATE via onUpdate callback ───
+      tl.to({ frame: 0 }, {
+        frame: D * FPS,
+        duration: D,
+        ease: "none",
+        onUpdate: function() {
+          var f = Math.floor(this.targets()[0].frame);
+          if (f % 2 === 0) updateGrain(f);
+          // Also trigger Three.js render
+          renderThreeAt(tl.time());
+        }
+      }, 0);
+
+      // ─── Register timeline ───
+      window.__timelines[COMP_ID] = tl;
+
+      // Initial render
+      renderThreeAt(0);
+
     })();
-  </script>
-</body>
-</html>
+    </script>
+  </div>
+</template>

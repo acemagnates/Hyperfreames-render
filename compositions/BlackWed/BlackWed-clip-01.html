@@ -1,311 +1,788 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1080, height=1920" />
-  <title>BlackWed Clip 01 — Room & Telex</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Courier+Prime:wght@400&display=swap" rel="stylesheet" />
-  <script src="compositions/_shared/gsap.min.js"></script>
-  <script src="compositions/_shared/CustomEase.min.js"></script>
-  <script src="compositions/_shared/three.min.js"></script>
-  <script src="compositions/BlackWed/blackwed-shared.js"></script>
-  <script src="compositions/BlackWed/blackwed-three-dealing.js"></script>
-  <style>
-    /* Premium CSS Color Properties Registration */
-    @property --paper-warm { syntax: "<color>"; inherits: false; initial-value: #e8d9b5; }
-    @property --void-text { syntax: "<color>"; inherits: false; initial-value: rgba(200,170,110,0.55); }
+<template id="BlackWed-clip-01-template">
+  <div data-composition-id="BlackWed-clip-01" data-width="1080" data-height="1920">
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #030303; }
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- GOOGLE FONTS                                                -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Courier+Prime:wght@400;700&family=Oswald:wght@700&family=Helvetica:wght@300&display=swap" rel="stylesheet">
 
-    #depth-stage {
-      position: relative;
-      width: 1080px;
-      height: 1920px;
-      overflow: hidden;
-      perspective: 950px;
-      perspective-origin: 50% 46%;
-      opacity: 0;
-    }
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- CSS DEPTH STACK + ALL VISUAL LAYERS                         -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div id="depth-stage" style="position:relative; width:1080px; height:1920px; overflow:hidden; perspective:950px; perspective-origin:50% 46%;">
+  <div id="vig" style="position:absolute;inset:0;pointer-events:none;z-index:99;box-shadow:inset 0 0 200px rgba(0,0,0,0.8);"></div>
+  <div id="grain" style="position:absolute;inset:0;pointer-events:none;z-index:99;"></div></div>
+  <div class="grain" style="position:absolute;inset:0;pointer-events:none;z-index:99;"></div> style="position:relative; width:1080px; height:1920px; overflow:hidden; perspective:950px; perspective-origin:50% 46%;">
 
-    .z-bg, .z-3d, .z-mg-ui, .z-fg-1, .z-fg-2 {
-      position: absolute;
-      transform-style: preserve-3d;
-    }
-
-    /* Z-BG: slowest, sepia gradient + large ghost texts */
-    .z-bg {
-      inset: -9%;
-      transform: translateZ(-450px) scale(1.88);
-      background: radial-gradient(ellipse 90% 70% at 50% 42%, rgba(48, 31, 12, 0.96), rgba(8, 5, 2, 1.0));
-    }
-
-    .ghost-bg-text {
-      font-family: 'Courier Prime', monospace;
-      font-size: 250px;
-      font-weight: 700;
-      color: rgba(195, 160, 100, 0.025);
-      letter-spacing: -5px;
-      line-height: 1.08;
-      position: absolute;
-      top: 8%;
-      left: -4%;
-      width: 108%;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    /* Z-3D: hardware-accelerated three.js dealing room */
-    .z-3d {
-      inset: 0;
-      transform: translateZ(0);
-    }
-    #three-canvas {
-      width: 1080px;
-      height: 1920px;
-      display: block;
-    }
-
-    /* Z-MG-UI: CSS telex document */
-    .z-mg-ui {
-      inset: -3%;
-      transform: translateZ(60px) scale(0.944);
-      opacity: 0;
-    }
-
-    .telex-doc {
-      position: absolute;
-      width: 540px;
-      left: 270px;
-      top: 680px;
-      background: var(--paper-warm);
-      --paper-warm: #e8d9b5;
-      /* Motivated desk lamp shadow */
-      box-shadow:
-        -10px 14px 44px rgba(0, 0, 0, 0.65),
-        -3px  5px  10px rgba(0, 0, 0, 0.32),
-        inset 0 0 0 1px rgba(28, 15, 5, 0.04);
-      transform: translateZ(80px) rotateX(7deg) rotateZ(-1.8deg);
-      padding: 40px 44px;
-      font-family: 'Courier Prime', monospace;
-      font-size: 13px;
-      color: #1c0f05;
-      letter-spacing: 0.5px;
-      line-height: 1.7;
-      opacity: 0;
-    }
-
-    .telex-doc .rate {
-      font-size: 22px;
-      margin-top: 12px;
-    }
-
-    /* Z-FG-1: Framing layer (corner brackets + date stamp) */
-    .z-fg-1 {
-      inset: -5%;
-      transform: translateZ(160px) scale(0.858);
-    }
-
-    .frame-mark {
-      position: absolute;
-      width: 48px;
-      height: 48px;
-      border-color: rgba(154, 143, 122, 0.4);
-      border-style: solid;
-      opacity: 0;
-    }
-    .fm-tl { top: 8%; left: 6%; border-width: 2px 0 0 2px; }
-    .fm-tr { top: 8%; right: 6%; border-width: 2px 2px 0 0; }
-    .fm-bl { bottom: 12%; left: 6%; border-width: 0 0 2px 2px; }
-    .fm-br { bottom: 12%; right: 6%; border-width: 0 2px 2px 0; }
-
-    .date-stamp {
-      position: absolute;
-      right: 52px;
-      bottom: 140px;
-      font-family: 'Courier Prime', monospace;
-      font-size: 12px;
-      letter-spacing: 0.8em;
-      color: rgba(232, 217, 181, 0.6);
-      opacity: 0;
-    }
-
-    /* Z-FG-2: Atmospheric drifting particles */
-    .z-fg-2 {
-      inset: -8%;
-      transform: translateZ(280px) scale(0.765);
-    }
-
-    .dust-mote {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(210, 155, 70, 0.35);
-    }
-
-    /* Atmospheric Vignette overlay */
-    #vig {
-      position: absolute;
-      inset: 0;
-      z-index: 90;
-      background: radial-gradient(ellipse 75% 55% at 50% 44%, transparent 12%, rgba(0, 0, 0, 0.72) 100%);
-      pointer-events: none;
-    }
-
-    /* Film grain stretched via CSS overlay for ultimate GPU performance */
-    #grain {
-      position: absolute;
-      inset: 0;
-      z-index: 98;
-      width: 100%;
-      height: 100%;
-      mix-blend-mode: overlay;
-      opacity: 0.17;
-      pointer-events: none;
-    }
-  </style>
-</head>
-<body>
-  <div id="depth-stage" class="clip" data-composition-id="BlackWed-clip-01" data-start="0" data-duration="9.5" data-width="1080" data-height="1920" data-fps="30" data-layout-allow-overflow>
-    <div class="plate-stage clip" data-start="0" data-duration="9.5" data-track-index="0" style="position: absolute; inset: 0; opacity: 0.12; mix-blend-mode: overlay; z-index: 0;"><img src="assets/BlackWed/plates/ref-dealing-room.jpg" alt="" style="width: 100%; height: 100%; object-fit: cover;" /></div>
-    <!-- Z-BG -->
-    <div class="z-bg clip" data-start="0" data-duration="9.5" data-track-index="1" data-layout-allow-overflow>
-      <p class="ghost-bg-text clip" data-start="0" data-duration="9.5" data-track-index="1" data-layout-allow-overflow>STERLING<br/>RESERVE<br/>DEFENDED</p>
-    </div>
-
-    <!-- Z-3D WebGL Dealing Room -->
-    <div class="z-3d clip" data-start="0" data-duration="9.5" data-track-index="2">
-      <div id="css-room-fallback" style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(48, 31, 12, 0.9), #070504); opacity: 1;"></div>
-      <canvas id="three-canvas" width="1080" height="1920" style="position: absolute; inset: 0;"></canvas>
-    </div>
-
-    <!-- Z-MG-UI (Telex) -->
-    <div class="z-mg-ui clip" data-start="0" data-duration="9.5" data-track-index="3" id="mg-ui">
-      <div class="telex-doc clip" id="telex-doc" data-start="0" data-duration="9.5" data-track-index="4">
-        <div>TELEX: LONDON / FRANKFURT</div>
-        <div>REF:   QF-160992-STG-003</div>
-        <div>DATE:  16-09-1992  07:43 GMT</div>
-        <div>FROM:  QUANTUM FUND</div>
-        <div style="margin-top: 16px;">INSTRUCTION: SELL</div>
-        <div>INSTRUMENT:  GBP/DEM</div>
-        <div>AMOUNT:      £ 1,000,000,000</div>
-        <div class="rate">RATE:        <span class="telex-rate-value">2.9500</span></div>
-        <div style="margin-top: 12px; opacity: 0.7;">CONFIRM EXECUTION AT OPEN.</div>
+      <!-- ──────── Z-BG: Atmospheric Background (Z:-450px) ──────── -->
+      <div class="z-bg" style="position:absolute; inset:-9%; transform:translateZ(-450px) scale(1.88); transform-style:preserve-3d;">
+        <!-- Sepia radial gradient atmosphere -->
+        <div id="sepia-atmos" style="position:absolute; inset:0; background:radial-gradient(ellipse 85% 70% at 50% 42%, rgba(48,31,12,0.96) 0%, rgba(22,14,5,0.98) 45%, rgba(8,5,2,1.0) 100%); opacity:0;"></div>
+        <!-- Ghost text blocks -->
+        <div class="ghost-text" style="position:absolute; top:180px; left:-60px; font-family:'Courier Prime',monospace; font-size:250px; font-weight:700; color:rgba(195,160,100,0.025); white-space:nowrap; letter-spacing:12px; opacity:0; will-change:transform;">STERLING</div>
+        <div class="ghost-text" style="position:absolute; top:680px; left:120px; font-family:'Courier Prime',monospace; font-size:220px; font-weight:700; color:rgba(195,160,100,0.025); white-space:nowrap; letter-spacing:10px; opacity:0; will-change:transform;">RESERVE</div>
+        <div class="ghost-text" style="position:absolute; top:1150px; left:-180px; font-family:'Courier Prime',monospace; font-size:260px; font-weight:700; color:rgba(195,160,100,0.025); white-space:nowrap; letter-spacing:14px; opacity:0; will-change:transform;">DEFENDED</div>
       </div>
-    </div>
 
-    <!-- Z-FG-1 (Framing) -->
-    <div class="z-fg-1 clip" data-start="0" data-duration="9.5" data-track-index="5">
-      <span class="frame-mark fm-tl clip" data-start="0" data-duration="9.5" data-track-index="6"></span>
-      <span class="frame-mark fm-tr clip" data-start="0" data-duration="9.5" data-track-index="7"></span>
-      <span class="frame-mark fm-bl clip" data-start="0" data-duration="9.5" data-track-index="8"></span>
-      <span class="frame-mark fm-br clip" data-start="0" data-duration="9.5" data-track-index="9"></span>
-      <p class="date-stamp clip" id="date-stamp" data-start="0" data-duration="9.5" data-track-index="10">SEPT 16, 1992</p>
-    </div>
+      <!-- ──────── Z-3D: Three.js Canvas (Z:0) ──────── -->
+      <div class="z-3d" style="position:absolute; inset:0; transform:translateZ(0);">
+        <canvas id="canvas3d" style="width:1080px; height:1920px;"></canvas>
+      </div>
 
-    <!-- Z-FG-2 (Atmospheric Drifting Particles) -->
-    <div class="z-fg-2 clip" data-start="0" data-duration="9.5" data-track-index="11" id="dust-field"></div>
+      <!-- ──────── Z-MG-UI: CSS Documents / Terminal / Text (Z:+60px) ──────── -->
+      <div class="z-mg-ui" style="position:absolute; inset:-3%; transform:translateZ(60px) scale(0.944); transform-style:preserve-3d; opacity:0;">
 
-    <!-- Framing helpers -->
-    <div id="vig" class="clip" data-start="0" data-duration="9.5" data-track-index="12"></div>
-    <canvas id="grain" class="clip" data-start="0" data-duration="9.5" data-track-index="13" width="540" height="960"></canvas>
-  </div>
+        <!-- THE TELEX DOCUMENT -->
+        <div id="telex-doc" style="
+          position:absolute;
+          width:540px;
+          left:270px;
+          top:680px;
+          background:linear-gradient(135deg, #e8d9b5 0%, #dccfa6 40%, #d4c59a 70%, #c9bb8e 100%);
+          padding:32px 28px 36px 28px;
+          box-shadow:
+            4px 8px 32px rgba(0,0,0,0.62),
+            -2px -1px 8px rgba(210,155,70,0.06),
+            inset 0 0 60px rgba(140,110,60,0.08);
+          transform:translateZ(80px) rotateX(7deg) rotateZ(-1.8deg) translateY(-280px);
+          opacity:0;
+          border:1px solid rgba(160,130,70,0.18);
+          font-family:'Courier Prime', monospace;
+          font-size:13px;
+          color:#1c0f05;
+          letter-spacing:0.5px;
+          line-height:1.65;
+          will-change:transform;
+        ">
+          <!-- Paper aging overlay -->
+          <div style="position:absolute; inset:0; background:radial-gradient(ellipse 120% 100% at 30% 25%, transparent 40%, rgba(140,110,60,0.12) 100%); pointer-events:none; border-radius:1px;"></div>
+          <!-- Coffee stain -->
+          <div style="position:absolute; top:45px; right:38px; width:42px; height:38px; border-radius:50%; background:radial-gradient(circle, rgba(120,85,30,0.08) 0%, transparent 70%); pointer-events:none;"></div>
 
-  <script>
-    (function () {
-      var BW = window.BlackWed;
-      var CID = "BlackWed-clip-01";
-      var D = 9.5;
-      if (!BW) return;
+          <!-- Telex header -->
+          <div style="border-bottom:1px solid rgba(28,15,5,0.25); padding-bottom:10px; margin-bottom:14px;">
+            <div style="font-weight:700; letter-spacing:4px; font-size:11px; margin-bottom:6px;">═══════════════════════════════</div>
+            <div style="font-weight:700; letter-spacing:4px; font-size:14px;">T E L E X</div>
+            <div style="font-size:11px; margin-top:4px; letter-spacing:1px;">QUANTUM FUND N.V. — CURAÇAO</div>
+          </div>
 
-      BW.registerEases(gsap);
-      
-      // Initialize volumetric elements (grain, dust field)
-      BW.initGrain(document.getElementById("grain"), 0.17, 88888);
-      var dust = BW.spawnDust(document.getElementById("dust-field"), 28, 88888);
+          <!-- Routing -->
+          <div style="font-size:11px; margin-bottom:12px; opacity:0.7; letter-spacing:1px;">
+            <div>TO: CITIBANK LONDON / FX DESK</div>
+            <div>FM: QUANTUM FUND MGMT / TRADING</div>
+            <div>DT: 16 SEP 1992 07:42 GMT</div>
+            <div>RE: STANDING ORDER — PRIORITY ALPHA</div>
+          </div>
 
-      // Initialize WebGL Scene A
-      var canvasEl = document.getElementById("three-canvas");
-      var three = window.BlackWedThreeDealing.initDealingRoom(canvasEl);
-      if (!three.camera) {
-        // Fallback to CSS visual gradient if WebGL crashes
-        gsap.set("#css-room-fallback", { opacity: 1 });
-        gsap.set("#three-canvas", { display: "none" });
-      } else {
-        gsap.set("#css-room-fallback", { opacity: 0 });
+          <!-- Separator -->
+          <div style="letter-spacing:3px; font-size:11px; margin-bottom:12px; opacity:0.5;">────────────────────────────────</div>
+
+          <!-- Body -->
+          <div style="margin-bottom:10px;">
+            <div>SELL: GBP/DEM</div>
+            <div>AMOUNT: £1,000,000,000</div>
+            <div style="margin-top:6px;">RATE: <span id="rate-value" style="font-weight:700; font-variant-numeric:tabular-nums;">2.9500</span></div>
+            <div style="margin-top:6px;">SETTLEMENT: SPOT T+2</div>
+          </div>
+
+          <!-- Overtype accumulated positions -->
+          <div style="margin-top:14px; font-size:11px; opacity:0.55; letter-spacing:0.3px;">
+            <div style="text-decoration:line-through; opacity:0.6;">POS ACCUMULATED: £2,400,000,000</div>
+            <div style="text-decoration:line-through; opacity:0.5;">POS ACCUMULATED: £4,800,000,000</div>
+            <div style="font-weight:700; opacity:0.85;">POS ACCUMULATED: £6,500,000,000</div>
+          </div>
+
+          <!-- Footer -->
+          <div style="margin-top:16px; font-size:10px; letter-spacing:2px; opacity:0.4;">
+            <div>═══════════════════════════════</div>
+            <div style="margin-top:4px;">MSG END // CONFIRM RECEIPT</div>
+          </div>
+        </div>
+
+        <!-- DATE STAMP -->
+        <div id="date-stamp-mask" style="
+          position:absolute;
+          left:90px;
+          top:1540px;
+          overflow:hidden;
+          height:52px;
+        ">
+          <div id="date-stamp" style="
+            font-family:'Courier Prime', monospace;
+            font-size:18px;
+            font-weight:400;
+            letter-spacing:6px;
+            color:#e8d9b5;
+            text-shadow:
+              0 0 8px rgba(232,217,181,0.35),
+              0 0 24px rgba(210,180,120,0.15);
+            transform:translateY(100%);
+            will-change:transform;
+          ">SEPT 16, 1992</div>
+        </div>
+      </div>
+
+      <!-- ──────── Z-FG-1: Corner Brackets (Z:+160px) ──────── -->
+      <div class="z-fg-1" style="position:absolute; inset:-5%; transform:translateZ(160px) scale(0.858); transform-style:preserve-3d;">
+        <!-- Top-left bracket -->
+        <div class="corner-bracket" id="cb-tl" style="position:absolute; top:60px; left:60px; width:0; height:0; border-top:2px solid rgba(185,145,62,0.82); border-left:2px solid rgba(185,145,62,0.82); opacity:0; will-change:transform, opacity;"></div>
+        <!-- Top-right bracket -->
+        <div class="corner-bracket" id="cb-tr" style="position:absolute; top:60px; right:60px; width:0; height:0; border-top:2px solid rgba(185,145,62,0.82); border-right:2px solid rgba(185,145,62,0.82); opacity:0; will-change:transform, opacity;"></div>
+        <!-- Bottom-left bracket -->
+        <div class="corner-bracket" id="cb-bl" style="position:absolute; bottom:60px; left:60px; width:0; height:0; border-bottom:2px solid rgba(185,145,62,0.82); border-left:2px solid rgba(185,145,62,0.82); opacity:0; will-change:transform, opacity;"></div>
+        <!-- Bottom-right bracket -->
+        <div class="corner-bracket" id="cb-br" style="position:absolute; bottom:60px; right:60px; width:0; height:0; border-bottom:2px solid rgba(185,145,62,0.82); border-right:2px solid rgba(185,145,62,0.82); opacity:0; will-change:transform, opacity;"></div>
+      </div>
+
+      <!-- ──────── Z-FG-2: Dust Particles (Z:+280px) ──────── -->
+      <div class="z-fg-2" id="dust-container" style="position:absolute; inset:-8%; transform:translateZ(280px) scale(0.765); transform-style:preserve-3d; pointer-events:none;">
+        <!-- Particles injected by script -->
+      </div>
+
+      <!-- ──────── Film Grain Canvas ──────── -->
+      <canvas id="film-grain" style="position:absolute; inset:0; width:1080px; height:1920px; z-index:98; pointer-events:none; mix-blend-mode:overlay; opacity:0.17;"></canvas>
+
+      <!-- ──────── Fade overlay ──────── -->
+      <div id="fade-overlay" style="position:absolute; inset:0; background:#000; z-index:99; pointer-events:none; opacity:1;"></div>
+
+    </div><!-- /depth-stage -->
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SCOPED STYLES                                               -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <style>
+      [data-composition-id="BlackWed-clip-01"] {
+        /* INSTITUTIONAL WARMTH */
+        --env-bg-center: rgba(48,31,12,0.96);
+        --env-bg-edge: rgba(8,5,2,1.0);
+        --tungsten-glow: rgba(210,155,70,0.11);
+        --desk-surface: #170c04;
+        --paper-texture: #e8d9b5;
+        --ink-struck: #1c0f05;
+        --shadow-warm: rgba(0,0,0,0.62);
+
+        /* PHOSPHOR TERMINAL */
+        --crt-bg: #040e04;
+        --crt-glow-near: rgba(74,255,74,0.48);
+        --crt-glow-far: rgba(74,255,74,0.09);
+        --crt-border: rgba(120,200,120,0.22);
+        --crt-scanline: rgba(0,0,0,0.055);
+        --rate-fall-red: #ff3030;
+        --rate-fall-glow: rgba(255,48,48,0.45);
+
+        /* LIMESTONE */
+        --stone-warm: #c4b59a;
+        --stone-shadow: rgba(18,12,5,0.82);
+        --window-fire: rgba(255,195,125,0.90);
+        --sodium-lamp: rgba(212,118,10,0.78);
+
+        /* VOID */
+        --void-bg: #030303;
+        --ghost-type: rgba(195,160,100,0.025);
+        --coin-gold: rgba(185,145,62,0.82);
+        --coin-border: rgba(180,138,58,0.78);
+        --payoff-text: rgba(200,170,110,0.55);
+
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #030303;
+        font-variant-numeric: tabular-nums;
       }
 
-      // Initialize Master Timeline
-      var tl = BW.makeTimeline(CID);
-      window.__timelines[CID] = tl;
-
-      // Register Multi-axis organic drifts
-      BW.wireOrbitalLayers(tl, D);
-
-      // Set initial element scales/opacities before entrance triggers
-      gsap.set("#depth-stage", { opacity: 0 });
-      gsap.set(".ghost-bg-text", { opacity: 0, scale: 1 });
-      gsap.set(".frame-mark", { opacity: 0, scale: 0.6 });
-      gsap.set("#date-stamp", { yPercent: 100, opacity: 0 });
-      gsap.set("#telex-doc", { y: -280, opacity: 0 });
-      gsap.set("#mg-ui", { opacity: 0 });
-
-      // ACT 1: ENTRANCE SEQUENCE
-      tl.to("#depth-stage", { opacity: 1, duration: 0.8, ease: "power2.out" }, 0);
-      if (three.camera) {
-        tl.to(three.camera.position, { x: 2.8, y: 3.4, z: 8.2, duration: 2.4, ease: "power2.out" }, 0);
-        if (three.fog) tl.to(three.fog, { density: 0.055, duration: 2.4, ease: "power1.inOut" }, 0);
-      }
-      tl.to(".ghost-bg-text", { opacity: 0.025, duration: 2.0, ease: "sine.inOut" }, 1.2);
-      tl.to(".frame-mark", { opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: "springHeavy" }, 2.8);
-      tl.to("#date-stamp", { yPercent: 0, opacity: 1, duration: 0.35, ease: "expo.out" }, 4.2);
-
-      // ACT 2: DYNAMIC PUSH + TELEX DROP
-      tl.to("#depth-stage", { perspective: 630, duration: 0.85, ease: "power3.out" }, 4.65);
-      if (three.camera) tl.to(three.camera.position, { z: 5.5, duration: 0.85, ease: "power3.out" }, 4.65);
-      tl.to("#mg-ui", { opacity: 1, duration: 0.5, ease: "power2.out" }, 5.0);
-      tl.to("#telex-doc", { y: 0, opacity: 1, duration: 0.72, ease: "power3.in" }, 5.5);
-      tl.to("#telex-doc", { y: "+=8", duration: 0.32, ease: "elastic.out(1, 0.35)" }, 6.22);
-      // Small landing shake impact
-      tl.to("#depth-stage", { x: "+=4", yoyo: true, repeat: 3, duration: 0.04, ease: "none" }, 6.22);
-
-      // Motivated spotlight moving sweep creating shadows across the telex
-      if (three.deskLamp) {
-        tl.to(three.deskLamp.position, { x: -1.6, duration: 4.0, ease: "sine.inOut" }, 5.6);
+      [data-composition-id="BlackWed-clip-01"] * {
+        box-sizing: border-box;
       }
 
-      // GSAP Scramble Text
-      BW.scrambleDigits(document.querySelector(".telex-rate-value"), "2.9500", tl, 6.5, 1.1);
+      .dust-particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        will-change: transform, opacity;
+      }
+    </style>
 
-      // ACT 3: PRE-ZOOM PUSH OUT
-      tl.to("#depth-stage", { perspective: 420, duration: 0.75, ease: "power3.out" }, 8.75);
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- GSAP                                                        -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <script src="compositions/_shared/gsap.min.js"></script>
 
-      // Loop atmospheric dust motes
-      dust.forEach(function (mote, i) {
-        tl.to(mote, {
-          y: "+=12",
-          duration: 3.8,
-          ease: "sine.inOut",
-          yoyo: true,
-          repeat: Math.ceil(D / 3.8) - 1
-        }, 0.3 + i * 0.05);
-      });
-      // Drift background ghost text scale
-      tl.to(".ghost-bg-text", {
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- THREE.JS                                                    -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <script src="compositions/_shared/three.min.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- MAIN SCRIPT                                                 -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <script>
+    (function() {
+      "use strict";
+
+      /* ═══════════════════════════════════════════════════════════ */
+      /* CONSTANTS                                                   */
+      /* ═══════════════════════════════════════════════════════════ */
+      var COMP_ID = "BlackWed-clip-01";
+      var D = 9.5;           // total clip duration in seconds
+      var FPS = 30;
+      var W = 1080, H = 1920;
+
+      /* ═══════════════════════════════════════════════════════════ */
+      /* MULBERRY32 SEEDED PRNG                                      */
+      /* ═══════════════════════════════════════════════════════════ */
+      function mulberry32(seed) {
+        return function() {
+          var t = seed += 0x6D2B79F5;
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      var rng = mulberry32(88888);
+
+      /* ═══════════════════════════════════════════════════════════ */
+      /* DUST PARTICLES (Z-FG-2)                                     */
+      /* ═══════════════════════════════════════════════════════════ */
+      var dustContainer = document.getElementById("dust-container");
+      var DUST_COUNT = 28;
+      for (var i = 0; i < DUST_COUNT; i++) {
+        var p = document.createElement("div");
+        p.className = "dust-particle";
+        var sz = 1.5 + rng() * 3.5;
+        var px = rng() * (W + 200) - 100;
+        var py = rng() * (H + 400) - 200;
+        var alpha = 0.08 + rng() * 0.18;
+        p.style.cssText =
+          "width:" + sz + "px;" +
+          "height:" + sz + "px;" +
+          "left:" + px + "px;" +
+          "top:" + py + "px;" +
+          "background:rgba(210,180,120," + alpha + ");" +
+          "box-shadow:0 0 " + (sz * 1.5) + "px rgba(210,180,120," + (alpha * 0.4) + ");";
+        p.setAttribute("data-speed", (0.4 + rng() * 0.8).toFixed(3));
+        p.setAttribute("data-drift", (-0.3 + rng() * 0.6).toFixed(3));
+        dustContainer.appendChild(p);
+      }
+
+      /* ═══════════════════════════════════════════════════════════ */
+      /* FILM GRAIN (540×960)                                        */
+      /* ═══════════════════════════════════════════════════════════ */
+      var grainCanvas = document.getElementById("film-grain");
+      var grainCtx = grainCanvas.getContext("2d");
+      grainCanvas.width = 540;
+      grainCanvas.height = 960;
+
+      var grainRng = mulberry32(77777);
+      var grainData = grainCtx.createImageData(540, 960);
+      var grainPixels = grainData.data;
+      for (var gi = 0; gi < grainPixels.length; gi += 4) {
+        var v = (grainRng() * 255) | 0;
+        grainPixels[gi] = v;
+        grainPixels[gi + 1] = v;
+        grainPixels[gi + 2] = v;
+        grainPixels[gi + 3] = 38;
+      }
+      grainCtx.putImageData(grainData, 0, 0);
+
+      /* ═══════════════════════════════════════════════════════════ */
+      /* THREE.JS DEALING ROOM — INLINE SCENE                       */
+      /* ═══════════════════════════════════════════════════════════ */
+      var threeCanvas = document.getElementById("three-canvas");
+      var renderer, scene, camera;
+      var deskMeshes = [];
+      var crtScreens = [];
+      var deskLamp;
+
+      try {
+        renderer = new THREE.WebGLRenderer({
+          canvas: threeCanvas,
+          alpha: true,
+          antialias: true,
+          premultipliedAlpha: false
+        });
+        renderer.setSize(W, H, false);
+        renderer.setPixelRatio(1);
+        renderer.setClearColor(0x000000, 0);
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 0.85;
+
+        scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x090703, 0.075);
+
+        camera = new THREE.PerspectiveCamera(38, W / H, 0.1, 100);
+        camera.position.set(7.5, 6.8, 10.5);
+        camera.lookAt(0, 1.5, 0);
+
+        /* Institutional Lighting Rig */
+        // Overhead tungsten banks
+        var overhead1 = new THREE.SpotLight(0xffd080, 12);
+        overhead1.position.set(2, 8, 3);
+        overhead1.angle = Math.PI / 5;
+        overhead1.penumbra = 0.9;
+        overhead1.decay = 2;
+        overhead1.target.position.set(0, 0, 0);
+        scene.add(overhead1);
+        scene.add(overhead1.target);
+
+        var overhead2 = new THREE.SpotLight(0xffe0a0, 8);
+        overhead2.position.set(-3, 7.5, -1);
+        overhead2.angle = Math.PI / 4.5;
+        overhead2.penumbra = 0.85;
+        overhead2.decay = 2;
+        scene.add(overhead2);
+
+        // Ambient institutional fill
+        var ambientLight = new THREE.AmbientLight(0x1a1008, 0.6);
+        scene.add(ambientLight);
+
+        // CRT glow fill (green cast)
+        var crtFill = new THREE.PointLight(0x4aff4a, 1.2, 12, 2);
+        crtFill.position.set(0, 2.8, 1);
+        scene.add(crtFill);
+
+        // Desk lamp (warm directional, animatable)
+        deskLamp = new THREE.SpotLight(0xffcc66, 18);
+        deskLamp.position.set(2.2, 4.5, 2);
+        deskLamp.angle = Math.PI / 7;
+        deskLamp.penumbra = 0.7;
+        deskLamp.decay = 2;
+        deskLamp.target.position.set(0, 0.8, 1);
+        scene.add(deskLamp);
+        scene.add(deskLamp.target);
+
+        /* Floor */
+        var floorGeo = new THREE.PlaneGeometry(30, 30);
+        var floorMat = new THREE.MeshStandardMaterial({
+          color: 0x0c0804,
+          roughness: 0.92,
+          metalness: 0.05
+        });
+        var floor = new THREE.Mesh(floorGeo, floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.y = -0.05;
+        scene.add(floor);
+
+        /* Desk Material */
+        var deskMat = new THREE.MeshStandardMaterial({
+          color: 0x2a1a08,
+          roughness: 0.7,
+          metalness: 0.15
+        });
+
+        /* CRT Screen Material */
+        var crtMat = new THREE.MeshStandardMaterial({
+          color: 0x0a2a0a,
+          emissive: 0x1a5a1a,
+          emissiveIntensity: 0.6,
+          roughness: 0.3,
+          metalness: 0.4
+        });
+
+        var crtBodyMat = new THREE.MeshStandardMaterial({
+          color: 0x2a2820,
+          roughness: 0.85,
+          metalness: 0.2
+        });
+
+        /* Build 3 Desks with CRT monitors */
+        var deskPositions = [
+          { x: -3.2, z: 0.5, ry: 0.3 },
+          { x: 0, z: -0.8, ry: 0 },
+          { x: 3.5, z: 0.2, ry: -0.25 }
+        ];
+
+        for (var di = 0; di < deskPositions.length; di++) {
+          var dp = deskPositions[di];
+          var deskGroup = new THREE.Group();
+
+          // Desk surface
+          var deskGeo = new THREE.BoxGeometry(2.4, 0.08, 1.2);
+          var desk = new THREE.Mesh(deskGeo, deskMat);
+          desk.position.y = 1.05;
+          deskGroup.add(desk);
+
+          // Desk legs
+          var legGeo = new THREE.BoxGeometry(0.06, 1.05, 0.06);
+          var legMat = new THREE.MeshStandardMaterial({ color: 0x1a1008, roughness: 0.9, metalness: 0.1 });
+          var legOffsets = [[-1.1, -0.5], [-1.1, 0.5], [1.1, -0.5], [1.1, 0.5]];
+          for (var li = 0; li < 4; li++) {
+            var leg = new THREE.Mesh(legGeo, legMat);
+            leg.position.set(legOffsets[li][0], 0.525, legOffsets[li][1]);
+            deskGroup.add(leg);
+          }
+
+          // CRT Monitor body
+          var crtBodyGeo = new THREE.BoxGeometry(0.65, 0.55, 0.58);
+          var crtBody = new THREE.Mesh(crtBodyGeo, crtBodyMat);
+          crtBody.position.set(-0.3 + di * 0.2, 1.38, -0.15);
+          deskGroup.add(crtBody);
+
+          // CRT Screen (emissive face)
+          var screenGeo = new THREE.PlaneGeometry(0.52, 0.40);
+          var screen = new THREE.Mesh(screenGeo, crtMat.clone());
+          screen.position.set(-0.3 + di * 0.2, 1.38, 0.14);
+          deskGroup.add(screen);
+          crtScreens.push(screen);
+
+          // Paper stacks
+          var paperGeo = new THREE.BoxGeometry(0.4, 0.06, 0.3);
+          var paperMat = new THREE.MeshStandardMaterial({ color: 0xd8c8a0, roughness: 0.95, metalness: 0 });
+          var papers = new THREE.Mesh(paperGeo, paperMat);
+          papers.position.set(0.7, 1.12, 0.2);
+          papers.rotation.y = 0.15 + di * 0.1;
+          deskGroup.add(papers);
+
+          deskGroup.position.set(dp.x, 0, dp.z);
+          deskGroup.rotation.y = dp.ry;
+          scene.add(deskGroup);
+          deskMeshes.push(deskGroup);
+        }
+
+        /* Ceiling panels */
+        var ceilGeo = new THREE.PlaneGeometry(30, 30);
+        var ceilMat = new THREE.MeshStandardMaterial({ color: 0x1a1610, roughness: 0.95, metalness: 0.05, side: THREE.DoubleSide });
+        var ceiling = new THREE.Mesh(ceilGeo, ceilMat);
+        ceiling.rotation.x = Math.PI / 2;
+        ceiling.position.y = 9;
+        scene.add(ceiling);
+
+        /* Wall behind */
+        var wallGeo = new THREE.PlaneGeometry(30, 10);
+        var wallMat = new THREE.MeshStandardMaterial({ color: 0x14100a, roughness: 0.88, metalness: 0.08 });
+        var wall = new THREE.Mesh(wallGeo, wallMat);
+        wall.position.set(0, 4.5, -6);
+        scene.add(wall);
+
+        // Initial render
+        renderer.render(scene, camera);
+      } catch(e) {
+        // Three.js not available — graceful degradation
+        console.warn("Three.js scene creation skipped:", e);
+      }
+
+      /* ═══════════════════════════════════════════════════════════ */
+      /* THREE.JS RENDER FUNCTION (seek-driven)                      */
+      /* ═══════════════════════════════════════════════════════════ */
+      function renderThreeAt(localTime) {
+        if (!renderer || !scene || !camera) return;
+
+        // Camera orbital arrive: (7.5,6.8,10.5) → (2.8,3.4,8.2) over 2.4s
+        var camProgress = Math.min(localTime / 2.4, 1.0);
+        // Smooth ease out
+        var camEase = 1 - Math.pow(1 - camProgress, 3);
+        camera.position.x = 7.5 + (2.8 - 7.5) * camEase;
+        camera.position.y = 6.8 + (3.4 - 6.8) * camEase;
+        camera.position.z = 10.5 + (8.2 - 10.5) * camEase;
+
+        // Beat 2 transition: camera pushes toward desk (t=4.7–9.5)
+        if (localTime > 4.7) {
+          var pushProgress = Math.min((localTime - 4.7) / 4.8, 1.0);
+          var pushEase = 1 - Math.pow(1 - pushProgress, 2);
+          camera.position.z -= (8.2 - 5.5) * pushEase;
+          camera.position.y -= 0.8 * pushEase;
+        }
+
+        camera.lookAt(0, 1.5, 0);
+
+        // Fog clears with camera arrival
+        if (scene.fog) {
+          var fogDensity = 0.075 - 0.045 * camEase;
+          scene.fog.density = Math.max(0.03, fogDensity);
+        }
+
+        // Desk lamp sweep: x 2.2 → -1.6 over 4.0s starting at t=5.5
+        if (deskLamp && localTime > 5.5) {
+          var lampProgress = Math.min((localTime - 5.5) / 4.0, 1.0);
+          deskLamp.position.x = 2.2 + (-1.6 - 2.2) * lampProgress;
+        }
+
+        // CRT screen flicker (seeded)
+        for (var ci = 0; ci < crtScreens.length; ci++) {
+          var flicker = 0.4 + 0.3 * Math.sin(localTime * 4.7 + ci * 2.1) + 0.1 * Math.sin(localTime * 11.3 + ci * 5.3);
+          crtScreens[ci].material.emissiveIntensity = flicker;
+        }
+
+        renderer.render(scene, camera);
+      }
+
+      /* ═══════════════════════════════════════════════════════════ */
+      /* GSAP TIMELINE                                               */
+      /* ═══════════════════════════════════════════════════════════ */
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+
+      var compRoot = document.querySelector('[data-composition-id="' + COMP_ID + '"]');
+
+      /* ───────────────────────────────────────────────────────── */
+      /* INDEPENDENT ORBITAL MOTION (all layers, full duration)    */
+      /* ───────────────────────────────────────────────────────── */
+      tl.fromTo(".z-bg",
+        { rotateY: -2.5, rotateX: 1.2 },
+        { rotateY: 3.0, rotateX: -1.0, duration: D, ease: "sine.inOut" }, 0);
+      tl.fromTo(".z-mg-ui",
+        { rotateY: 1.4, rotateX: -0.6 },
+        { rotateY: -1.8, rotateX: 0.7, duration: D * 0.73, ease: "sine.inOut" }, 0);
+      tl.fromTo(".z-fg-1",
+        { rotateY: -3.2, rotateX: 1.8 },
+        { rotateY: 4.1, rotateX: -2.2, duration: D * 0.54, ease: "sine.inOut" }, 0);
+      tl.fromTo(".z-fg-2",
+        { rotateY: 3.5, rotateX: -2.0 },
+        { rotateY: -4.2, rotateX: 2.6, duration: D * 0.39, ease: "sine.inOut" }, 0);
+
+      /* ───────────────────────────────────────────────────────── */
+      /* BEAT 1: THE ROOM (local 0:00 – 5.5s)                     */
+      /* ───────────────────────────────────────────────────────── */
+
+      // t=0.00: Fade from black
+      tl.to("#fade-overlay", {
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.out"
+      }, 0.0);
+
+      // t=0.60: Sepia gradient radial fade in
+      tl.to("#sepia-atmos", {
+        opacity: 1,
+        duration: 1.4,
+        ease: "power1.inOut"
+      }, 0.6);
+
+      // t=1.20: Ghost text emerges
+      tl.to(".ghost-text", {
+        opacity: 1,
+        duration: 2.0,
+        ease: "sine.inOut",
+        stagger: 0.3
+      }, 1.2);
+
+      // Ghost text life pulse: scale breathing
+      var ghostBreathDur = 7.2;
+      var ghostBreathRepeats = Math.ceil(D / ghostBreathDur) - 1;
+      tl.to(".ghost-text", {
         scale: 1.015,
-        duration: 3.6,
+        duration: ghostBreathDur * 0.5,
         ease: "sine.inOut",
         yoyo: true,
-        repeat: Math.ceil(D / 3.6) - 1
-      }, 1.5);
+        repeat: ghostBreathRepeats * 2 + 1,
+        stagger: 0.8
+      }, 0.5);
 
-      // Render WebGL Loop
-      if (three.camera) {
-        (function tick() {
-          three.render();
-          requestAnimationFrame(tick);
-        })();
+      // t=2.80: Corner brackets materialize
+      tl.to("#cb-tl", { width: 65, height: 65, opacity: 0.85, duration: 0.7, ease: "back.out(1.4)" }, 2.8);
+      tl.to("#cb-tr", { width: 65, height: 65, opacity: 0.85, duration: 0.7, ease: "back.out(1.4)" }, 2.95);
+      tl.to("#cb-bl", { width: 65, height: 65, opacity: 0.85, duration: 0.7, ease: "back.out(1.4)" }, 3.1);
+      tl.to("#cb-br", { width: 65, height: 65, opacity: 0.85, duration: 0.7, ease: "back.out(1.4)" }, 3.25);
+
+      // Corner bracket life pulse: opacity breathing
+      var bracketBreathDur = 3.4;
+      var bracketBreathRepeats = Math.ceil((D - 2.8) / bracketBreathDur) - 1;
+      tl.to(".corner-bracket", {
+        opacity: 1.0,
+        duration: bracketBreathDur * 0.5,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: Math.max(1, bracketBreathRepeats * 2 + 1),
+        stagger: 0.2
+      }, 3.5);
+
+      // t=4.20: Date stamp masked reveal
+      tl.to("#date-stamp", {
+        yPercent: -100,
+        duration: 0.65,
+        ease: "power3.out"
+      }, 4.2);
+
+      /* ───────────────────────────────────────────────────────── */
+      /* BEAT 1→2 TRANSITION (local t=4.7 – 5.5)                  */
+      /* ───────────────────────────────────────────────────────── */
+
+      // Dolly in: perspective 950→630
+      tl.to("#depth-stage", {
+        perspective: 630,
+        duration: 0.85,
+        ease: "power3.out"
+      }, 4.7);
+
+      // z-mg-ui layer fades in
+      tl.to(".z-mg-ui", {
+        opacity: 1,
+        duration: 0.5,
+        ease: "power2.out"
+      }, 5.0);
+
+      /* ───────────────────────────────────────────────────────── */
+      /* BEAT 2: THE TELEX (local 5.5 – 9.5s)                     */
+      /* ───────────────────────────────────────────────────────── */
+
+      // t=5.5: Telex drops from above
+      tl.to("#telex-doc", {
+        opacity: 1,
+        duration: 0.1,
+        ease: "none"
+      }, 5.5);
+
+      // Fall: y -280 → 0
+      tl.to("#telex-doc", {
+        y: 280,
+        duration: 0.72,
+        ease: "power3.in"
+      }, 5.5);
+
+      // Bounce: y +=8px then settle
+      tl.to("#telex-doc", {
+        y: 288,
+        duration: 0.12,
+        ease: "power2.out"
+      }, 5.5 + 0.72);
+      tl.to("#telex-doc", {
+        y: 280,
+        duration: 0.20,
+        ease: "elastic.out(1, 0.35)"
+      }, 5.5 + 0.72 + 0.12);
+
+      // Landing impact: screen shake
+      tl.to("#depth-stage", {
+        x: 4, duration: 0.033, ease: "none"
+      }, 5.5 + 0.72);
+      tl.to("#depth-stage", {
+        x: -3, duration: 0.033, ease: "none"
+      }, 5.5 + 0.72 + 0.033);
+      tl.to("#depth-stage", {
+        x: 2.5, duration: 0.033, ease: "none"
+      }, 5.5 + 0.72 + 0.066);
+      tl.to("#depth-stage", {
+        x: -1.5, duration: 0.033, ease: "none"
+      }, 5.5 + 0.72 + 0.099);
+      tl.to("#depth-stage", {
+        x: 0.8, duration: 0.033, ease: "none"
+      }, 5.5 + 0.72 + 0.132);
+      tl.to("#depth-stage", {
+        x: 0, duration: 0.033, ease: "none"
+      }, 5.5 + 0.72 + 0.165);
+
+      // t=7.0: Rate scramble effect (manual ScrambleText)
+      var rateEl = document.getElementById("rate-value");
+      var scrambleChars = "0123456789.";
+      var scrambleFinalText = "2.9500";
+      var scrambleRng = mulberry32(99999);
+
+      tl.to({ progress: 0 }, {
+        progress: 1,
+        duration: 1.1,
+        ease: "none",
+        onUpdate: function() {
+          var progress = this.targets()[0].progress;
+          var revealed = Math.floor(progress * scrambleFinalText.length);
+          var result = "";
+          for (var si = 0; si < scrambleFinalText.length; si++) {
+            if (si < revealed) {
+              result += scrambleFinalText[si];
+            } else {
+              result += scrambleChars[(scrambleRng() * scrambleChars.length) | 0];
+            }
+          }
+          if (rateEl) rateEl.textContent = result;
+        }
+      }, 7.0);
+
+      /* ───────────────────────────────────────────────────────── */
+      /* BEAT 2→3 TRANSITION (local t=9.0 – 9.5)                  */
+      /* ───────────────────────────────────────────────────────── */
+
+      // Perspective push: 630→420
+      tl.to("#depth-stage", {
+        perspective: 420,
+        duration: 0.75,
+        ease: "power3.out"
+      }, 9.0);
+
+      /* ───────────────────────────────────────────────────────── */
+      /* DUST PARTICLE LIFE PULSE (persistent)                     */
+      /* ───────────────────────────────────────────────────────── */
+      var dustParticles = dustContainer.querySelectorAll(".dust-particle");
+      for (var dpi = 0; dpi < dustParticles.length; dpi++) {
+        var dp2 = dustParticles[dpi];
+        var speed = parseFloat(dp2.getAttribute("data-speed"));
+        var drift = parseFloat(dp2.getAttribute("data-drift"));
+        var particleDur = 3.8 / speed;
+        var particleRepeats = Math.ceil(D / particleDur) - 1;
+
+        tl.to(dp2, {
+          y: -12 * speed,
+          x: drift * 8,
+          duration: particleDur * 0.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: Math.max(1, particleRepeats * 2 + 1)
+        }, rng() * 1.5);
+
+        // Subtle opacity pulse
+        var opacityDur = 2.5 + rng() * 3;
+        var opacityRepeats = Math.ceil(D / opacityDur) - 1;
+        tl.fromTo(dp2,
+          { opacity: 0.4 + rng() * 0.3 },
+          {
+            opacity: 0.1 + rng() * 0.2,
+            duration: opacityDur * 0.5,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: Math.max(1, opacityRepeats * 2 + 1)
+          }, rng() * 2);
       }
+
+      /* ───────────────────────────────────────────────────────── */
+      /* THREE.JS SEEK INTEGRATION                                 */
+      /* ───────────────────────────────────────────────────────── */
+      // Grain frame cycling via timeline callback
+      var grainRng2 = mulberry32(55555);
+      var grainFrameHelveticaval = 1 / 8; // refresh grain 8× per second
+      var lastGrainFrame = -1;
+
+      tl.to({ t: 0 }, {
+        t: D,
+        duration: D,
+        ease: "none",
+        onUpdate: function() {
+          var localTime = this.targets()[0].t;
+
+          // Render Three.js scene
+          renderThreeAt(localTime);
+
+          // Cycle grain every ~0.125s
+          var grainFrame = Math.floor(localTime / grainFrameHelveticaval);
+          if (grainFrame !== lastGrainFrame) {
+            lastGrainFrame = grainFrame;
+            for (var gfi = 0; gfi < grainPixels.length; gfi += 4) {
+              var gv = (grainRng2() * 255) | 0;
+              grainPixels[gfi] = gv;
+              grainPixels[gfi + 1] = gv;
+              grainPixels[gfi + 2] = gv;
+            }
+            grainCtx.putImageData(grainData, 0, 0);
+          }
+        }
+      }, 0);
+
+      /* ───────────────────────────────────────────────────────── */
+      /* HF-SEEK INTEGRATION (for preview/render)                  */
+      /* ───────────────────────────────────────────────────────── */
+      window.addEventListener("hf-seek", function(e) {
+        if (e.detail && typeof e.detail.time === "number") {
+          renderThreeAt(e.detail.time);
+        }
+      });
+
+      // Initial Three.js render
+      renderThreeAt(0);
+
+      /* ───────────────────────────────────────────────────────── */
+      /* REGISTER TIMELINE                                         */
+      /* ───────────────────────────────────────────────────────── */
+      window.__timelines[COMP_ID] = tl;
+
     })();
-  </script>
-</body>
-</html>
+    </script>
+
+  </div>
+</template>
