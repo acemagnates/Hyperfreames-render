@@ -1,0 +1,26 @@
+{
+  "projectId": "BlackWed",
+  "mix_profile": "documentary_v1",
+  "duration_sec": 30,
+  "sfx": [
+    { "role_key": "DRONE", "stem_file": "drone_institutional.wav", "timestamp_wall": 0, "duration_hint": 30, "volume": 0.14 },
+    { "role_key": "ATMOSPHERE", "stem_file": "fluorescent_hum.wav", "timestamp_wall": 0, "duration_hint": 5.5, "volume": 0.06 },
+    { "role_key": "SUB_BASS_IMPACT", "stem_file": "sub_bass_impact.wav", "timestamp_wall": 0.2, "volume": 0.85 },
+    { "role_key": "PAPER_RUSTLE", "stem_file": "paper_rustle.wav", "timestamp_wall": 5.6, "volume": 0.5 },
+    { "role_key": "UI_CLICK", "stem_file": "ui_click.wav", "timestamp_wall": 6.42, "volume": 0.45 },
+    { "role_key": "WHOOSH", "stem_file": "whoosh.wav", "timestamp_wall": 9.1, "volume": 0.6 },
+    { "role_key": "ATMOSPHERE", "stem_file": "crt_hiss.wav", "timestamp_wall": 9.5, "duration_hint": 2.5, "volume": 0.05 },
+    { "role_key": "UI_CLICK", "stem_file": "ui_click.wav", "timestamp_wall": 9.85, "volume": 0.38 },
+    { "role_key": "UI_CLICK", "stem_file": "ui_click.wav", "timestamp_wall": 10.22, "volume": 0.38 },
+    { "role_key": "UI_CLICK", "stem_file": "ui_click.wav", "timestamp_wall": 10.58, "volume": 0.38 },
+    { "role_key": "UI_CLICK", "stem_file": "ui_click.wav", "timestamp_wall": 10.94, "volume": 0.38 },
+    { "role_key": "UI_CLICK", "stem_file": "ui_click.wav", "timestamp_wall": 11.3, "volume": 0.38 },
+    { "role_key": "GLASS_SHATTER", "stem_file": "glass_shatter.wav", "timestamp_wall": 12.0, "volume": 0.92 },
+    { "role_key": "IMPACT_HIT", "stem_file": "impact_hit.wav", "timestamp_wall": 13.8, "volume": 0.72 },
+    { "role_key": "ATMOSPHERE", "stem_file": "london_street.wav", "timestamp_wall": 14.5, "duration_hint": 8, "volume": 0.04 },
+    { "role_key": "DING", "stem_file": "ding.wav", "timestamp_wall": 16.2, "volume": 0.55 },
+    { "role_key": "SLAM", "stem_file": "slam.wav", "timestamp_wall": 22.8, "volume": 0.88 },
+    { "role_key": "IMPACT_HIT", "stem_file": "impact_hit.wav", "timestamp_wall": 23.4, "volume": 0.4 },
+    { "role_key": "IMPACT_HIT", "stem_file": "impact_hit.wav", "timestamp_wall": 23.9, "volume": 0.38 }
+  ]
+}
