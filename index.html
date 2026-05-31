@@ -3,31 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
-    <title>Chrono-Fracture: The Metamorphosis of Time</title>
+    <title>Black Wednesday — Soros & the Bank of England</title>
     <script src="compositions/_shared/gsap.min.js"></script>
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #070709; }
-      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #070709; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #030303; }
+      #composition-root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #030303; }
     </style>
   </head>
   <body>
     <div
       id="composition-root"
-      data-composition-id="OriginalSpot"
+      data-composition-id="BlackWed"
       data-start="0"
       data-duration="30"
       data-width="1080"
       data-height="1920"
       data-fps="30"
     >
-      <div class="clip" data-composition-id="OriginalSpot-clip-01" data-composition-src="compositions/OriginalSpot/OriginalSpot-clip-01.html" data-start="0" data-duration="10" data-track-index="1" style="position:absolute;inset:0;width:1080px;height:1920px;z-index:1;overflow:hidden"></div>
-      <div class="clip" data-composition-id="OriginalSpot-clip-02" data-composition-src="compositions/OriginalSpot/OriginalSpot-clip-02.html" data-start="10" data-duration="10" data-track-index="2" style="position:absolute;inset:0;width:1080px;height:1920px;z-index:2;overflow:hidden"></div>
-      <div class="clip" data-composition-id="OriginalSpot-clip-03" data-composition-src="compositions/OriginalSpot/OriginalSpot-clip-03.html" data-start="20" data-duration="10" data-track-index="3" style="position:absolute;inset:0;width:1080px;height:1920px;z-index:3;overflow:hidden"></div>
+      <div class="clip" data-composition-id="BlackWed-clip-01" data-composition-src="compositions/BlackWed/BlackWed-clip-01.html" data-start="0" data-duration="9.5" data-track-index="1" style="position:absolute;inset:0;z-index:1;overflow:hidden"></div>
+      <div class="clip" data-composition-id="BlackWed-clip-02" data-composition-src="compositions/BlackWed/BlackWed-clip-02.html" data-start="9.5" data-duration="5" data-track-index="2" style="position:absolute;inset:0;z-index:2;overflow:hidden"></div>
+      <div class="clip" data-composition-id="BlackWed-clip-03" data-composition-src="compositions/BlackWed/BlackWed-clip-03.html" data-start="14.5" data-duration="8" data-track-index="3" style="position:absolute;inset:0;z-index:3;overflow:hidden"></div>
+      <div class="clip" data-composition-id="BlackWed-clip-04" data-composition-src="compositions/BlackWed/BlackWed-clip-04.html" data-start="22.5" data-duration="7.5" data-track-index="4" style="position:absolute;inset:0;z-index:4;overflow:hidden"></div>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
-      window.__timelines["OriginalSpot"] = gsap.timeline({ paused: true });
+      window.__timelines["BlackWed"] = gsap.timeline({ paused: true });
     </script>
   </body>
 </html>

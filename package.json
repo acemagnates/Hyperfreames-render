@@ -22,8 +22,8 @@
     "sfx:validate": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node tools/sfx-mcp/src/cli.mjs validate",
     "sfx:mix-spec": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/node scripts/sfx-mix-from-manifest.mjs",
     "publish": "PATH=\"/usr/bin:/bin:/usr/local/bin\" /usr/bin/npx --yes hyperframes@0.5.5 publish",
-    "render:originalspot": "PATH=\"/usr/bin:/bin:/usr/local/bin\" RENDER_WORKFLOW=render-originalspot.yml /usr/bin/node scripts/render-preflight.mjs && RENDER_WORKFLOW=render-originalspot.yml /usr/bin/node scripts/trigger-github-render.mjs",
-    "assemble:originalspot": "bash compositions/OriginalSpot/assemble-originalspot.sh"
+    "render:blackwed": "PATH=\"/usr/bin:/bin:/usr/local/bin\" RENDER_WORKFLOW=render-blackwed.yml /usr/bin/node scripts/render-preflight.mjs && RENDER_WORKFLOW=render-blackwed.yml /usr/bin/node scripts/trigger-github-render.mjs",
+    "assemble:blackwed": "bash compositions/BlackWed/assemble-blackwed.sh"
   },
   "dependencies": {},
   "devDependencies": {
